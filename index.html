@@ -615,6 +615,10 @@ var YO = ["tengo","tomo","fumo","bebo","soy","estoy","tuve","use","uso","hago","
   "padezco","note","tomaba","fumaba","tenia","era","estaba","me","mi","mis","yo","conmigo","nosotros",
   "mama","papa","abuelo","abuela","hermano","hermana","hijo","hija","esposo","esposa","abuelito","abuelita"];
 var NEG_R = ["si","no","ninguno","ninguna","ningun","nada","nunca","jamas","tampoco","normal","todo"];
+/* interrogativos que NO se confunden con una respuesta: si un enunciado arranca
+   con uno de estos, es pregunta tuya aunque el resto suene a respuesta.
+   ("como" queda fuera a propósito: también es "yo como".) */
+var INTERROG_INICIO = ["que","cuando","cuanto","cuantos","cuanta","cuantas","donde","cual","cuales","quien"];
 
 function puntuaPregunta(t){
   var p = palabras(t), n = normaliza(t), s = 0;
@@ -1263,7 +1267,9 @@ function recibe(texto){
        sin forma de pregunta. NUNCA se descarta el enunciado completo, porque
        la respuesta suele venir pegada a la pregunta en el mismo resultado. */
     var limpio;
-    if (iq < 0 && esPregunta(texto)){
+    var arranca = palabras(texto)[0];
+    var abrePregunta = arranca && esUno(INTERROG_INICIO, arranca.n);
+    if (iq < 0 && (esPregunta(texto) || abrePregunta)){
       /* repregunta tuya improvisada: se recorta por forma, no por guion */
       limpio = recorteTrasPregunta(texto);
     } else if (buffer && iq < 0){
