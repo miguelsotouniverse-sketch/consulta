@@ -208,9 +208,9 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
   </div>
 
   <p class="nota" id="notaModo">
-    <b>Haz tu pregunta con el micrófono apagado.</b> Enciéndelo solo mientras la paciente contesta
-    y apágalo al terminar: eso guarda la respuesta y pasa a la siguiente. Si ella solo niega,
-    pulsa <b>Niega</b> y ya.
+    <b>Enciende el micrófono una vez y déjalo.</b> Habla normal con la paciente: el sistema reconoce
+    cuál de tus preguntas estás haciendo, se coloca ahí solo y escribe únicamente lo que ella
+    contesta. Tus preguntas nunca entran al expediente.
   </p>
 
   <div id="bloquesInt"></div>
@@ -604,6 +604,58 @@ function quitaPregunta(txt, kw, textoPregunta){
   return texto(r.slice(j));
 }
 
+/* ---------- ¿esto es una pregunta tuya o una respuesta de ella? ---------- */
+var MARCA_P = ["que","cuando","como","cuanto","cuantos","cuanta","cuantas","donde","cual","cuales",
+  "quien","usted","ustedes","tiene","tienes","tuvo","padece","padeces","sufre","alguna","algun","alguno",
+  "algunos","algunas","algo","digame","cuenteme","platiqueme","hay","hubo","seria","habra"];
+var FRASE_P = ["ha tenido","ha estado","le han","la han","lo han","se le","es usted","es alergica",
+  "alguna vez","algo mas","por que","desde cuando","hace cuanto","y alguna","y algun","cual es","como es",
+  "que tal","me puede","puede decirme","se ha","ha hecho","se hizo"];
+var YO = ["tengo","tomo","fumo","bebo","soy","estoy","tuve","use","uso","hago","siento","quiero","vengo",
+  "padezco","note","tomaba","fumaba","tenia","era","estaba","me","mi","mis","yo","conmigo","nosotros",
+  "mama","papa","abuelo","abuela","hermano","hermana","hijo","hija","esposo","esposa","abuelito","abuelita"];
+var NEG_R = ["si","no","ninguno","ninguna","ningun","nada","nunca","jamas","tampoco","normal","todo"];
+
+function puntuaPregunta(t){
+  var p = palabras(t), n = normaliza(t), s = 0;
+  p.forEach(function(w){ if (esUno(MARCA_P, w.n)) s++; });
+  FRASE_P.forEach(function(f){ if (n.indexOf(f) !== -1) s += 2; });
+  return s;
+}
+function puntuaRespuesta(t){
+  var p = palabras(t), s = 0;
+  p.forEach(function(w, i){
+    if (esUno(YO, w.n)) s++;
+    if (i === 0 && esUno(NEG_R, w.n)) s += 2;   /* arrancar con sí/no es respuesta */
+  });
+  return s;
+}
+/* ¿a cuál de las 27 preguntas del guion se parece lo que preguntaste? */
+function cualPregunta(t){
+  /* una repregunta corta ("¿algo más?", "¿desde cuándo?") nunca mueve el puntero */
+  if (palabras(t).length < 4) return -1;
+  var n = normaliza(t), mejor = -1, alto = 0, seg = 0;
+  GUION.forEach(function(q, i){
+    var s = 0;
+    /* el vocabulario propio de la pregunta pesa el triple que el texto suelto */
+    q.kw.forEach(function(k){ if (n.indexOf(normaliza(k)) !== -1) s += 3; });
+    contenidoPregunta(q.p).forEach(function(w){ if (n.indexOf(w) !== -1) s += 1; });
+    if (s > alto){ seg = alto; alto = s; mejor = i; } else if (s > seg) seg = s;
+  });
+  /* señal clara y con margen sobre la segunda: si no, es una repregunta tuya */
+  if (alto >= 4 && alto > seg) return mejor;
+  return -1;
+}
+
+/* veredicto: empate se rompe viendo si coincide con una pregunta del guion */
+function esPregunta(t){
+  var p = puntuaPregunta(t), r = puntuaRespuesta(t);
+  if (p !== r) return p > r;
+  /* en empate solo es pregunta si no hay NADA que suene a respuesta:
+     ella suele repetir el vocabulario de tu pregunta al contestar */
+  return r === 0 && cualPregunta(t) >= 0;
+}
+
 function soloNegacion(limpio){
   var t = palabras(limpio);
   if (!t.length) return false;
@@ -862,6 +914,16 @@ function cierraRespuesta(){
   var r = respuestas[q.id];
   avanza();
   if (r && r.estado === "pos") sugiereBloque(q.id, t, q.bloque);
+}
+
+/* guarda lo acumulado en la pregunta actual sin mover el puntero */
+function cierraSinAvanzar(){
+  clearTimeout(tBuffer); tBuffer = null;
+  var q = preg();
+  if (!q || !buffer){ limpiaBuffer(); return; }
+  var t = buffer;
+  buffer = ""; pintaBuffer();
+  anota(q, t);
 }
 
 /* Si lo dictado suena claramente a otro bloque, se avisa en vez de guardarlo
@@ -1173,15 +1235,20 @@ function recibe(texto){
       limpio = quitaPregunta(texto, kwBloque(q), q.p);
       if (!limpio){ $("#vivo").textContent = "Pregunta detectada — esperando la respuesta…"; return; }
     }
-    /* Modo manual: si lo que se oyó es la pregunta SIGUIENTE completa, es que ya
-       pasaste de tema. Se guarda lo acumulado y se avanza, sin escribir la pregunta. */
-    if (ritmo === 0 && iActual + 1 < GUION.length){
-      var sig = GUION[iActual + 1];
-      if (!quitaPregunta(texto, kwBloque(sig), sig.p) && contenidoPregunta(sig.p).length >= 2){
-        if (buffer) cierraRespuesta(); else avanza();
-        $("#vivo").textContent = "Pasaste a la siguiente pregunta";
-        return;
+    /* ---- Tu pregunta manda ----
+       Si lo que se oyó es una pregunta tuya, nunca se escribe. Si además coincide
+       con una del guion, el puntero se va ahí: no hay que pulsar nada para avanzar.
+       Si es una repregunta improvisada, se descarta y se sigue en la misma. */
+    if (esPregunta(texto)){
+      var iq = cualPregunta(texto);
+      if (iq >= 0 && iq !== iActual){
+        if (buffer) cierraSinAvanzar();
+        irA(iq);
+        $("#vivo").textContent = "Pregunta reconocida — escuchando la respuesta…";
+      } else {
+        $("#vivo").textContent = "Pregunta tuya — no se escribe";
       }
+      return;
     }
     /* No se compromete en la primera pausa: se acumula y se espera el silencio
        completo, para que una respiración a media frase no parta la respuesta. */
@@ -1318,7 +1385,7 @@ function ponModo(g){
   $("#mLibre").setAttribute("aria-pressed", g ? "false" : "true");
   $("#tarjeta").hidden = !g;
   $("#notaModo").innerHTML = g
-    ? "<b>Haz tu pregunta con el micrófono apagado.</b> Enciéndelo solo mientras la paciente contesta y apágalo al terminar: eso guarda la respuesta y pasa a la siguiente. Así tus preguntas nunca entran al expediente. Si ella solo niega, pulsa <b>Niega</b> y ya: no hace falta encender nada."
+    ? "<b>Enciende el micrófono una vez y déjalo.</b> Habla normal con la paciente: el sistema reconoce cuál de tus preguntas estás haciendo, se coloca ahí solo y escribe únicamente lo que ella contesta. Tus preguntas y repreguntas nunca entran al expediente. Los botones siguen ahí por si quieres corregir a mano."
     : "Modo libre: habla de corrido y el sistema decide el bloque por el contenido, cambiando solo cuando la señal es clara. También aquí borra tu pregunta y escribe solo la respuesta.";
   if (g) pintaTarjeta();
   else { document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); }); seleccionar(null); }
@@ -1524,7 +1591,7 @@ function pinta(){
   else {
     b.classList.remove("on"); b.textContent = "🎤";
     $("#vivo").textContent = guiando
-      ? "Micrófono apagado. Haz tu pregunta y enciéndelo cuando ella conteste."
+      ? "Micrófono apagado — enciéndelo y déjalo así toda la consulta"
       : "Listo";
   }
   etiquetaBarra();
@@ -1535,15 +1602,13 @@ $("#btnMic").addEventListener("click", function(){
   var guiando = (paginaActual() === "interrogatorio" && modoGuiado && preg());
   quiereEscuchar = !quiereEscuchar;
   if (quiereEscuchar){
-    try { rec.start(); $("#vivo").textContent = guiando ? "Escuchando a la paciente…" : "Escuchando…"; }
+    try { rec.start(); $("#vivo").textContent = guiando ? "Escuchando. Haz tus preguntas normal." : "Escuchando…"; }
     catch(e){ /* ya estaba corriendo */ }
     mantenDespierta();
   } else {
     try { rec.stop(); } catch(e){ /* nada */ }
     soltarPantalla();
-    /* Al apagar el micrófono se cierra la respuesta: así tus preguntas nunca
-       entran al expediente, porque se hacen con el micrófono apagado. */
-    if (guiando && buffer) cierraRespuesta();
+    if (guiando && buffer) cierraSinAvanzar();
   }
   pinta();
 });
