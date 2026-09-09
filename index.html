@@ -122,6 +122,12 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
 .estado .vent{font-size:11px;color:var(--ambar)}
 .barra .sec{border:1px solid var(--linea);background:#fff;border-radius:2px;padding:8px 12px;font-family:var(--sans);
   font-size:12.5px;cursor:pointer;color:var(--negro)}
+.barra .sec.p{background:var(--negro);color:var(--crema);border-color:var(--negro);font-weight:500;
+  padding:12px 18px;font-size:14px;border-radius:3px}
+.barra .sec.p:active{transform:scale(.97)}
+.copiar{border:1px solid var(--linea);background:#fff;border-radius:3px;padding:9px 14px;
+  font-family:var(--sans);font-size:13px;cursor:pointer;color:var(--negro);margin-top:10px}
+.copiar.ok{background:var(--verde);color:#fff;border-color:var(--verde)}
 .aviso{background:#fff;border:1px solid var(--rojo);color:var(--rojo);border-radius:3px;padding:10px 12px;
   font-size:13px;margin:10px 0}
 .demo{background:#fff;border:1px solid var(--linea);border-left:3px solid var(--taupe);
@@ -167,10 +173,9 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
     <button id="mLibre" aria-pressed="false">Modo libre</button>
     <label>Ritmo
       <select id="selRitmo">
-        <option value="1500">Rápido · 1.5 s</option>
-        <option value="2800">Normal · 2.8 s</option>
-        <option value="4500">Pausado · 4.5 s</option>
-        <option value="0">Manual · yo aviso</option>
+        <option value="0">Manual · yo paso de pregunta</option>
+        <option value="2800">Automático · 2.8 s de silencio</option>
+        <option value="4500">Automático · 4.5 s de silencio</option>
       </select>
     </label>
     <span class="sep"></span>
@@ -200,8 +205,8 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
 
   <p class="nota" id="notaModo">
     Tú haces la pregunta en voz alta; el sistema borra tu pregunta de la transcripción y escribe
-    solo la respuesta, ya redactada. Avanza solo. Puedes decir <b>siguiente</b>, <b>anterior</b>,
-    <b>repite</b>, <b>borra</b> o <b>no aplica</b> sin tocar nada.
+    solo la respuesta, ya redactada. No avanza solo: tómate el tiempo que necesites y pulsa
+    <b>Guardar y siguiente</b> —o di <b>siguiente</b>— cuando la respuesta esté completa.
   </p>
 
   <div id="bloquesInt"></div>
@@ -229,6 +234,8 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
 <section id="revision" hidden>
   <h2>Qué falta</h2>
   <ul class="faltan" id="listaFaltan"></ul>
+  <button class="copiar" id="bCopiar">Copiar todo el expediente</button>
+  <p class="nota">Cópialo y pégamelo en el chat para que yo pueda revisar cómo quedó redactado.</p>
   <h2>Documentos que se generarían</h2>
   <p class="nota">En la aplicación real, de aquí sale el PDF con folio y código QR, listo para imprimir y firmar.</p>
   <ul class="docs" id="listaDocs"></ul>
@@ -244,7 +251,7 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
       <div class="vivo" id="vivo">Listo</div>
       <div class="vent" id="ventana" hidden></div>
     </div>
-    <button class="sec" id="btnLimpiar">Limpiar bloque</button>
+    <button class="sec" id="btnBarra">Guardar y siguiente →</button>
   </div>
 </div>
 
@@ -475,7 +482,7 @@ var ventanaId = null;
 var temporizador = null;
 var buffer = "";          /* respuesta en curso, todavía no comprometida */
 var tBuffer = null;
-var ritmo = 2800;         /* silencio que espera antes de dar la respuesta por terminada */
+var ritmo = 0;            /* 0 = manual: nunca avanza solo, tú pulsas Siguiente */
 var CLAVE = "consulta-ms-v2";
 
 /* ---------- utilidades ---------- */
@@ -790,6 +797,7 @@ function pintaTarjeta(){
     $("#destino").textContent = "Interrogatorio completo";
     ["bNiega","bSiguiente","bBorra","bOmite"].forEach(function(id){ $("#"+id).hidden = true; });
     $("#bExplora").hidden = false;
+    etiquetaBarra();
     document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); });
     return;
   }
@@ -819,6 +827,7 @@ function pintaTarjeta(){
   var caja = document.getElementById("bloque-" + q.bloque);
   if (caja) caja.classList.add("activo");
   $("#destino").textContent = tituloBloque(q.bloque) + " · pregunta " + (iActual + 1);
+  etiquetaBarra();
 }
 
 /* ---------- respuesta en curso ---------- */
@@ -1117,6 +1126,16 @@ function recibe(texto){
     if (!q){ $("#vivo").textContent = "Interrogatorio completo"; return; }
     var limpio = quitaPregunta(texto, kwBloque(q), q.p);
     if (!limpio){ $("#vivo").textContent = "Pregunta detectada — esperando la respuesta…"; return; }
+    /* Modo manual: si lo que se oyó es la pregunta SIGUIENTE completa, es que ya
+       pasaste de tema. Se guarda lo acumulado y se avanza, sin escribir la pregunta. */
+    if (ritmo === 0 && iActual + 1 < GUION.length){
+      var sig = GUION[iActual + 1];
+      if (!quitaPregunta(texto, kwBloque(sig), sig.p) && contenidoPregunta(sig.p).length >= 2){
+        if (buffer) cierraRespuesta(); else avanza();
+        $("#vivo").textContent = "Pasaste a la siguiente pregunta";
+        return;
+      }
+    }
     /* No se compromete en la primera pausa: se acumula y se espera el silencio
        completo, para que una respiración a media frase no parta la respuesta. */
     buffer = buffer ? (buffer + " " + limpio) : limpio;
@@ -1241,6 +1260,7 @@ document.querySelectorAll("nav button").forEach(function(btn){
     });
     seleccionar(null);
     if (btn.dataset.p === "interrogatorio" && modoGuiado) pintaTarjeta();
+    etiquetaBarra();
   });
 });
 
@@ -1251,7 +1271,7 @@ function ponModo(g){
   $("#mLibre").setAttribute("aria-pressed", g ? "false" : "true");
   $("#tarjeta").hidden = !g;
   $("#notaModo").innerHTML = g
-    ? "Tú haces la pregunta en voz alta; el sistema borra tu pregunta de la transcripción y escribe solo la respuesta, ya redactada. Avanza solo. Puedes decir <b>siguiente</b>, <b>anterior</b>, <b>repite</b>, <b>borra</b> o <b>no aplica</b> sin tocar nada."
+    ? "Tú haces la pregunta en voz alta; el sistema borra tu pregunta de la transcripción y escribe solo la respuesta, ya redactada. No avanza solo: tómate el tiempo que necesites y pulsa <b>Guardar y siguiente</b> —o di <b>siguiente</b>— cuando la respuesta esté completa. También puedes decir <b>anterior</b>, <b>repite</b>, <b>borra</b> o <b>no aplica</b>."
     : "Modo libre: habla de corrido y el sistema decide el bloque por el contenido, cambiando solo cuando la señal es clara. También aquí borra tu pregunta y escribe solo la respuesta.";
   if (g) pintaTarjeta();
   else { document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); }); seleccionar(null); }
@@ -1268,6 +1288,39 @@ $("#selRitmo").addEventListener("change", function(){
   pintaBuffer();
 });
 
+$("#bCopiar").addEventListener("click", function(){
+  var L = [];
+  L.push("EXPEDIENTE — " + PACIENTE.nombre + " · " + PACIENTE.expediente);
+  L.push("Edad " + PACIENTE.edad + " · Sexo " + PACIENTE.sexo + " · Alergias " + PACIENTE.alergias);
+  L.push("");
+  BLOQUES.forEach(function(b){
+    var t = (datos[b.id] || "").trim();
+    var lat = lateralidad[b.id] ? " [" + lateralidad[b.id] + "]" : "";
+    L.push(b.titulo.toUpperCase() + lat);
+    L.push(t ? t : "(sin capturar)");
+    L.push("");
+  });
+  L.push("SIGNOS VITALES");
+  L.push(VITALES.map(function(v){ return v.et + ": " + (vitales[v.id] || "—"); }).join("  ·  "));
+  L.push("");
+  L.push("PREGUNTA EN CURSO: " + (preg() ? (iActual + 1) + " de " + GUION.length : "interrogatorio terminado"));
+  var texto = L.join("\n");
+  var btn = this;
+  function ok(){ btn.textContent = "Copiado ✓"; btn.classList.add("ok");
+    setTimeout(function(){ btn.textContent = "Copiar todo el expediente"; btn.classList.remove("ok"); }, 2500); }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(texto).then(ok, function(){ pideCopiar(texto); });
+  } else { pideCopiar(texto); }
+});
+function pideCopiar(t){
+  var ta = document.createElement("textarea");
+  ta.value = t; ta.style.position = "fixed"; ta.style.top = "10%"; ta.style.left = "5%";
+  ta.style.width = "90%"; ta.style.height = "70%"; ta.style.zIndex = 999; ta.style.fontSize = "13px";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); } catch(e){ /* que lo copie a mano */ }
+  setTimeout(function(){ ta.remove(); }, 12000);
+}
+
 $("#bNueva").addEventListener("click", function(){
   if (!window.confirm("¿Borrar todo lo capturado y empezar con otra paciente?")) return;
   try { localStorage.removeItem(CLAVE); } catch(e){ /* sin almacenamiento */ }
@@ -1275,14 +1328,36 @@ $("#bNueva").addEventListener("click", function(){
 });
 
 /* ---------- se guarda en el equipo para que una recarga no borre la consulta ---------- */
+function vacio(o){ return !o || Object.keys(o).length === 0; }
+function hayAlgo(e){
+  if (!e) return false;
+  if (!vacio(e.respuestas) || !vacio(e.vitales)) return true;
+  var d = e.datos || {}, k;
+  for (k in d){ if (String(d[k]).trim()) return true; }
+  return false;
+}
 function guardaLocal(){
+  var mio = { respuestas: respuestas, datos: datos, vitales: vitales,
+              lateralidad: lateralidad, editado: editado, iActual: iActual };
   try {
-    localStorage.setItem(CLAVE, JSON.stringify({
-      respuestas: respuestas, datos: datos, vitales: vitales,
-      lateralidad: lateralidad, editado: editado, iActual: iActual
-    }));
+    /* Una pestaña vacía JAMÁS pisa un expediente con datos: dos pestañas
+       abiertas de la app se borraban entre sí. */
+    if (!hayAlgo(mio)){
+      var previo = localStorage.getItem(CLAVE);
+      if (previo && hayAlgo(JSON.parse(previo))) return;
+    }
+    localStorage.setItem(CLAVE, JSON.stringify(mio));
   } catch(e){ /* modo privado o almacenamiento lleno: se sigue sin guardar */ }
 }
+/* si otra pestaña captura algo, esta se entera en vez de competir */
+window.addEventListener("storage", function(ev){
+  if (ev.key !== CLAVE || !ev.newValue) return;
+  try {
+    if (hayAlgo(JSON.parse(ev.newValue)) && !hayAlgo({respuestas:respuestas,datos:datos,vitales:vitales})){
+      $("#vivo").textContent = "Hay una consulta abierta en otra pestaña — recarga para verla";
+    }
+  } catch(e){ /* nada */ }
+});
 function cargaLocal(){
   try {
     var crudo = localStorage.getItem(CLAVE);
@@ -1312,6 +1387,18 @@ function cargaRitmo(){
     if (r !== null) ritmo = parseInt(r, 10) || 0;
   } catch(e){ /* sin almacenamiento */ }
   $("#selRitmo").value = String(ritmo);
+  etiquetaBarra();
+}
+/* el botón de la barra cambia según dónde estés */
+function etiquetaBarra(){
+  var b = $("#btnBarra");
+  if (paginaActual() === "interrogatorio" && modoGuiado && preg()){
+    b.textContent = "Guardar y siguiente →";
+    b.classList.add("p");
+  } else {
+    b.textContent = "Limpiar bloque";
+    b.classList.remove("p");
+  }
 }
 
 $("#bNiega").addEventListener("click", niegaActual);
@@ -1325,14 +1412,9 @@ $("#bAtras").addEventListener("click", function(){ irA(iActual - 1); });
 $("#bBorra").addEventListener("click", borraActual);
 $("#bOmite").addEventListener("click", omiteActual);
 
-$("#btnLimpiar").addEventListener("click", function(){
+$("#btnBarra").addEventListener("click", function(){
   if (paginaActual() === "interrogatorio" && modoGuiado){
-    var q = preg();
-    if (q){
-      GUION.forEach(function(x){ if (x.bloque === q.bloque) delete respuestas[x.id]; });
-      editado[q.bloque] = false; marcaEditado(q.bloque);
-      reconstruye();
-    }
+    if (preg()) siguienteManual();
     return;
   }
   if (!destinoActual) return;
