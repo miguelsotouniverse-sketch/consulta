@@ -870,7 +870,11 @@ function sugiereBloque(qid, txt, bloqueActual){
   var caja = $("#gSugerencia");
   caja.hidden = true; caja.innerHTML = "";
   var c = clasifica(txt);
-  if (!c.id || c.id === bloqueActual || c.puntos < 2) return;
+  /* Se compara contra el bloque donde va a caer, no contra un umbral fijo:
+     basta con que suene más a otro bloque que a este. */
+  var propio = 0, actual = BLOQUES.filter(function(x){ return x.id === bloqueActual; })[0];
+  if (actual) actual.claves.forEach(function(k){ if (normaliza(txt).indexOf(normaliza(k)) !== -1) propio++; });
+  if (!c.id || c.id === bloqueActual || c.puntos <= propio) return;
   caja.hidden = false;
   caja.appendChild(document.createTextNode("Esto suena a «" + tituloBloque(c.id) + "»."));
   var mover = crear("button", null, "Moverlo ahí");
@@ -1561,6 +1565,7 @@ cargaRitmo();
 cargaLocal();
 ponModo(true);
 refresca();
+pinta();
 </script>
 </body>
 </html>
