@@ -1124,8 +1124,15 @@ function recibe(texto){
     }
 
     if (!q){ $("#vivo").textContent = "Interrogatorio completo"; return; }
-    var limpio = quitaPregunta(texto, kwBloque(q), q.p);
-    if (!limpio){ $("#vivo").textContent = "Pregunta detectada — esperando la respuesta…"; return; }
+    var limpio;
+    if (buffer){
+      /* La pregunta ya se oyó en el primer trozo. De aquí en adelante todo es
+         respuesta: no se le vuelve a quitar nada, o se comería sus palabras. */
+      limpio = texto.trim();
+    } else {
+      limpio = quitaPregunta(texto, kwBloque(q), q.p);
+      if (!limpio){ $("#vivo").textContent = "Pregunta detectada — esperando la respuesta…"; return; }
+    }
     /* Modo manual: si lo que se oyó es la pregunta SIGUIENTE completa, es que ya
        pasaste de tema. Se guarda lo acumulado y se avanza, sin escribir la pregunta. */
     if (ritmo === 0 && iActual + 1 < GUION.length){
