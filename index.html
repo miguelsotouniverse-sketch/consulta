@@ -54,6 +54,14 @@ section[hidden]{display:none}
 .modo button{border:1px solid var(--linea);background:#fff;color:var(--gris);border-radius:3px;
   padding:6px 12px;font-family:var(--sans);font-size:12.5px;cursor:pointer}
 .modo button[aria-pressed="true"]{background:var(--negro);color:var(--crema);border-color:var(--negro)}
+.modo .sep{flex:1}
+.modo label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gris);letter-spacing:.3px}
+.modo select{border:1px solid var(--linea);background:#fff;color:var(--negro);border-radius:3px;
+  padding:5px 6px;font-family:var(--sans);font-size:12.5px}
+.guia .oyendo{font-size:13px;color:var(--negro);background:var(--crema);border-radius:3px;
+  padding:8px 10px;margin-bottom:10px;line-height:1.45}
+.guia .oyendo b{color:var(--taupe);font-weight:500;text-transform:uppercase;font-size:10.5px;letter-spacing:.6px;display:block;margin-bottom:3px}
+.guia .fin{font-size:13px;color:#C9C2BA;margin-bottom:12px;line-height:1.6}
 
 /* ---------- bloques ---------- */
 .bloque{background:#fff;border:1px solid var(--linea);border-radius:3px;margin-bottom:10px;overflow:hidden}
@@ -157,6 +165,16 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
   <div class="modo">
     <button id="mGuiado" aria-pressed="true">Modo guiado</button>
     <button id="mLibre" aria-pressed="false">Modo libre</button>
+    <label>Ritmo
+      <select id="selRitmo">
+        <option value="1500">Rápido · 1.5 s</option>
+        <option value="2800">Normal · 2.8 s</option>
+        <option value="4500">Pausado · 4.5 s</option>
+        <option value="0">Manual · yo aviso</option>
+      </select>
+    </label>
+    <span class="sep"></span>
+    <button id="bNueva">Paciente nueva</button>
   </div>
 
   <div class="guia" id="tarjeta">
@@ -166,13 +184,16 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
     </div>
     <p class="preg" id="gPregunta">—</p>
     <div class="pre" id="gPrecarga" hidden></div>
+    <div class="oyendo" id="gOyendo" hidden></div>
     <div class="prev" id="gPrevia">Si contesta que no, se escribe: <b id="gNeg">—</b></div>
+    <div class="fin" id="gFin" hidden></div>
     <div class="acc">
       <button class="p" id="bNiega">Niega</button>
       <button id="bSiguiente">Siguiente →</button>
       <button id="bAtras">← Anterior</button>
       <button id="bBorra">Borrar respuesta</button>
       <button id="bOmite">No aplica</button>
+      <button class="p" id="bExplora" hidden>Ir a exploración física →</button>
     </div>
     <div class="barraprog"><i id="gProg" style="width:0%"></i></div>
   </div>
@@ -452,6 +473,10 @@ var iActual = 0;
 var ventanaHasta = 0;
 var ventanaId = null;
 var temporizador = null;
+var buffer = "";          /* respuesta en curso, todavía no comprometida */
+var tBuffer = null;
+var ritmo = 2800;         /* silencio que espera antes de dar la respuesta por terminada */
+var CLAVE = "consulta-ms-v2";
 
 /* ---------- utilidades ---------- */
 function $(s){ return document.querySelector(s); }
@@ -745,16 +770,33 @@ function tituloBloque(bid){
 function pintaTarjeta(){
   var q = preg();
   if (!q){
-    $("#gBloque").textContent = "Interrogatorio completo";
+    var resp = 0, omit = 0;
+    GUION.forEach(function(x){
+      var r = respuestas[x.id];
+      if (!r) return;
+      if (r.estado === "omitida") omit++; else resp++;
+    });
+    var pend = GUION.length - resp - omit;
+    $("#gBloque").textContent = "Interrogatorio terminado";
     $("#gCuenta").textContent = GUION.length + " de " + GUION.length;
     $("#gPregunta").textContent = "Terminaste el interrogatorio.";
     $("#gPrevia").hidden = true;
     $("#gPrecarga").hidden = true;
+    $("#gOyendo").hidden = true;
+    $("#gFin").hidden = false;
+    $("#gFin").textContent = resp + " respondidas · " + omit + " marcadas como no aplica · " +
+      pend + " sin contestar. El micrófono queda apagado hasta que lo enciendas otra vez.";
     $("#gProg").style.width = "100%";
     $("#destino").textContent = "Interrogatorio completo";
+    ["bNiega","bSiguiente","bBorra","bOmite"].forEach(function(id){ $("#"+id).hidden = true; });
+    $("#bExplora").hidden = false;
     document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); });
     return;
   }
+  ["bNiega","bSiguiente","bBorra","bOmite"].forEach(function(id){ $("#"+id).hidden = false; });
+  $("#bExplora").hidden = true;
+  $("#gFin").hidden = true;
+  pintaBuffer();
   $("#gBloque").textContent = tituloBloque(q.bloque);
   $("#gCuenta").textContent = (iActual + 1) + " de " + GUION.length;
   $("#gPregunta").textContent = q.p;
@@ -779,9 +821,60 @@ function pintaTarjeta(){
   $("#destino").textContent = tituloBloque(q.bloque) + " · pregunta " + (iActual + 1);
 }
 
+/* ---------- respuesta en curso ---------- */
+function pintaBuffer(){
+  var caja = $("#gOyendo");
+  if (!buffer){ caja.hidden = true; return; }
+  caja.hidden = false;
+  caja.innerHTML = "";
+  var et = document.createElement("b");
+  et.textContent = ritmo ? "Escuchando la respuesta…" : "Respuesta en curso — di «siguiente» cuando termine";
+  caja.appendChild(et);
+  caja.appendChild(document.createTextNode(buffer));
+}
+function limpiaBuffer(){
+  buffer = "";
+  clearTimeout(tBuffer); tBuffer = null;
+  pintaBuffer();
+}
+/* Comprometer lo escuchado: solo cuando pasó el silencio completo, nunca en la
+   primera pausa. Chrome marca "final" en cualquier respiración. */
+function cierraRespuesta(){
+  clearTimeout(tBuffer); tBuffer = null;
+  var q = preg();
+  if (!q || !buffer){ limpiaBuffer(); return; }
+  var t = buffer;
+  buffer = ""; pintaBuffer();
+  anota(q, t);
+  avanza();
+}
+
+/* ---------- qué se escribe al marcar "No aplica" ---------- */
+function textoOmitido(q){
+  if (q.omitido) return q.omitido;
+  if (q.bloque === "aparatos"){
+    var sistema = q.p.split(":")[0].trim();
+    return sistema + ": sin datos patológicos.";
+  }
+  return "No interrogado; no aplica al caso.";
+}
+
+/* ---------- fin del interrogatorio ---------- */
+function terminaInterrogatorio(){
+  limpiaBuffer();
+  if (quiereEscuchar){
+    quiereEscuchar = false;
+    try { rec.stop(); } catch(e){ /* ya estaba detenido */ }
+    soltarPantalla();
+    pinta();
+  }
+  $("#vivo").textContent = "Interrogatorio completo — micrófono apagado";
+}
+
 function irA(i){
   if (i < 0) i = 0;
   if (i > GUION.length) i = GUION.length;
+  limpiaBuffer();
   iActual = i;
   ventanaHasta = 0;
   $("#ventana").hidden = true;
@@ -804,6 +897,7 @@ function avanza(){
   if (q){ ventanaId = q.id; ventanaHasta = Date.now() + 7000; }
   iActual = Math.min(iActual + 1, GUION.length);
   pintaTarjeta();
+  if (iActual >= GUION.length){ terminaInterrogatorio(); return; }
   if (ventanaHasta){
     $("#ventana").hidden = false;
     $("#ventana").textContent = "Lo que diga ahora todavía se agrega a la respuesta anterior (7 s)";
@@ -851,7 +945,7 @@ function reconstruye(){
 /* ---------- comandos de voz ---------- */
 function comando(texto){
   var t = tokens(texto).join(" ");
-  if (t === "siguiente" || t === "adelante" || t === "ya" || t === "continua" || t === "continuar"){ avanza(); return true; }
+  if (t === "siguiente" || t === "adelante" || t === "ya" || t === "continua" || t === "continuar"){ siguienteManual(); return true; }
   if (t === "anterior" || t === "regresa" || t === "regresar" || t === "atras"){ irA(iActual - 1); return true; }
   if (t === "repite" || t === "repetir" || t === "repitela"){ pintaTarjeta(); return true; }
   if (t === "borra" || t === "borrar" || t === "corrige" || t === "corregir"){ borraActual(); return true; }
@@ -863,20 +957,27 @@ function comando(texto){
 function niegaActual(){
   var q = preg();
   if (!q) return;
+  limpiaBuffer();
   guarda(q.id, q.neg, "neg");
   avanza();
 }
 function borraActual(){
   var q = preg();
   if (!q) return;
+  limpiaBuffer();
   delete respuestas[q.id];
   reconstruye();
 }
 function omiteActual(){
   var q = preg();
   if (!q) return;
-  guarda(q.id, "", "omitida");
+  limpiaBuffer();
+  guarda(q.id, textoOmitido(q), "omitida");
   avanza();
+}
+function siguienteManual(){
+  if (buffer) cierraRespuesta();
+  else avanza();
 }
 
 /* ---------- clasificación (modo libre) ---------- */
@@ -1013,11 +1114,15 @@ function recibe(texto){
       }
     }
 
-    if (!q) return;
+    if (!q){ $("#vivo").textContent = "Interrogatorio completo"; return; }
     var limpio = quitaPregunta(texto, kwBloque(q), q.p);
     if (!limpio){ $("#vivo").textContent = "Pregunta detectada — esperando la respuesta…"; return; }
-    anota(q, limpio);
-    avanza();
+    /* No se compromete en la primera pausa: se acumula y se espera el silencio
+       completo, para que una respiración a media frase no parta la respuesta. */
+    buffer = buffer ? (buffer + " " + limpio) : limpio;
+    pintaBuffer();
+    clearTimeout(tBuffer); tBuffer = null;
+    if (ritmo > 0) tBuffer = setTimeout(cierraRespuesta, ritmo);
     return;
   }
 
@@ -1073,6 +1178,7 @@ function refresca(){
     }
   });
   pintaRevision();
+  guardaLocal();
 }
 
 function pintaRevision(){
@@ -1154,8 +1260,67 @@ function ponModo(g){
 $("#mGuiado").addEventListener("click", function(){ ponModo(true); });
 $("#mLibre").addEventListener("click", function(){ ponModo(false); });
 
+$("#selRitmo").addEventListener("change", function(){
+  ritmo = parseInt(this.value, 10) || 0;
+  try { localStorage.setItem(CLAVE + "-ritmo", String(ritmo)); } catch(e){ /* sin almacenamiento */ }
+  clearTimeout(tBuffer); tBuffer = null;
+  if (ritmo > 0 && buffer) tBuffer = setTimeout(cierraRespuesta, ritmo);
+  pintaBuffer();
+});
+
+$("#bNueva").addEventListener("click", function(){
+  if (!window.confirm("¿Borrar todo lo capturado y empezar con otra paciente?")) return;
+  try { localStorage.removeItem(CLAVE); } catch(e){ /* sin almacenamiento */ }
+  location.reload();
+});
+
+/* ---------- se guarda en el equipo para que una recarga no borre la consulta ---------- */
+function guardaLocal(){
+  try {
+    localStorage.setItem(CLAVE, JSON.stringify({
+      respuestas: respuestas, datos: datos, vitales: vitales,
+      lateralidad: lateralidad, editado: editado, iActual: iActual
+    }));
+  } catch(e){ /* modo privado o almacenamiento lleno: se sigue sin guardar */ }
+}
+function cargaLocal(){
+  try {
+    var crudo = localStorage.getItem(CLAVE);
+    if (!crudo) return;
+    var d = JSON.parse(crudo);
+    respuestas = d.respuestas || {};
+    datos = d.datos || {};
+    vitales = d.vitales || {};
+    lateralidad = d.lateralidad || {};
+    editado = d.editado || {};
+    iActual = Math.min(d.iActual || 0, GUION.length);
+    Object.keys(datos).forEach(function(k){
+      var ta = document.getElementById("ta-" + k);
+      if (ta) ta.value = datos[k];
+    });
+    Object.keys(vitales).forEach(function(k){
+      var i = document.getElementById("inp-" + k);
+      if (i) i.value = vitales[k];
+    });
+    Object.keys(editado).forEach(marcaEditado);
+    calculaIMC();
+  } catch(e){ /* dato corrupto: se empieza limpio */ }
+}
+function cargaRitmo(){
+  try {
+    var r = localStorage.getItem(CLAVE + "-ritmo");
+    if (r !== null) ritmo = parseInt(r, 10) || 0;
+  } catch(e){ /* sin almacenamiento */ }
+  $("#selRitmo").value = String(ritmo);
+}
+
 $("#bNiega").addEventListener("click", niegaActual);
-$("#bSiguiente").addEventListener("click", avanza);
+$("#bSiguiente").addEventListener("click", siguienteManual);
+$("#bExplora").addEventListener("click", function(){
+  var t = document.querySelector('nav button[data-p="exploracion"]');
+  if (t) t.click();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 $("#bAtras").addEventListener("click", function(){ irA(iActual - 1); });
 $("#bBorra").addEventListener("click", borraActual);
 $("#bOmite").addEventListener("click", omiteActual);
@@ -1256,6 +1421,8 @@ document.addEventListener("visibilitychange", function(){
   if (document.visibilityState === "visible" && quiereEscuchar) mantenDespierta();
 });
 
+cargaRitmo();
+cargaLocal();
 ponModo(true);
 refresca();
 </script>
