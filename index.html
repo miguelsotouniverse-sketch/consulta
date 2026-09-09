@@ -647,6 +647,26 @@ function cualPregunta(t){
   return -1;
 }
 
+/* Recorte de una repregunta improvisada: no está en el guion, así que no se
+   puede quitar por nombre. Se busca la última marca de pregunta y, a partir de
+   ahí, dónde arranca la respuesta (primera persona o un sí/no). */
+function recorteTrasPregunta(t){
+  var w = palabras(t), n = normaliza(t), ultima = -1, i;
+  for (i = 0; i < w.length; i++){ if (esUno(MARCA_P, w[i].n)) ultima = i; }
+  FRASE_P.forEach(function(f){
+    var k = n.lastIndexOf(f);
+    if (k === -1) return;
+    var cuantas = normaliza(t.slice(0, k)).split(/\s+/).filter(Boolean).length;
+    var fin = cuantas + f.split(" ").length - 1;
+    if (fin > ultima) ultima = fin;
+  });
+  if (ultima < 0) return texto(w);
+  for (i = ultima + 1; i < w.length; i++){
+    if (esUno(YO, w[i].n) || esUno(NEG_R, w[i].n)) return texto(w.slice(i));
+  }
+  return "";
+}
+
 /* veredicto: empate se rompe viendo si coincide con una pregunta del guion */
 function esPregunta(t){
   var p = puntuaPregunta(t), r = puntuaRespuesta(t);
@@ -1243,7 +1263,10 @@ function recibe(texto){
        sin forma de pregunta. NUNCA se descarta el enunciado completo, porque
        la respuesta suele venir pegada a la pregunta en el mismo resultado. */
     var limpio;
-    if (buffer && iq < 0 && !esPregunta(texto)){
+    if (iq < 0 && esPregunta(texto)){
+      /* repregunta tuya improvisada: se recorta por forma, no por guion */
+      limpio = recorteTrasPregunta(texto);
+    } else if (buffer && iq < 0){
       limpio = texto.trim();
     } else {
       limpio = quitaPregunta(texto, kwBloque(q), q.p);
