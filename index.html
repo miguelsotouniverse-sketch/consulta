@@ -604,7 +604,23 @@ function quitaPregunta(txt, kw, textoPregunta){
     if (esUno(RELLENO, w2)) { j++; continue; }
     break;
   }
-  return texto(r.slice(j));
+  var resto = r.slice(j);
+  /* Si lo que sobró son puras palabras de pregunta —"hasta cuánto", "y de qué"—
+     no es una respuesta: es la cola de tu pregunta. No se escribe. */
+  if (soloRestosDePregunta(resto)) return "";
+  return texto(resto);
+}
+
+var COLA_PREGUNTA = ["hasta","hace","desde","cuanto","cuantos","cuanta","cuantas","cuando","que","cual","como"];
+function soloRestosDePregunta(arr){
+  if (!arr.length) return true;
+  for (var i = 0; i < arr.length; i++){
+    var w = arr[i].n;
+    if (esUno(COLA_PREGUNTA, w) || esUno(RELLENO, w)) continue;
+    if (typeof MARCA_P !== "undefined" && esUno(MARCA_P, w)) continue;
+    return false;
+  }
+  return true;
 }
 
 /* ---------- ¿esto es una pregunta tuya o una respuesta de ella? ---------- */
