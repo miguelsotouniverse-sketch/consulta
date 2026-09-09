@@ -62,6 +62,9 @@ section[hidden]{display:none}
   padding:8px 10px;margin-bottom:10px;line-height:1.45}
 .guia .oyendo b{color:var(--taupe);font-weight:500;text-transform:uppercase;font-size:10.5px;letter-spacing:.6px;display:block;margin-bottom:3px}
 .guia .fin{font-size:13px;color:#C9C2BA;margin-bottom:12px;line-height:1.6}
+.guia .sug{font-size:13px;background:#4A3F2F;color:#F0E6D6;border-radius:3px;padding:9px 11px;margin-bottom:10px}
+.guia .sug button{margin-left:8px;border:1px solid rgba(244,242,241,.4);background:transparent;color:#F0E6D6;
+  border-radius:3px;padding:4px 10px;font-family:var(--sans);font-size:12px;cursor:pointer}
 
 /* ---------- bloques ---------- */
 .bloque{background:#fff;border:1px solid var(--linea);border-radius:3px;margin-bottom:10px;overflow:hidden}
@@ -192,6 +195,7 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
     <div class="oyendo" id="gOyendo" hidden></div>
     <div class="prev" id="gPrevia">Si contesta que no, se escribe: <b id="gNeg">—</b></div>
     <div class="fin" id="gFin" hidden></div>
+    <div class="sug" id="gSugerencia" hidden></div>
     <div class="acc">
       <button class="p" id="bNiega">Niega</button>
       <button id="bSiguiente">Siguiente →</button>
@@ -204,9 +208,9 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
   </div>
 
   <p class="nota" id="notaModo">
-    Tú haces la pregunta en voz alta; el sistema borra tu pregunta de la transcripción y escribe
-    solo la respuesta, ya redactada. No avanza solo: tómate el tiempo que necesites y pulsa
-    <b>Guardar y siguiente</b> —o di <b>siguiente</b>— cuando la respuesta esté completa.
+    <b>Haz tu pregunta con el micrófono apagado.</b> Enciéndelo solo mientras la paciente contesta
+    y apágalo al terminar: eso guarda la respuesta y pasa a la siguiente. Si ella solo niega,
+    pulsa <b>Niega</b> y ya.
   </p>
 
   <div id="bloquesInt"></div>
@@ -855,7 +859,35 @@ function cierraRespuesta(){
   var t = buffer;
   buffer = ""; pintaBuffer();
   anota(q, t);
+  var r = respuestas[q.id];
   avanza();
+  if (r && r.estado === "pos") sugiereBloque(q.id, t, q.bloque);
+}
+
+/* Si lo dictado suena claramente a otro bloque, se avisa en vez de guardarlo
+   mal en silencio. No se mueve solo: la decisión es tuya. */
+function sugiereBloque(qid, txt, bloqueActual){
+  var caja = $("#gSugerencia");
+  caja.hidden = true; caja.innerHTML = "";
+  var c = clasifica(txt);
+  if (!c.id || c.id === bloqueActual || c.puntos < 2) return;
+  caja.hidden = false;
+  caja.appendChild(document.createTextNode("Esto suena a «" + tituloBloque(c.id) + "»."));
+  var mover = crear("button", null, "Moverlo ahí");
+  mover.addEventListener("click", function(){
+    delete respuestas[qid];
+    var ta = document.getElementById("ta-" + c.id);
+    if (ta){
+      ta.value = (ta.value ? ta.value + " " : "") + txt;
+      datos[c.id] = ta.value;
+      editado[c.id] = true; marcaEditado(c.id);
+    }
+    caja.hidden = true;
+    reconstruye();
+  });
+  var dejar = crear("button", null, "Dejarlo aquí");
+  dejar.addEventListener("click", function(){ caja.hidden = true; });
+  caja.appendChild(mover); caja.appendChild(dejar);
 }
 
 /* ---------- qué se escribe al marcar "No aplica" ---------- */
@@ -884,6 +916,7 @@ function irA(i){
   if (i < 0) i = 0;
   if (i > GUION.length) i = GUION.length;
   limpiaBuffer();
+  $("#gSugerencia").hidden = true;
   iActual = i;
   ventanaHasta = 0;
   $("#ventana").hidden = true;
@@ -903,7 +936,10 @@ function irABloque(bid){
 
 function avanza(){
   var q = preg();
-  if (q){ ventanaId = q.id; ventanaHasta = Date.now() + 7000; }
+  /* La ventana de corrección solo aplica en modo automático. En manual pegaba
+     fragmentos sueltos al final de la respuesta anterior. */
+  if (q && ritmo > 0){ ventanaId = q.id; ventanaHasta = Date.now() + 7000; }
+  $("#gSugerencia").hidden = true;
   iActual = Math.min(iActual + 1, GUION.length);
   pintaTarjeta();
   if (iActual >= GUION.length){ terminaInterrogatorio(); return; }
@@ -1278,7 +1314,7 @@ function ponModo(g){
   $("#mLibre").setAttribute("aria-pressed", g ? "false" : "true");
   $("#tarjeta").hidden = !g;
   $("#notaModo").innerHTML = g
-    ? "Tú haces la pregunta en voz alta; el sistema borra tu pregunta de la transcripción y escribe solo la respuesta, ya redactada. No avanza solo: tómate el tiempo que necesites y pulsa <b>Guardar y siguiente</b> —o di <b>siguiente</b>— cuando la respuesta esté completa. También puedes decir <b>anterior</b>, <b>repite</b>, <b>borra</b> o <b>no aplica</b>."
+    ? "<b>Haz tu pregunta con el micrófono apagado.</b> Enciéndelo solo mientras la paciente contesta y apágalo al terminar: eso guarda la respuesta y pasa a la siguiente. Así tus preguntas nunca entran al expediente. Si ella solo niega, pulsa <b>Niega</b> y ya: no hace falta encender nada."
     : "Modo libre: habla de corrido y el sistema decide el bloque por el contenido, cambiando solo cuando la señal es clara. También aquí borra tu pregunta y escribe solo la respuesta.";
   if (g) pintaTarjeta();
   else { document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); }); seleccionar(null); }
@@ -1479,20 +1515,31 @@ if (!Rec){
 
 function pinta(){
   var b = $("#btnMic");
+  var guiando = (paginaActual() === "interrogatorio" && modoGuiado && preg());
   if (quiereEscuchar){ b.classList.add("on"); b.textContent = "■"; }
-  else { b.classList.remove("on"); b.textContent = "🎤"; $("#vivo").textContent = "Listo"; }
+  else {
+    b.classList.remove("on"); b.textContent = "🎤";
+    $("#vivo").textContent = guiando
+      ? "Micrófono apagado. Haz tu pregunta y enciéndelo cuando ella conteste."
+      : "Listo";
+  }
+  etiquetaBarra();
 }
 
 $("#btnMic").addEventListener("click", function(){
   if (!rec) return;
+  var guiando = (paginaActual() === "interrogatorio" && modoGuiado && preg());
   quiereEscuchar = !quiereEscuchar;
   if (quiereEscuchar){
-    try { rec.start(); $("#vivo").textContent = "Escuchando…"; }
+    try { rec.start(); $("#vivo").textContent = guiando ? "Escuchando a la paciente…" : "Escuchando…"; }
     catch(e){ /* ya estaba corriendo */ }
     mantenDespierta();
   } else {
     try { rec.stop(); } catch(e){ /* nada */ }
     soltarPantalla();
+    /* Al apagar el micrófono se cierra la respuesta: así tus preguntas nunca
+       entran al expediente, porque se hacen con el micrófono apagado. */
+    if (guiando && buffer) cierraRespuesta();
   }
   pinta();
 });
