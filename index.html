@@ -1244,10 +1244,20 @@ function recibe(texto){
       if (iq >= 0 && iq !== iActual){
         if (buffer) cierraSinAvanzar();
         irA(iq);
-        $("#vivo").textContent = "Pregunta reconocida — escuchando la respuesta…";
-      } else {
-        $("#vivo").textContent = "Pregunta tuya — no se escribe";
+        q = preg();
       }
+      /* NUNCA se descarta el enunciado completo: el navegador suele devolver
+         la pregunta y la respuesta pegadas. Se quita la pregunta y lo que
+         quede —si queda algo— es respuesta y se conserva. */
+      var resto = quitaPregunta(texto, kwBloque(q), q.p);
+      if (!resto){
+        $("#vivo").textContent = iq >= 0
+          ? "Pregunta reconocida — escuchando la respuesta…"
+          : "Pregunta tuya — no se escribe";
+        return;
+      }
+      buffer = buffer ? (buffer + " " + resto) : resto;
+      pintaBuffer();
       return;
     }
     /* No se compromete en la primera pausa: se acumula y se espera el silencio
