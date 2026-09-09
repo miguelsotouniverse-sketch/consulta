@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Consulta por voz — prototipo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --negro:#030707; --taupe:#A19487; --crema:#F4F2F1;
+  --linea:#DED9D4; --gris:#8C867F; --verde:#4C7A5A; --ambar:#B8860B; --rojo:#9B3B33;
+  --sans:'Jost',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--crema);color:var(--negro);font-size:15px;line-height:1.5}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px 140px}
+
+/* encabezado del paciente */
+header{position:sticky;top:0;z-index:20;background:var(--crema);border-bottom:1px solid var(--linea);
+  padding:12px 0 10px;margin-bottom:14px}
+.pac{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+.pac h1{font-family:var(--serif);font-size:26px;font-weight:600;margin:0;letter-spacing:.2px}
+.meta{font-size:12.5px;color:var(--gris);letter-spacing:.3px}
+.meta b{color:var(--negro);font-weight:500}
+.origen{font-size:11px;color:var(--taupe);letter-spacing:.6px;text-transform:uppercase;margin-top:4px}
+
+/* pestañas */
+nav{display:flex;gap:2px;margin:14px 0 18px;border-bottom:1px solid var(--linea);overflow-x:auto}
+nav button{flex:0 0 auto;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;
+  font-family:var(--sans);font-size:13.5px;color:var(--gris);cursor:pointer;letter-spacing:.3px;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--negro);border-bottom-color:var(--negro);font-weight:500}
+section[hidden]{display:none}
+
+/* bloques */
+.bloque{background:#fff;border:1px solid var(--linea);border-radius:3px;margin-bottom:10px;overflow:hidden}
+.bloque > .cab{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;user-select:none}
+.bloque.sel{border-color:var(--negro);box-shadow:0 0 0 1px var(--negro)}
+.punto{width:9px;height:9px;border-radius:50%;background:var(--linea);flex:0 0 auto}
+.bloque.hecho .punto{background:var(--verde)}
+.bloque.parcial .punto{background:var(--ambar)}
+.cab .tit{font-size:14px;font-weight:500;flex:1}
+.cab .obl{font-size:10px;letter-spacing:.6px;color:var(--taupe);text-transform:uppercase}
+.cuerpo{padding:0 12px 12px}
+.cuerpo textarea{width:100%;min-height:64px;border:1px solid var(--linea);border-radius:2px;padding:8px;
+  font-family:var(--sans);font-size:14px;line-height:1.5;resize:vertical;background:#FCFBFA;color:var(--negro)}
+.cuerpo textarea:focus{outline:none;border-color:var(--taupe);background:#fff}
+.pistas{font-size:11.5px;color:var(--gris);margin:6px 0 0}
+
+/* signos vitales */
+.sv{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.sv .campo{background:#fff;border:1px solid var(--linea);border-radius:3px;padding:8px}
+.sv .campo.sel{border-color:var(--negro);box-shadow:0 0 0 1px var(--negro)}
+.sv label{display:block;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--gris);margin-bottom:3px}
+.sv input{width:100%;border:0;border-bottom:1px solid var(--linea);font-family:var(--sans);font-size:19px;
+  padding:2px 0;background:none;color:var(--negro)}
+.sv input:focus{outline:none;border-bottom-color:var(--negro)}
+.sv .campo.auto{background:#F7F5F3}
+
+/* confirmación de números */
+.confirmar{background:#FFF8E1;border:1px solid #E8D9A0;border-radius:3px;padding:10px 12px;margin-bottom:10px}
+.confirmar h3{margin:0 0 6px;font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--ambar)}
+.chip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #E8D9A0;border-radius:2px;
+  padding:5px 8px;margin:3px 4px 3px 0;font-size:13px}
+.chip button{border:0;background:var(--negro);color:#fff;border-radius:2px;padding:3px 8px;font-size:11px;
+  font-family:var(--sans);cursor:pointer}
+.chip button.no{background:#fff;color:var(--gris);border:1px solid var(--linea)}
+
+/* revisión */
+.faltan li{margin-bottom:5px;font-size:14px}
+.faltan li.ok{color:var(--gris)}
+.docs{list-style:none;padding:0;margin:8px 0 0}
+.docs li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--linea);padding:8px 0;font-size:14px}
+.docs .fuente{color:var(--gris);font-size:12.5px;text-align:right}
+h2{font-family:var(--serif);font-size:22px;font-weight:600;margin:22px 0 10px}
+p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
+
+/* barra de micrófono */
+.barra{position:fixed;left:0;right:0;bottom:0;background:rgba(244,242,241,.97);border-top:1px solid var(--linea);
+  padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:30;
+  backdrop-filter:saturate(180%) blur(8px)}
+.barra .fila{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.mic{width:52px;height:52px;border-radius:50%;border:0;background:var(--negro);color:#fff;font-size:21px;
+  cursor:pointer;flex:0 0 auto;transition:transform .15s}
+.mic:active{transform:scale(.94)}
+.mic.on{background:var(--rojo);animation:lat 1.4s ease-in-out infinite}
+@keyframes lat{0%,100%{box-shadow:0 0 0 0 rgba(155,59,51,.45)}50%{box-shadow:0 0 0 10px rgba(155,59,51,0)}}
+.estado{flex:1;min-width:0}
+.estado .destino{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--taupe)}
+.estado .vivo{font-size:13.5px;color:var(--gris);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra .sec{border:1px solid var(--linea);background:#fff;border-radius:2px;padding:8px 12px;font-family:var(--sans);
+  font-size:12.5px;cursor:pointer;color:var(--negro)}
+.aviso{background:#fff;border:1px solid var(--rojo);color:var(--rojo);border-radius:3px;padding:10px 12px;
+  font-size:13px;margin:10px 0}
+.demo{background:var(--negro);color:var(--crema);border-radius:3px;padding:10px 14px;font-size:12.5px;margin-bottom:14px}
+.demo b{color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="pac">
+    <h1 id="pacNombre">—</h1>
+    <span class="meta">Expediente <b id="pacExp">—</b></span>
+    <span class="meta">Edad <b id="pacEdad">—</b></span>
+    <span class="meta">Sexo <b id="pacSexo">—</b></span>
+    <span class="meta">Alergias <b id="pacAlergias">—</b></span>
+  </div>
+  <div class="origen">Estos datos vienen del alta · no se capturan aquí</div>
+</header>
+
+<div class="demo">
+  <b>Prototipo.</b> Paciente ficticia. El reconocimiento de voz es el del navegador, para probar el flujo:
+  en producción el audio va a tu propio servidor y no sale a terceros. No lo uses con pacientes reales.
+</div>
+
+<div id="noSoporta" class="aviso" hidden>
+  Este navegador no reconoce voz. Prueba en Chrome o Safari, sobre una dirección https.
+  Mientras tanto puedes escribir en los campos: el flujo es el mismo.
+</div>
+
+<nav role="tablist">
+  <button role="tab" data-p="interrogatorio" aria-selected="true">1 · Interrogatorio</button>
+  <button role="tab" data-p="exploracion" aria-selected="false">2 · Exploración física</button>
+  <button role="tab" data-p="plan" aria-selected="false">3 · Diagnóstico y plan</button>
+  <button role="tab" data-p="revision" aria-selected="false">4 · Revisión</button>
+</nav>
+
+<section id="interrogatorio">
+  <h2>Interrogatorio</h2>
+  <p class="nota">Habla normal con la paciente. El punto de cada bloque se pone en verde cuando ya quedó cubierto.
+    Si algo se va al bloque equivocado, toca el bloque correcto y sigue hablando: lo que dictes se va ahí.</p>
+  <div id="bloquesInt"></div>
+</section>
+
+<section id="exploracion" hidden>
+  <h2>Signos vitales</h2>
+  <p class="nota">Toca un recuadro y dicta el número. El IMC se calcula solo.</p>
+  <div class="sv" id="svGrid"></div>
+  <div class="confirmar" id="panelConf" hidden>
+    <h3>Confirma estos números</h3>
+    <div id="chips"></div>
+  </div>
+  <h2>Exploración por segmentos</h2>
+  <p class="nota">Toca el segmento y dicta. La lateralidad —izquierda o derecha— se marca aparte para que no dependa de la transcripción.</p>
+  <div id="bloquesEf"></div>
+</section>
+
+<section id="plan" hidden>
+  <h2>Diagnóstico y plan</h2>
+  <p class="nota">Lo que dictes aquí se copia solo al consentimiento y a la nota de evolución.</p>
+  <div id="bloquesPlan"></div>
+</section>
+
+<section id="revision" hidden>
+  <h2>Qué falta</h2>
+  <ul class="faltan" id="listaFaltan"></ul>
+  <h2>Documentos que se generarían</h2>
+  <p class="nota">En la aplicación real, de aquí sale el PDF con folio y código QR, listo para imprimir y firmar.</p>
+  <ul class="docs" id="listaDocs"></ul>
+</section>
+
+</div>
+
+<div class="barra">
+  <div class="fila">
+    <button class="mic" id="btnMic" title="Dictar">🎙</button>
+    <div class="estado">
+      <div class="destino" id="destino">Sin destino — toca un bloque</div>
+      <div class="vivo" id="vivo">Listo</div>
+    </div>
+    <button class="sec" id="btnLimpiar">Limpiar bloque</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ---------- paciente ficticia (simula lo que llega de AltaPacientes) ---------- */
+var PACIENTE = {
+  nombre: "María Fernanda Aguilar Ríos",
+  expediente: "MS-2026-0417",
+  edad: 43,
+  sexo: "Femenino",
+  alergias: "Penicilina"
+};
+
+/* ---------- definición de bloques ---------- */
+var BLOQUES = [
+  { id:"ahf", panel:"interrogatorio", titulo:"Antecedentes heredofamiliares", obligatorio:true,
+    pistas:"diabetes · hipertensión · cáncer · trombosis · cardiopatías · tiroides",
+    claves:["mamá","papá","madre","padre","hermano","hermana","abuelo","abuela","familia","familiares","heredo","diabetes","hipertensión","cáncer","tiroides","trombosis","cardiopatía","coagulopatía"] },
+  { id:"app", panel:"interrogatorio", titulo:"Antecedentes personales patológicos", obligatorio:true,
+    pistas:"alergias · cirugías previas · anestesias · transfusiones · medicamentos actuales",
+    claves:["alergia","alérgica","alérgico","cirugía","operaron","operada","anestesia","transfusión","medicamento","tomo","padezco","hospitalizada","enfermedad","asma","gastritis"] },
+  { id:"apnp", panel:"interrogatorio", titulo:"Antecedentes personales no patológicos", obligatorio:true,
+    pistas:"tabaquismo · alcohol · ejercicio · alimentación",
+    claves:["fumo","fumar","cigarro","tabaco","alcohol","tomo","copas","ejercicio","gimnasio","corro","dieta","como","alimentación","agua"] },
+  { id:"ago", panel:"interrogatorio", titulo:"Antecedentes gineco-obstétricos", obligatorio:true,
+    pistas:"menarca · embarazos · cesáreas · anticonceptivos · lactancia",
+    claves:["regla","menstruación","menarca","embarazo","embarazada","parto","cesárea","aborto","lactancia","anticonceptivo","pastillas","dispositivo","papanicolaou","mastografía","menopausia"] },
+  { id:"padecimiento", panel:"interrogatorio", titulo:"Padecimiento actual", obligatorio:true,
+    pistas:"motivo · desde cuándo · evolución · qué se ha hecho antes",
+    claves:["vengo","quiero","me molesta","desde hace","empezó","noté","me hice","tratamiento","me pusieron","consulta","motivo"] },
+  { id:"aparatos", panel:"interrogatorio", titulo:"Interrogatorio por aparatos y sistemas", obligatorio:true,
+    pistas:"cardiovascular · respiratorio · digestivo · urinario · nervioso · piel",
+    claves:["corazón","pecho","respiro","respiración","tos","digestión","estómago","intestino","orina","urinario","cabeza","mareo","sueño","piel","vista","oído"] },
+
+  { id:"habitus", panel:"exploracion", titulo:"Habitus exterior", obligatorio:true, pistas:"aspecto general, marcha, orientación", claves:[] },
+  { id:"cabeza", panel:"exploracion", titulo:"Cabeza y cuello", obligatorio:true, pistas:"", claves:[] },
+  { id:"torax", panel:"exploracion", titulo:"Tórax", obligatorio:true, pistas:"", claves:[] },
+  { id:"mamas", panel:"exploracion", titulo:"Mamas", obligatorio:true, pistas:"", claves:[], lateral:true },
+  { id:"abdomen", panel:"exploracion", titulo:"Abdomen", obligatorio:true, pistas:"", claves:[] },
+  { id:"extremidades", panel:"exploracion", titulo:"Extremidades", obligatorio:true, pistas:"", claves:[], lateral:true },
+  { id:"regional", panel:"exploracion", titulo:"Exploración regional dirigida", obligatorio:false, pistas:"región del procedimiento solicitado", claves:[], lateral:true },
+
+  { id:"estudios", panel:"plan", titulo:"Resultados de laboratorio y gabinete", obligatorio:true, pistas:"", claves:[] },
+  { id:"diagnosticos", panel:"plan", titulo:"Diagnósticos o problemas clínicos", obligatorio:true, pistas:"", claves:[] },
+  { id:"pronostico", panel:"plan", titulo:"Pronóstico", obligatorio:true, pistas:"individual, nunca preimpreso", claves:[] },
+  { id:"plan_tx", panel:"plan", titulo:"Indicación terapéutica", obligatorio:true, pistas:"", claves:[] }
+];
+
+var VITALES = [
+  { id:"ta", et:"T/A", unidad:"", auto:false },
+  { id:"fc", et:"F.C.", unidad:"lpm", auto:false },
+  { id:"fr", et:"F.R.", unidad:"rpm", auto:false },
+  { id:"temp", et:"Temp.", unidad:"°C", auto:false },
+  { id:"sato2", et:"SatO₂", unidad:"%", auto:false },
+  { id:"peso", et:"Peso", unidad:"kg", auto:false },
+  { id:"talla", et:"Talla", unidad:"m", auto:false },
+  { id:"imc", et:"IMC", unidad:"", auto:true }
+];
+
+var DOCUMENTOS = [
+  ["Hoja frontal","Alta de paciente"],
+  ["Historia clínica","Alta + interrogatorio + exploración"],
+  ["Nota de evolución","Exploración + diagnóstico + plan"],
+  ["Escala de Caprini","Edad, IMC y antecedentes"],
+  ["Carta de consentimiento informado","Diagnóstico + procedimiento"],
+  ["Aviso de privacidad","Alta de paciente"],
+  ["Autorización de imagen","Alta de paciente"]
+];
+
+/* ---------- estado ---------- */
+var datos = {};
+var vitales = {};
+var lateralidad = {};
+var destinoActual = null;
+var escuchando = false;
+var pendientes = [];
+
+/* ---------- utilidades ---------- */
+function $(s){ return document.querySelector(s); }
+function crear(tag, cls, txt){
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt !== undefined) e.textContent = txt;
+  return e;
+}
+function normaliza(s){
+  return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+/* ---------- pintar paciente ---------- */
+$("#pacNombre").textContent = PACIENTE.nombre;
+$("#pacExp").textContent = PACIENTE.expediente;
+$("#pacEdad").textContent = PACIENTE.edad + " años";
+$("#pacSexo").textContent = PACIENTE.sexo;
+$("#pacAlergias").textContent = PACIENTE.alergias;
+
+/* ---------- construir bloques ---------- */
+function pintaBloques(panel, contenedor){
+  var cont = $(contenedor);
+  BLOQUES.filter(function(b){ return b.panel === panel; }).forEach(function(b){
+    var caja = crear("div", "bloque");
+    caja.id = "bloque-" + b.id;
+
+    var cab = crear("div", "cab");
+    cab.appendChild(crear("span", "punto"));
+    cab.appendChild(crear("span", "tit", b.titulo));
+    if (b.obligatorio) cab.appendChild(crear("span", "obl", "NOM"));
+    cab.addEventListener("click", function(){ seleccionar(b.id); });
+    caja.appendChild(cab);
+
+    var cuerpo = crear("div", "cuerpo");
+    var ta = document.createElement("textarea");
+    ta.id = "ta-" + b.id;
+    ta.setAttribute("aria-label", b.titulo);
+    ta.addEventListener("input", function(){ datos[b.id] = ta.value; refresca(); });
+    ta.addEventListener("focus", function(){ seleccionar(b.id); });
+    cuerpo.appendChild(ta);
+
+    if (b.lateral){
+      var lat = crear("p", "pistas");
+      ["Izquierda","Derecha","Bilateral"].forEach(function(op){
+        var btn = crear("button", "sec", op);
+        btn.style.marginRight = "6px";
+        btn.style.marginTop = "6px";
+        btn.addEventListener("click", function(){
+          lateralidad[b.id] = (lateralidad[b.id] === op) ? null : op;
+          refresca();
+        });
+        btn.dataset.lat = b.id + "|" + op;
+        lat.appendChild(btn);
+      });
+      cuerpo.appendChild(lat);
+    }
+    if (b.pistas) cuerpo.appendChild(crear("p", "pistas", b.pistas));
+    caja.appendChild(cuerpo);
+    cont.appendChild(caja);
+  });
+}
+pintaBloques("interrogatorio", "#bloquesInt");
+pintaBloques("exploracion", "#bloquesEf");
+pintaBloques("plan", "#bloquesPlan");
+
+/* ---------- signos vitales ---------- */
+(function(){
+  var g = $("#svGrid");
+  VITALES.forEach(function(v){
+    var caja = crear("div", "campo" + (v.auto ? " auto" : ""));
+    caja.id = "sv-" + v.id;
+    caja.appendChild(crear("label", null, v.et + (v.unidad ? " (" + v.unidad + ")" : "")));
+    var inp = document.createElement("input");
+    inp.id = "inp-" + v.id;
+    inp.setAttribute("inputmode", "decimal");
+    if (v.auto) inp.readOnly = true;
+    inp.addEventListener("input", function(){ vitales[v.id] = inp.value; calculaIMC(); refresca(); });
+    inp.addEventListener("focus", function(){ if (!v.auto) seleccionar("sv:" + v.id); });
+    caja.addEventListener("click", function(){ if (!v.auto) seleccionar("sv:" + v.id); });
+    caja.appendChild(inp);
+    g.appendChild(caja);
+  });
+})();
+
+function calculaIMC(){
+  var p = parseFloat(vitales.peso), t = parseFloat(vitales.talla);
+  var out = $("#inp-imc");
+  if (p > 0 && t > 0){
+    var m = t > 3 ? t / 100 : t;           // acepta 168 o 1.68
+    vitales.imc = (p / (m * m)).toFixed(1);
+    out.value = vitales.imc;
+  } else {
+    vitales.imc = ""; out.value = "";
+  }
+}
+
+/* ---------- selección de destino ---------- */
+function seleccionar(id){
+  destinoActual = id;
+  document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("sel"); });
+  document.querySelectorAll(".sv .campo").forEach(function(e){ e.classList.remove("sel"); });
+  var et = "Sin destino — toca un bloque";
+  if (id && id.indexOf("sv:") === 0){
+    var v = id.slice(3);
+    var caja = document.getElementById("sv-" + v);
+    if (caja) caja.classList.add("sel");
+    var def = VITALES.filter(function(x){ return x.id === v; })[0];
+    et = "Dictando a " + (def ? def.et : v);
+  } else if (id){
+    var c = document.getElementById("bloque-" + id);
+    if (c) c.classList.add("sel");
+    var b = BLOQUES.filter(function(x){ return x.id === id; })[0];
+    et = "Dictando a " + (b ? b.titulo : id);
+  }
+  $("#destino").textContent = et;
+}
+
+/* ---------- clasificación del interrogatorio ---------- */
+function clasifica(texto){
+  var t = normaliza(texto);
+  var mejor = null, puntos = 0;
+  BLOQUES.filter(function(b){ return b.panel === "interrogatorio"; }).forEach(function(b){
+    var p = 0;
+    b.claves.forEach(function(k){ if (t.indexOf(normaliza(k)) !== -1) p++; });
+    if (p > puntos){ puntos = p; mejor = b.id; }
+  });
+  return puntos > 0 ? mejor : null;
+}
+
+/* ---------- números dictados ---------- */
+var PALABRAS = {cero:0,uno:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,
+  once:11,doce:12,trece:13,catorce:14,quince:15,dieciseis:16,diecisiete:17,dieciocho:18,diecinueve:19,
+  veinte:20,treinta:30,cuarenta:40,cincuenta:50,sesenta:60,setenta:70,ochenta:80,noventa:90,cien:100,ciento:100};
+
+function limpiaFrase(t){
+  return normaliza(t)
+    .replace(/\bpor\s+ciento\b/g, " ")
+    .replace(/\bporciento\b/g, " ")
+    .replace(/\bgrados?\b/g, " ")
+    .replace(/\bkilos?\b/g, " ")
+    .replace(/\bmetros?\b/g, " ")
+    .replace(/\bcentimetros?\b/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function numeroSimple(frag){
+  var t = limpiaFrase(frag);
+  var m = t.match(/\d+([.,]\d+)?/);
+  if (m) return m[0].replace(",", ".");
+  var total = null;
+  t.split(/\s+/).forEach(function(w){
+    if (Object.prototype.hasOwnProperty.call(PALABRAS, w)){
+      total = (total === null ? 0 : total) + PALABRAS[w];
+    }
+  });
+  return total === null ? null : String(total);
+}
+
+function numeroDe(frag){
+  var t = limpiaFrase(frag);
+  var dec = t.split(/\s+punto\s+/);
+  if (dec.length === 2){
+    var ent = numeroSimple(dec[0]), fra = numeroSimple(dec[1]);
+    if (ent !== null && fra !== null) return ent + "." + fra;
+  }
+  return numeroSimple(t);
+}
+
+function extraeNumero(texto){
+  var t = limpiaFrase(texto);
+  var barra = t.match(/(\d+)\s*\/\s*(\d+)/);
+  if (barra) return barra[1] + "/" + barra[2];
+  var partes = t.split(/\s+sobre\s+/);
+  if (partes.length === 2){
+    var a = numeroDe(partes[0]), b = numeroDe(partes[1]);
+    if (a !== null && b !== null) return a + "/" + b;
+  }
+  return numeroDe(t);
+}
+
+function proponeNumero(campo, valor, crudo){
+  pendientes.push({ campo: campo, valor: valor, crudo: crudo });
+  pintaPendientes();
+}
+function pintaPendientes(){
+  var panel = $("#panelConf"), cont = $("#chips");
+  cont.innerHTML = "";
+  if (!pendientes.length){ panel.hidden = true; return; }
+  panel.hidden = false;
+  pendientes.forEach(function(p, i){
+    var def = VITALES.filter(function(x){ return x.id === p.campo; })[0];
+    var chip = crear("span", "chip");
+    chip.appendChild(crear("span", null, (def ? def.et : p.campo) + ": " + p.valor));
+    var si = crear("button", null, "Correcto");
+    si.addEventListener("click", function(){
+      vitales[p.campo] = p.valor;
+      var inp = document.getElementById("inp-" + p.campo);
+      if (inp) inp.value = p.valor;
+      pendientes.splice(i, 1);
+      calculaIMC(); pintaPendientes(); refresca();
+    });
+    var no = crear("button", "no", "Corregir");
+    no.addEventListener("click", function(){
+      pendientes.splice(i, 1);
+      pintaPendientes();
+      var inp = document.getElementById("inp-" + p.campo);
+      if (inp) inp.focus();
+    });
+    chip.appendChild(si); chip.appendChild(no);
+    cont.appendChild(chip);
+  });
+}
+
+/* ---------- recibir texto dictado ---------- */
+function recibe(texto){
+  texto = (texto || "").trim();
+  if (!texto) return;
+
+  if (destinoActual && destinoActual.indexOf("sv:") === 0){
+    var campo = destinoActual.slice(3);
+    var n = extraeNumero(texto);
+    if (n !== null) proponeNumero(campo, n, texto);
+    return;
+  }
+
+  var destino = destinoActual;
+  if (!destino && paginaActual() === "interrogatorio") destino = clasifica(texto);
+  if (!destino) return;
+
+  var ta = document.getElementById("ta-" + destino);
+  if (!ta) return;
+  ta.value = (ta.value ? ta.value + " " : "") + texto;
+  datos[destino] = ta.value;
+  var caja = document.getElementById("bloque-" + destino);
+  if (caja){
+    caja.scrollIntoView({ behavior: "smooth", block: "center" });
+    caja.classList.add("parcial");
+  }
+  refresca();
+}
+
+/* ---------- refrescar estado visual ---------- */
+function refresca(){
+  BLOQUES.forEach(function(b){
+    var caja = document.getElementById("bloque-" + b.id);
+    if (!caja) return;
+    var txt = (datos[b.id] || "").trim();
+    caja.classList.remove("hecho", "parcial");
+    if (txt.length >= 25) caja.classList.add("hecho");
+    else if (txt.length > 0) caja.classList.add("parcial");
+    if (b.lateral){
+      caja.querySelectorAll("[data-lat]").forEach(function(btn){
+        var partes = btn.dataset.lat.split("|");
+        var activo = lateralidad[partes[0]] === partes[1];
+        btn.style.background = activo ? "#030707" : "#fff";
+        btn.style.color = activo ? "#F4F2F1" : "#030707";
+      });
+    }
+  });
+  pintaRevision();
+}
+
+function pintaRevision(){
+  var ul = $("#listaFaltan");
+  ul.innerHTML = "";
+  var faltan = 0;
+
+  BLOQUES.filter(function(b){ return b.obligatorio; }).forEach(function(b){
+    var lleno = ((datos[b.id] || "").trim().length >= 25);
+    var li = crear("li", lleno ? "ok" : "", (lleno ? "✓ " : "· ") + b.titulo);
+    if (!lleno) faltan++;
+    ul.appendChild(li);
+  });
+  ["ta","fc","fr","temp","peso","talla"].forEach(function(v){
+    var def = VITALES.filter(function(x){ return x.id === v; })[0];
+    var lleno = !!(vitales[v] && String(vitales[v]).trim());
+    var li = crear("li", lleno ? "ok" : "", (lleno ? "✓ " : "· ") + "Signo vital: " + def.et);
+    if (!lleno) faltan++;
+    ul.appendChild(li);
+  });
+
+  var enc = crear("li", faltan ? "" : "ok",
+    faltan ? ("Faltan " + faltan + " datos obligatorios") : "No falta ningún dato obligatorio");
+  enc.style.fontWeight = "500";
+  enc.style.marginBottom = "10px";
+  ul.insertBefore(enc, ul.firstChild);
+
+  var ld = $("#listaDocs");
+  ld.innerHTML = "";
+  DOCUMENTOS.forEach(function(d){
+    var li = document.createElement("li");
+    li.appendChild(crear("span", null, d[0]));
+    li.appendChild(crear("span", "fuente", d[1]));
+    ld.appendChild(li);
+  });
+}
+
+/* ---------- pestañas ---------- */
+function paginaActual(){
+  var b = document.querySelector('nav button[aria-selected="true"]');
+  return b ? b.dataset.p : "interrogatorio";
+}
+document.querySelectorAll("nav button").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    document.querySelectorAll("nav button").forEach(function(o){ o.setAttribute("aria-selected", "false"); });
+    btn.setAttribute("aria-selected", "true");
+    ["interrogatorio","exploracion","plan","revision"].forEach(function(p){
+      document.getElementById(p).hidden = (p !== btn.dataset.p);
+    });
+    seleccionar(null);
+  });
+});
+
+$("#btnLimpiar").addEventListener("click", function(){
+  if (!destinoActual) return;
+  if (destinoActual.indexOf("sv:") === 0){
+    var v = destinoActual.slice(3);
+    vitales[v] = "";
+    var inp = document.getElementById("inp-" + v);
+    if (inp) inp.value = "";
+    calculaIMC();
+  } else {
+    datos[destinoActual] = "";
+    var ta = document.getElementById("ta-" + destinoActual);
+    if (ta) ta.value = "";
+  }
+  refresca();
+});
+
+/* ---------- reconocimiento de voz ---------- */
+var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+var rec = null, quiereEscuchar = false;
+
+if (!Rec){
+  $("#noSoporta").hidden = false;
+  $("#btnMic").disabled = true;
+  $("#vivo").textContent = "Dictado no disponible en este navegador";
+} else {
+  rec = new Rec();
+  rec.lang = "es-MX";
+  rec.continuous = true;
+  rec.interimResults = true;
+
+  rec.onresult = function(ev){
+    var interino = "";
+    for (var i = ev.resultIndex; i < ev.results.length; i++){
+      var r = ev.results[i];
+      if (r.isFinal) recibe(r[0].transcript);
+      else interino += r[0].transcript;
+    }
+    if (interino) $("#vivo").textContent = interino;
+  };
+  rec.onerror = function(ev){
+    if (ev.error === "not-allowed" || ev.error === "service-not-allowed"){
+      $("#vivo").textContent = "Permiso de micrófono denegado";
+      quiereEscuchar = false; pinta();
+    } else if (ev.error === "no-speech"){
+      $("#vivo").textContent = "No escuché nada";
+    }
+  };
+  rec.onend = function(){
+    if (quiereEscuchar){ try { rec.start(); } catch(e){ /* reinicio en curso */ } }
+    else { escuchando = false; pinta(); }
+  };
+}
+
+function pinta(){
+  var b = $("#btnMic");
+  if (quiereEscuchar){ b.classList.add("on"); b.textContent = "■"; }
+  else { b.classList.remove("on"); b.textContent = "🎙"; $("#vivo").textContent = "Listo"; }
+}
+
+$("#btnMic").addEventListener("click", function(){
+  if (!rec) return;
+  quiereEscuchar = !quiereEscuchar;
+  if (quiereEscuchar){
+    try { rec.start(); escuchando = true; $("#vivo").textContent = "Escuchando…"; }
+    catch(e){ /* ya estaba corriendo */ }
+    mantenDespierta();
+  } else {
+    try { rec.stop(); } catch(e){ /* nada */ }
+    soltarPantalla();
+  }
+  pinta();
+});
+
+/* ---------- mantener la pantalla despierta ---------- */
+var candado = null;
+function mantenDespierta(){
+  if (!("wakeLock" in navigator)) return;
+  navigator.wakeLock.request("screen").then(function(c){ candado = c; }).catch(function(){ /* no disponible */ });
+}
+function soltarPantalla(){
+  if (candado){ candado.release().catch(function(){}); candado = null; }
+}
+document.addEventListener("visibilitychange", function(){
+  if (document.visibilityState === "visible" && quiereEscuchar) mantenDespierta();
+});
+
+refresca();
+</script>
+</body>
+</html>
