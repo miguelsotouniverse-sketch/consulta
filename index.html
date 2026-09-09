@@ -489,6 +489,7 @@ var tBuffer = null;
 var ritmo = 0;            /* 0 = manual: nunca avanza solo, tú pulsas Siguiente */
 var CLAVE = "consulta-ms-v2";
 var bitacora = [];        /* cada decisión de enrutamiento, para poder diagnosticar */
+var sinAncla = false;     /* quitaPregunta no halló ninguna palabra de la pregunta */
 
 /* ---------- utilidades ---------- */
 function $(s){ return document.querySelector(s); }
@@ -578,6 +579,7 @@ function quitaPregunta(txt, kw, textoPregunta){
   }
 
   var corte = (cerro >= 0) ? cerro : ultima;
+  sinAncla = (corte < 0);
   if (corte < 0) return texto(t);          /* no se oyó la pregunta: todo es respuesta */
 
   var r = t.slice(corte + 1);
@@ -1026,6 +1028,10 @@ function irABloque(bid){
 }
 
 function avanza(){
+  var qA = preg();
+  if (qA) bitacora.push({ oido: "(avance)", de: qA.id,
+                          a: (GUION[iActual + 1] || {}).id || "fin",
+                          guion: "-", motivo: "avanza" });
   var q = preg();
   /* La ventana de corrección solo aplica en modo automático. En manual pegaba
      fragmentos sueltos al final de la respuesta anterior. */
@@ -1288,6 +1294,18 @@ function recibe(texto){
       limpio = texto.trim();
     } else {
       limpio = quitaPregunta(texto, kwBloque(q), q.p);
+    }
+    /* Si no se halló ninguna palabra de la pregunta —el reconocimiento la
+       transcribió mal— el respaldo devolvía el enunciado completo y tu pregunta
+       terminaba escrita como si fuera la respuesta. Nunca. Se recorta por forma
+       y, si no queda respuesta, no se escribe nada. */
+    if (sinAncla && (iq >= 0 || esPregunta(texto) || abrePregunta)){
+      var recortado = recorteTrasPregunta(texto);
+      if (recortado !== limpio){
+        bitacora.push({ oido: texto, de: q.id, a: q.id, guion: "-",
+                        motivo: "sin ancla: se descarta la pregunta mal transcrita" });
+      }
+      limpio = recortado;
     }
     if (!limpio){
       $("#vivo").textContent = iq >= 0
