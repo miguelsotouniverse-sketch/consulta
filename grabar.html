@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grabar consulta — Dr. Miguel Soto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --negro:#030707; --taupe:#A19487; --crema:#F4F2F1;
+  --linea:#DED9D4; --gris:#8C867F; --verde:#4C7A5A; --rojo:#9B3B33;
+  --sans:'Jost',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);background:var(--crema);color:var(--negro);font-size:15px;line-height:1.55}
+.wrap{max-width:620px;margin:0 auto;padding:26px 18px 60px}
+h1{font-family:var(--serif);font-size:30px;font-weight:600;margin:0 0 4px}
+.sub{font-size:12px;letter-spacing:.7px;text-transform:uppercase;color:var(--taupe);margin-bottom:22px}
+
+.campo{margin-bottom:16px}
+.campo label{display:block;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--gris);margin-bottom:5px}
+.campo input{width:100%;border:1px solid var(--linea);border-radius:3px;padding:11px 12px;
+  font-family:var(--sans);font-size:16px;background:#fff;color:var(--negro)}
+.campo input:focus{outline:none;border-color:var(--taupe)}
+
+.panel{background:#fff;border:1px solid var(--linea);border-radius:4px;padding:22px;text-align:center;margin-bottom:16px}
+.reloj{font-family:var(--serif);font-size:52px;font-weight:600;letter-spacing:1px;line-height:1}
+.estado{font-size:12.5px;color:var(--gris);margin-top:6px;min-height:18px}
+.nivel{height:4px;background:var(--linea);border-radius:2px;margin:16px 0 4px;overflow:hidden}
+.nivel i{display:block;height:100%;width:0;background:var(--verde);transition:width .08s}
+
+.bot{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+button{font-family:var(--sans);font-size:15px;border-radius:3px;padding:14px 26px;cursor:pointer;border:1px solid var(--negro)}
+.p{background:var(--negro);color:var(--crema)}
+.s{background:#fff;color:var(--negro)}
+button[disabled]{opacity:.35;cursor:default}
+.rec .p{background:var(--rojo);border-color:var(--rojo);animation:lat 1.6s ease-in-out infinite}
+@keyframes lat{0%,100%{box-shadow:0 0 0 0 rgba(155,59,51,.4)}50%{box-shadow:0 0 0 12px rgba(155,59,51,0)}}
+
+.listo{background:#fff;border:1px solid var(--verde);border-left:3px solid var(--verde);
+  border-radius:4px;padding:16px 18px;margin-bottom:16px}
+.listo b{display:block;font-size:15px;margin-bottom:6px}
+.listo a{display:inline-block;margin-top:10px;background:var(--negro);color:var(--crema);
+  text-decoration:none;border-radius:3px;padding:12px 20px;font-size:14px}
+.meta{font-size:12.5px;color:var(--gris)}
+
+.nota{background:#fff;border:1px solid var(--linea);border-left:3px solid var(--taupe);
+  border-radius:3px;padding:13px 15px;font-size:13px;color:var(--gris);margin-bottom:16px}
+.nota b{color:var(--negro);font-weight:500}
+.aviso{background:#fff;border:1px solid var(--rojo);color:var(--rojo);border-radius:3px;
+  padding:12px 14px;font-size:13.5px;margin-bottom:16px}
+ol{padding-left:20px;font-size:13.5px;color:var(--gris)}
+ol li{margin-bottom:7px}
+ol b{color:var(--negro);font-weight:500}
+h2{font-family:var(--serif);font-size:20px;font-weight:600;margin:28px 0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Grabar consulta</h1>
+<div class="sub">Dr. Miguel Ángel Soto Miranda · Prueba de transcripción</div>
+
+<div class="nota">
+  <b>El audio no sale de este dispositivo.</b> Se graba en memoria y solo se guarda cuando tú
+  pulsas Descargar. Esta página no envía nada a ningún servidor.
+</div>
+
+<div id="aviso" class="aviso" hidden></div>
+
+<div class="campo">
+  <label for="folio">Folio o nombre para el archivo</label>
+  <input id="folio" placeholder="MS-2026-0417" autocomplete="off">
+</div>
+
+<div class="panel" id="panel">
+  <div class="reloj" id="reloj">00:00</div>
+  <div class="estado" id="estado">Listo para grabar</div>
+  <div class="nivel"><i id="nivel"></i></div>
+  <div class="bot">
+    <button class="p" id="bGrabar">Grabar</button>
+    <button class="s" id="bPausa" disabled>Pausa</button>
+    <button class="s" id="bParar" disabled>Terminar</button>
+  </div>
+</div>
+
+<div id="resultado"></div>
+
+<h2>Qué sigue</h2>
+<ol>
+  <li>Graba una consulta completa, hablando <b>normal</b>: tú preguntas, la paciente contesta, sin cuidar el ritmo.</li>
+  <li>Pulsa <b>Terminar</b> y luego <b>Descargar</b>. En iPad se guarda en Archivos.</li>
+  <li>Pásame el archivo. Lo transcribo con vocabulario médico y separación de hablantes, y te devuelvo el expediente estructurado.</li>
+  <li>Si sale firmable, montamos la arquitectura definitiva. Si no, lo sabremos antes de invertir en ella.</li>
+</ol>
+
+</div>
+
+<script>
+"use strict";
+function $(s){ return document.querySelector(s); }
+
+var medios = null, grabadora = null, trozos = [], t0 = 0, acumulado = 0, cron = null;
+var audioCtx = null, analizador = null, animando = null, blobFinal = null, urlFinal = null;
+
+function dos(n){ return (n < 10 ? "0" : "") + n; }
+function pintaReloj(){
+  var ms = acumulado + (t0 ? Date.now() - t0 : 0);
+  var s = Math.floor(ms / 1000);
+  $("#reloj").textContent = dos(Math.floor(s / 60)) + ":" + dos(s % 60);
+}
+
+/* el navegador decide el formato; se prefiere uno que Whisper lea sin convertir */
+function tipoSoportado(){
+  var opciones = ["audio/webm;codecs=opus","audio/webm","audio/mp4","audio/aac","audio/ogg;codecs=opus"];
+  for (var i = 0; i < opciones.length; i++){
+    if (window.MediaRecorder && MediaRecorder.isTypeSupported(opciones[i])) return opciones[i];
+  }
+  return "";
+}
+function extensionDe(tipo){
+  if (tipo.indexOf("webm") !== -1) return "webm";
+  if (tipo.indexOf("mp4") !== -1 || tipo.indexOf("aac") !== -1) return "m4a";
+  if (tipo.indexOf("ogg") !== -1) return "ogg";
+  return "audio";
+}
+
+function medidor(stream){
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var fuente = audioCtx.createMediaStreamSource(stream);
+    analizador = audioCtx.createAnalyser();
+    analizador.fftSize = 512;
+    fuente.connect(analizador);
+    var datos = new Uint8Array(analizador.frequencyBinCount);
+    (function bucle(){
+      animando = requestAnimationFrame(bucle);
+      analizador.getByteTimeDomainData(datos);
+      var pico = 0;
+      for (var i = 0; i < datos.length; i++){
+        var v = Math.abs(datos[i] - 128) / 128;
+        if (v > pico) pico = v;
+      }
+      $("#nivel").style.width = Math.min(100, Math.round(pico * 220)) + "%";
+    })();
+  } catch(e){ /* sin medidor, la grabación sigue */ }
+}
+
+async function arranca(){
+  if (!navigator.mediaDevices || !window.MediaRecorder){
+    $("#aviso").hidden = false;
+    $("#aviso").textContent = "Este navegador no puede grabar audio. Usa Safari o Chrome sobre https.";
+    return;
+  }
+  try {
+    medios = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+    });
+  } catch(e){
+    $("#aviso").hidden = false;
+    $("#aviso").textContent = "No se pudo abrir el micrófono (" + e.name + "). Revisa el permiso del navegador.";
+    return;
+  }
+
+  var tipo = tipoSoportado();
+  trozos = [];
+  grabadora = tipo ? new MediaRecorder(medios, { mimeType: tipo }) : new MediaRecorder(medios);
+  grabadora.ondataavailable = function(ev){ if (ev.data && ev.data.size) trozos.push(ev.data); };
+  grabadora.onstop = function(){ cierra(grabadora.mimeType || tipo); };
+  grabadora.start(1000);
+
+  medidor(medios);
+  mantenDespierta();
+  acumulado = 0; t0 = Date.now();
+  cron = setInterval(pintaReloj, 250);
+  $("#panel").classList.add("rec");
+  $("#bGrabar").disabled = true;
+  $("#bPausa").disabled = false;
+  $("#bParar").disabled = false;
+  $("#estado").textContent = "Grabando — habla normal con la paciente";
+  $("#resultado").innerHTML = "";
+}
+
+function pausa(){
+  if (!grabadora) return;
+  if (grabadora.state === "recording"){
+    grabadora.pause();
+    acumulado += Date.now() - t0; t0 = 0;
+    $("#bPausa").textContent = "Continuar";
+    $("#estado").textContent = "En pausa";
+    $("#panel").classList.remove("rec");
+  } else if (grabadora.state === "paused"){
+    grabadora.resume();
+    t0 = Date.now();
+    $("#bPausa").textContent = "Pausa";
+    $("#estado").textContent = "Grabando — habla normal con la paciente";
+    $("#panel").classList.add("rec");
+  }
+}
+
+function para(){
+  if (grabadora && grabadora.state !== "inactive") grabadora.stop();
+}
+
+function cierra(tipo){
+  clearInterval(cron); cron = null;
+  if (t0){ acumulado += Date.now() - t0; t0 = 0; }
+  pintaReloj();
+  if (animando) cancelAnimationFrame(animando);
+  if (audioCtx) audioCtx.close().catch(function(){});
+  if (medios) medios.getTracks().forEach(function(p){ p.stop(); });
+  soltarPantalla();
+  $("#nivel").style.width = "0";
+  $("#panel").classList.remove("rec");
+  $("#bGrabar").disabled = false;
+  $("#bPausa").disabled = true; $("#bPausa").textContent = "Pausa";
+  $("#bParar").disabled = true;
+  $("#estado").textContent = "Grabación terminada";
+
+  blobFinal = new Blob(trozos, { type: tipo });
+  if (urlFinal) URL.revokeObjectURL(urlFinal);
+  urlFinal = URL.createObjectURL(blobFinal);
+
+  var folio = ($("#folio").value || "consulta").trim().replace(/[^0-9A-Za-zÁÉÍÓÚÜÑáéíóúüñ_-]+/g, "_");
+  var f = new Date();
+  var nombre = folio + "_" + f.getFullYear() + dos(f.getMonth()+1) + dos(f.getDate()) + "_" +
+               dos(f.getHours()) + dos(f.getMinutes()) + "." + extensionDe(tipo);
+  var mb = (blobFinal.size / 1048576).toFixed(1);
+
+  var caja = document.createElement("div");
+  caja.className = "listo";
+  var b = document.createElement("b");
+  b.textContent = "Grabación lista";
+  var meta = document.createElement("div");
+  meta.className = "meta";
+  meta.textContent = nombre + " · " + mb + " MB · " + $("#reloj").textContent + " · " + tipo;
+  var a = document.createElement("a");
+  a.href = urlFinal; a.download = nombre; a.textContent = "Descargar";
+  var audio = document.createElement("audio");
+  audio.controls = true; audio.src = urlFinal;
+  audio.style.width = "100%"; audio.style.marginTop = "12px";
+  caja.appendChild(b); caja.appendChild(meta); caja.appendChild(a); caja.appendChild(audio);
+  $("#resultado").innerHTML = "";
+  $("#resultado").appendChild(caja);
+}
+
+var candado = null;
+function mantenDespierta(){
+  if (!("wakeLock" in navigator)) return;
+  navigator.wakeLock.request("screen").then(function(c){ candado = c; }).catch(function(){});
+}
+function soltarPantalla(){
+  if (candado){ candado.release().catch(function(){}); candado = null; }
+}
+document.addEventListener("visibilitychange", function(){
+  if (document.visibilityState === "visible" && grabadora && grabadora.state === "recording") mantenDespierta();
+});
+
+$("#bGrabar").addEventListener("click", arranca);
+$("#bPausa").addEventListener("click", pausa);
+$("#bParar").addEventListener("click", para);
+window.addEventListener("beforeunload", function(e){
+  if (grabadora && grabadora.state !== "inactive"){ e.preventDefault(); e.returnValue = ""; }
+});
+</script>
+</body>
+</html>
