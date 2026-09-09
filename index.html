@@ -1226,42 +1226,35 @@ function recibe(texto){
     }
 
     if (!q){ $("#vivo").textContent = "Interrogatorio completo"; return; }
+
+    /* ---- 1. ¿Viene una pregunta del guion? El puntero se va ahí ----
+       Se consulta SIEMPRE, sin importar si el enunciado suena a pregunta o a
+       respuesta: el navegador entrega las dos pegadas muy seguido, y en ese
+       caso la señal de cambio de tema es la pregunta, no el tono del bloque. */
+    var iq = cualPregunta(texto);
+    if (iq >= 0 && iq !== iActual){
+      if (buffer) cierraSinAvanzar();      /* lo acumulado es de la anterior */
+      irA(iq);
+      q = preg();
+    }
+
+    /* ---- 2. Quitar tu pregunta y conservar lo que ella contestó ----
+       Se pega en crudo solo si es continuación pura: sin pregunta del guion y
+       sin forma de pregunta. NUNCA se descarta el enunciado completo, porque
+       la respuesta suele venir pegada a la pregunta en el mismo resultado. */
     var limpio;
-    if (buffer){
-      /* La pregunta ya se oyó en el primer trozo. De aquí en adelante todo es
-         respuesta: no se le vuelve a quitar nada, o se comería sus palabras. */
+    if (buffer && iq < 0 && !esPregunta(texto)){
       limpio = texto.trim();
     } else {
       limpio = quitaPregunta(texto, kwBloque(q), q.p);
-      if (!limpio){ $("#vivo").textContent = "Pregunta detectada — esperando la respuesta…"; return; }
     }
-    /* ---- Tu pregunta manda ----
-       Si lo que se oyó es una pregunta tuya, nunca se escribe. Si además coincide
-       con una del guion, el puntero se va ahí: no hay que pulsar nada para avanzar.
-       Si es una repregunta improvisada, se descarta y se sigue en la misma. */
-    if (esPregunta(texto)){
-      var iq = cualPregunta(texto);
-      if (iq >= 0 && iq !== iActual){
-        if (buffer) cierraSinAvanzar();
-        irA(iq);
-        q = preg();
-      }
-      /* NUNCA se descarta el enunciado completo: el navegador suele devolver
-         la pregunta y la respuesta pegadas. Se quita la pregunta y lo que
-         quede —si queda algo— es respuesta y se conserva. */
-      var resto = quitaPregunta(texto, kwBloque(q), q.p);
-      if (!resto){
-        $("#vivo").textContent = iq >= 0
-          ? "Pregunta reconocida — escuchando la respuesta…"
-          : "Pregunta tuya — no se escribe";
-        return;
-      }
-      buffer = buffer ? (buffer + " " + resto) : resto;
-      pintaBuffer();
+    if (!limpio){
+      $("#vivo").textContent = iq >= 0
+        ? "Pregunta reconocida — escuchando la respuesta…"
+        : "Pregunta tuya — no se escribe";
       return;
     }
-    /* No se compromete en la primera pausa: se acumula y se espera el silencio
-       completo, para que una respiración a media frase no parta la respuesta. */
+
     buffer = buffer ? (buffer + " " + limpio) : limpio;
     pintaBuffer();
     clearTimeout(tBuffer); tBuffer = null;
