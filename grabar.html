@@ -57,6 +57,17 @@ ol{padding-left:20px;font-size:13.5px;color:var(--gris)}
 ol li{margin-bottom:7px}
 ol b{color:var(--negro);font-weight:500}
 h2{font-family:var(--serif);font-size:20px;font-weight:600;margin:28px 0 8px}
+.guion{background:#fff;border:1px solid var(--linea);border-radius:4px;padding:4px 18px 18px;margin-top:8px}
+.guion h3{font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:var(--taupe);
+  margin:18px 0 8px;padding-top:12px;border-top:1px solid var(--linea)}
+.guion h3:first-of-type{border-top:0;padding-top:0;margin-top:12px}
+.guion ol{padding-left:22px;margin:0}
+.guion li{margin-bottom:9px;font-size:15px;color:var(--negro);line-height:1.45}
+.guion li.test{font-weight:500}
+.guion li.test::marker{color:var(--rojo)}
+.guion .m{display:inline-block;background:var(--rojo);color:#fff;font-size:9.5px;letter-spacing:.5px;
+  text-transform:uppercase;border-radius:2px;padding:1px 5px;margin-left:7px;vertical-align:1px}
+.leyenda{font-size:12.5px;color:var(--gris);margin:4px 0 0}
 </style>
 </head>
 <body>
@@ -97,6 +108,56 @@ h2{font-family:var(--serif);font-size:20px;font-weight:600;margin:28px 0 8px}
   <li>Pásame el archivo. Lo transcribo con vocabulario médico y separación de hablantes, y te devuelvo el expediente estructurado.</li>
   <li>Si sale firmable, montamos la arquitectura definitiva. Si no, lo sabremos antes de invertir en ella.</li>
 </ol>
+
+<h2>Historia clínica — las 27 preguntas</h2>
+<p class="leyenda">Las marcadas <b>PRUEBA</b> son las nueve que necesito para este audio: cada una carga un término que hoy se transcribe mal. Puedes leerlas en el orden que quieras — el desorden es parte de lo que probamos.</p>
+<div class="guion">
+  <h3>Antecedentes heredofamiliares</h3>
+  <ol>
+    <li>¿Hay diabetes, hipertensión, cardiopatías o problemas de tiroides en su familia?</li>
+    <li>¿Alguien de su familia ha tenido cáncer, trombosis o problemas de coagulación?</li>
+  </ol>
+  <h3>Antecedentes personales patológicos</h3>
+  <ol>
+    <li class="test">¿Es alérgica a algún medicamento, alimento o material? ¿Qué le pasa cuando lo toma?<span class="m">prueba</span></li>
+    <li class="test">¿La han operado alguna vez? ¿De qué y hace cuánto?<span class="m">prueba</span></li>
+    <li>¿Ha tenido algún problema con la anestesia, usted o alguien de su familia?</li>
+    <li class="test">¿Le han transfundido sangre alguna vez?<span class="m">prueba</span></li>
+    <li class="test">¿Toma algún medicamento, suplemento o producto herbolario de forma regular?<span class="m">prueba</span></li>
+    <li>¿Padece alguna enfermedad crónica o ha estado hospitalizada?</li>
+  </ol>
+  <h3>Antecedentes personales no patológicos</h3>
+  <ol>
+    <li class="test">¿Fuma? ¿Cuántos cigarros al día y desde cuándo?<span class="m">prueba</span></li>
+    <li class="test">¿Toma alcohol? ¿Con qué frecuencia?<span class="m">prueba</span></li>
+    <li>¿Hace ejercicio? ¿Cuál y cuántas veces por semana?</li>
+    <li>¿Cómo es su alimentación y cuánta agua toma al día?</li>
+  </ol>
+  <h3>Antecedentes gineco-obstétricos</h3>
+  <ol>
+    <li>¿A qué edad le bajó por primera vez y cómo son sus reglas ahora?</li>
+    <li>¿Cuántos embarazos, partos o cesáreas ha tenido?</li>
+    <li>¿Usa algún método anticonceptivo?</li>
+    <li>¿Está lactando o cuándo terminó de lactar?</li>
+    <li class="test">¿Cuándo fue su último Papanicolaou y su última mastografía o ultrasonido de mama?<span class="m">prueba</span></li>
+  </ol>
+  <h3>Padecimiento actual</h3>
+  <ol>
+    <li class="test">¿Qué la trae a consulta?<span class="m">prueba</span></li>
+    <li>¿Desde cuándo lo nota?</li>
+    <li class="test">¿Se ha hecho algo antes por esto: cirugías, inyecciones, aparatos, tratamientos?<span class="m">prueba</span></li>
+    <li>¿Qué espera lograr?</li>
+  </ol>
+  <h3>Interrogatorio por aparatos y sistemas</h3>
+  <ol>
+    <li>Cardiovascular: ¿dolor de pecho, palpitaciones, se le hinchan los pies?</li>
+    <li>Respiratorio: ¿tos, falta de aire, ronca o se ahoga al dormir?</li>
+    <li>Digestivo: ¿acidez, estreñimiento, dolor abdominal?</li>
+    <li>Urinario: ¿ardor al orinar, se le escapa la orina?</li>
+    <li>Nervioso: ¿dolor de cabeza, mareo, cómo duerme?</li>
+    <li>Piel: ¿cicatriza bien, ha hecho queloide, tiene manchas o lesiones?</li>
+  </ol>
+</div>
 
 </div>
 
