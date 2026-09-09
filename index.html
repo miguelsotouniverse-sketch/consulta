@@ -17,9 +17,8 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{font-family:var(--sans);background:var(--crema);color:var(--negro);font-size:15px;line-height:1.5}
-.wrap{max-width:1100px;margin:0 auto;padding:0 16px 140px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px 150px}
 
-/* encabezado del paciente */
 header{position:sticky;top:0;z-index:20;background:var(--crema);border-bottom:1px solid var(--linea);
   padding:12px 0 10px;margin-bottom:14px}
 .pac{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
@@ -28,31 +27,55 @@ header{position:sticky;top:0;z-index:20;background:var(--crema);border-bottom:1p
 .meta b{color:var(--negro);font-weight:500}
 .origen{font-size:11px;color:var(--taupe);letter-spacing:.6px;text-transform:uppercase;margin-top:4px}
 
-/* pestañas */
 nav{display:flex;gap:2px;margin:14px 0 18px;border-bottom:1px solid var(--linea);overflow-x:auto}
 nav button{flex:0 0 auto;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;
   font-family:var(--sans);font-size:13.5px;color:var(--gris);cursor:pointer;letter-spacing:.3px;white-space:nowrap}
 nav button[aria-selected="true"]{color:var(--negro);border-bottom-color:var(--negro);font-weight:500}
 section[hidden]{display:none}
 
-/* bloques */
+/* ---------- tarjeta de pregunta ---------- */
+.guia{background:var(--negro);color:var(--crema);border-radius:4px;padding:16px 18px 14px;margin-bottom:14px}
+.guia .arriba{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.guia .bl{font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--taupe)}
+.guia .cnt{font-size:11px;letter-spacing:.5px;color:var(--taupe);white-space:nowrap}
+.guia .preg{font-family:var(--serif);font-size:25px;line-height:1.25;font-weight:600;margin:0 0 10px}
+.guia .prev{font-size:12.5px;color:#B9B2AA;border-left:2px solid var(--taupe);padding-left:9px;margin-bottom:12px}
+.guia .prev b{color:var(--crema);font-weight:400}
+.guia .pre{font-size:12px;color:#C9C2BA;background:rgba(255,255,255,.07);border-radius:2px;padding:6px 9px;margin-bottom:10px}
+.guia .acc{display:flex;flex-wrap:wrap;gap:7px}
+.guia .acc button{border:1px solid rgba(244,242,241,.35);background:transparent;color:var(--crema);
+  border-radius:3px;padding:8px 13px;font-family:var(--sans);font-size:13px;cursor:pointer}
+.guia .acc button.p{background:var(--crema);color:var(--negro);border-color:var(--crema);font-weight:500}
+.guia .acc button:active{transform:scale(.97)}
+.barraprog{height:3px;background:rgba(255,255,255,.15);border-radius:2px;margin-top:13px;overflow:hidden}
+.barraprog i{display:block;height:100%;background:var(--taupe);transition:width .3s}
+
+.modo{display:flex;gap:6px;margin-bottom:12px}
+.modo button{border:1px solid var(--linea);background:#fff;color:var(--gris);border-radius:3px;
+  padding:6px 12px;font-family:var(--sans);font-size:12.5px;cursor:pointer}
+.modo button[aria-pressed="true"]{background:var(--negro);color:var(--crema);border-color:var(--negro)}
+
+/* ---------- bloques ---------- */
 .bloque{background:#fff;border:1px solid var(--linea);border-radius:3px;margin-bottom:10px;overflow:hidden}
 .bloque > .cab{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;user-select:none}
 .bloque.sel{border-color:var(--negro);box-shadow:0 0 0 1px var(--negro)}
+.bloque.activo{border-color:var(--taupe);box-shadow:0 0 0 1px var(--taupe)}
 .punto{width:9px;height:9px;border-radius:50%;background:var(--linea);flex:0 0 auto}
 .bloque.hecho .punto{background:var(--verde)}
 .bloque.parcial .punto{background:var(--ambar)}
 .cab .tit{font-size:14px;font-weight:500;flex:1}
 .cab .obl{font-size:10px;letter-spacing:.6px;color:var(--taupe);text-transform:uppercase}
+.cab .cta{font-size:11px;color:var(--gris);letter-spacing:.3px}
 .cuerpo{padding:0 12px 12px}
 .cuerpo textarea{width:100%;min-height:64px;border:1px solid var(--linea);border-radius:2px;padding:8px;
-  font-family:var(--sans);font-size:14px;line-height:1.5;resize:vertical;background:#FCFBFA;color:var(--negro)}
+  font-family:var(--sans);font-size:14px;line-height:1.55;resize:vertical;background:#FCFBFA;color:var(--negro)}
 .cuerpo textarea:focus{outline:none;border-color:var(--taupe);background:#fff}
 .pistas{font-size:11.5px;color:var(--gris);margin:6px 0 0}
+.editado{font-size:11px;color:var(--ambar);margin:5px 0 0}
 
-/* signos vitales */
+/* ---------- signos vitales ---------- */
 .sv{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
-.sv .campo{background:#fff;border:1px solid var(--linea);border-radius:3px;padding:8px}
+.sv .campo{background:#fff;border:1px solid var(--linea);border-radius:3px;padding:8px;cursor:pointer}
 .sv .campo.sel{border-color:var(--negro);box-shadow:0 0 0 1px var(--negro)}
 .sv label{display:block;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--gris);margin-bottom:3px}
 .sv input{width:100%;border:0;border-bottom:1px solid var(--linea);font-family:var(--sans);font-size:19px;
@@ -60,8 +83,7 @@ section[hidden]{display:none}
 .sv input:focus{outline:none;border-bottom-color:var(--negro)}
 .sv .campo.auto{background:#F7F5F3}
 
-/* confirmación de números */
-.confirmar{background:#FFF8E1;border:1px solid #E8D9A0;border-radius:3px;padding:10px 12px;margin-bottom:10px}
+.confirmar{background:#FFF8E1;border:1px solid #E8D9A0;border-radius:3px;padding:10px 12px;margin:10px 0}
 .confirmar h3{margin:0 0 6px;font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--ambar)}
 .chip{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #E8D9A0;border-radius:2px;
   padding:5px 8px;margin:3px 4px 3px 0;font-size:13px}
@@ -69,7 +91,6 @@ section[hidden]{display:none}
   font-family:var(--sans);cursor:pointer}
 .chip button.no{background:#fff;color:var(--gris);border:1px solid var(--linea)}
 
-/* revisión */
 .faltan li{margin-bottom:5px;font-size:14px}
 .faltan li.ok{color:var(--gris)}
 .docs{list-style:none;padding:0;margin:8px 0 0}
@@ -78,7 +99,6 @@ section[hidden]{display:none}
 h2{font-family:var(--serif);font-size:22px;font-weight:600;margin:22px 0 10px}
 p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
 
-/* barra de micrófono */
 .barra{position:fixed;left:0;right:0;bottom:0;background:rgba(244,242,241,.97);border-top:1px solid var(--linea);
   padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:30;
   backdrop-filter:saturate(180%) blur(8px)}
@@ -91,12 +111,14 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
 .estado{flex:1;min-width:0}
 .estado .destino{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--taupe)}
 .estado .vivo{font-size:13.5px;color:var(--gris);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.estado .vent{font-size:11px;color:var(--ambar)}
 .barra .sec{border:1px solid var(--linea);background:#fff;border-radius:2px;padding:8px 12px;font-family:var(--sans);
   font-size:12.5px;cursor:pointer;color:var(--negro)}
 .aviso{background:#fff;border:1px solid var(--rojo);color:var(--rojo);border-radius:3px;padding:10px 12px;
   font-size:13px;margin:10px 0}
-.demo{background:var(--negro);color:var(--crema);border-radius:3px;padding:10px 14px;font-size:12.5px;margin-bottom:14px}
-.demo b{color:#fff}
+.demo{background:#fff;border:1px solid var(--linea);border-left:3px solid var(--taupe);
+  border-radius:3px;padding:10px 14px;font-size:12.5px;margin-bottom:14px;color:var(--gris)}
+.demo b{color:var(--negro);font-weight:500}
 </style>
 </head>
 <body>
@@ -131,9 +153,36 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
 </nav>
 
 <section id="interrogatorio">
-  <h2>Interrogatorio</h2>
-  <p class="nota">Habla normal con la paciente. El punto de cada bloque se pone en verde cuando ya quedó cubierto.
-    Si algo se va al bloque equivocado, toca el bloque correcto y sigue hablando: lo que dictes se va ahí.</p>
+
+  <div class="modo">
+    <button id="mGuiado" aria-pressed="true">Modo guiado</button>
+    <button id="mLibre" aria-pressed="false">Modo libre</button>
+  </div>
+
+  <div class="guia" id="tarjeta">
+    <div class="arriba">
+      <span class="bl" id="gBloque">—</span>
+      <span class="cnt" id="gCuenta">—</span>
+    </div>
+    <p class="preg" id="gPregunta">—</p>
+    <div class="pre" id="gPrecarga" hidden></div>
+    <div class="prev" id="gPrevia">Si contesta que no, se escribe: <b id="gNeg">—</b></div>
+    <div class="acc">
+      <button class="p" id="bNiega">Niega</button>
+      <button id="bSiguiente">Siguiente →</button>
+      <button id="bAtras">← Anterior</button>
+      <button id="bBorra">Borrar respuesta</button>
+      <button id="bOmite">No aplica</button>
+    </div>
+    <div class="barraprog"><i id="gProg" style="width:0%"></i></div>
+  </div>
+
+  <p class="nota" id="notaModo">
+    Tú haces la pregunta en voz alta; el sistema borra tu pregunta de la transcripción y escribe
+    solo la respuesta, ya redactada. Avanza solo. Puedes decir <b>siguiente</b>, <b>anterior</b>,
+    <b>repite</b>, <b>borra</b> o <b>no aplica</b> sin tocar nada.
+  </p>
+
   <div id="bloquesInt"></div>
 </section>
 
@@ -168,10 +217,11 @@ p.nota{font-size:12.5px;color:var(--gris);margin:6px 0 16px}
 
 <div class="barra">
   <div class="fila">
-    <button class="mic" id="btnMic" title="Dictar">🎙</button>
+    <button class="mic" id="btnMic" title="Dictar">&#127908;</button>
     <div class="estado">
-      <div class="destino" id="destino">Sin destino — toca un bloque</div>
+      <div class="destino" id="destino">Toca el micrófono para empezar</div>
       <div class="vivo" id="vivo">Listo</div>
+      <div class="vent" id="ventana" hidden></div>
     </div>
     <button class="sec" id="btnLimpiar">Limpiar bloque</button>
   </div>
@@ -189,26 +239,26 @@ var PACIENTE = {
   alergias: "Penicilina"
 };
 
-/* ---------- definición de bloques ---------- */
+/* ---------- bloques ---------- */
 var BLOQUES = [
   { id:"ahf", panel:"interrogatorio", titulo:"Antecedentes heredofamiliares", obligatorio:true,
     pistas:"diabetes · hipertensión · cáncer · trombosis · cardiopatías · tiroides",
-    claves:["mamá","papá","madre","padre","hermano","hermana","abuelo","abuela","familia","familiares","heredo","diabetes","hipertensión","cáncer","tiroides","trombosis","cardiopatía","coagulopatía"] },
+    claves:["mama","papa","madre","padre","hermano","hermana","abuelo","abuela","familia","familiares","heredo","diabetes","hipertension","cancer","tiroides","trombosis","cardiopatia","coagulopatia"] },
   { id:"app", panel:"interrogatorio", titulo:"Antecedentes personales patológicos", obligatorio:true,
     pistas:"alergias · cirugías previas · anestesias · transfusiones · medicamentos actuales",
-    claves:["alergia","alérgica","alérgico","cirugía","operaron","operada","anestesia","transfusión","medicamento","tomo","padezco","hospitalizada","enfermedad","asma","gastritis"] },
+    claves:["alergia","alergica","alergico","cirugia","operaron","operada","anestesia","transfusion","medicamento","padezco","hospitalizada","asma","gastritis"] },
   { id:"apnp", panel:"interrogatorio", titulo:"Antecedentes personales no patológicos", obligatorio:true,
     pistas:"tabaquismo · alcohol · ejercicio · alimentación",
-    claves:["fumo","fumar","cigarro","tabaco","alcohol","tomo","copas","ejercicio","gimnasio","corro","dieta","como","alimentación","agua"] },
+    claves:["fumo","fumar","cigarro","tabaco","alcohol","copas","ejercicio","gimnasio","corro","dieta","alimentacion","agua"] },
   { id:"ago", panel:"interrogatorio", titulo:"Antecedentes gineco-obstétricos", obligatorio:true,
     pistas:"menarca · embarazos · cesáreas · anticonceptivos · lactancia",
-    claves:["regla","menstruación","menarca","embarazo","embarazada","parto","cesárea","aborto","lactancia","anticonceptivo","pastillas","dispositivo","papanicolaou","mastografía","menopausia"] },
+    claves:["regla","menstruacion","menarca","embarazo","parto","cesarea","aborto","lactancia","anticonceptivo","dispositivo","papanicolaou","mastografia","menopausia"] },
   { id:"padecimiento", panel:"interrogatorio", titulo:"Padecimiento actual", obligatorio:true,
     pistas:"motivo · desde cuándo · evolución · qué se ha hecho antes",
-    claves:["vengo","quiero","me molesta","desde hace","empezó","noté","me hice","tratamiento","me pusieron","consulta","motivo"] },
+    claves:["vengo","quiero","molesta","desde hace","empezo","note","tratamiento","pusieron","motivo","gustaria"] },
   { id:"aparatos", panel:"interrogatorio", titulo:"Interrogatorio por aparatos y sistemas", obligatorio:true,
     pistas:"cardiovascular · respiratorio · digestivo · urinario · nervioso · piel",
-    claves:["corazón","pecho","respiro","respiración","tos","digestión","estómago","intestino","orina","urinario","cabeza","mareo","sueño","piel","vista","oído"] },
+    claves:["corazon","pecho","respiro","respiracion","tos","digestion","estomago","intestino","orina","urinario","cabeza","mareo","sueno","piel","vista","oido"] },
 
   { id:"habitus", panel:"exploracion", titulo:"Habitus exterior", obligatorio:true, pistas:"aspecto general, marcha, orientación", claves:[] },
   { id:"cabeza", panel:"exploracion", titulo:"Cabeza y cuello", obligatorio:true, pistas:"", claves:[] },
@@ -222,6 +272,150 @@ var BLOQUES = [
   { id:"diagnosticos", panel:"plan", titulo:"Diagnósticos o problemas clínicos", obligatorio:true, pistas:"", claves:[] },
   { id:"pronostico", panel:"plan", titulo:"Pronóstico", obligatorio:true, pistas:"individual, nunca preimpreso", claves:[] },
   { id:"plan_tx", panel:"plan", titulo:"Indicación terapéutica", obligatorio:true, pistas:"", claves:[] }
+];
+
+/* ---------- guion del interrogatorio ---------- */
+var GUION = [
+{ id:"ahf1", bloque:"ahf", tipo:"cerrada",
+  p:"¿Hay diabetes, hipertensión, cardiopatías o problemas de tiroides en su familia?",
+  kw:["diabetes","hipertension","presion","cardiopatias","cardiopatia","corazon","tiroides","familia","familiares","mama","papa","padres","hermanos"],
+  neg:"Interrogados y negados diabetes, hipertensión, cardiopatías y tiroides en familiares directos.",
+  pos:"Antecedentes familiares: {r}." },
+{ id:"ahf2", bloque:"ahf", tipo:"cerrada",
+  p:"¿Alguien de su familia ha tenido cáncer, trombosis o problemas de coagulación?",
+  kw:["cancer","trombosis","coagulacion","coagulo","coagulos","embolia","familia","familiares","tumor"],
+  neg:"Niega cáncer, trombosis y trastornos de la coagulación en la familia.",
+  pos:"Antecedentes familiares oncológicos o trombóticos: {r}." },
+
+{ id:"app1", bloque:"app", tipo:"cerrada", precarga:"alergias",
+  p:"¿Es alérgica a algún medicamento, alimento o material?",
+  kw:["alergica","alergico","alergia","alergias","medicamento","medicamentos","alimento","alimentos","material","latex","yodo"],
+  neg:"Sin alergias adicionales a las registradas en el alta.",
+  pos:"Alergias referidas: {r}." },
+{ id:"app2", bloque:"app", tipo:"cerrada",
+  p:"¿La han operado alguna vez? ¿De qué y hace cuánto?",
+  kw:["operado","operada","operaron","cirugia","cirugias","operacion","operaciones","quirurgico","intervencion"],
+  neg:"Niega cirugías previas.",
+  pos:"Cirugías previas: {r}." },
+{ id:"app3", bloque:"app", tipo:"cerrada",
+  p:"¿Ha tenido algún problema con la anestesia, usted o alguien de su familia?",
+  kw:["anestesia","anestesias","anestesico","anestesica","problema","reaccion","despertar"],
+  neg:"Niega complicaciones anestésicas personales y familiares.",
+  pos:"Antecedente anestésico: {r}." },
+{ id:"app4", bloque:"app", tipo:"cerrada",
+  p:"¿Le han transfundido sangre alguna vez?",
+  kw:["transfundido","transfusion","transfusiones","sangre","hemoderivados","paquete","globular","puesto","pusieron"],
+  neg:"Niega transfusiones.",
+  pos:"Transfusiones: {r}." },
+{ id:"app5", bloque:"app", tipo:"cerrada",
+  p:"¿Toma algún medicamento, suplemento o producto herbolario de forma regular?",
+  kw:["toma","medicamento","medicamentos","suplemento","suplementos","herbolario","vitaminas","pastillas","tratamiento","regular","diario"],
+  neg:"Niega uso de medicamentos, suplementos y herbolarios.",
+  pos:"Medicación actual: {r}." },
+{ id:"app6", bloque:"app", tipo:"cerrada",
+  p:"¿Padece alguna enfermedad crónica o ha estado hospitalizada?",
+  kw:["padece","enfermedad","enfermedades","cronica","cronicas","hospitalizada","hospitalizado","hospital","internada","diagnostico"],
+  neg:"Niega enfermedades crónico-degenerativas y hospitalizaciones previas.",
+  pos:"Padecimientos crónicos u hospitalizaciones: {r}." },
+
+{ id:"apnp1", bloque:"apnp", tipo:"cerrada",
+  p:"¿Fuma? ¿Cuántos cigarros al día y desde cuándo?",
+  kw:["fuma","fumas","fumar","cigarro","cigarros","tabaco","tabaquismo","vapeador","vapea","cajetilla","dia","desde"],
+  neg:"Tabaquismo negado.",
+  pos:"Tabaquismo: {r}." },
+{ id:"apnp2", bloque:"apnp", tipo:"cerrada",
+  p:"¿Toma alcohol? ¿Con qué frecuencia?",
+  kw:["alcohol","toma","bebe","copas","cerveza","vino","frecuencia","social","fin","semana"],
+  neg:"Alcoholismo negado.",
+  pos:"Consumo de alcohol: {r}." },
+{ id:"apnp3", bloque:"apnp", tipo:"cerrada",
+  p:"¿Hace ejercicio? ¿Cuál y cuántas veces por semana?",
+  kw:["ejercicio","deporte","gimnasio","corre","camina","entrena","veces","semana","actividad","fisica"],
+  neg:"Sedentaria. Niega actividad física regular.",
+  pos:"Actividad física: {r}." },
+{ id:"apnp4", bloque:"apnp", tipo:"cerrada",
+  p:"¿Cómo es su alimentación y cuánta agua toma al día?",
+  kw:["alimentacion","alimenta","come","dieta","agua","litros","vasos","dia","calidad","cantidad"],
+  neg:"Alimentación referida como habitual, sin restricciones.",
+  pos:"Alimentación e hidratación: {r}." },
+
+{ id:"ago1", bloque:"ago", tipo:"cerrada", soloFemenino:true,
+  p:"¿A qué edad le bajó por primera vez y cómo son sus reglas ahora?",
+  kw:["edad","bajo","primera","vez","menarca","regla","reglas","menstruacion","periodo","ciclo","ahora","regulares"],
+  neg:"Menarca y ciclos menstruales no precisados por la paciente.",
+  pos:"Menarca y ciclos: {r}." },
+{ id:"ago2", bloque:"ago", tipo:"cerrada", soloFemenino:true,
+  p:"¿Cuántos embarazos, partos o cesáreas ha tenido?",
+  kw:["embarazos","embarazo","partos","parto","cesareas","cesarea","abortos","aborto","gestas","hijos","tenido"],
+  neg:"Gesta 0. Niega embarazos previos.",
+  pos:"Antecedentes obstétricos: {r}." },
+{ id:"ago3", bloque:"ago", tipo:"cerrada", soloFemenino:true,
+  p:"¿Usa algún método anticonceptivo?",
+  kw:["metodo","anticonceptivo","anticonceptivos","pastillas","dispositivo","diu","implante","inyeccion","parche","planificacion"],
+  neg:"Niega uso de método anticonceptivo.",
+  pos:"Método anticonceptivo: {r}." },
+{ id:"ago4", bloque:"ago", tipo:"cerrada", soloFemenino:true,
+  p:"¿Está lactando o cuándo terminó de lactar?",
+  kw:["lactando","lactancia","lactar","amamantando","amamanta","seno","pecho","termino","cuando"],
+  neg:"Niega lactancia actual o reciente.",
+  pos:"Lactancia: {r}." },
+{ id:"ago5", bloque:"ago", tipo:"cerrada", soloFemenino:true,
+  p:"¿Cuándo fue su último Papanicolaou y su última mastografía o ultrasonido de mama?",
+  kw:["ultimo","ultima","papanicolaou","papanicolau","mastografia","mamografia","ultrasonido","mama","mamas","estudio","cuando"],
+  neg:"Sin tamizaje ginecológico ni mamario documentado.",
+  pos:"Tamizaje: {r}." },
+
+{ id:"pa1", bloque:"padecimiento", tipo:"abierta",
+  p:"¿Qué la trae a consulta?",
+  kw:["que","trae","consulta","motivo","viene","platiqueme","cuenteme","digame"],
+  neg:"No refiere motivo específico de consulta.",
+  pos:"Motivo de consulta: {r}." },
+{ id:"pa2", bloque:"padecimiento", tipo:"abierta",
+  p:"¿Desde cuándo lo nota?",
+  kw:["desde","cuando","nota","noto","empezo","comenzo","tiempo","hace"],
+  neg:"Evolución no precisada.",
+  pos:"Evolución: {r}." },
+{ id:"pa3", bloque:"padecimiento", tipo:"abierta",
+  p:"¿Se ha hecho algo antes por esto: cirugías, inyecciones, aparatos, tratamientos?",
+  kw:["hecho","antes","esto","cirugias","inyecciones","aparatos","tratamientos","tratamiento","rellenos","botox","laser","previo","previos"],
+  neg:"Niega tratamientos previos dirigidos al padecimiento actual.",
+  pos:"Tratamientos previos: {r}." },
+{ id:"pa4", bloque:"padecimiento", tipo:"abierta",
+  p:"¿Qué espera lograr?",
+  kw:["que","espera","lograr","expectativa","expectativas","gustaria","quiere","resultado","busca"],
+  neg:"Expectativa no expresada.",
+  pos:"Expectativa expresada por la paciente: {r}." },
+
+{ id:"ap1", bloque:"aparatos", tipo:"cerrada",
+  p:"Cardiovascular: ¿dolor de pecho, palpitaciones, se le hinchan los pies?",
+  kw:["cardiovascular","dolor","pecho","palpitaciones","hinchan","hinchazon","pies","piernas","cansancio","esfuerzo"],
+  neg:"Cardiovascular: sin alteraciones.",
+  pos:"Cardiovascular: {r}." },
+{ id:"ap2", bloque:"aparatos", tipo:"cerrada",
+  p:"Respiratorio: ¿tos, falta de aire, ronca o se ahoga al dormir?",
+  kw:["respiratorio","tos","falta","aire","ronca","ronquido","ahoga","dormir","asma","apnea","respira"],
+  neg:"Respiratorio: sin alteraciones.",
+  pos:"Respiratorio: {r}." },
+{ id:"ap3", bloque:"aparatos", tipo:"cerrada",
+  p:"Digestivo: ¿acidez, estreñimiento, dolor abdominal?",
+  kw:["digestivo","acidez","reflujo","estrenimiento","dolor","abdominal","estomago","gastritis","colitis","intestino","evacuaciones"],
+  neg:"Digestivo: sin alteraciones.",
+  pos:"Digestivo: {r}." },
+{ id:"ap4", bloque:"aparatos", tipo:"cerrada",
+  p:"Urinario: ¿ardor al orinar, se le escapa la orina?",
+  kw:["urinario","ardor","orinar","orina","escapa","incontinencia","infecciones","vias","urinarias","rinon","rinones"],
+  neg:"Urinario: sin alteraciones.",
+  pos:"Urinario: {r}." },
+{ id:"ap5", bloque:"aparatos", tipo:"cerrada",
+  p:"Nervioso: ¿dolor de cabeza, mareo, cómo duerme?",
+  kw:["nervioso","dolor","cabeza","migrana","mareo","mareos","duerme","sueno","insomnio","convulsiones","desmayo"],
+  neg:"Sistema nervioso: sin alteraciones. Sueño referido como reparador.",
+  pos:"Sistema nervioso: {r}." },
+{ id:"ap6", bloque:"aparatos", tipo:"cerrada",
+  p:"Piel: ¿cicatriza bien, ha hecho queloide, tiene manchas o lesiones?",
+  kw:["piel","cicatriza","cicatriz","cicatrices","queloide","queloides","hipertrofica","manchas","lesiones","lunares","sol"],
+  neg:"Piel y anexos: cicatrización referida como normal. Niega queloides.",
+  pos:"Piel y anexos: {r}." }
 ];
 
 var VITALES = [
@@ -249,9 +443,15 @@ var DOCUMENTOS = [
 var datos = {};
 var vitales = {};
 var lateralidad = {};
+var respuestas = {};
+var editado = {};
 var destinoActual = null;
-var escuchando = false;
 var pendientes = [];
+var modoGuiado = true;
+var iActual = 0;
+var ventanaHasta = 0;
+var ventanaId = null;
+var temporizador = null;
 
 /* ---------- utilidades ---------- */
 function $(s){ return document.querySelector(s); }
@@ -264,6 +464,137 @@ function crear(tag, cls, txt){
 function normaliza(s){
   return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
+function tokens(s){
+  return normaliza(s).replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(Boolean);
+}
+/* separa en palabras conservando la forma original (acentos, mayúsculas)
+   junto a su forma normalizada, para poder analizar sin destruir el texto */
+function palabras(s){
+  var out = [];
+  (s || "").split(/\s+/).forEach(function(w){
+    var lim = w.replace(/^[^0-9A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+/, "").replace(/[^0-9A-Za-zÁÉÍÓÚÜÑáéíóúüñ]+$/, "");
+    if (lim) out.push({ o: lim, n: normaliza(lim) });
+  });
+  return out;
+}
+function texto(arr){ return arr.map(function(x){ return x.o; }).join(" "); }
+
+/* ---------- vocabulario de respuestas ---------- */
+var NEG = ["no","nop","nel","ninguno","ninguna","ningun","nada","nunca","jamas","negativo","niego",
+  "tampoco","cero","negativos","negativas","normal","normales","todo","perfecto","perfectamente","sana","sano"];
+var POS = ["si","asi","correcto","claro","aja","ajam","exacto","efectivamente","afirmativo","obvio","siempre"];
+var DUDA = ["no se","no recuerdo","no me acuerdo","no estoy segura","no estoy seguro","no sabria",
+  "quien sabe","no tengo idea","no sabria decir"];
+var TRASSI = ["que","pues","bueno","este","eh","mira","fijese","o","sea","ah","mmm","mire"];
+/* palabras que suelen ABRIR una respuesta: nunca se descartan */
+var NOARRANQUE = ["me","mi","mis","yo","nos","nuestra","nuestro","conmigo","desde","hace","solo","solamente",
+  "casi","como","poco","mucho","muy","dos","tres","cuatro","cinco","seis","siete","ocho","nueve","diez","una","uno"];
+var RELLENO = ["tiene","tienes","tuvo","ha","has","han","habia","tenido","usted","ustedes","algun","alguna",
+  "alguno","algunos","algunas","algo","de","del","la","el","lo","los","las","un","unos","unas","o","u",
+  "y","e","en","es","son","era","que","cual","cuales","cuando","cuanto","cuanta","cuantos","cuantas",
+  "se","le","les","me","nos","su","sus","por","para","a","al","hay","favor","porfavor","oiga","mire",
+  "digame","cuenteme","platiqueme","dice","padece","padeces","padecido","sufre","toma","tomas","fuma","fumas",
+  "hace","haces","usa","usas","esta","estas","este","esto","eso","esa","ese","esos","esas","estado","estuvo",
+  "vez","veces","previa","previas","previo","previos","actualmente","ahora","antes","tambien","pues","eh","mmm",
+  "ok","okay","problema","problemas","antecedente","antecedentes","enfermedad","enfermedades","siguiente",
+  "ademas","acaso","aparte","bien","hecho","puesto","pusieron","notado","sentido","presentado","con","dia","dias",
+  "fue","fueron","alguien","como","suele","suelen","acostumbra","seria","sera","mismo","misma"];
+
+function esUno(lista, t){ return lista.indexOf(t) !== -1; }
+
+/* Quita de la transcripción TU pregunta y deja solo la respuesta.
+   Dos señales, en este orden:
+   1. Si se oyeron TODAS las palabras con contenido de la pregunta, la pregunta
+      terminó ahí: se corta aunque la respuesta repita esas mismas palabras
+      ("¿se le hinchan los pies?" → "se me hinchan los pies" se conserva entera).
+   2. Si no, se corta después de la última palabra reconocible de la pregunta. */
+function contenidoPregunta(p){
+  var out = [], visto = {};
+  palabras(p).forEach(function(x){
+    if (esUno(RELLENO, x.n) || esUno(NEG, x.n) || esUno(POS, x.n)) return;
+    if (!visto[x.n]){ visto[x.n] = true; out.push(x.n); }
+  });
+  return out;
+}
+
+function quitaPregunta(txt, kw, textoPregunta){
+  var t = palabras(txt);
+  var claves = (kw || []).map(normaliza);
+  var contenido = textoPregunta ? contenidoPregunta(textoPregunta) : [];
+  var porOir = {}, faltan = 0;
+  contenido.forEach(function(w){ porOir[w] = true; faltan++; });
+
+  var i = 0, ultima = -1, cerro = -1;
+  while (i < t.length){
+    var w = t[i].n;
+    if (esUno(NEG, w) || esUno(POS, w)) break;
+    var esPregunta = false;
+    if (porOir[w]){ porOir[w] = false; faltan--; esPregunta = true; }
+    if (esUno(claves, w)) esPregunta = true;
+    if (esPregunta){
+      ultima = i; i++;
+      if (faltan === 0 && contenido.length >= 2){ cerro = i - 1; break; }
+      continue;
+    }
+    if (esUno(RELLENO, w)) { i++; continue; }
+    break;
+  }
+
+  var corte = (cerro >= 0) ? cerro : ultima;
+  if (corte < 0) return texto(t);          /* no se oyó la pregunta: todo es respuesta */
+
+  var r = t.slice(corte + 1);
+  var INTERROG = ["cuanto","cuanta","cuantos","cuantas","cuando","tiempo","que"];
+  var j = 0;
+  while (j < r.length){
+    var w2 = r[j].n;
+    if (esUno(NEG, w2) || esUno(POS, w2)) break;
+    /* "hace cuánto", "desde cuándo" son cola de TU pregunta, no arranque de respuesta */
+    if ((w2 === "hace" || w2 === "desde") && j + 1 < r.length && esUno(INTERROG, r[j+1].n)) { j += 2; continue; }
+    if (esUno(NOARRANQUE, w2)) break;
+    if (esUno(RELLENO, w2)) { j++; continue; }
+    /* una palabra de la pregunta que quedó colgando solo se tira si enseguida viene el sí o el no */
+    if (esUno(claves, w2)){
+      var cerca = false;
+      for (var k = j + 1; k < Math.min(j + 3, r.length); k++){
+        if (esUno(NEG, r[k].n) || esUno(POS, r[k].n)) cerca = true;
+      }
+      if (cerca) { j++; continue; }
+      break;
+    }
+    if (esUno(RELLENO, w2)) { j++; continue; }
+    break;
+  }
+  return texto(r.slice(j));
+}
+
+function soloNegacion(limpio){
+  var t = palabras(limpio);
+  if (!t.length) return false;
+  var negs = 0, pos = 0, otras = 0;
+  for (var i = 0; i < t.length; i++){
+    if (esUno(NEG, t[i].n)) { negs++; continue; }
+    if (esUno(POS, t[i].n)) { pos++; continue; }
+    if (esUno(RELLENO, t[i].n)) continue;
+    otras++;
+  }
+  if (pos) return false;
+  if (negs && !otras) return true;
+  /* "no, nunca he fumado": arranca negando y refuerza la negación */
+  if (negs >= 2 && esUno(NEG, t[0].n) && t.length <= 6) return true;
+  return false;
+}
+function esDuda(limpio){
+  var n = normaliza(limpio);
+  for (var i = 0; i < DUDA.length; i++){ if (n.indexOf(DUDA[i]) === 0) return true; }
+  return false;
+}
+function quitaAfirmacionInicial(limpio){
+  var t = palabras(limpio), i = 0;
+  while (i < t.length && (esUno(POS, t[i].n) || esUno(TRASSI, t[i].n))) i++;
+  return texto(t.slice(i));
+}
+function cap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
 /* ---------- pintar paciente ---------- */
 $("#pacNombre").textContent = PACIENTE.nombre;
@@ -271,6 +602,9 @@ $("#pacExp").textContent = PACIENTE.expediente;
 $("#pacEdad").textContent = PACIENTE.edad + " años";
 $("#pacSexo").textContent = PACIENTE.sexo;
 $("#pacAlergias").textContent = PACIENTE.alergias;
+
+/* el guion se ajusta al sexo que viene del alta */
+GUION = GUION.filter(function(q){ return !q.soloFemenino || PACIENTE.sexo === "Femenino"; });
 
 /* ---------- construir bloques ---------- */
 function pintaBloques(panel, contenedor){
@@ -282,17 +616,35 @@ function pintaBloques(panel, contenedor){
     var cab = crear("div", "cab");
     cab.appendChild(crear("span", "punto"));
     cab.appendChild(crear("span", "tit", b.titulo));
+    if (panel === "interrogatorio"){
+      var n = GUION.filter(function(q){ return q.bloque === b.id; }).length;
+      if (n) cab.appendChild(crear("span", "cta", n + " preguntas"));
+    }
     if (b.obligatorio) cab.appendChild(crear("span", "obl", "NOM"));
-    cab.addEventListener("click", function(){ seleccionar(b.id); });
+    cab.addEventListener("click", function(){
+      if (modoGuiado && panel === "interrogatorio") irABloque(b.id);
+      else seleccionar(b.id);
+    });
     caja.appendChild(cab);
 
     var cuerpo = crear("div", "cuerpo");
     var ta = document.createElement("textarea");
     ta.id = "ta-" + b.id;
     ta.setAttribute("aria-label", b.titulo);
-    ta.addEventListener("input", function(){ datos[b.id] = ta.value; refresca(); });
-    ta.addEventListener("focus", function(){ seleccionar(b.id); });
+    ta.addEventListener("input", function(){
+      datos[b.id] = ta.value;
+      if (panel === "interrogatorio") { editado[b.id] = true; marcaEditado(b.id); }
+      refresca();
+    });
+    ta.addEventListener("focus", function(){ if (!modoGuiado || panel !== "interrogatorio") seleccionar(b.id); });
     cuerpo.appendChild(ta);
+
+    if (panel === "interrogatorio"){
+      var av = crear("p", "editado", "Editado a mano — el dictado ya no reescribe este bloque.");
+      av.id = "ed-" + b.id;
+      av.hidden = true;
+      cuerpo.appendChild(av);
+    }
 
     if (b.lateral){
       var lat = crear("p", "pistas");
@@ -318,6 +670,11 @@ pintaBloques("interrogatorio", "#bloquesInt");
 pintaBloques("exploracion", "#bloquesEf");
 pintaBloques("plan", "#bloquesPlan");
 
+function marcaEditado(bid){
+  var e = document.getElementById("ed-" + bid);
+  if (e) e.hidden = !editado[bid];
+}
+
 /* ---------- signos vitales ---------- */
 (function(){
   var g = $("#svGrid");
@@ -341,7 +698,7 @@ function calculaIMC(){
   var p = parseFloat(vitales.peso), t = parseFloat(vitales.talla);
   var out = $("#inp-imc");
   if (p > 0 && t > 0){
-    var m = t > 3 ? t / 100 : t;           // acepta 168 o 1.68
+    var m = t > 3 ? t / 100 : t;
     vitales.imc = (p / (m * m)).toFixed(1);
     out.value = vitales.imc;
   } else {
@@ -349,7 +706,7 @@ function calculaIMC(){
   }
 }
 
-/* ---------- selección de destino ---------- */
+/* ---------- selección de destino (modo libre y exploración) ---------- */
 function seleccionar(id){
   destinoActual = id;
   document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("sel"); });
@@ -367,10 +724,162 @@ function seleccionar(id){
     var b = BLOQUES.filter(function(x){ return x.id === id; })[0];
     et = "Dictando a " + (b ? b.titulo : id);
   }
-  $("#destino").textContent = et;
+  if (!modoGuiado || paginaActual() !== "interrogatorio") $("#destino").textContent = et;
 }
 
-/* ---------- clasificación del interrogatorio ---------- */
+/* ---------- motor del guion ---------- */
+function preg(){ return GUION[iActual]; }
+
+/* vocabulario de todas las preguntas del bloque: sueles encadenarlas en un solo aliento */
+function kwBloque(q){
+  var k = [];
+  GUION.forEach(function(x){ if (x.bloque === q.bloque) k = k.concat(x.kw); });
+  return k;
+}
+
+function tituloBloque(bid){
+  var b = BLOQUES.filter(function(x){ return x.id === bid; })[0];
+  return b ? b.titulo : bid;
+}
+
+function pintaTarjeta(){
+  var q = preg();
+  if (!q){
+    $("#gBloque").textContent = "Interrogatorio completo";
+    $("#gCuenta").textContent = GUION.length + " de " + GUION.length;
+    $("#gPregunta").textContent = "Terminaste el interrogatorio.";
+    $("#gPrevia").hidden = true;
+    $("#gPrecarga").hidden = true;
+    $("#gProg").style.width = "100%";
+    $("#destino").textContent = "Interrogatorio completo";
+    document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); });
+    return;
+  }
+  $("#gBloque").textContent = tituloBloque(q.bloque);
+  $("#gCuenta").textContent = (iActual + 1) + " de " + GUION.length;
+  $("#gPregunta").textContent = q.p;
+  $("#gPrevia").hidden = false;
+  $("#gNeg").textContent = q.neg;
+
+  var pre = $("#gPrecarga");
+  if (q.precarga === "alergias" && PACIENTE.alergias){
+    pre.hidden = false;
+    pre.textContent = "Ya registrado en el alta: " + PACIENTE.alergias + ". Solo confirma o agrega lo que falte.";
+  } else {
+    pre.hidden = true;
+  }
+
+  var hechas = 0;
+  GUION.forEach(function(x){ if (respuestas[x.id]) hechas++; });
+  $("#gProg").style.width = Math.round(hechas / GUION.length * 100) + "%";
+
+  document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); });
+  var caja = document.getElementById("bloque-" + q.bloque);
+  if (caja) caja.classList.add("activo");
+  $("#destino").textContent = tituloBloque(q.bloque) + " · pregunta " + (iActual + 1);
+}
+
+function irA(i){
+  if (i < 0) i = 0;
+  if (i > GUION.length) i = GUION.length;
+  iActual = i;
+  ventanaHasta = 0;
+  $("#ventana").hidden = true;
+  pintaTarjeta();
+  var q = preg();
+  if (q){
+    var caja = document.getElementById("bloque-" + q.bloque);
+    if (caja) caja.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  }
+}
+
+function irABloque(bid){
+  for (var i = 0; i < GUION.length; i++){
+    if (GUION[i].bloque === bid){ irA(i); return; }
+  }
+}
+
+function avanza(){
+  var q = preg();
+  if (q){ ventanaId = q.id; ventanaHasta = Date.now() + 7000; }
+  iActual = Math.min(iActual + 1, GUION.length);
+  pintaTarjeta();
+  if (ventanaHasta){
+    $("#ventana").hidden = false;
+    $("#ventana").textContent = "Lo que diga ahora todavía se agrega a la respuesta anterior (7 s)";
+    clearTimeout(temporizador);
+    temporizador = setTimeout(function(){ ventanaHasta = 0; $("#ventana").hidden = true; }, 7000);
+  }
+  var nq = preg();
+  if (nq){
+    var caja = document.getElementById("bloque-" + nq.bloque);
+    if (caja) caja.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  }
+}
+
+function guarda(qid, texto, estado){
+  respuestas[qid] = { texto: texto, estado: estado };
+  reconstruye();
+}
+
+function anota(q, limpio){
+  if (esDuda(limpio)) return guarda(q.id, "Refiere no recordar este dato.", "duda");
+  if (soloNegacion(limpio)) return guarda(q.id, q.neg, "neg");
+  var detalle = quitaAfirmacionInicial(limpio);
+  if (!detalle) return guarda(q.id, "Responde afirmativamente; falta detallar.", "incompleta");
+  guarda(q.id, q.pos.replace("{r}", detalle), "pos");
+}
+
+function reconstruye(){
+  BLOQUES.filter(function(b){ return b.panel === "interrogatorio"; }).forEach(function(b){
+    if (editado[b.id]) return;
+    var partes = [];
+    GUION.forEach(function(q){
+      if (q.bloque !== b.id) return;
+      var r = respuestas[q.id];
+      if (r && r.texto) partes.push(r.texto);
+    });
+    var txt = partes.join(" ");
+    var ta = document.getElementById("ta-" + b.id);
+    if (ta) ta.value = txt;
+    datos[b.id] = txt;
+  });
+  refresca();
+  pintaTarjeta();
+}
+
+/* ---------- comandos de voz ---------- */
+function comando(texto){
+  var t = tokens(texto).join(" ");
+  if (t === "siguiente" || t === "adelante" || t === "ya" || t === "continua" || t === "continuar"){ avanza(); return true; }
+  if (t === "anterior" || t === "regresa" || t === "regresar" || t === "atras"){ irA(iActual - 1); return true; }
+  if (t === "repite" || t === "repetir" || t === "repitela"){ pintaTarjeta(); return true; }
+  if (t === "borra" || t === "borrar" || t === "corrige" || t === "corregir"){ borraActual(); return true; }
+  if (t === "no aplica" || t === "omite" || t === "omitir" || t === "salta" || t === "saltar"){ omiteActual(); return true; }
+  if (t === "niega" || t === "ninguno todo" ){ niegaActual(); return true; }
+  return false;
+}
+
+function niegaActual(){
+  var q = preg();
+  if (!q) return;
+  guarda(q.id, q.neg, "neg");
+  avanza();
+}
+function borraActual(){
+  var q = preg();
+  if (!q) return;
+  delete respuestas[q.id];
+  reconstruye();
+}
+function omiteActual(){
+  var q = preg();
+  if (!q) return;
+  guarda(q.id, "", "omitida");
+  avanza();
+}
+
+/* ---------- clasificación (modo libre) ---------- */
 function clasifica(texto){
   var t = normaliza(texto);
   var mejor = null, puntos = 0;
@@ -379,7 +888,7 @@ function clasifica(texto){
     b.claves.forEach(function(k){ if (t.indexOf(normaliza(k)) !== -1) p++; });
     if (p > puntos){ puntos = p; mejor = b.id; }
   });
-  return puntos > 0 ? mejor : null;
+  return { id: puntos > 0 ? mejor : null, puntos: puntos };
 }
 
 /* ---------- números dictados ---------- */
@@ -398,7 +907,6 @@ function limpiaFrase(t){
     .replace(/\s+/g, " ")
     .trim();
 }
-
 function numeroSimple(frag){
   var t = limpiaFrase(frag);
   var m = t.match(/\d+([.,]\d+)?/);
@@ -411,7 +919,6 @@ function numeroSimple(frag){
   });
   return total === null ? null : String(total);
 }
-
 function numeroDe(frag){
   var t = limpiaFrase(frag);
   var dec = t.split(/\s+punto\s+/);
@@ -421,7 +928,6 @@ function numeroDe(frag){
   }
   return numeroSimple(t);
 }
-
 function extraeNumero(texto){
   var t = limpiaFrase(texto);
   var barra = t.match(/(\d+)\s*\/\s*(\d+)/);
@@ -433,9 +939,8 @@ function extraeNumero(texto){
   }
   return numeroDe(t);
 }
-
-function proponeNumero(campo, valor, crudo){
-  pendientes.push({ campo: campo, valor: valor, crudo: crudo });
+function proponeNumero(campo, valor){
+  pendientes.push({ campo: campo, valor: valor });
   pintaPendientes();
 }
 function pintaPendientes(){
@@ -471,39 +976,93 @@ function pintaPendientes(){
 function recibe(texto){
   texto = (texto || "").trim();
   if (!texto) return;
+  if (comando(texto)) return;
 
+  /* signos vitales y exploración: destino manual */
   if (destinoActual && destinoActual.indexOf("sv:") === 0){
     var campo = destinoActual.slice(3);
     var n = extraeNumero(texto);
-    if (n !== null) proponeNumero(campo, n, texto);
+    if (n !== null) proponeNumero(campo, n);
     return;
   }
 
+  if (paginaActual() === "interrogatorio" && modoGuiado){
+    var q = preg();
+
+    /* ventana de corrección: la paciente completa la respuesta anterior */
+    if (ventanaHasta && Date.now() < ventanaHasta && ventanaId){
+      var esNueva = false;
+      if (q){
+        var tn = normaliza(texto);
+        q.kw.forEach(function(k){ if (tn.indexOf(normaliza(k)) !== -1) esNueva = true; });
+      }
+      if (!esNueva){
+        var ant = GUION.filter(function(x){ return x.id === ventanaId; })[0];
+        var r = respuestas[ventanaId];
+        if (ant && r){
+          var extra = quitaAfirmacionInicial(quitaPregunta(texto, kwBloque(ant), ant.p));
+          if (extra){
+            if (r.estado === "neg" || r.estado === "incompleta" || r.estado === "duda"){
+              guarda(ventanaId, ant.pos.replace("{r}", extra), "pos");
+            } else {
+              guarda(ventanaId, r.texto.replace(/\.$/, "") + "; " + extra + ".", "pos");
+            }
+            return;
+          }
+        }
+      }
+    }
+
+    if (!q) return;
+    var limpio = quitaPregunta(texto, kwBloque(q), q.p);
+    if (!limpio){ $("#vivo").textContent = "Pregunta detectada — esperando la respuesta…"; return; }
+    anota(q, limpio);
+    avanza();
+    return;
+  }
+
+  /* modo libre y exploración/plan */
   var destino = destinoActual;
-  if (!destino && paginaActual() === "interrogatorio") destino = clasifica(texto);
+  if (paginaActual() === "interrogatorio"){
+    var c = clasifica(texto);
+    if (c.id && (!destino || c.puntos >= 2)) destino = c.id;
+    if (destino){
+      var qb = GUION.filter(function(x){ return x.bloque === destino; });
+      var kws = [];
+      qb.forEach(function(x){ kws = kws.concat(x.kw); });
+      var lim = quitaPregunta(texto, kws, null);
+      if (lim) texto = cap(lim);
+    }
+    if (destino !== destinoActual) seleccionar(destino);
+  }
   if (!destino) return;
 
   var ta = document.getElementById("ta-" + destino);
   if (!ta) return;
   ta.value = (ta.value ? ta.value + " " : "") + texto;
   datos[destino] = ta.value;
+  if (paginaActual() === "interrogatorio") { editado[destino] = true; marcaEditado(destino); }
   var caja = document.getElementById("bloque-" + destino);
-  if (caja){
-    caja.scrollIntoView({ behavior: "smooth", block: "center" });
-    caja.classList.add("parcial");
-  }
+  if (caja) caja.scrollIntoView({ behavior:"smooth", block:"center" });
   refresca();
 }
 
-/* ---------- refrescar estado visual ---------- */
+/* ---------- refrescar ---------- */
 function refresca(){
   BLOQUES.forEach(function(b){
     var caja = document.getElementById("bloque-" + b.id);
     if (!caja) return;
     var txt = (datos[b.id] || "").trim();
     caja.classList.remove("hecho", "parcial");
-    if (txt.length >= 25) caja.classList.add("hecho");
-    else if (txt.length > 0) caja.classList.add("parcial");
+    if (b.panel === "interrogatorio" && modoGuiado && !editado[b.id]){
+      var total = GUION.filter(function(q){ return q.bloque === b.id; }).length;
+      var hechas = GUION.filter(function(q){ return q.bloque === b.id && respuestas[q.id]; }).length;
+      if (total && hechas === total) caja.classList.add("hecho");
+      else if (hechas > 0) caja.classList.add("parcial");
+    } else {
+      if (txt.length >= 25) caja.classList.add("hecho");
+      else if (txt.length > 0) caja.classList.add("parcial");
+    }
     if (b.lateral){
       caja.querySelectorAll("[data-lat]").forEach(function(btn){
         var partes = btn.dataset.lat.split("|");
@@ -522,7 +1081,18 @@ function pintaRevision(){
   var faltan = 0;
 
   BLOQUES.filter(function(b){ return b.obligatorio; }).forEach(function(b){
-    var lleno = ((datos[b.id] || "").trim().length >= 25);
+    var lleno;
+    if (b.panel === "interrogatorio" && !editado[b.id]){
+      var total = GUION.filter(function(q){ return q.bloque === b.id; }).length;
+      var hechas = GUION.filter(function(q){ return q.bloque === b.id && respuestas[q.id]; }).length;
+      lleno = total > 0 && hechas === total;
+      if (!lleno && total > 0){
+        var li0 = crear("li", "", "· " + b.titulo + " (" + hechas + " de " + total + ")");
+        faltan++; ul.appendChild(li0); return;
+      }
+    } else {
+      lleno = ((datos[b.id] || "").trim().length >= 25);
+    }
     var li = crear("li", lleno ? "ok" : "", (lleno ? "✓ " : "· ") + b.titulo);
     if (!lleno) faltan++;
     ul.appendChild(li);
@@ -564,10 +1134,42 @@ document.querySelectorAll("nav button").forEach(function(btn){
       document.getElementById(p).hidden = (p !== btn.dataset.p);
     });
     seleccionar(null);
+    if (btn.dataset.p === "interrogatorio" && modoGuiado) pintaTarjeta();
   });
 });
 
+/* ---------- modo ---------- */
+function ponModo(g){
+  modoGuiado = g;
+  $("#mGuiado").setAttribute("aria-pressed", g ? "true" : "false");
+  $("#mLibre").setAttribute("aria-pressed", g ? "false" : "true");
+  $("#tarjeta").hidden = !g;
+  $("#notaModo").innerHTML = g
+    ? "Tú haces la pregunta en voz alta; el sistema borra tu pregunta de la transcripción y escribe solo la respuesta, ya redactada. Avanza solo. Puedes decir <b>siguiente</b>, <b>anterior</b>, <b>repite</b>, <b>borra</b> o <b>no aplica</b> sin tocar nada."
+    : "Modo libre: habla de corrido y el sistema decide el bloque por el contenido, cambiando solo cuando la señal es clara. También aquí borra tu pregunta y escribe solo la respuesta.";
+  if (g) pintaTarjeta();
+  else { document.querySelectorAll(".bloque").forEach(function(e){ e.classList.remove("activo"); }); seleccionar(null); }
+  refresca();
+}
+$("#mGuiado").addEventListener("click", function(){ ponModo(true); });
+$("#mLibre").addEventListener("click", function(){ ponModo(false); });
+
+$("#bNiega").addEventListener("click", niegaActual);
+$("#bSiguiente").addEventListener("click", avanza);
+$("#bAtras").addEventListener("click", function(){ irA(iActual - 1); });
+$("#bBorra").addEventListener("click", borraActual);
+$("#bOmite").addEventListener("click", omiteActual);
+
 $("#btnLimpiar").addEventListener("click", function(){
+  if (paginaActual() === "interrogatorio" && modoGuiado){
+    var q = preg();
+    if (q){
+      GUION.forEach(function(x){ if (x.bloque === q.bloque) delete respuestas[x.id]; });
+      editado[q.bloque] = false; marcaEditado(q.bloque);
+      reconstruye();
+    }
+    return;
+  }
   if (!destinoActual) return;
   if (destinoActual.indexOf("sv:") === 0){
     var v = destinoActual.slice(3);
@@ -579,6 +1181,7 @@ $("#btnLimpiar").addEventListener("click", function(){
     datos[destinoActual] = "";
     var ta = document.getElementById("ta-" + destinoActual);
     if (ta) ta.value = "";
+    editado[destinoActual] = false; marcaEditado(destinoActual);
   }
   refresca();
 });
@@ -616,21 +1219,21 @@ if (!Rec){
   };
   rec.onend = function(){
     if (quiereEscuchar){ try { rec.start(); } catch(e){ /* reinicio en curso */ } }
-    else { escuchando = false; pinta(); }
+    else { pinta(); }
   };
 }
 
 function pinta(){
   var b = $("#btnMic");
   if (quiereEscuchar){ b.classList.add("on"); b.textContent = "■"; }
-  else { b.classList.remove("on"); b.textContent = "🎙"; $("#vivo").textContent = "Listo"; }
+  else { b.classList.remove("on"); b.textContent = "🎤"; $("#vivo").textContent = "Listo"; }
 }
 
 $("#btnMic").addEventListener("click", function(){
   if (!rec) return;
   quiereEscuchar = !quiereEscuchar;
   if (quiereEscuchar){
-    try { rec.start(); escuchando = true; $("#vivo").textContent = "Escuchando…"; }
+    try { rec.start(); $("#vivo").textContent = "Escuchando…"; }
     catch(e){ /* ya estaba corriendo */ }
     mantenDespierta();
   } else {
@@ -640,7 +1243,7 @@ $("#btnMic").addEventListener("click", function(){
   pinta();
 });
 
-/* ---------- mantener la pantalla despierta ---------- */
+/* ---------- pantalla despierta ---------- */
 var candado = null;
 function mantenDespierta(){
   if (!("wakeLock" in navigator)) return;
@@ -653,6 +1256,7 @@ document.addEventListener("visibilitychange", function(){
   if (document.visibilityState === "visible" && quiereEscuchar) mantenDespierta();
 });
 
+ponModo(true);
 refresca();
 </script>
 </body>
