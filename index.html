@@ -488,6 +488,7 @@ var buffer = "";          /* respuesta en curso, todavía no comprometida */
 var tBuffer = null;
 var ritmo = 0;            /* 0 = manual: nunca avanza solo, tú pulsas Siguiente */
 var CLAVE = "consulta-ms-v2";
+var bitacora = [];        /* cada decisión de enrutamiento, para poder diagnosticar */
 
 /* ---------- utilidades ---------- */
 function $(s){ return document.querySelector(s); }
@@ -1256,11 +1257,22 @@ function recibe(texto){
        respuesta: el navegador entrega las dos pegadas muy seguido, y en ese
        caso la señal de cambio de tema es la pregunta, no el tono del bloque. */
     var iq = cualPregunta(texto);
-    if (iq >= 0 && iq !== iActual){
+    var de = q.id, motivo = "se queda";
+    /* NUNCA regresa solo a una pregunta ya contestada: eso reabría preguntas
+       cerradas y podía sobrescribir la respuesta. Para volver atrás, el botón
+       «← Anterior» o tocar el bloque. */
+    var atrasYaContestada = (iq >= 0 && iq < iActual && respuestas[GUION[iq].id]);
+    if (iq >= 0 && iq !== iActual && !atrasYaContestada){
       if (buffer) cierraSinAvanzar();      /* lo acumulado es de la anterior */
       irA(iq);
       q = preg();
+      motivo = "salta";
+    } else if (atrasYaContestada){
+      motivo = "bloqueado: ya contestada";
     }
+    bitacora.push({ oido: texto, de: de, a: q.id,
+                    guion: iq >= 0 ? GUION[iq].id : "-", motivo: motivo });
+    if (bitacora.length > 300) bitacora.shift();
 
     /* ---- 2. Quitar tu pregunta y conservar lo que ella contestó ----
        Se pega en crudo solo si es continuación pura: sin pregunta del guion y
@@ -1450,6 +1462,13 @@ $("#bCopiar").addEventListener("click", function(){
   L.push(VITALES.map(function(v){ return v.et + ": " + (vitales[v.id] || "—"); }).join("  ·  "));
   L.push("");
   L.push("PREGUNTA EN CURSO: " + (preg() ? (iActual + 1) + " de " + GUION.length : "interrogatorio terminado"));
+  if (bitacora.length){
+    L.push("");
+    L.push("BITÁCORA DE ENRUTAMIENTO (para diagnóstico)");
+    bitacora.forEach(function(b, i){
+      L.push((i+1) + ". [" + b.de + " -> " + b.a + " | guion:" + b.guion + " | " + b.motivo + "]  " + b.oido);
+    });
+  }
   var texto = L.join("\n");
   var btn = this;
   function ok(){ btn.textContent = "Copiado ✓"; btn.classList.add("ok");
