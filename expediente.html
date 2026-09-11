@@ -198,6 +198,20 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .medidor{height:8px;background:var(--linea);border-radius:4px;overflow:hidden;margin:14px 0 6px}
 .medidor i{display:block;height:100%;width:0;background:var(--verde);transition:width .08s}
 .reloj{font-family:var(--serif);font-size:38px;text-align:center;margin:6px 0 2px}
+.grabando{position:sticky;top:0;z-index:2;background:var(--crema);
+  padding:2px 0 8px;border-bottom:1px solid var(--linea);margin-bottom:12px}
+.grabando .reloj{margin:0}
+.bloqueGuion{font-size:10.5px;letter-spacing:1.1px;text-transform:uppercase;
+  color:var(--taupe);margin:16px 0 6px}
+.bloqueGuion:first-child{margin-top:0}
+.preg{display:flex;gap:10px;align-items:flex-start;background:#fff;
+  border:1px solid var(--linea);border-radius:3px;padding:11px 13px;margin-bottom:6px;
+  cursor:pointer;font-size:16px;line-height:1.4}
+.preg:active{background:var(--crema)}
+.preg .num{color:var(--taupe);font-size:12px;min-width:17px;padding-top:3px}
+.preg .t{flex:1}
+.preg.hecha{opacity:.42}
+.preg.hecha .t{text-decoration:line-through}
 .subreloj{text-align:center;font-size:12.5px;color:var(--gris)}
 
 .fila{background:#fff;border:1px solid var(--linea);border-radius:3px;padding:12px 14px;margin-bottom:10px}
@@ -1940,18 +1954,59 @@ function pantallaConsentimiento(){
   $('capaPri').onclick = empiezaGrabacion;
 }
 
+/* Qué guion le toca a este documento. El nombre tiene que ser el mismo que
+   usa estructurar.py en la Mac, si no, las respuestas no caen en su campo. */
+function guionDe(tipo){
+  return ({ historia_clinica:'historia', nota_evolucion:'evolucion' })[tipo && tipo.id] || '';
+}
+
+/* El guion en pantalla, para leerlo. Sin esto el dictado no sirve: el sistema
+   reconoce cada respuesta PORQUE usted leyó la pregunta tal como está escrita.
+   Tocar una pregunta la tacha, para no perder el hilo. No es obligatorio. */
+function pintaGuion(caja){
+  var cual = guionDe(TIPO);
+  var lista = (ESQUEMA && ESQUEMA.guiones && ESQUEMA.guiones[cual]) || [];
+  caja.innerHTML = '';
+  if (!lista.length){
+    var v = document.createElement('div');
+    v.className = 'lista';
+    v.textContent = 'No encontré el guion de este documento. Dicta en el orden ' +
+      'que acostumbras; después revisas campo por campo.';
+    caja.appendChild(v);
+    return;
+  }
+  var bloque = '';
+  lista.forEach(function(q, i){
+    if (q.bloque !== bloque){
+      bloque = q.bloque;
+      var h = document.createElement('div');
+      h.className = 'bloqueGuion';
+      h.textContent = bloque;
+      caja.appendChild(h);
+    }
+    var p = document.createElement('div');
+    p.className = 'preg';
+    var n = document.createElement('span'); n.className = 'num'; n.textContent = (i+1);
+    var t = document.createElement('span'); t.className = 't'; t.textContent = q.pregunta;
+    p.appendChild(n); p.appendChild(t);
+    p.onclick = function(){ p.classList.toggle('hecha'); };
+    caja.appendChild(p);
+  });
+}
+
 function pantallaGrabando(){
   $('capaTitulo').textContent = 'Grabando';
   $('capaCuerpo').innerHTML =
-    '<div class="reloj" id="reloj">0:00</div>' +
-    '<div class="subreloj">Habla normal. La pantalla no se apaga.</div>' +
-    '<div class="medidor"><i id="nivel"></i></div>' +
-    '<div class="aviso malo" id="avisoMudo" style="display:none;margin-top:14px">' +
+    '<div class="grabando">' +
+      '<div class="reloj" id="reloj">0:00</div>' +
+      '<div class="medidor" style="margin:8px 0 4px"><i id="nivel"></i></div>' +
+      '<div class="subreloj">Lee las preguntas tal como están. Tócalas para tacharlas.</div>' +
+    '</div>' +
+    '<div class="aviso malo" id="avisoMudo" style="display:none;margin:12px 0">' +
     '<b>No estoy oyendo nada.</b> Llevas veinte segundos sin señal de audio. ' +
     'Revisa el micrófono antes de seguir: esto no se va a poder transcribir.</div>' +
-    '<div class="lista" style="margin-top:16px"><div>Orden del guion: heredofamiliares, ' +
-    'personales patológicos, no patológicos, gineco-obstétricos, padecimiento actual, ' +
-    'aparatos y sistemas.</div></div>';
+    '<div id="elGuion"></div>';
+  pintaGuion($('elGuion'));
   $('capaSec').classList.add('oculto');
   $('capaPri').classList.remove('oculto');
   $('capaPri').disabled = false;
