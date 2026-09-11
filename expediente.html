@@ -53,10 +53,12 @@ body{font-family:var(--sans);background:var(--crema);color:var(--negro);font-siz
 .wrap{max-width:860px;margin:0 auto;padding:20px 18px 120px}
 
 /* ---------- agenda y búsqueda ---------- */
-.tabs{display:flex;gap:6px;margin-bottom:16px}
-.tabs button{padding:9px 16px;font-size:13.5px;border:1px solid var(--linea);
-  background:#fff;color:var(--gris);border-radius:3px;cursor:pointer;font-family:var(--sans)}
-.tabs button.on{background:var(--negro);color:var(--crema);border-color:var(--negro)}
+input.buscador{width:100%;border:1px solid var(--linea);border-radius:3px;
+  padding:14px 16px;font-size:16px;background:#fff;margin-bottom:14px}
+input.buscador:focus{outline:none;border-color:var(--taupe)}
+.encabezado{display:flex;gap:12px;align-items:center;margin:26px 0 12px}
+.encabezado input[type=date]{width:auto;padding:7px 10px;font-size:13.5px;
+  border:1px solid var(--linea);border-radius:3px;background:#fff;color:var(--gris)}
 .cita{background:#fff;border:1px solid var(--linea);border-radius:4px;padding:13px 15px;
   margin-bottom:9px;display:flex;gap:14px;align-items:center;cursor:pointer}
 .cita:hover{border-color:var(--taupe)}
@@ -216,6 +218,49 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .lista div{margin-bottom:4px}
 pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--gris);
   background:#fff;border:1px solid var(--linea);border-radius:3px;padding:12px 14px;margin:0}
+
+/* ==========================================================
+   LA HOJA IMPRESA
+   En pantalla no se ve. Al imprimir, es lo ÚNICO que se ve.
+   ========================================================== */
+#impresion{display:none}
+
+@media print{
+  body{background:#fff !important}
+  body > *{display:none !important}
+  #impresion{display:block !important}
+  @page{size:letter;margin:14mm 13mm 16mm}
+}
+
+#impresion{color:#000;font-family:var(--sans);font-size:10pt;line-height:1.34}
+#impresion .cab{display:flex;gap:14px;align-items:flex-start;
+  border-bottom:1.5px solid #000;padding-bottom:8px;margin-bottom:12px}
+#impresion .cab img{height:13mm;width:auto}
+#impresion .cab .datos{flex:1;font-size:8.5pt;line-height:1.35}
+#impresion .cab .datos b{font-size:10pt;display:block;margin-bottom:2px}
+#impresion h1{font-family:var(--serif);font-size:16pt;font-weight:600;
+  margin:0 0 8px;text-align:center;letter-spacing:.5px}
+#impresion .ficha{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:9.5pt}
+#impresion .ficha td{border:.5pt solid #000;padding:3px 6px;vertical-align:top}
+#impresion .ficha td.e{background:#F2F0EE;width:1%;white-space:nowrap;
+  font-size:7.5pt;letter-spacing:.4px;text-transform:uppercase}
+#impresion h2{font-size:9pt;letter-spacing:1.2px;text-transform:uppercase;
+  margin:11px 0 4px;padding-bottom:2px;border-bottom:.5pt solid #999;
+  page-break-after:avoid;break-after:avoid}
+#impresion .dato{margin-bottom:3.5px;page-break-inside:avoid;break-inside:avoid}
+#impresion .dato .e{font-size:7.5pt;letter-spacing:.4px;text-transform:uppercase;color:#555}
+#impresion .dato .v{white-space:pre-wrap}
+#impresion .sueltos{display:flex;flex-wrap:wrap;gap:3px 18px;margin-bottom:7px}
+#impresion .sueltos .par{white-space:nowrap}
+#impresion .sueltos .e{font-size:7.5pt;letter-spacing:.4px;text-transform:uppercase;
+  color:#555;margin-right:5px}
+#impresion .firma{margin-top:16px;page-break-inside:avoid;break-inside:avoid;text-align:center}
+#impresion .firma .linea{border-top:.75pt solid #000;width:74mm;margin:24px auto 4px}
+#impresion .firma .n{font-weight:500}
+#impresion .firma .c{font-size:8.5pt;line-height:1.4}
+#impresion .pieimp{margin-top:14px;border-top:.5pt solid #999;padding-top:5px;
+  font-size:7.5pt;color:#555;display:flex;gap:10px}
+#impresion .pieimp .f{flex:1}
 </style>
 </head>
 <body>
@@ -253,33 +298,31 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
     <div class="progreso"><i id="progreso"></i></div>
   </div>
 
-  <!-- pantalla: agenda / búsqueda -->
+  <!-- pantalla: búsqueda y agenda, las dos a la vez -->
   <div class="wrap" id="pantallaLista">
-    <div class="tabs">
-      <button id="tabAgenda" class="on">Agenda de hoy</button>
-      <button id="tabBuscar">Buscar paciente</button>
-    </div>
+    <input type="text" id="q" class="buscador"
+           placeholder="Buscar paciente por nombre, teléfono o número de expediente"
+           autocomplete="off">
+    <div id="listaBuscar"></div>
 
-    <div id="cajaAgenda">
-      <div class="campo" style="max-width:220px">
-        <label for="fechaAgenda">Día</label>
-        <input type="date" id="fechaAgenda">
-      </div>
-      <div id="listaAgenda"><div class="vacio">Cargando la agenda…</div></div>
+    <div class="encabezado">
+      <div class="seccion" style="margin:0">Agenda</div>
+      <input type="date" id="fechaAgenda">
     </div>
+    <div id="listaAgenda"><div class="vacio">Cargando la agenda…</div></div>
 
-    <div id="cajaBuscar" class="oculto">
-      <div class="campo">
-        <label for="q">Nombre, teléfono o ID de la paciente</label>
-        <input type="text" id="q" placeholder="Escribe al menos dos letras" autocomplete="off">
+    <details class="previo" id="cajaManual" style="margin-top:18px">
+      <summary><span class="flecha">▸</span><span>Abrir una paciente que no está en la base</span></summary>
+      <div class="cuerpo">
+        <div class="campo" style="margin-top:10px">
+          <label for="manual">Nombre completo</label>
+          <input type="text" id="manual" placeholder="Nombres Apellido Apellido" autocomplete="off">
+        </div>
+        <button class="s" id="bManual">Abrir expediente provisional</button>
+        <div class="nota" style="margin-top:8px">Se abre con folio provisional. Dile a
+          recepción que la dé de alta para amarrarlo a su número definitivo.</div>
       </div>
-      <div id="listaBuscar"></div>
-      <div class="campo" style="margin-top:22px">
-        <label for="manual">¿No está en la base? Escribe el nombre completo</label>
-        <input type="text" id="manual" placeholder="Nombres Apellido Apellido" autocomplete="off">
-      </div>
-      <button class="s" id="bManual">Abrir expediente con ese nombre</button>
-    </div>
+    </details>
   </div>
 
   <!-- pantalla: qué documento vas a hacer -->
@@ -302,6 +345,7 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
     <div class="dentro">
       <div class="estado" id="estado">Cargando…</div>
       <button class="s" id="bDictar">Dictar</button>
+      <button class="s" id="bImprimir">Imprimir</button>
       <button class="p" id="bGuardar">Guardar</button>
     </div>
   </div>
@@ -322,6 +366,9 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
     </div>
   </div>
 </div>
+
+<!-- ===================== la hoja que se imprime ===================== -->
+<div id="impresion"></div>
 
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
@@ -766,15 +813,6 @@ $('bManual').onclick = function(){
   abreExpediente({ 'Paciente': n });
 };
 
-$('tabAgenda').onclick = function(){
-  $('tabAgenda').classList.add('on'); $('tabBuscar').classList.remove('on');
-  $('cajaAgenda').classList.remove('oculto'); $('cajaBuscar').classList.add('oculto');
-};
-$('tabBuscar').onclick = function(){
-  $('tabBuscar').classList.add('on'); $('tabAgenda').classList.remove('on');
-  $('cajaBuscar').classList.remove('oculto'); $('cajaAgenda').classList.add('oculto');
-  $('q').focus();
-};
 $('fechaAgenda').addEventListener('change', cargaAgenda);
 $('bSalir').onclick = salir;
 
@@ -1454,6 +1492,177 @@ function guarda(silencioso){
     });
 }
 $('bGuardar').onclick = function(){ guarda(false); };
+
+/* ============================================================
+   IMPRIMIR
+   Se guarda primero y se imprime después: lo que sale en papel es
+   exactamente lo que quedó en el expediente, no lo que hay en pantalla.
+   La hoja sale sin firmar; la firma es autógrafa, siempre.
+   ============================================================ */
+var EN_CABECERA = ['expediente_folio','paciente_nombres','paciente_apellido_paterno',
+  'paciente_apellido_materno','paciente_sexo','paciente_edad','paciente_fecha_nacimiento',
+  'doc_fecha','doc_hora','doc_tipo','doc_folio','doc_version','doc_qr','doc_estado_firma'];
+var GRUPOS_FUERA = ['Médico','Establecimiento','Control documental','Identificación'];
+
+function txt(id){ return String(VALORES[id] || '').trim(); }
+
+function nombreCompleto(){
+  return [txt('paciente_nombres'), txt('paciente_apellido_paterno'),
+          txt('paciente_apellido_materno')].filter(Boolean).join(' ') ||
+         (PACIENTE['Paciente'] || '');
+}
+
+function folioDocumento(){
+  var abrev = (TIPO ? TIPO.id : 'doc').split('_').map(function(p){
+    return p.slice(0,3).toUpperCase(); }).join('');
+  return FOLIO + '-' + abrev + '-' + hoyISO().replace(/-/g,'') +
+         (DOC_ID ? '-' + DOC_ID.slice(-4) : '');
+}
+
+function armaImpresion(){
+  var raiz = $('impresion');
+  raiz.innerHTML = '';
+  if (!TIPO || !ESQUEMA) return;
+
+  function el(tag, clase, texto){
+    var e = document.createElement(tag);
+    if (clase) e.className = clase;
+    if (texto !== undefined && texto !== null) e.textContent = texto;
+    return e;
+  }
+
+  /* ---- encabezado del establecimiento ---- */
+  var cab = el('div','cab');
+  var img = document.createElement('img');
+  img.src = 'ms-horizontal.png'; img.alt = '';
+  var datos = el('div','datos');
+  var nom = el('b', null, CONSTANTES['estab_nombre'] || '');
+  datos.appendChild(nom);
+  [CONSTANTES['estab_tipo'], CONSTANTES['estab_domicilio'],
+   CONSTANTES['estab_licencia'],
+   [CONSTANTES['seg_telefono'] ? 'Tel. ' + CONSTANTES['seg_telefono'] : '',
+    CONSTANTES['seg_telefono_urgencias'] ? 'Urgencias ' + CONSTANTES['seg_telefono_urgencias'] : ''
+   ].filter(Boolean).join('  ·  ')
+  ].filter(Boolean).forEach(function(t){ datos.appendChild(el('div', null, t)); });
+  cab.appendChild(img); cab.appendChild(datos);
+  raiz.appendChild(cab);
+
+  raiz.appendChild(el('h1', null, TIPO.nombre.toUpperCase()));
+
+  /* ---- ficha de identificación ---- */
+  var t = el('table','ficha');
+  function fila(pares){
+    var tr = document.createElement('tr');
+    pares.forEach(function(p){
+      tr.appendChild(el('td','e', p[0]));
+      tr.appendChild(el('td', null, p[1] || '—'));
+    });
+    t.appendChild(tr);
+  }
+  fila([['Expediente', txt('expediente_folio') || FOLIO]]);
+  fila([['Paciente', nombreCompleto()]]);
+  fila([['Sexo', txt('paciente_sexo')], ['Edad', txt('paciente_edad')]]);
+  fila([['Fecha', txt('doc_fecha') || hoyISO()], ['Hora', txt('doc_hora')]]);
+  raiz.appendChild(t);
+
+  /* ---- el cuerpo, por grupo, sin los campos vacíos ----
+     Los datos cortos van en renglón corrido, no uno debajo de otro: siete
+     signos vitales apilados gastan media hoja y no se leen mejor. */
+  var CORTOS = ['texto','numero','fecha','hora','lista','sino'];
+  var RECETA = ['rx_medicamento','rx_dosis','rx_via','rx_frecuencia','rx_duracion'];
+  var mios = camposDe(TIPO);
+
+  function sueltos(lista){
+    var caja = el('div','sueltos');
+    lista.forEach(function(c){
+      var p = el('span','par');
+      p.appendChild(el('span','e', (c.etiqueta || c.id)));
+      p.appendChild(el('span','v', txt(c.id)));
+      caja.appendChild(p);
+    });
+    return caja;
+  }
+
+  ESQUEMA.grupos.forEach(function(g){
+    if (GRUPOS_FUERA.indexOf(g) >= 0) return;
+    var conValor = mios.filter(function(c){
+      return c.grupo === g && EN_CABECERA.indexOf(c.id) < 0 && txt(c.id) &&
+             RECETA.indexOf(c.id) < 0;
+    });
+    var hayReceta = txt('rx_medicamento') &&
+                    mios.some(function(c){ return c.id === 'rx_medicamento' && c.grupo === g; });
+    if (!conValor.length && !hayReceta) return;
+
+    raiz.appendChild(el('h2', null, g));
+
+    var buffer = [];
+    function vacia(){
+      if (!buffer.length) return;
+      raiz.appendChild(sueltos(buffer));
+      buffer = [];
+    }
+    conValor.forEach(function(c){
+      if (CORTOS.indexOf(c.control) >= 0){ buffer.push(c); return; }
+      vacia();
+      var d = el('div','dato');
+      d.appendChild(el('div','e', c.etiqueta || c.id));
+      d.appendChild(el('div','v', txt(c.id)));
+      raiz.appendChild(d);
+    });
+    vacia();
+
+    // la receta se lee como receta, no como cinco campos sueltos
+    if (hayReceta){
+      var linea = txt('rx_medicamento') + (txt('rx_dosis') ? ' ' + txt('rx_dosis') : '') +
+        (txt('rx_via') ? ', vía ' + txt('rx_via').toLowerCase() : '') +
+        (txt('rx_frecuencia') ? ', ' + txt('rx_frecuencia') : '') +
+        (txt('rx_duracion') ? ', durante ' + txt('rx_duracion') : '') + '.';
+      var r = el('div','dato');
+      r.appendChild(el('div','e', 'Prescripción'));
+      r.appendChild(el('div','v', linea));
+      raiz.appendChild(r);
+    }
+  });
+
+  /* ---- lo que el dictado dejó anotado y no se capturó ---- */
+  var pend = Object.keys(PENDIENTE_DICTADO);
+  if (pend.length){
+    raiz.appendChild(el('h2', null, 'Pendiente de capturar'));
+    pend.forEach(function(id){
+      var c = ESQUEMA.campos.filter(function(x){ return x.id === id; })[0];
+      var d = el('div','dato');
+      d.appendChild(el('div','e', (c && c.etiqueta) || id));
+      d.appendChild(el('div','v', PENDIENTE_DICTADO[id]));
+      raiz.appendChild(d);
+    });
+  }
+
+  /* ---- firma autógrafa ---- */
+  var f = el('div','firma');
+  f.appendChild(el('div','linea'));
+  f.appendChild(el('div','n', CONSTANTES['medico_nombre'] || ''));
+  var ced = [CONSTANTES['medico_cedula_prof'] ? 'Cédula profesional ' + CONSTANTES['medico_cedula_prof'] : '',
+             CONSTANTES['medico_cedula_esp'] ? 'Cédula de especialidad ' + CONSTANTES['medico_cedula_esp'] : ''
+            ].filter(Boolean).join('  ·  ');
+  if (ced) f.appendChild(el('div','c', ced));
+  if (CONSTANTES['medico_consejo']) f.appendChild(el('div','c', CONSTANTES['medico_consejo']));
+  f.appendChild(el('div','c', 'Firma autógrafa'));
+  raiz.appendChild(f);
+
+  var pie = el('div','pieimp');
+  pie.appendChild(el('div','f', folioDocumento()));
+  pie.appendChild(el('div', null, 'Capturó: ' + (CORREO || '')));
+  raiz.appendChild(pie);
+}
+
+$('bImprimir').onclick = function(){
+  $('estado').textContent = 'Guardando antes de imprimir…';
+  guarda(true).then(function(){
+    armaImpresion();
+    $('estado').textContent = 'Listo para imprimir.';
+    setTimeout(function(){ window.print(); }, 120);
+  });
+};
 
 /* Red de seguridad: mientras no se haya guardado en la nube, lo capturado
    vive también en este navegador. Si se cae la sesión, no se pierde. */
