@@ -2646,6 +2646,8 @@ function subeAudio(blobDado){
      como webm con contenido mp4 y el servicio de transcripción lo rechaza.
      El rótulo equivocado es de los errores que solo aparecen el día de la
      consulta, en el dispositivo de alguien más. */
+  D.repartidos = [];   // se reinicia por dictado, para no arrastrar el anterior
+
   var tipoReal = String(blob.type || D.mime || '').toLowerCase();
   D.ext = tipoReal.indexOf('mp4') >= 0 ? 'm4a' :
           tipoReal.indexOf('ogg') >= 0 ? 'ogg' :
@@ -2728,6 +2730,9 @@ function transcribeEnLaNube(avance){
 
       var d = Motor.estructura(r.texto, ESQUEMA, guionDe(TIPO));
       D.origen = (r.proveedor || 'nube') + (r.segundos ? ' · ' + r.segundos + ' s' : '');
+      return reparteSobrante(d, avance);
+    })
+    .then(function(d){
 
       // se guarda de inmediato: si el navegador se cierra, la transcripción y
       // lo entendido ya están en el expediente y se recuperan al volver a abrir
@@ -2767,6 +2772,71 @@ function textoPlano(s){
   var d = document.createElement('div');
   d.textContent = String(s == null ? '' : s);
   return d.innerHTML;
+}
+
+/* Grupos donde el reparto automático no entra nunca. Son datos de identidad,
+   del consultorio o de control: vienen del alta o son constantes, y ninguno
+   sale de lo que el médico dicta en la consulta. */
+var NO_SE_REPARTE = ['Identificación', 'Contacto de urgencia', 'Médico',
+                     'Establecimiento', 'Control documental', 'Privacidad'];
+
+/* Lo que el motor determinista no supo colocar se manda a repartir.
+
+   El orden importa: PRIMERO el motor, que reconoce las preguntas del guion y
+   no puede equivocarse porque solo copia lo que viene después de cada una;
+   y solo lo que sobre va al modelo. Así, cuando alguien sí lee el guion, la
+   nota se arma sin costo y sin margen de error, y el modelo nunca ve ese texto.
+
+   El gateway le pone el candado: lo que devuelva tiene que estar formado por
+   palabras que el médico dijo, o se descarta. Aquí se marca cada campo que
+   vino por esta vía, para que en la revisión se sepa cuál lo colocó una
+   máquina de repartir y cuál salió de una pregunta contestada. */
+function reparteSobrante(d, avance){
+  var sobra = (d.sin_ubicar || []).join(' ').trim();
+  if (!sobra || sobra.length < 15) return Promise.resolve(d);
+
+  // solo los campos de este documento que siguen vacíos, y NUNCA los de
+  // identidad ni los del consultorio: ahí el reparto no tiene nada que hacer
+  // y una frase clínica metida en el apellido de la paciente es un documento
+  // arruinado que además se firma
+  var libres = camposDe(TIPO).filter(function(c){
+    return ['texto','parrafo'].indexOf(c.control) >= 0 &&
+           NO_SE_REPARTE.indexOf(c.grupo) < 0 &&
+           !d.campos[c.id] && !String(VALORES[c.id] || '').trim() &&
+           EN_CABECERA.indexOf(c.id) < 0;
+  }).map(function(c){
+    return { id:c.id, etiqueta:c.etiqueta, grupo:c.grupo, control:c.control };
+  });
+  if (!libres.length) return Promise.resolve(d);
+
+  avance(100, 'acomodando lo que dictaste en los campos');
+
+  return pide('dictadoRepartir', { texto: sobra, campos: libres, tipo: TIPO.id })
+    .then(function(rep){
+      var puestos = Object.keys(rep.campos || {});
+      puestos.forEach(function(id){ d.campos[id] = rep.campos[id]; });
+      D.repartidos = puestos;
+
+      if (puestos.length){
+        // lo que se colocó ya no es "sin ubicar"
+        d.sin_ubicar = [];
+        d.avisos = (d.avisos || []).concat([
+          puestos.length + ' campo(s) los acomodó el reparto automático, no una ' +
+          'pregunta del guion. Revísalos con más cuidado que los demás.']);
+      }
+      (rep.descartados || []).forEach(function(t){
+        d.avisos = (d.avisos || []).concat(['Descartado — ' + t]);
+      });
+      return d;
+    })
+    .catch(function(e){
+      // que falle el reparto no puede costar la nota: el texto sigue completo
+      // en «no supe dónde ponerlo» y el médico lo coloca a mano
+      d.avisos = (d.avisos || []).concat([
+        'No pude repartir lo dictado en los campos (' + e.message + '). ' +
+        'El texto completo quedó abajo, sin perderse.']);
+      return d;
+    });
 }
 
 function consulta(){
@@ -2825,9 +2895,19 @@ function pintaRevision(){
 
   var enc = document.createElement('div');
   enc.className = 'lista';
-  enc.innerHTML = '<div>Contestó <b>' + D.contestadas + ' de ' + D.total + '</b> preguntas del ' +
+  /* Se distingue de dónde salió cada cosa. No es un detalle cosmético: una
+     respuesta que siguió a una pregunta del guion es más confiable que una
+     que un modelo acomodó por parecido, y el médico merece saber cuál es cuál
+     antes de firmar. */
+  var rep = (D.repartidos || []).length;
+  enc.innerHTML =
+    '<div>Contestó <b>' + D.contestadas + ' de ' + D.total + '</b> preguntas del ' +
     'guion. Lo que no se preguntó se queda vacío: el programa no escribe "niega" por una ' +
-    'pregunta que nadie hizo.</div>';
+    'pregunta que nadie hizo.</div>' +
+    (rep ? '<div style="margin-top:6px">Dictaste corrido, sin leer el guion, así que ' +
+           '<b>' + rep + ' campo(s)</b> los acomodó el reparto automático. Solo pudo ' +
+           'copiar palabras que dijiste —lo que no, se descartó— pero revísalos con ' +
+           'más cuidado que los demás.</div>' : '');
   c.appendChild(enc);
 
   var caben = D.propuestas.filter(function(p){ return p.cabe; });
