@@ -2639,6 +2639,18 @@ function revisaGrabacion(){
 /* El audio sube partido: una consulta larga no cabe en una sola petición. */
 function subeAudio(blobDado){
   var blob = blobDado || new Blob(D.trozos, {type: D.mime || 'audio/webm'});
+
+  /* La extensión se toma de lo que REALMENTE se grabó, no de lo que el
+     navegador dijo que soportaba. En iPad, Safari no graba webm y cae a mp4;
+     si isTypeSupported miente —pasa en iOS viejo— el archivo saldría rotulado
+     como webm con contenido mp4 y el servicio de transcripción lo rechaza.
+     El rótulo equivocado es de los errores que solo aparecen el día de la
+     consulta, en el dispositivo de alguien más. */
+  var tipoReal = String(blob.type || D.mime || '').toLowerCase();
+  D.ext = tipoReal.indexOf('mp4') >= 0 ? 'm4a' :
+          tipoReal.indexOf('ogg') >= 0 ? 'ogg' :
+          tipoReal.indexOf('wav') >= 0 ? 'wav' : 'webm';
+
   var partes = Math.max(1, Math.ceil(blob.size / TROZO));
   var mb = (blob.size/1048576).toFixed(1);
 
