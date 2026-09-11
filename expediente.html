@@ -1832,6 +1832,43 @@ $('bDictar').onclick = function(){
   pantallaConsentimiento(); capaAbre();
 };
 
+/* ¿Este navegador ya demostró que su micrófono sirve? Se guarda por equipo:
+   la prueba se pide una vez y no vuelve a estorbar. */
+function micYaProbado(){
+  try{ return localStorage.getItem('micOK') === '1'; }catch(e){ return false; }
+}
+
+/* Tres segundos de escucha real. No graba nada: solo mide si entra señal.
+   Es la diferencia entre descubrir que el micrófono estaba bloqueado ahora
+   o descubrirlo cuando la transcripción vuelva vacía y la paciente ya se fue. */
+function pruebaMicrofono(alNivel){
+  return new Promise(function(ok, mal){
+    navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true}})
+      .then(function(stream){
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        var an = ctx.createAnalyser(); an.fftSize = 512;
+        ctx.createMediaStreamSource(stream).connect(an);
+        var buf = new Uint8Array(an.frequencyBinCount);
+        var pico = 0, conVoz = 0, muestras = 0;
+        var fin = Date.now() + 3000;
+        (function tic(){
+          an.getByteTimeDomainData(buf);
+          var p = 0;
+          for (var i=0;i<buf.length;i++){ var v = Math.abs(buf[i]-128); if (v>p) p=v; }
+          var n = p/128;
+          if (n > pico) pico = n;
+          muestras++; if (n > 0.03) conVoz++;
+          if (alNivel) alNivel(n);
+          if (Date.now() < fin) return requestAnimationFrame(tic);
+          stream.getTracks().forEach(function(t){ t.stop(); });
+          try{ ctx.close(); }catch(e){}
+          ok({ pico: pico, voz: muestras ? conVoz/muestras : 0 });
+        })();
+      })
+      .catch(mal);
+  });
+}
+
 function pantallaConsentimiento(){
   $('capaTitulo').textContent = 'Dictar el interrogatorio';
   $('capaCuerpo').innerHTML =
@@ -1842,7 +1879,13 @@ function pantallaConsentimiento(){
     '<span>La paciente firmó hoy el aviso de privacidad que incluye la grabación de audio de la ' +
     'consulta, y sabe que puede pedir que se apague en cualquier momento.</span></label>' +
     '</div>' +
-    '<div class="lista">' +
+    '<div class="lista" id="cajaMic">' +
+    '<div><b>Prueba de micrófono.</b> Di tu nombre en voz alta durante tres segundos.</div>' +
+    '<div class="medidor" style="margin:10px 0 8px"><i id="nivelMic"></i></div>' +
+    '<button class="s" id="bProbarMic" style="padding:7px 14px;font-size:13px">Probar micrófono</button>' +
+    '<span id="resMic" style="margin-left:10px"></span>' +
+    '</div>' +
+    '<div class="lista" style="margin-top:12px">' +
     '<div>· El audio lo transcribe el software del consultorio y se borra al firmar la nota.</div>' +
     '<div>· Lee las preguntas del guion tal como están; así cada respuesta cae en su campo.</div>' +
     '<div>· Al terminar te muestro campo por campo lo que entendí, antes de tocar el expediente.</div>' +
@@ -1851,8 +1894,49 @@ function pantallaConsentimiento(){
   $('capaSec').classList.add('oculto');
   $('capaPri').classList.remove('oculto');
   $('capaPri').textContent = 'Empezar a grabar';
-  $('capaPri').disabled = true;
-  $('okConsent').onchange = function(){ $('capaPri').disabled = !this.checked; };
+
+  var micOK = micYaProbado();
+  function revisa(){
+    $('capaPri').disabled = !($('okConsent').checked && micOK);
+    $('capaInfo').textContent = micOK ? '' : 'Prueba el micrófono antes de grabar.';
+  }
+  revisa();
+  $('okConsent').onchange = revisa;
+
+  $('bProbarMic').onclick = function(){
+    var b = this;
+    b.disabled = true;
+    $('resMic').textContent = 'Escuchando…';
+    $('resMic').style.color = 'var(--gris)';
+    pruebaMicrofono(function(n){
+      var el = $('nivelMic');
+      if (el) el.style.width = Math.min(100, n*260) + '%';
+    })
+    .then(function(r){
+      b.disabled = false;
+      var el = $('nivelMic'); if (el) el.style.width = '0';
+      if (r.voz > 0.15){
+        micOK = true;
+        try{ localStorage.setItem('micOK','1'); }catch(e){}
+        $('resMic').style.color = 'var(--verde)';
+        $('resMic').textContent = 'Te escuché bien.';
+      } else if (r.pico > 0.01){
+        $('resMic').style.color = 'var(--ambar)';
+        $('resMic').textContent = 'Apenas se oye. Acércate o sube el volumen de entrada.';
+      } else {
+        $('resMic').style.color = 'var(--rojo)';
+        $('resMic').textContent = 'No entró nada de audio. Revisa qué micrófono está seleccionado.';
+      }
+      revisa();
+    })
+    .catch(function(e){
+      b.disabled = false;
+      $('resMic').style.color = 'var(--rojo)';
+      $('resMic').textContent = 'El navegador no dio acceso al micrófono: ' + e.message;
+      revisa();
+    });
+  };
+
   $('capaPri').onclick = empiezaGrabacion;
 }
 
@@ -1862,6 +1946,9 @@ function pantallaGrabando(){
     '<div class="reloj" id="reloj">0:00</div>' +
     '<div class="subreloj">Habla normal. La pantalla no se apaga.</div>' +
     '<div class="medidor"><i id="nivel"></i></div>' +
+    '<div class="aviso malo" id="avisoMudo" style="display:none;margin-top:14px">' +
+    '<b>No estoy oyendo nada.</b> Llevas veinte segundos sin señal de audio. ' +
+    'Revisa el micrófono antes de seguir: esto no se va a poder transcribir.</div>' +
     '<div class="lista" style="margin-top:16px"><div>Orden del guion: heredofamiliares, ' +
     'personales patológicos, no patológicos, gineco-obstétricos, padecimiento actual, ' +
     'aparatos y sistemas.</div></div>';
@@ -1883,7 +1970,7 @@ function empiezaGrabacion(){
       D.rec = D.mime ? new MediaRecorder(stream, {mimeType:D.mime}) : new MediaRecorder(stream);
       D.trozos = [];
       D.rec.ondataavailable = function(e){ if (e.data && e.data.size) D.trozos.push(e.data); };
-      D.rec.onstop = subeAudio;
+      D.rec.onstop = revisaGrabacion;
       D.rec.start(1000);
       D.t0 = Date.now();
       pantallaGrabando();
@@ -1908,13 +1995,23 @@ function medidor(stream){
     var an = D.ctx.createAnalyser(); an.fftSize = 512;
     src.connect(an);
     var buf = new Uint8Array(an.frequencyBinCount);
+    D.muestras = 0; D.conVoz = 0; D.pico = 0;
     (function tic(){
       if (!D.rec || D.rec.state !== 'recording') return;
       an.getByteTimeDomainData(buf);
       var pico = 0;
       for (var i=0;i<buf.length;i++){ var v = Math.abs(buf[i]-128); if (v>pico) pico=v; }
+      var n = pico/128;
+      D.muestras++; if (n > 0.03) D.conVoz++;
+      if (n > D.pico) D.pico = n;
       var el = $('nivel');
-      if (el) el.style.width = Math.min(100, pico/128*260) + '%';
+      if (el) el.style.width = Math.min(100, n*260) + '%';
+
+      // si lleva veinte segundos sin oír nada, hay que decirlo AHORA
+      var seg = (Date.now() - D.t0)/1000;
+      var av = $('avisoMudo');
+      if (av) av.style.display = (seg > 20 && D.conVoz / D.muestras < 0.02) ? '' : 'none';
+
       requestAnimationFrame(tic);
     })();
   }catch(e){}
@@ -1943,9 +2040,67 @@ function base64De(blob){
   });
 }
 
-/* El audio sube partido: una consulta larga no cabe en una sola petición. */
-function subeAudio(){
+/* ============================================================
+   ANTES DE SUBIR: ¿de verdad se grabó?
+   Nadie mira la barra de nivel durante una consulta. Así que al terminar se
+   dice en una línea si hubo voz, y se puede escuchar el principio. Es la
+   diferencia entre enterarte aquí o enterarte cuando vuelva vacía.
+   ============================================================ */
+function revisaGrabacion(){
   var blob = new Blob(D.trozos, {type: D.mime || 'audio/webm'});
+  var seg = Math.round((Date.now() - D.t0)/1000);
+  var mb = blob.size/1048576;
+  var voz = D.muestras ? D.conVoz/D.muestras : 0;
+  var bien = voz > 0.10 && blob.size > 20000;
+
+  if (D.url) URL.revokeObjectURL(D.url);
+  D.url = URL.createObjectURL(blob);
+  D.blobListo = blob;
+
+  $('capaTitulo').textContent = 'Revisa la grabación';
+  var c = $('capaCuerpo');
+  c.innerHTML = '';
+
+  var enc = document.createElement('div');
+  enc.className = bien ? 'lista' : 'aviso malo';
+  enc.innerHTML = bien
+    ? '<div><b style="color:var(--verde)">Se escuchó voz</b> durante ' +
+      Math.round(voz*100) + '% del tiempo.</div>'
+    : '<b>Esta grabación no sirve.</b> ' +
+      (blob.size <= 20000 ? 'Casi no tiene contenido. '
+                          : 'Solo ' + Math.round(voz*100) + '% del tiempo hubo señal audible. ') +
+      'Escúchala antes de decidir: si está muda, no la subas — vuelve a grabar o teclea la nota.';
+  c.appendChild(enc);
+
+  var det = document.createElement('div');
+  det.className = 'lista';
+  det.style.marginTop = '10px';
+  det.innerHTML = '<div>Duración ' + Math.floor(seg/60) + ':' + ('0'+(seg%60)).slice(-2) +
+    '  ·  ' + mb.toFixed(1) + ' MB  ·  nivel máximo ' + Math.round(D.pico*100) + '%</div>';
+  c.appendChild(det);
+
+  var au = document.createElement('audio');
+  au.controls = true; au.src = D.url;
+  au.style.cssText = 'width:100%;margin-top:14px';
+  c.appendChild(au);
+
+  $('capaSec').classList.remove('oculto');
+  $('capaSec').textContent = 'Descartar y volver a grabar';
+  $('capaSec').onclick = function(){
+    if (D.url){ URL.revokeObjectURL(D.url); D.url = null; }
+    D.blobListo = null;
+    pantallaConsentimiento();
+  };
+  $('capaPri').classList.remove('oculto');
+  $('capaPri').disabled = false;
+  $('capaPri').textContent = bien ? 'Subir y transcribir' : 'Subirla de todos modos';
+  $('capaPri').onclick = function(){ subeAudio(D.blobListo); };
+  $('capaInfo').textContent = '';
+}
+
+/* El audio sube partido: una consulta larga no cabe en una sola petición. */
+function subeAudio(blobDado){
+  var blob = blobDado || new Blob(D.trozos, {type: D.mime || 'audio/webm'});
   var partes = Math.max(1, Math.ceil(blob.size / TROZO));
   var mb = (blob.size/1048576).toFixed(1);
 
