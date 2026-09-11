@@ -65,6 +65,44 @@ body{font-family:var(--sans);background:var(--crema);color:var(--negro);font-siz
 .vacio{background:#fff;border:1px dashed var(--linea);border-radius:4px;
   padding:26px 18px;text-align:center;color:var(--gris);font-size:13.5px}
 
+/* ---------- menú de documentos ---------- */
+.fichaPac{background:#fff;border:1px solid var(--linea);border-radius:4px;
+  padding:14px 16px;margin-bottom:16px}
+.fichaPac h2{font-family:var(--serif);font-size:23px;font-weight:600;margin:0 0 3px}
+.fichaPac .det{font-size:13px;color:var(--gris)}
+.mosaico{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;
+  margin-bottom:8px}
+.ficha{background:#fff;border:1px solid var(--linea);border-radius:4px;padding:14px;
+  cursor:pointer;text-align:left;font-family:var(--sans);color:var(--negro);
+  display:flex;flex-direction:column;gap:7px;min-height:104px}
+.ficha:hover{border-color:var(--negro)}
+.ficha svg{width:24px;height:24px;stroke:var(--taupe);fill:none;stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round}
+.ficha:hover svg{stroke:var(--negro)}
+.ficha .n{font-size:14px;font-weight:500;line-height:1.3}
+.ficha .c{font-size:11.5px;color:var(--gris);margin-top:auto}
+.ficha.hecho{background:var(--crema)}
+.ficha.hecho svg{stroke:var(--verde)}
+.hecho-fila{background:#fff;border:1px solid var(--linea);border-left:3px solid var(--verde);
+  border-radius:3px;padding:11px 14px;margin-bottom:8px;display:flex;gap:12px;
+  align-items:center;cursor:pointer;font-size:13.5px}
+.hecho-fila:hover{border-color:var(--taupe);border-left-color:var(--verde)}
+.hecho-fila .t{flex:1}
+.hecho-fila .f{font-size:12px;color:var(--gris)}
+.hecho-fila .sello{font-size:11px;padding:3px 8px;border-radius:2px;
+  background:#E8F0EA;color:var(--verde)}
+.previo{background:#fff;border:1px solid var(--linea);border-radius:4px;margin-bottom:12px}
+.previo > summary{list-style:none;cursor:pointer;padding:13px 18px;font-weight:500;
+  display:flex;gap:10px;align-items:center}
+.previo > summary::-webkit-details-marker{display:none}
+.previo .flecha{color:var(--taupe);font-size:12px}
+.previo[open] .flecha{transform:rotate(90deg)}
+.previo .cuerpo{padding:0 18px 16px}
+.previo .par{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--linea);font-size:13px}
+.previo .par .e{color:var(--gris);min-width:170px;font-size:11px;
+  letter-spacing:.5px;text-transform:uppercase;padding-top:2px}
+.previo .par .v{flex:1}
+
 /* ---------- formulario ---------- */
 .grupo{background:#fff;border:1px solid var(--linea);border-radius:4px;margin-bottom:12px;overflow:hidden}
 .grupo > summary{list-style:none;cursor:pointer;padding:14px 18px;display:flex;
@@ -197,10 +235,10 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
     <div class="dentro">
       <h1 id="titulo">Pacientes de hoy</h1>
       <div class="quien" id="quien"></div>
-      <button class="txt" id="bVolver" style="display:none">← Agenda</button>
+      <button class="txt" id="bVolver" style="display:none">← Atrás</button>
       <div class="alcance oculto" id="cajaAlcance">
-        <button id="modoValoracion" class="on">Esta consulta</button>
-        <button id="modoTodo">Todo</button>
+        <button id="modoTodo" class="on">Todo el documento</button>
+        <button id="modoValoracion">Solo lo que falta</button>
       </div>
       <button class="txt" id="bSalir">Salir</button>
     </div>
@@ -234,6 +272,16 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
       </div>
       <button class="s" id="bManual">Abrir expediente con ese nombre</button>
     </div>
+  </div>
+
+  <!-- pantalla: qué documento vas a hacer -->
+  <div class="wrap oculto" id="pantallaDocs">
+    <div class="fichaPac" id="fichaPac"></div>
+    <div id="yaHechos"></div>
+    <div class="seccion">Capturar</div>
+    <div class="mosaico" id="mosCaptura"></div>
+    <div class="seccion">Imprimir y firmar</div>
+    <div class="mosaico" id="mosFirmar"></div>
   </div>
 
   <!-- pantalla: expediente -->
@@ -365,7 +413,102 @@ function pide(accion, datos){
    ============================================================ */
 var ESQUEMA = null, CONSTANTES = {}, VALORES = {}, PACIENTE = {}, FOLIO = '';
 var PENDIENTE_DICTADO = {}, SIN_UBICAR = [], DUDAS = [], AVISOS_ASR = [], AUDIO_ID = '';
-var sucio = false, SOLO_VALORACION = true;
+/* SOLO_VALORACION = esconder lo que ya está lleno. Por omisión NO, para que al
+   abrir una nota ya empezada se vea lo que trae y no una pantalla en blanco. */
+var sucio = false, SOLO_VALORACION = false;
+var EXPEDIENTE = null;      // el archivo completo de la paciente
+var TIPO = null;            // el documento que se está capturando
+var DOC_ID = '';            // su id dentro del expediente
+
+/* ============================================================
+   LOS DOCUMENTOS QUE SE PUEDEN HACER
+   `etiquetas` son los valores de la columna APARECE EN del diccionario que
+   pertenecen a este documento. Hay sinónimos (Convenio / Convenio de
+   honorarios, Faja / Indicaciones de faja): se aceptan todos.
+   ============================================================ */
+var SIEMPRE = 'Todos los formatos';
+
+var DOCUMENTOS = [
+  { id:'historia_clinica',   nombre:'Historia clínica',        grupo:'captura',
+    icono:'expediente', dictado:true,
+    etiquetas:['Historia clínica'], unico:true },
+  { id:'nota_evolucion',     nombre:'Nota de evolución',       grupo:'captura',
+    icono:'pulso', dictado:false,
+    etiquetas:['Nota de evolución'] },
+  { id:'nota_procedimiento', nombre:'Nota de procedimiento',   grupo:'captura',
+    icono:'bisturi', dictado:false,
+    etiquetas:['Nota de procedimiento'] },
+  { id:'nota_preoperatoria', nombre:'Nota preoperatoria',      grupo:'captura',
+    icono:'reloj', dictado:false,
+    etiquetas:['Nota preoperatoria'] },
+  { id:'receta',             nombre:'Receta',                  grupo:'captura',
+    icono:'pastilla', dictado:false,
+    etiquetas:['Receta'] },
+
+  { id:'ci_quirurgico',      nombre:'CI quirúrgico',           grupo:'firma',
+    icono:'firma', dictado:false,
+    etiquetas:['Consentimiento quirúrgico','Consentimientos'] },
+  { id:'ci_rellenos',        nombre:'CI rellenos',             grupo:'firma',
+    icono:'gota', dictado:false,
+    etiquetas:['CI rellenos','Consentimientos'] },
+  { id:'ci_toxina',          nombre:'CI toxina botulínica',    grupo:'firma',
+    icono:'jeringa', dictado:false,
+    etiquetas:['CI toxina','Consentimientos'] },
+  { id:'ci_imagen',          nombre:'Consentimiento de imagen',grupo:'firma',
+    icono:'camara', dictado:false,
+    etiquetas:['Consentimiento de imagen','Registro fotográfico'] },
+  { id:'aviso_privacidad',   nombre:'Aviso de privacidad',     grupo:'firma',
+    icono:'escudo', dictado:false,
+    etiquetas:['Aviso de privacidad'], unico:true },
+  { id:'convenio',           nombre:'Convenio de honorarios',  grupo:'firma',
+    icono:'pesos', dictado:false,
+    etiquetas:['Convenio de honorarios','Convenio'] },
+  { id:'faja',               nombre:'Indicaciones de faja',    grupo:'firma',
+    icono:'faja', dictado:false,
+    etiquetas:['Indicaciones de faja','Faja'] }
+];
+
+var ICONOS = {
+  expediente:'<path d="M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M9 7h6M9 11h6M9 15h3"/>',
+  pulso:'<path d="M3 12h4l2-6 4 12 2-6h6"/>',
+  bisturi:'<path d="M14 4l6 6-8 8H6v-6z"/><path d="M4 20h6"/>',
+  reloj:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+  pastilla:'<rect x="3" y="9" width="18" height="7" rx="3.5"/><path d="M12 9v7"/>',
+  firma:'<path d="M3 18c3 0 4-8 7-8s2 6 5 6 3-3 6-3"/><path d="M3 21h18"/>',
+  gota:'<path d="M12 3s6 6.5 6 10a6 6 0 01-12 0c0-3.5 6-10 6-10z"/>',
+  jeringa:'<path d="M18 3l3 3M16 5l3 3M8 16l-4 5M6 13l5 5M14 4l6 6-8 8-6-6z"/>',
+  camara:'<rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/>',
+  escudo:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  pesos:'<path d="M7 4l5 8 5-8"/><path d="M12 12v8"/><path d="M8 15h8M8 18h8"/>',
+  faja:'<rect x="3" y="8" width="18" height="8" rx="2"/><path d="M8 8v8M16 8v8"/>'
+};
+
+function docPorId(id){
+  return DOCUMENTOS.filter(function(d){ return d.id === id; })[0] || null;
+}
+
+/* Los campos que le tocan a un documento: los suyos más los que aparecen en
+   todos los formatos (tu nombre, cédulas, folio…), que casi siempre ya están
+   llenos solos. */
+function camposDe(tipo){
+  if (!ESQUEMA) return [];
+  var etiquetas = tipo.etiquetas.concat([SIEMPRE]);
+  return ESQUEMA.campos.filter(function(c){
+    var suyas = String(c.aparece || '').replace(/;/g, ',').split(',')
+      .map(function(x){ return x.trim(); });
+    return suyas.some(function(x){ return etiquetas.indexOf(x) >= 0; });
+  });
+}
+
+/* Cuántos campos le faltarían de verdad: sin contar los automáticos, los que
+   son constantes del consultorio y los que ya traen valor. */
+function faltanDe(tipo, valores){
+  return camposDe(tipo).filter(function(c){
+    if (c.control === 'automatico') return false;
+    if (CONSTANTES.hasOwnProperty(c.id)) return false;
+    return !(valores && valores[c.id]);
+  }).length;
+}
 
 var DESDE_AGENDA = {
   'paciente_sexo':              'Género',
@@ -582,65 +725,263 @@ $('bSalir').onclick = salir;
 /* ============================================================
    EXPEDIENTE
    ============================================================ */
-function vistaLista(){
-  if (sucio) guarda(true);
-  $('pantallaExp').classList.add('oculto');
+function ocultaTodo(){
+  ['pantallaLista','pantallaDocs','pantallaExp'].forEach(function(p){
+    $(p).classList.add('oculto');
+  });
   $('pieExp').classList.add('oculto');
   $('cajaAlcance').classList.add('oculto');
-  $('bVolver').style.display = 'none';
+}
+
+function vistaLista(){
+  if (sucio) guarda(true);
+  ocultaTodo();
   $('pantallaLista').classList.remove('oculto');
+  $('bVolver').style.display = 'none';
   $('titulo').textContent = 'Pacientes de hoy';
   $('progreso').style.width = '0';
+  TIPO = null; DOC_ID = '';
 }
-$('bVolver').onclick = vistaLista;
 
+$('bVolver').onclick = function(){
+  // del formulario se regresa al menú de documentos; del menú, a la agenda
+  if (!$('pantallaExp').classList.contains('oculto')) vistaDocumentos();
+  else vistaLista();
+};
+
+/* ---------------- paso 1: qué documento vamos a hacer ---------------- */
 function abreExpediente(p){
   PACIENTE = p;
   FOLIO = folioDe(p);
-  VALORES = {}; PENDIENTE_DICTADO = {}; SIN_UBICAR = []; DUDAS = []; AVISOS_ASR = [];
-  AUDIO_ID = ''; sucio = false;
+  EXPEDIENTE = null; TIPO = null; DOC_ID = '';
+  sucio = false;
 
-  $('pantallaLista').classList.add('oculto');
-  $('pantallaExp').classList.remove('oculto');
-  $('pieExp').classList.remove('oculto');
-  $('cajaAlcance').classList.remove('oculto');
+  ocultaTodo();
+  $('pantallaDocs').classList.remove('oculto');
   $('bVolver').style.display = '';
   $('titulo').textContent = p['Paciente'] || 'Expediente';
-  $('estado').textContent = 'Abriendo el expediente…';
-  $('avisoPrefill').className = 'aviso';
-  $('avisoPrefill').textContent = '';
-  $('formulario').innerHTML = '';
+  $('progreso').style.width = '0';
+  $('fichaPac').innerHTML = '';
+  $('yaHechos').innerHTML = '<div class="vacio">Abriendo el expediente…</div>';
+  $('mosCaptura').innerHTML = ''; $('mosFirmar').innerHTML = '';
   window.scrollTo(0,0);
 
   pide('expedienteLeer', { folio: FOLIO })
     .then(function(g){
-      var borrador = leeBorrador();
-      if (g.existe && g.expediente){
-        var x = g.expediente;
-        VALORES = x.campos || {};
-        PENDIENTE_DICTADO = x.dictado_pendiente || {};
-        SIN_UBICAR = x.dictado_sin_ubicar || [];
-        DUDAS = x.dictado_dudas || [];
-        AVISOS_ASR = x.dictado_avisos || [];
-        AUDIO_ID = x.audio_id || '';
-        arma(); vuelca(); aplicaConstantes(); recalcula(); pinta();
-        $('avisoPrefill').innerHTML = '<b>Expediente ya empezado.</b> Última vez guardado el ' +
-          (x.guardado || '') + (x.por ? ' por ' + x.por : '') + '.';
-        if (x.dictado && !x.revisado_dictado) ofreceDictadoListo(x.dictado, x.transcripcion || '');
-      } else if (borrador){
-        VALORES = borrador.campos || {};
-        PENDIENTE_DICTADO = borrador.dictado_pendiente || {};
-        arma(); vuelca(); aplicaConstantes(); recalcula(); pinta();
-        $('avisoPrefill').innerHTML = '<b>Se recuperó lo que habías capturado</b> en este navegador ' +
-          'y que no alcanzó a guardarse. Revísalo y guarda.';
-        sucio = true;
-      } else {
-        prellena(); arma(); vuelca(); aplicaConstantes(); recalcula(); pinta();
-      }
+      EXPEDIENTE = (g.existe && g.expediente) || { paciente: PACIENTE, documentos: [] };
+      if (!EXPEDIENTE.documentos) EXPEDIENTE.documentos = [];
+      pintaDocumentos();
     })
     .catch(function(e){
-      $('estado').textContent = 'No pude abrir el expediente: ' + e.message;
+      $('yaHechos').innerHTML = '';
+      var v = document.createElement('div'); v.className = 'vacio';
+      v.textContent = 'No pude abrir el expediente: ' + e.message;
+      $('yaHechos').appendChild(v);
     });
+}
+
+function vistaDocumentos(){
+  if (sucio) guarda(true);
+  ocultaTodo();
+  $('pantallaDocs').classList.remove('oculto');
+  $('bVolver').style.display = '';
+  $('titulo').textContent = PACIENTE['Paciente'] || 'Expediente';
+  $('progreso').style.width = '0';
+  TIPO = null; DOC_ID = '';
+  pintaDocumentos();
+  window.scrollTo(0,0);
+}
+
+function icono(nombre){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONOS[nombre] || '') + '</svg>';
+}
+
+function pintaDocumentos(){
+  var docs = (EXPEDIENTE && EXPEDIENTE.documentos) || [];
+
+  var f = $('fichaPac');
+  f.innerHTML = '';
+  var h = document.createElement('h2');
+  h.textContent = PACIENTE['Paciente'] || 'Paciente';
+  var d = document.createElement('div'); d.className = 'det';
+  d.textContent = [
+    PACIENTE['Edad'] ? PACIENTE['Edad'] + ' años' : '',
+    PACIENTE['Procedimiento(s) de interés'] || '',
+    docs.length ? docs.length + (docs.length === 1 ? ' documento' : ' documentos') : 'expediente nuevo'
+  ].filter(Boolean).join('  ·  ');
+  f.appendChild(h); f.appendChild(d);
+
+  // lo que ya existe, para continuarlo en vez de duplicarlo
+  var y = $('yaHechos');
+  y.innerHTML = '';
+  if (docs.length){
+    var orden = docs.slice().sort(function(a,b){
+      return String(b.fecha || '').localeCompare(String(a.fecha || ''));
+    });
+    orden.forEach(function(doc){
+      var t = docPorId(doc.tipo);
+      var fila = document.createElement('div');
+      fila.className = 'hecho-fila';
+      var tx = document.createElement('div'); tx.className = 't';
+      tx.textContent = (t ? t.nombre : doc.tipo);
+      var fe = document.createElement('div'); fe.className = 'f';
+      fe.textContent = doc.fecha || '';
+      fila.appendChild(tx); fila.appendChild(fe);
+      if (doc.firmado){
+        var s = document.createElement('div'); s.className = 'sello';
+        s.textContent = 'firmado'; fila.appendChild(s);
+      }
+      if (doc.dictado && !doc.revisado_dictado){
+        var p = document.createElement('div'); p.className = 'sello';
+        p.style.background = '#FDF8EC'; p.style.color = 'var(--ambar)';
+        p.textContent = 'dictado por revisar'; fila.appendChild(p);
+      }
+      fila.onclick = function(){ abreDocumento(doc.tipo, doc.id); };
+      y.appendChild(fila);
+    });
+  }
+
+  ['captura','firma'].forEach(function(g){
+    var caja = $(g === 'captura' ? 'mosCaptura' : 'mosFirmar');
+    caja.innerHTML = '';
+    DOCUMENTOS.filter(function(t){ return t.grupo === g; }).forEach(function(t){
+      var existente = docs.filter(function(x){ return x.tipo === t.id; })[0];
+      var b = document.createElement('button');
+      b.className = 'ficha' + (existente ? ' hecho' : '');
+      b.type = 'button';
+      b.innerHTML = icono(t.icono);
+      var n = document.createElement('div'); n.className = 'n'; n.textContent = t.nombre;
+      var c = document.createElement('div'); c.className = 'c';
+      if (existente && t.unico) c.textContent = 'ya existe · abrir';
+      else if (existente) c.textContent = 'otra más';
+      else c.textContent = faltanDe(t, {}) + ' campos';
+      b.appendChild(n); b.appendChild(c);
+      b.onclick = function(){
+        abreDocumento(t.id, (existente && t.unico) ? existente.id : '');
+      };
+      caja.appendChild(b);
+    });
+  });
+}
+
+/* ---------------- paso 2: capturar ese documento ---------------- */
+function abreDocumento(tipoId, docId){
+  TIPO = docPorId(tipoId);
+  if (!TIPO) return;
+  DOC_ID = docId || '';
+
+  VALORES = {}; PENDIENTE_DICTADO = {}; SIN_UBICAR = []; DUDAS = []; AVISOS_ASR = [];
+  AUDIO_ID = ''; sucio = false;
+
+  ocultaTodo();
+  $('pantallaExp').classList.remove('oculto');
+  $('pieExp').classList.remove('oculto');
+  $('cajaAlcance').classList.remove('oculto');
+  $('bVolver').style.display = '';
+  $('titulo').textContent = TIPO.nombre;
+  $('estado').textContent = '';
+  $('avisoPrefill').className = 'aviso';
+  $('avisoPrefill').textContent = '';
+  $('formulario').innerHTML = '';
+  $('bDictar').style.display = TIPO.dictado ? '' : 'none';
+  window.scrollTo(0,0);
+
+  var docs = (EXPEDIENTE && EXPEDIENTE.documentos) || [];
+  var doc = DOC_ID ? docs.filter(function(x){ return x.id === DOC_ID; })[0] : null;
+  var borrador = leeBorrador();
+
+  if (doc){
+    VALORES = doc.campos || {};
+    PENDIENTE_DICTADO = doc.dictado_pendiente || {};
+    SIN_UBICAR = doc.dictado_sin_ubicar || [];
+    DUDAS = doc.dictado_dudas || [];
+    AVISOS_ASR = doc.dictado_avisos || [];
+    AUDIO_ID = doc.audio_id || '';
+    dibujaTodo();
+    $('avisoPrefill').innerHTML = '<b>' + TIPO.nombre + ' ya empezada.</b> Guardada el ' +
+      (doc.guardado || '') + (doc.por ? ' por ' + doc.por : '') + '.';
+    if (doc.firmado){
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML = '<b>Este documento ya está firmado.</b> No se edita: ' +
+        'si hay que corregir o agregar algo, se hace en una nota nueva.';
+    }
+    if (doc.dictado && !doc.revisado_dictado){
+      ofreceDictadoListo(doc.dictado, doc.transcripcion || '');
+    }
+  } else if (borrador && borrador.tipo === TIPO.id){
+    VALORES = borrador.campos || {};
+    PENDIENTE_DICTADO = borrador.dictado_pendiente || {};
+    dibujaTodo();
+    $('avisoPrefill').innerHTML = '<b>Se recuperó lo que habías capturado</b> en este ' +
+      'navegador y que no alcanzó a guardarse. Revísalo y guarda.';
+    sucio = true;
+  } else {
+    prellena();
+    heredaDeHistoria();
+    dibujaTodo();
+  }
+  muestraAntecedentes();
+}
+
+function dibujaTodo(){
+  arma(); vuelca(); aplicaConstantes(); recalcula(); pinta();
+}
+
+/* Lo que ya se capturó en la historia clínica y este documento también pide
+   (nombre, alergias, diagnósticos…) no se vuelve a preguntar: se hereda. */
+function heredaDeHistoria(){
+  var docs = (EXPEDIENTE && EXPEDIENTE.documentos) || [];
+  var hc = docs.filter(function(x){ return x.tipo === 'historia_clinica'; })[0];
+  if (!hc || !hc.campos) return 0;
+  var mios = {};
+  camposDe(TIPO).forEach(function(c){ mios[c.id] = true; });
+  var n = 0;
+  Object.keys(hc.campos).forEach(function(id){
+    if (mios[id] && !VALORES[id]){ VALORES[id] = hc.campos[id]; n++; }
+  });
+  return n;
+}
+
+/* En una nota de evolución quieres ver los antecedentes sin volver a teclearlos. */
+function muestraAntecedentes(){
+  var viejo = document.getElementById('panelPrevio');
+  if (viejo) viejo.remove();
+  if (!TIPO || TIPO.id === 'historia_clinica') return;
+
+  var docs = (EXPEDIENTE && EXPEDIENTE.documentos) || [];
+  var hc = docs.filter(function(x){ return x.tipo === 'historia_clinica'; })[0];
+  if (!hc || !hc.campos) return;
+
+  var mios = {};
+  camposDe(TIPO).forEach(function(c){ mios[c.id] = true; });
+  var filas = ESQUEMA.campos.filter(function(c){
+    return hc.campos[c.id] && !mios[c.id] &&
+           /Historia clínica|Riesgo|Cierre/.test(c.grupo);
+  });
+  if (!filas.length) return;
+
+  var d = document.createElement('details');
+  d.className = 'previo'; d.id = 'panelPrevio';
+  var s = document.createElement('summary');
+  var fl = document.createElement('span'); fl.className = 'flecha'; fl.textContent = '▸';
+  var ti = document.createElement('span');
+  ti.textContent = 'De su historia clínica del ' + (hc.fecha || '') +
+                   '  ·  ' + filas.length + ' datos';
+  s.appendChild(fl); s.appendChild(ti);
+  d.appendChild(s);
+
+  var cuerpo = document.createElement('div'); cuerpo.className = 'cuerpo';
+  filas.forEach(function(c){
+    var p = document.createElement('div'); p.className = 'par';
+    var e = document.createElement('div'); e.className = 'e';
+    e.textContent = c.etiqueta || c.id;
+    var v = document.createElement('div'); v.className = 'v';
+    v.textContent = hc.campos[c.id];
+    p.appendChild(e); p.appendChild(v);
+    cuerpo.appendChild(p);
+  });
+  d.appendChild(cuerpo);
+  $('pantallaExp').insertBefore(d, $('formulario'));
 }
 
 function prellena(){
@@ -865,17 +1206,14 @@ function pon(id, valor){
 }
 
 function pinta(){
-  if (!ESQUEMA) return;
-  var propios = ESQUEMA.campos.filter(function(c){
-    if (c.control === 'automatico') return false;
-    return SOLO_VALORACION ? c.valoracion : true;
-  });
+  if (!ESQUEMA || !TIPO) return;
+  var delDoc = camposDe(TIPO);
+  var propios = delDoc.filter(function(c){ return c.control !== 'automatico'; });
   var llenos = propios.filter(function(c){ return VALORES[c.id]; }).length;
   $('progreso').style.width = (propios.length ? (llenos/propios.length*100) : 0) + '%';
 
-  var faltanNom = ESQUEMA.campos.filter(function(c){
-    if (!c.obligatorio || c.control === 'automatico' || VALORES[c.id]) return false;
-    return SOLO_VALORACION ? c.valoracion : true;
+  var faltanNom = delDoc.filter(function(c){
+    return c.obligatorio && c.control !== 'automatico' && !VALORES[c.id];
   }).length;
   $('estado').textContent = llenos + ' de ' + propios.length + ' campos' +
     (faltanNom ? '  ·  faltan ' + faltanNom + ' obligatorios de la NOM' : '  ·  NOM completa');
@@ -889,11 +1227,15 @@ function pinta(){
   });
 }
 
+/* Qué campos de este grupo se dibujan. El filtro grande ya lo hizo el tipo de
+   documento; aquí solo se decide si además se esconde lo que ya está lleno. */
 function visibles(g){
-  return ESQUEMA.campos.filter(function(c){
+  if (!TIPO) return [];
+  return camposDe(TIPO).filter(function(c){
     if (c.grupo !== g) return false;
     if (!SOLO_VALORACION) return true;
-    return c.valoracion || VALORES[c.id] || PENDIENTE_DICTADO[c.id];
+    if (CONSTANTES.hasOwnProperty(c.id)) return false;   // dato fijo, no estorba
+    return !VALORES[c.id] || PENDIENTE_DICTADO[c.id];
   });
 }
 
@@ -998,7 +1340,7 @@ function cambiaAlcance(solo){
   SOLO_VALORACION = solo;
   $('modoValoracion').classList.toggle('on', solo);
   $('modoTodo').classList.toggle('on', !solo);
-  try{ localStorage.setItem('alcance', solo ? 'valoracion' : 'todo'); }catch(e){}
+  try{ localStorage.setItem('alcance', solo ? 'falta' : 'todo'); }catch(e){}
   arma(); vuelca(); aplicaConstantes(); recalcula(); pinta();
 }
 $('modoValoracion').onclick = function(){ cambiaAlcance(true); };
@@ -1008,6 +1350,8 @@ $('modoTodo').onclick       = function(){ cambiaAlcance(false); };
 function cuerpoExpediente(){
   return {
     folio: FOLIO, paciente: PACIENTE, campos: VALORES,
+    tipo: TIPO ? TIPO.id : '', doc_id: DOC_ID,
+    fecha: hoyISO(),
     dictado_pendiente: PENDIENTE_DICTADO,
     dictado_sin_ubicar: SIN_UBICAR,
     dictado_dudas: DUDAS,
@@ -1017,11 +1361,13 @@ function cuerpoExpediente(){
 }
 
 function guarda(silencioso){
-  if (!FOLIO) return Promise.resolve();
-  return pide('expedienteGuardar', cuerpoExpediente())
+  if (!FOLIO || !TIPO) return Promise.resolve();
+  return pide('documentoGuardar', cuerpoExpediente())
     .then(function(d){
       sucio = false;
+      DOC_ID = d.doc_id || DOC_ID;
       borraBorrador();
+      refrescaEnMemoria(d);
       if (!silencioso) $('estado').textContent = 'Guardado · ' + d.guardado;
       return d;
     })
@@ -1034,7 +1380,24 @@ $('bGuardar').onclick = function(){ guarda(false); };
 
 /* Red de seguridad: mientras no se haya guardado en la nube, lo capturado
    vive también en este navegador. Si se cae la sesión, no se pierde. */
-function llaveBorrador(){ return 'borrador_' + FOLIO; }
+/* Mantiene al día la copia en memoria del expediente, para que al volver al
+   menú de documentos se vea lo que se acaba de guardar sin ir de nuevo al
+   servidor. */
+function refrescaEnMemoria(res){
+  if (!EXPEDIENTE) EXPEDIENTE = { paciente: PACIENTE, documentos: [] };
+  if (!EXPEDIENTE.documentos) EXPEDIENTE.documentos = [];
+  var d = EXPEDIENTE.documentos.filter(function(x){ return x.id === DOC_ID; })[0];
+  if (!d){ d = { id: DOC_ID }; EXPEDIENTE.documentos.push(d); }
+  d.tipo = TIPO.id;
+  d.fecha = hoyISO();
+  d.campos = VALORES;
+  d.dictado_pendiente = PENDIENTE_DICTADO;
+  d.audio_id = AUDIO_ID;
+  d.guardado = (res && res.guardado) || '';
+  d.por = (res && res.por) || '';
+}
+
+function llaveBorrador(){ return 'borrador_' + FOLIO + '_' + (TIPO ? TIPO.id : ''); }
 function guardaBorrador(){
   if (!FOLIO) return;
   try{ localStorage.setItem(llaveBorrador(), JSON.stringify(cuerpoExpediente())); }catch(e){}
@@ -1172,7 +1535,16 @@ $('capaCerrar').onclick = function(){
   }
   capaCierra();
 };
-$('bDictar').onclick = function(){ pantallaConsentimiento(); capaAbre(); };
+$('bDictar').onclick = function(){
+  // el audio tiene que saber a qué documento pertenece, así que si esta nota
+  // todavía no existe en el servidor, se guarda antes de grabar
+  if (!DOC_ID){
+    $('estado').textContent = 'Preparando el documento…';
+    guarda(true).then(function(){ pantallaConsentimiento(); capaAbre(); });
+    return;
+  }
+  pantallaConsentimiento(); capaAbre();
+};
 
 function pantallaConsentimiento(){
   $('capaTitulo').textContent = 'Dictar el interrogatorio';
@@ -1313,7 +1685,7 @@ function subeAudio(){
     $('estado').textContent = 'Dictado: ' + texto;
   }
 
-  pide('audioIniciar', { folio: FOLIO, ext: D.ext, partes: partes,
+  pide('audioIniciar', { folio: FOLIO, doc_id: DOC_ID, ext: D.ext, partes: partes,
                          paciente: PACIENTE['Paciente'] || '' })
     .then(function(d){
       D.id = d.id;
@@ -1374,8 +1746,10 @@ function consulta(){
 
       clearInterval(D.encuesta); D.encuesta = null;
       return pide('expedienteLeer', { folio: FOLIO }).then(function(g){
-        var x = (g.existe && g.expediente) || {};
-        ofreceDictadoListo(x.dictado || {}, x.transcripcion || '');
+        EXPEDIENTE = (g.existe && g.expediente) || EXPEDIENTE;
+        var docs = (EXPEDIENTE && EXPEDIENTE.documentos) || [];
+        var doc = docs.filter(function(x){ return x.id === DOC_ID; })[0] || {};
+        ofreceDictadoListo(doc.dictado || {}, doc.transcripcion || '');
       });
     })
     .catch(function(){});
@@ -1527,7 +1901,9 @@ function aplicaPropuestas(){
 /* ============================================================
    ARRANQUE
    ============================================================ */
-try{ if (localStorage.getItem('alcance') === 'todo') SOLO_VALORACION = false; }catch(e){}
+try{ if (localStorage.getItem('alcance') === 'falta') SOLO_VALORACION = true; }catch(e){}
+$('modoValoracion').classList.toggle('on', SOLO_VALORACION);
+$('modoTodo').classList.toggle('on', !SOLO_VALORACION);
 try{
   var guardada = sessionStorage.getItem('cred');
   if (guardada){ CRED = guardada; entra(); }
