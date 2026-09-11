@@ -1518,7 +1518,10 @@ function cuerpoExpediente(){
     dictado_sin_ubicar: SIN_UBICAR,
     dictado_dudas: DUDAS,
     dictado_avisos: AVISOS_ASR,
-    audio_id: AUDIO_ID
+    audio_id: AUDIO_ID,
+    // la transcripción viaja con el documento: es lo que el médico revisa si
+    // un campo no le cuadra, y sin ella la revisión es a ciegas
+    transcripcion: (typeof D !== 'undefined' && D && D.transcripcion) || ''
   };
 }
 
@@ -1768,6 +1771,426 @@ window.addEventListener('beforeunload', function(e){
   if (sucio){ guardaBorrador(); e.preventDefault(); e.returnValue = ''; }
 });
 setInterval(function(){ if (sucio && CRED) guarda(true); }, 25000);
+
+/* ==========================================================================
+   MOTOR DE ESTRUCTURACIÓN — Dr. Miguel Ángel Soto Miranda
+
+   Convierte la transcripción de la consulta en los campos del expediente.
+   Es la traducción exacta de corregir.py y estructurar.py, que hasta hoy
+   corrían en Python en la Mac del consultorio.
+
+   Vive en el navegador por una razón de fondo: mientras la estructuración
+   viviera en esa Mac, dictar obligaba a esperarla, y si estaba apagada la
+   nota no llegaba nunca. Aquí se arma en la misma máquina donde el médico
+   la está viendo.
+
+   Las reglas son las mismas de siempre, en este orden de importancia:
+
+     1. NO INVENTA. Pregunta que no se hizo queda como NO INTERROGADO.
+        Nunca escribe "niega X" por algo que nadie preguntó.
+     2. NO TIRA NADA. Lo que no ubica se va íntegro a "sin ubicar".
+     3. Lo dudoso no se corrige: se marca ⟨? ...⟩ para que el médico decida
+        antes de firmar.
+
+   Los guiones, las tablas de palabras y las de corrección NO viven aquí:
+   llegan en campos.json, que se genera desde el diccionario. Si el guion
+   cambia allá, cambia aquí, y no hay manera de que se desincronicen.
+   ========================================================================== */
+
+var Motor = (function () {
+  'use strict';
+
+  /* ---------- normalización ---------- */
+
+  // minúsculas y sin acentos
+  function plano(s) {
+    return String(s == null ? '' : s)
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  // igual, pero conservando la longitud carácter a carácter, para que una
+  // posición hallada aquí sirva sobre el texto original
+  function plana(s) {
+    var out = '';
+    s = String(s == null ? '' : s);
+    for (var i = 0; i < s.length; i++) {
+      var b = s[i].normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      out += (b || s[i]).charAt(0).toLowerCase();
+    }
+    return out;
+  }
+
+  function palabras(s) {
+    return plano(s).match(/[a-z0-9]+/g) || [];
+  }
+
+  // quita de los DOS extremos cualquiera de los caracteres dados
+  function recorta(s, chars) {
+    var i = 0, j = s.length;
+    while (i < j && chars.indexOf(s.charAt(i)) >= 0) i++;
+    while (j > i && chars.indexOf(s.charAt(j - 1)) >= 0) j--;
+    return s.slice(i, j);
+  }
+
+  function escapaRe(s) {
+    return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  /* ---------- capa de corrección ---------- */
+
+  function patronDe(frase) {
+    var partes = frase.split(/\s+/).map(escapaRe);
+    return new RegExp('\\b' + partes.join('\\s+') + '\\b', 'g');
+  }
+
+  function compilaTablas(t) {
+    function lista(obj) {
+      var out = [];
+      for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k)) {
+        out.push({ pat: patronDe(k), mal: k, bien: obj[k] });
+      }
+      return out;
+    }
+    return { seguras: lista(t.seguras || {}), dudas: lista(t.dudas || {}) };
+  }
+
+  // Busca sobre la versión plana y sustituye sobre la línea real.
+  function sustituye(linea, pat, reemplazo) {
+    var ref = plana(linea), trozos = [], ultimo = 0, hubo = false, m;
+    pat.lastIndex = 0;
+    while ((m = pat.exec(ref)) !== null) {
+      trozos.push(linea.slice(ultimo, m.index), reemplazo);
+      ultimo = m.index + m[0].length;
+      hubo = true;
+      if (m[0].length === 0) pat.lastIndex++;
+    }
+    trozos.push(linea.slice(ultimo));
+    return { linea: trozos.join(''), hubo: hubo };
+  }
+
+  function corrige(linea, tablas) {
+    var cambios = [], dudas = [], i, m;
+
+    // Primero lo dudoso: marcar sin tocar. Si dos marcas se traslapan gana
+    // la más larga, para no marcar dos veces la misma frase.
+    var ref = plana(linea), hallazgos = [];
+    for (i = 0; i < tablas.dudas.length; i++) {
+      var d = tablas.dudas[i];
+      d.pat.lastIndex = 0;
+      while ((m = d.pat.exec(ref)) !== null) {
+        hallazgos.push({ ini: m.index, fin: m.index + m[0].length,
+                         mal: d.mal, sospecha: d.bien });
+        if (m[0].length === 0) d.pat.lastIndex++;
+      }
+    }
+    hallazgos.sort(function (a, b) {
+      return (b.fin - b.ini) - (a.fin - a.ini) || a.ini - b.ini;
+    });
+    var firmes = [];
+    hallazgos.forEach(function (h) {
+      var choca = firmes.some(function (f) {
+        return !(h.fin <= f.ini || h.ini >= f.fin);
+      });
+      if (!choca) firmes.push(h);
+    });
+    firmes.slice().sort(function (a, b) { return b.ini - a.ini; })
+      .forEach(function (h) {
+        linea = linea.slice(0, h.fin) + ' ⟨? ' + h.sospecha + '⟩' +
+                linea.slice(h.fin);
+        dudas.push([h.mal, h.sospecha]);
+      });
+
+    // Luego lo inequívoco: sustituir.
+    for (i = 0; i < tablas.seguras.length; i++) {
+      var s = tablas.seguras[i];
+      var r = sustituye(linea, s.pat, s.bien);
+      linea = r.linea;
+      if (r.hubo) cambios.push([s.mal, s.bien]);
+    }
+    return { linea: linea, cambios: cambios, dudas: dudas };
+  }
+
+  /* ---------- reconocimiento de preguntas ---------- */
+
+  function contenido(s, vacias) {
+    var out = {};
+    palabras(s).forEach(function (w) {
+      if (w.length >= 3 && !vacias[w]) out[w] = true;
+    });
+    return out;
+  }
+
+  function esPregunta(linea) {
+    var t = linea.trim();
+    return t.indexOf('¿') === 0 ||
+           t.slice(-1) === '?' || t.slice(-1) === ':';
+  }
+
+  function cuantosEn(pal, conjunto) {
+    var n = 0;
+    for (var w in pal) if (conjunto[w]) n++;
+    return n;
+  }
+
+  function cualPregunta(linea, guion, contenidos, actual, yaContestada) {
+    var pal = {};
+    palabras(linea).forEach(function (w) { pal[w] = true; });
+
+    var puntajes = guion.map(function (g, i) {
+      var kw = {};
+      (g.llaves || []).forEach(function (k) { kw[k] = true; });
+      return cuantosEn(pal, kw) * 3 + cuantosEn(pal, contenidos[i]);
+    });
+    var mejor = Math.max.apply(null, puntajes);
+    if (mejor < 3) return -1;
+
+    var cerca = [];
+    puntajes.forEach(function (p, i) {
+      if (p >= mejor - 1 && p >= 3) cerca.push(i);
+    });
+
+    var idx;
+    if (cerca.length === 1) {
+      idx = cerca[0];
+    } else {
+      // desempate: la pregunta más cercana HACIA ADELANTE, porque el guion
+      // se lee en orden
+      var adelante = cerca.filter(function (i) { return i > actual; });
+      if (adelante.length) {
+        idx = Math.min.apply(null, adelante);
+      } else {
+        idx = cerca[0];
+        cerca.forEach(function (i) { if (puntajes[i] > puntajes[idx]) idx = i; });
+      }
+    }
+
+    // si cae en la que ya está contestada y hay otra viable adelante, avanza:
+    // pasa cuando el médico junta dos preguntas del guion en una sola frase
+    if (idx === actual && yaContestada) {
+      var viables = [];
+      puntajes.forEach(function (p, i) { if (p >= 3 && i > actual) viables.push(i); });
+      if (viables.length) {
+        idx = viables[0];
+        viables.forEach(function (i) {
+          if (puntajes[i] > puntajes[idx] ||
+              (puntajes[i] === puntajes[idx] && i < idx)) idx = i;
+        });
+      }
+    }
+    return idx;
+  }
+
+  function etiqueta(linea) {
+    var t = recorta(linea.trim(), '¿?').trim();
+    return t ? t.charAt(0).toLowerCase() + t.slice(1) : t;
+  }
+
+  function soloNegacion(txt, negaciones) {
+    var p = (plano(txt).match(/\S+/g) || [])
+      .map(function (w) { return recorta(w, '.,;:'); })
+      .filter(function (w) { return w.length; });
+    if (!p.length) return false;
+    return p.every(function (w) { return negaciones[w]; });
+  }
+
+  // Whisper a veces se atora y repite la misma frase al final del audio.
+  // Deja una sola copia y dice cuántas quitó, para poder avisarlo.
+  function colapsaRepeticiones(txt) {
+    var partes = [], actual = '';
+    for (var i = 0; i < txt.length; i++) {
+      actual += txt[i];
+      if ('.!?'.indexOf(txt[i]) >= 0) {
+        var j = i + 1;
+        while (j < txt.length && /\s/.test(txt[j])) j++;
+        if (j > i + 1) { partes.push(actual.trim()); actual = ''; i = j - 1; }
+      }
+    }
+    if (actual.trim()) partes.push(actual.trim());
+    partes = partes.filter(function (p) { return p.length; });
+
+    var salida = [], quitadas = 0;
+    partes.forEach(function (p) {
+      if (salida.length &&
+          recorta(plano(p), ' .,') === recorta(plano(salida[salida.length - 1]), ' .,')) {
+        quitadas++;
+        return;
+      }
+      salida.push(p);
+    });
+    return { texto: salida.join(' '), quitadas: quitadas };
+  }
+
+  // «Sí. 3 al día» → «3 al día»: el sí ya lo dice el hecho de que hay respuesta
+  function limpiaSi(txt) {
+    var m = /^\s*s[ií][.,]?\s+(?=\S)/i.exec(txt);
+    if (m && txt.length - m[0].length > 3) return txt.slice(m[0].length);
+    return txt;
+  }
+
+  var SELLO = /^\s*\[[^\]]*\d[^\]]*\]\s*/;
+
+  /* ---------- el motor ---------- */
+
+  function procesa(lineas, guion, esquema) {
+    var G = esquema.guiones[guion];
+    if (!G) throw new Error('No conozco el guion «' + guion + '».');
+
+    var t = esquema.tablas || {};
+    var vacias = {}, negaciones = {}, muletillas = {};
+    (t.vacias || []).forEach(function (w) { vacias[w] = true; });
+    (t.negaciones || []).forEach(function (w) { negaciones[recorta(w, '.,;:')] = true; });
+    (t.muletillas || []).forEach(function (w) { muletillas[w] = true; });
+
+    var contenidos = G.map(function (g) { return contenido(g.pregunta, vacias); });
+
+    // algunas salidas traen el minutaje al principio del renglón:
+    // «[ 7.80 -> 9.20]  Sí, padre diabético.» Sin quitarlo, nada cuadra.
+    lineas = lineas.map(function (l) { return String(l).replace(SELLO, '').trim(); })
+                   .filter(function (l) { return l.length; });
+
+    var respuestas = {};
+    G.forEach(function (g) { respuestas[g.id] = []; });
+    var sinUbicar = [], actual = -1, pendiente = null;
+
+    lineas.forEach(function (linea) {
+      if (esPregunta(linea)) {
+        var ya = actual >= 0 && respuestas[G[actual].id].length > 0;
+        var idx = cualPregunta(linea, G, contenidos, actual, ya);
+        if (idx >= 0) {
+          actual = idx;
+          pendiente = null;
+        } else {
+          pendiente = etiqueta(linea);
+          if (actual < 0) sinUbicar.push(linea);
+        }
+        return;
+      }
+
+      if (muletillas[recorta(plano(linea), ' .,¡!')]) return;
+
+      var texto = linea;
+      if (pendiente) { texto = pendiente + ': ' + texto; pendiente = null; }
+      if (actual >= 0) respuestas[G[actual].id].push(texto);
+      else sinUbicar.push(texto);
+    });
+
+    // agrupar por bloque, respetando el orden del guion
+    var orden = [], vistos = {};
+    G.forEach(function (g) {
+      if (!vistos[g.clave]) { vistos[g.clave] = g.bloque; orden.push(g.clave); }
+    });
+
+    var bloques = [], avisos = [], faltantes = 0;
+    orden.forEach(function (clave) {
+      var renglones = [];
+      G.forEach(function (g) {
+        if (g.clave !== clave) return;
+        var partes = respuestas[g.id];
+        if (!partes.length) {
+          renglones.push({ id: g.id, pregunta: g.pregunta, texto: '',
+                           interrogado: false, duda: false });
+          faltantes++;
+          return;
+        }
+        var c = colapsaRepeticiones(partes.join(' ').trim());
+        if (c.quitadas) {
+          avisos.push(g.id + ': se quitaron ' + c.quitadas + ' repeticiones ' +
+                      'idénticas. Verifique ese renglón.');
+        }
+        var redactado;
+        if (soloNegacion(c.texto, negaciones) && g.neg) {
+          redactado = g.neg;
+        } else {
+          var r = limpiaSi(c.texto).trim().replace(/\.+$/, '');
+          if (g.pos.indexOf('{r}') !== 0 && r.slice(0, 2) !== r.slice(0, 2).toUpperCase()) {
+            r = r.charAt(0).toLowerCase() + r.slice(1);
+          }
+          redactado = g.pos.split('{r}').join(r);
+        }
+        renglones.push({ id: g.id, pregunta: g.pregunta, texto: redactado,
+                         interrogado: true, duda: redactado.indexOf('⟨?') >= 0 });
+      });
+      bloques.push({ clave: clave, titulo: vistos[clave], renglones: renglones });
+    });
+
+    // el mismo expediente, pero por campo del diccionario
+    var porCampo = {};
+    var aCampo = {};
+    G.forEach(function (g) { aCampo[g.id] = g.campo; });
+    bloques.forEach(function (b) {
+      b.renglones.forEach(function (r) {
+        if (!r.interrogado) return;
+        var c = aCampo[r.id];
+        if (!c) return;
+        porCampo[c] = porCampo[c] ? (porCampo[c] + ' ' + r.texto).trim() : r.texto;
+      });
+    });
+
+    return { bloques: bloques, campos: porCampo, guion: guion,
+             sin_ubicar: sinUbicar, avisos: avisos,
+             contestadas: G.length - faltantes, total: G.length };
+  }
+
+  /* Adivina qué interrogatorio se dictó, probando todos y quedándose con el
+     que mejor encaja. Así nadie tiene que avisarle nada al sistema, y si se
+     equivocó de botón tampoco importa.
+
+     El puntaje es contestadas² / total, no la simple proporción: un guion de
+     cinco preguntas saca 100% con facilidad y le ganaría a la historia clínica
+     aunque ésta reconociera dieciséis. Elevar al cuadrado premia el número
+     absoluto de preguntas reconocidas sin perder el castigo por las que faltan. */
+  function escogeGuion(lineas, esquema) {
+    var marcas = {}, mejor = null;
+    Object.keys(esquema.guiones).forEach(function (nombre) {
+      var d = procesa(lineas, nombre, esquema);
+      var c = d.contestadas, t = d.total || 1;
+      marcas[nombre] = { contestadas: c, total: t, puntaje: (c * c) / t };
+    });
+    Object.keys(marcas).forEach(function (n) {
+      if (mejor === null) { mejor = n; return; }
+      var a = marcas[n], b = marcas[mejor];
+      if (a.puntaje > b.puntaje ||
+          (a.puntaje === b.puntaje && n === 'historia')) mejor = n;
+    });
+    return { guion: mejor, marcas: marcas };
+  }
+
+  /* Punto de entrada: texto crudo del servicio de transcripción → expediente.
+     Devuelve también la transcripción corregida, porque es lo que se guarda
+     junto a la nota y lo que el médico revisa si algo no le cuadra. */
+  function estructura(textoCrudo, esquema, guionForzado) {
+    var tablas = compilaTablas(esquema.tablas || {});
+    // splitlines a la Python: un salto de línea final NO abre un renglón vacío
+    var crudo = String(textoCrudo || '').replace(/\r?\n$/, '');
+    var crudas = crudo.length ? crudo.split(/\r?\n/) : [];
+    var corregidas = [], dudas = [];
+    crudas.forEach(function (l, i) {
+      var r = corrige(l, tablas);
+      corregidas.push(r.linea);
+      r.dudas.forEach(function (d) {
+        dudas.push('línea ' + (i + 1) + ': «' + d[0] + '» ¿será «' + d[1] + '»?');
+      });
+    });
+
+    var cual, marcas;
+    if (guionForzado && esquema.guiones[guionForzado]) {
+      cual = guionForzado;
+      marcas = null;
+    } else {
+      var e = escogeGuion(corregidas, esquema);
+      cual = e.guion; marcas = e.marcas;
+    }
+    var d = procesa(corregidas, cual, esquema);
+    d.dudas = dudas;
+    d.marcas = marcas;
+    d.transcripcion = corregidas.join('\n');
+    return d;
+  }
+
+  return { estructura: estructura, procesa: procesa, escogeGuion: escogeGuion,
+           corrige: corrige, compilaTablas: compilaTablas, plano: plano };
+})();
+
 
 /* ============================================================
    DICTADO
@@ -2226,8 +2649,8 @@ function subeAudio(blobDado){
     '<div class="medidor"><i id="avance"></i></div>' +
     '<div class="lista" style="margin-top:16px">' +
     '<div>Audio de ' + mb + ' MB, en ' + partes + ' partes.</div>' +
-    '<div>Puedes cerrar esta ventana y seguir tecleando: la Mac del consultorio lo recoge y ' +
-    'te aviso cuando la transcripción esté lista.</div></div>';
+    '<div>Puedes cerrar esta ventana y seguir tecleando: el audio ya está a salvo ' +
+    'y te aviso cuando la transcripción esté lista.</div></div>';
   $('capaSec').classList.add('oculto');
   $('capaPri').classList.remove('oculto');
   $('capaPri').disabled = false;
@@ -2262,9 +2685,8 @@ function subeAudio(blobDado){
       return siguiente();
     })
     .then(function(){
-      avance(100, 'en cola, esperando a la Mac');
-      D.encuesta = setInterval(consulta, 15000);
-      consulta();
+      avance(100, 'transcribiendo');
+      return transcribeEnLaNube(avance);
     })
     .catch(function(e){
       $('capaCuerpo').innerHTML = '';
@@ -2275,13 +2697,74 @@ function subeAudio(blobDado){
     });
 }
 
+/* El camino nuevo: el gateway manda el audio al servicio de transcripción y
+   devuelve el texto aquí mismo, y esta pantalla lo estructura con los mismos
+   guiones que ya está mostrando. La nota queda lista antes de que la paciente
+   se levante de la silla, y no depende de que ninguna máquina esté encendida.
+
+   Si algo falla —el servicio, la red, o que todavía no esté configurado— NO se
+   pierde nada: el audio ya está guardado y el gateway lo dejó en cola. Se cae
+   al camino viejo, la Mac lo recoge cuando despierte, y esta pantalla lo dice
+   con todas sus letras en vez de dejar al médico esperando sin saber. */
+function transcribeEnLaNube(avance){
+  avance(100, 'transcribiendo… esto tarda menos de un minuto');
+
+  return pide('audioTranscribir', { id: D.id })
+    .then(function(r){
+      if (!r || !r.texto) throw new Error('No vino texto.');
+      avance(100, 'armando la nota');
+
+      var d = Motor.estructura(r.texto, ESQUEMA, guionDe(TIPO));
+      D.origen = (r.proveedor || 'nube') + (r.segundos ? ' · ' + r.segundos + ' s' : '');
+
+      // se guarda de inmediato: si el navegador se cierra, la transcripción y
+      // lo entendido ya están en el expediente y se recuperan al volver a abrir
+      D.transcripcion = d.transcripcion;
+      SIN_UBICAR = d.sin_ubicar || [];
+      DUDAS = d.dudas || [];
+      AVISOS_ASR = d.avisos || [];
+      guarda(true);
+
+      ofreceDictadoListo({
+        campos: d.campos, sin_ubicar: d.sin_ubicar, dudas: d.dudas,
+        avisos: d.avisos, contestadas: d.contestadas, total: d.total
+      }, d.transcripcion);
+    })
+    .catch(function(e){
+      // el audio sigue en cola del lado del gateway: la Mac es el respaldo
+      $('capaTitulo').textContent = 'La transcripción no salió en el momento';
+      $('capaCuerpo').innerHTML = '';
+      var l = document.createElement('div'); l.className = 'lista';
+      l.innerHTML = '<div><b>El audio está guardado, no se perdió.</b></div>' +
+        '<div>' + textoPlano(e.message) + '</div>' +
+        '<div>Quedó en cola: si la Mac del consultorio está encendida lo recoge ' +
+        'y te aviso aquí. Si necesitas la nota ahora, tecléala.</div>';
+      $('capaCuerpo').appendChild(l);
+      $('capaSec').classList.add('oculto');
+      $('capaPri').classList.remove('oculto');
+      $('capaPri').disabled = false;
+      $('capaPri').textContent = 'Seguir capturando';
+      $('capaPri').onclick = function(){ $('capa').classList.add('oculto'); };
+      $('estado').textContent = 'Dictado: en cola, esperando a la Mac';
+      D.encuesta = setInterval(consulta, 15000);
+      consulta();
+    });
+}
+
+function textoPlano(s){
+  var d = document.createElement('div');
+  d.textContent = String(s == null ? '' : s);
+  return d.innerHTML;
+}
+
 function consulta(){
   if (!D.id) return;
   pide('audioEstado', { id: D.id })
     .then(function(t){
       var leyenda = { 'subiendo':'subiendo', 'pendiente':'en cola, esperando a la Mac',
-                      'transcribiendo':'la Mac está transcribiendo', 'listo':'listo',
-                      'error':'falló', 'borrado':'borrado' }[t.estado] || t.estado;
+                      'transcribiendo':'transcribiendo', 'transcrito':'transcrito',
+                      'listo':'listo', 'error':'falló',
+                      'borrado':'borrado' }[t.estado] || t.estado;
       $('estado').textContent = 'Dictado: ' + leyenda;
       if ($('paso')) $('paso').textContent = leyenda;
 
