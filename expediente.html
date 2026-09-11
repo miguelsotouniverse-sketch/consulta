@@ -506,23 +506,23 @@ var DOCUMENTOS = [
     icono:'pulso', dictado:true,
     etiquetas:['Nota de evolución'] },
   { id:'nota_procedimiento', nombre:'Nota de procedimiento',   grupo:'captura',
-    icono:'bisturi', dictado:false,
+    icono:'bisturi', dictado:true,
     etiquetas:['Nota de procedimiento'] },
   { id:'nota_preoperatoria', nombre:'Nota preoperatoria',      grupo:'captura',
-    icono:'reloj', dictado:false,
+    icono:'reloj', dictado:true,
     etiquetas:['Nota preoperatoria'] },
   { id:'receta',             nombre:'Receta',                  grupo:'captura',
     icono:'pastilla', dictado:false,
     etiquetas:['Receta'] },
 
   { id:'ci_quirurgico',      nombre:'CI quirúrgico',           grupo:'firma',
-    icono:'firma', dictado:false,
+    icono:'firma', dictado:true,
     etiquetas:['Consentimiento quirúrgico','Consentimientos'] },
   { id:'ci_rellenos',        nombre:'CI rellenos',             grupo:'firma',
-    icono:'gota', dictado:false,
+    icono:'gota', dictado:true,
     etiquetas:['CI rellenos','Consentimientos'] },
   { id:'ci_toxina',          nombre:'CI toxina botulínica',    grupo:'firma',
-    icono:'jeringa', dictado:false,
+    icono:'jeringa', dictado:true,
     etiquetas:['CI toxina','Consentimientos'] },
   { id:'ci_imagen',          nombre:'Consentimiento de imagen',grupo:'firma',
     icono:'camara', dictado:false,
@@ -1957,7 +1957,15 @@ function pantallaConsentimiento(){
 /* Qué guion le toca a este documento. El nombre tiene que ser el mismo que
    usa estructurar.py en la Mac, si no, las respuestas no caen en su campo. */
 function guionDe(tipo){
-  return ({ historia_clinica:'historia', nota_evolucion:'evolucion' })[tipo && tipo.id] || '';
+  return ({
+    historia_clinica:  'historia',
+    nota_evolucion:    'evolucion',
+    nota_procedimiento:'procedimiento',
+    nota_preoperatoria:'preoperatoria',
+    ci_quirurgico:     'consentimiento',
+    ci_rellenos:       'consentimiento',
+    ci_toxina:         'consentimiento'
+  })[tipo && tipo.id] || '';
 }
 
 /* El guion en pantalla, para leerlo. Sin esto el dictado no sirve: el sistema
