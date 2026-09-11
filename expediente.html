@@ -172,6 +172,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
   border-radius:3px;padding:12px 14px;font-size:13px;color:var(--gris);margin-bottom:14px}
 .aviso b{color:var(--negro);font-weight:500}
 .aviso.malo{border-left-color:var(--rojo);color:var(--rojo)}
+.aviso.ojo{border-left-color:var(--ambar)}
 
 /* ---------- capa ---------- */
 .capa{position:fixed;inset:0;z-index:40;background:rgba(3,7,7,.45);
@@ -243,7 +244,17 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
   body{background:#fff !important}
   body > *{display:none !important}
   #impresion{display:block !important}
-  @page{size:letter;margin:14mm 13mm 16mm}
+
+  /* El margen va PARTIDO a propósito, y no es capricho.
+     Si alguien deja el diálogo de impresión en "sin márgenes" —o imprime
+     desde un iPad, donde no hay dónde elegirlo— el navegador pone @page en
+     cero y la hoja sale pegada al borde. Ninguna impresora imprime en los
+     primeros milímetros de papel, así que ahí se come la primera letra de
+     cada renglón: HISTORIA sale "ISTORIA", TENSIÓN ARTERIAL sale "NSIÓN".
+     El relleno de #impresion NO lo puede anular el diálogo, y el horizontal
+     se repite en todas las hojas. Así el peor caso siguen siendo 10 mm. */
+  @page{size:letter;margin:8mm 4mm 12mm}
+  #impresion{padding:6mm 10mm 0 !important}
 }
 
 #impresion{color:#000;font-family:var(--sans);font-size:10pt;line-height:1.34}
@@ -1132,9 +1143,31 @@ function prellena(){
     if (n.paterno){ VALORES['paciente_apellido_paterno'] = n.paterno; puestos++; }
     if (n.materno){ VALORES['paciente_apellido_materno'] = n.materno; puestos++; }
   }
-  $('avisoPrefill').innerHTML = '<b>' + puestos + ' campos</b> se llenaron solos con los datos de ' +
-    'la cita. Revisa que los <b>apellidos</b> hayan quedado bien partidos. Falta capturar a mano: ' +
-    '<b>CURP</b> y <b>domicilio con calle y número</b>, que no vienen en la base.';
+
+  /* El número de expediente NUNCA se queda en blanco.
+     Si la paciente ya está dada de alta trae su Paciente_ID y ese es el folio
+     definitivo. Si no —paciente que llegó directo, o alta pendiente— el
+     sistema abre uno provisional y lo DICE, en vez de dejar vacío un campo
+     obligatorio de la NOM: un campo en blanco no distingue entre "falla del
+     sistema" y "este dato todavía no existe", y el médico no tiene por qué
+     adivinar cuál de las dos es. */
+  var provisional = !PACIENTE['Paciente_ID'];
+  if (!VALORES['expediente_folio'] && FOLIO){
+    VALORES['expediente_folio'] = FOLIO;
+    puestos++;
+  }
+
+  var t = '<b>' + puestos + ' campos</b> se llenaron solos con los datos de la cita. ' +
+          'Revisa que los <b>apellidos</b> hayan quedado bien partidos. Falta capturar ' +
+          'a mano: <b>CURP</b> y <b>domicilio con calle y número</b>, que no vienen en la base.';
+  if (provisional){
+    t += '<br><br><b>El número de expediente es provisional</b> (' + FOLIO + '): esta ' +
+         'paciente todavía no tiene número en la base. La nota se puede hacer y firmar ' +
+         'igual, pero pídele a recepción que la dé de alta para amarrarla a su ' +
+         'número definitivo.';
+  }
+  $('avisoPrefill').className = provisional ? 'aviso ojo' : 'aviso';
+  $('avisoPrefill').innerHTML = t;
 }
 
 /* ---------------- dibujar un campo ---------------- */
@@ -1533,6 +1566,15 @@ function folioDocumento(){
          (DOC_ID ? '-' + DOC_ID.slice(-4) : '');
 }
 
+/* Las maneras en que un médico escribe "aquí no hay nada". No se adivina nada
+   más: cualquier otro texto se imprime tal cual lo escribió. */
+function esNada(v){
+  var s = String(v || '').trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[.\s]+$/, '');
+  return !s || ['na','n/a','nada','ninguno','ninguna','no','no aplica',
+                '-','--','0','sin'].indexOf(s) >= 0;
+}
+
 function armaImpresion(){
   var raiz = $('impresion');
   raiz.innerHTML = '';
@@ -1625,12 +1667,22 @@ function armaImpresion(){
     });
     vacia();
 
-    // la receta se lee como receta, no como cinco campos sueltos
+    // La receta se lee como receta, no como cinco campos sueltos.
+    // Si el médico anotó NA en el medicamento está diciendo que no recetó nada;
+    // pegar los cinco NA producía "NA NA, NA, durante NA." impreso en un
+    // documento que se firma. Se escribe la frase que corresponde, que además
+    // deja constancia de que la decisión fue no prescribir.
     if (hayReceta){
-      var linea = txt('rx_medicamento') + (txt('rx_dosis') ? ' ' + txt('rx_dosis') : '') +
-        (txt('rx_via') ? ', vía ' + txt('rx_via').toLowerCase() : '') +
-        (txt('rx_frecuencia') ? ', ' + txt('rx_frecuencia') : '') +
-        (txt('rx_duracion') ? ', durante ' + txt('rx_duracion') : '') + '.';
+      var linea;
+      if (esNada(txt('rx_medicamento'))){
+        linea = 'Ninguna.';
+      } else {
+        linea = txt('rx_medicamento') +
+          (esNada(txt('rx_dosis'))      ? '' : ' ' + txt('rx_dosis')) +
+          (esNada(txt('rx_via'))        ? '' : ', vía ' + txt('rx_via').toLowerCase()) +
+          (esNada(txt('rx_frecuencia')) ? '' : ', ' + txt('rx_frecuencia')) +
+          (esNada(txt('rx_duracion'))   ? '' : ', durante ' + txt('rx_duracion')) + '.';
+      }
       var r = el('div','dato');
       r.appendChild(el('div','e', 'Prescripción'));
       r.appendChild(el('div','v', linea));
