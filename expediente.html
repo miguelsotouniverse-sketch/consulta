@@ -425,6 +425,7 @@ var PENDIENTE_DICTADO = {}, SIN_UBICAR = [], DUDAS = [], AVISOS_ASR = [], AUDIO_
    abrir una nota ya empezada se vea lo que trae y no una pantalla en blanco. */
 var sucio = false, SOLO_VALORACION = false;
 var EXPEDIENTE = null;      // el archivo completo de la paciente
+var COMO_SE_IDENTIFICO = '';
 var TIPO = null;            // el documento que se está capturando
 var DOC_ID = '';            // su id dentro del expediente
 
@@ -519,6 +520,7 @@ function faltanDe(tipo, valores){
 }
 
 var DESDE_AGENDA = {
+  'expediente_folio':           'Paciente_ID',
   'paciente_sexo':              'Género',
   'paciente_fecha_nacimiento':  'Fecha de nacimiento',
   'paciente_edad':              'Edad',
@@ -559,11 +561,57 @@ function hoyISO(){
   return d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2);
 }
 
+/* El folio del expediente ES el Paciente_ID: la misma llave que usan la
+   cotizaci\u00f3n, las fotos y los cobros. Un identificador propio de esta app
+   ser\u00eda una segunda verdad. Si la paciente no est\u00e1 dada de alta todav\u00eda, se
+   abre con un folio provisional, marcado como tal para que recepci\u00f3n lo
+   reconcilie: el nombre no sirve de llave \u2014 dos hom\u00f3nimas chocan y un acento
+   distinto inventa una paciente nueva. */
 function folioDe(p){
-  var base = (p['Paciente_ID'] || p['Paciente'] || 'sin-nombre')
-    .toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,50);
-  return base + '_' + hoyISO();
+  var id = String(p['Paciente_ID'] || '').trim();
+  if (id) return id.replace(/[^A-Za-z0-9_.-]+/g, '-');
+  var base = String(p['Paciente'] || 'sin-nombre')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+  return 'PROV-' + base;
+}
+
+function soloDigitos(s){ return String(s || '').replace(/\D/g, ''); }
+
+/* La cita del calendario no trae el Paciente_ID; la Base de Datos s\u00ed.
+   Se empatan por tel\u00e9fono, que es la llave que ya usa Michelle. Si empata,
+   la ficha completa de la base gana sobre lo que tra\u00eda la cita. */
+function enriquece(){
+  if (PACIENTE['Paciente_ID']) return Promise.resolve('ya ven\u00eda');
+  var nombre = String(PACIENTE['Paciente'] || '').trim();
+  var tel = soloDigitos(PACIENTE['Tel\u00e9fono']).slice(-10);
+  var apellidos = nombre.split(/\s+/).slice(-2).join(' ');
+  if (apellidos.length < 3) return Promise.resolve('sin nombre para buscar');
+
+  return pide('pacientes', { q: apellidos })
+    .then(function(d){
+      var rs = d.resultados || [];
+      var iguales = [];
+      if (tel.length >= 8){
+        iguales = rs.filter(function(r){
+          return soloDigitos(r['Tel\u00e9fono']).slice(-10) === tel ||
+                 soloDigitos(r['Telefono_2']).slice(-10) === tel;
+        });
+      }
+      if (iguales.length !== 1){
+        iguales = rs.filter(function(r){
+          return sinAcentos(r['Paciente']) === sinAcentos(nombre);
+        });
+      }
+      if (iguales.length !== 1){
+        return rs.length ? 'hay ' + rs.length + ' parecidas, ninguna segura'
+                         : 'no est\u00e1 en la base';
+      }
+      var base = iguales[0];
+      Object.keys(base).forEach(function(k){ if (base[k]) PACIENTE[k] = base[k]; });
+      return 'empatada';
+    })
+    .catch(function(){ return 'no pude consultar la base'; });
 }
 
 /* ============================================================
@@ -760,7 +808,6 @@ $('bVolver').onclick = function(){
 /* ---------------- paso 1: qué documento vamos a hacer ---------------- */
 function abreExpediente(p){
   PACIENTE = p;
-  FOLIO = folioDe(p);
   EXPEDIENTE = null; TIPO = null; DOC_ID = '';
   sucio = false;
 
@@ -770,11 +817,16 @@ function abreExpediente(p){
   $('titulo').textContent = p['Paciente'] || 'Expediente';
   $('progreso').style.width = '0';
   $('fichaPac').innerHTML = '';
-  $('yaHechos').innerHTML = '<div class="vacio">Abriendo el expediente…</div>';
+  $('yaHechos').innerHTML = '<div class="vacio">Buscándola en la base de pacientes…</div>';
   $('mosCaptura').innerHTML = ''; $('mosFirmar').innerHTML = '';
   window.scrollTo(0,0);
 
-  pide('expedienteLeer', { folio: FOLIO })
+  enriquece()
+    .then(function(como){
+      COMO_SE_IDENTIFICO = como;
+      FOLIO = folioDe(PACIENTE);
+      return pide('expedienteLeer', { folio: FOLIO });
+    })
     .then(function(g){
       EXPEDIENTE = (g.existe && g.expediente) || { paciente: PACIENTE, documentos: [] };
       if (!EXPEDIENTE.documentos) EXPEDIENTE.documentos = [];
@@ -817,7 +869,17 @@ function pintaDocumentos(){
     PACIENTE['Procedimiento(s) de interés'] || '',
     docs.length ? docs.length + (docs.length === 1 ? ' documento' : ' documentos') : 'expediente nuevo'
   ].filter(Boolean).join('  ·  ');
-  f.appendChild(h); f.appendChild(d);
+  var id = document.createElement('div'); id.className = 'det';
+  id.style.marginTop = '6px';
+  if (PACIENTE['Paciente_ID']){
+    id.innerHTML = 'Expediente <b style="color:var(--negro)">' + FOLIO + '</b>';
+  } else {
+    id.style.color = 'var(--rojo)';
+    id.textContent = 'Sin número de expediente (' + COMO_SE_IDENTIFICO + '). ' +
+      'Se abre como ' + FOLIO + ', provisional: dile a recepción que la dé de alta ' +
+      'para que este expediente se amarre a su número definitivo.';
+  }
+  f.appendChild(h); f.appendChild(d); f.appendChild(id);
 
   // lo que ya existe, para continuarlo en vez de duplicarlo
   var y = $('yaHechos');
