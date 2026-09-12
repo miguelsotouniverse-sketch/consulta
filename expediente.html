@@ -510,6 +510,13 @@ var DOC_ID = '';            // su id dentro del expediente
 var SIEMPRE = 'Todos los formatos';
 
 var DOCUMENTOS = [
+  /* La hoja frontal va primero porque es la carátula del expediente y la que
+     abre el legajo. No se dicta: casi todo viene del alta, y lo que falta
+     —CURP, domicilio con calle y número, estado civil, escolaridad— no está
+     en la base de pacientes y se teclea una sola vez en la vida del paciente. */
+  { id:'hoja_frontal',       nombre:'Hoja frontal',            grupo:'captura',
+    icono:'identidad', dictado:false,
+    etiquetas:['Hoja frontal'], unico:true },
   { id:'historia_clinica',   nombre:'Historia clínica',        grupo:'captura',
     icono:'expediente', dictado:true,
     etiquetas:['Historia clínica'], unico:true },
@@ -550,6 +557,7 @@ var DOCUMENTOS = [
 ];
 
 var ICONOS = {
+  identidad:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/><path d="M15 10h4M15 13.5h3"/>',
   expediente:'<path d="M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M9 7h6M9 11h6M9 15h3"/>',
   pulso:'<path d="M3 12h4l2-6 4 12 2-6h6"/>',
   bisturi:'<path d="M14 4l6 6-8 8H6v-6z"/><path d="M4 20h6"/>',
@@ -1554,6 +1562,19 @@ var EN_CABECERA = ['expediente_folio','paciente_nombres','paciente_apellido_pate
   'doc_fecha','doc_hora','doc_tipo','doc_folio','doc_version','doc_qr','doc_estado_firma'];
 var GRUPOS_FUERA = ['Médico','Establecimiento','Control documental','Identificación'];
 
+/* Qué grupos NO se imprimen en el cuerpo del documento.
+
+   La identificación normalmente se excluye porque ya va en la tabla de arriba
+   de cada hoja; repetirla sería ruido. Pero en la HOJA FRONTAL la
+   identificación ES el documento —domicilio, CURP, estado civil, escolaridad,
+   contacto de urgencia— y sin ella la hoja sale en blanco. */
+function gruposFuera(tipo){
+  if (tipo && tipo.id === 'hoja_frontal'){
+    return GRUPOS_FUERA.filter(function(g){ return g !== 'Identificación'; });
+  }
+  return GRUPOS_FUERA;
+}
+
 function txt(id){ return String(VALORES[id] || '').trim(); }
 
 function nombreCompleto(){
@@ -1642,8 +1663,9 @@ function armaImpresion(){
     return caja;
   }
 
+  var fuera = gruposFuera(TIPO);
   ESQUEMA.grupos.forEach(function(g){
-    if (GRUPOS_FUERA.indexOf(g) >= 0) return;
+    if (fuera.indexOf(g) >= 0) return;
     var conValor = mios.filter(function(c){
       return c.grupo === g && EN_CABECERA.indexOf(c.id) < 0 && txt(c.id) &&
              RECETA.indexOf(c.id) < 0;
