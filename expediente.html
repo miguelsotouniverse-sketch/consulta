@@ -682,10 +682,26 @@ function docPorId(id){
 /* Los campos que le tocan a un documento: los suyos más los que aparecen en
    todos los formatos (tu nombre, cédulas, folio…), que casi siempre ya están
    llenos solos. */
+/* Grupos que solo aplican a un sexo. Hoy es uno, y se deja como lista para
+   que el día que haya otro no haya que volver a tocar camposDe(). */
+var GRUPOS_SOLO_MUJER = ['Historia clínica — gineco-obstétricos'];
+
+/* Se acepta lo que venga de la agenda además de lo del catálogo: la columna
+   Género no siempre dice "Masculino". Si el sexo NO está capturado, o dice
+   algo que no reconozco, se responde que no — y el grupo se muestra. Enseñar
+   de más es un estorbo; esconder de más es perder un dato clínico. */
+function esVaron(){
+  var v = String(VALORES['paciente_sexo'] || '').trim().toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return v === 'm' || v === 'h' || /^(masculino|hombre|varon|male)$/.test(v);
+}
+
 function camposDe(tipo){
   if (!ESQUEMA) return [];
   var etiquetas = tipo.etiquetas.concat([SIEMPRE]);
+  var varon = esVaron();
   return ESQUEMA.campos.filter(function(c){
+    if (varon && GRUPOS_SOLO_MUJER.indexOf(c.grupo) >= 0) return false;
     var suyas = String(c.aparece || '').replace(/;/g, ',').split(',')
       .map(function(x){ return x.trim(); });
     return suyas.some(function(x){ return etiquetas.indexOf(x) >= 0; });
@@ -1476,6 +1492,10 @@ function pon(id, valor){
   guardaBorrador();
   if (['paciente_fecha_nacimiento','sv_peso','sv_talla'].indexOf(id) >= 0) recalcula();
   if (id === 'caprini_factores') calculaCaprini();
+  /* El sexo decide qué grupos existen. Cambiarlo a media captura tiene que
+     redibujar el formulario, o los gineco-obstétricos se quedan en pantalla
+     para un paciente varón. */
+  if (id === 'paciente_sexo') arma();
   pinta();
 }
 
@@ -2304,6 +2324,34 @@ var Motor = (function () {
 
       if (muletillas[recorta(plano(linea), ' .,¡!')]) return;
 
+      /* «Tórax: campos pulmonares bien ventilados.»
+
+         El motor se diseñó para que el médico LEYERA la pregunta del guion y
+         contestara después, en dos renglones. Dictando de corrido no es así:
+         dice el rótulo y el hallazgo en una sola frase, y esa frase acababa
+         entera en «sin ubicar» porque no termina en dos puntos y por lo tanto
+         no parecía pregunta.
+
+         Aquí se parte. El rótulo tiene que ser corto —un nombre de sección,
+         no una oración— y la frase completa tiene que reconocer alguna
+         pregunta del guion; si no reconoce ninguna, no se toca nada y sigue
+         tratándose como respuesta, igual que antes.
+
+         Se puntúa con la frase COMPLETA y no solo con el rótulo, a propósito:
+         «Mamas» a secas también se parece a la pregunta del estudio mamario
+         de los antecedentes, mientras que «Mamas: simétricas, pezón y areola,
+         surco submamario» solo se parece a la exploración. El contenido es lo
+         que desempata. */
+      var dp = linea.indexOf(':');
+      if (dp > 0 && dp <= 45 && (linea.slice(0, dp).match(/\S+/g) || []).length <= 6) {
+        var cola = linea.slice(dp + 1).trim();
+        if (cola) {
+          var yaHay = actual >= 0 && respuestas[G[actual].id].length > 0;
+          var cual = cualPregunta(linea, G, contenidos, actual, yaHay);
+          if (cual >= 0) { actual = cual; pendiente = null; linea = cola; }
+        }
+      }
+
       var texto = linea;
       if (pendiente) { texto = pendiente + ': ' + texto; pendiente = null; }
       if (actual >= 0) respuestas[G[actual].id].push(texto);
@@ -2358,6 +2406,18 @@ var Motor = (function () {
         if (!r.interrogado) return;
         var c = aCampo[r.id];
         if (!c) return;
+        /* Los signos vitales se reparten a sus casillas. Lo que sobre de esa
+           frase NO se acomoda a ojo en un campo de exploración: se va a «sin
+           ubicar», que es donde el médico lo ve y decide. Adivinar dónde va
+           un dato clínico es justo lo que este motor no hace. */
+        if (c === CAMPO_VITALES) {
+          var v = sacaVitales(r.texto);
+          Object.keys(v.campos).forEach(function (id) {
+            if (!porCampo[id]) porCampo[id] = v.campos[id];
+          });
+          if (v.resto) sinUbicar.push(v.resto);
+          return;
+        }
         porCampo[c] = porCampo[c] ? (porCampo[c] + ' ' + r.texto).trim() : r.texto;
       });
     });
@@ -2478,8 +2538,20 @@ var Motor = (function () {
     { campo: 'sv_sato2',  re: /\bsatur\w*(?:\s+de\s+ox\w*)?\s*:?\s*(?:de\s+|al\s+|en\s+)?(\d{2,3})\s*(?:%|por ciento)?/,
       arma: function (m) { return m[1]; } },
     { campo: 'sv_sato2',  re: /\bsat\.?\s?o?\.?\s?2\s*:?\s*(?:de\s+|al\s+|en\s+)?(\d{2,3})\s*(?:%|por ciento)?/,
-      arma: function (m) { return m[1]; } }
+      arma: function (m) { return m[1]; } },
+    /* En la historia clínica los vitales incluyen peso y talla. El IMC no se
+       busca: lo calcula la página a partir de estos dos, y un número que se
+       calcula no se dicta. */
+    { campo: 'sv_peso',   re: /\bpeso\s*:?\s*(?:de\s*)?(\d{2,3}(?:[.,]\d{1,2})?)\s*(?:kg|kgs|kilos?|kilogramos?)?/,
+      arma: function (m) { return m[1].replace(',', '.'); } },
+    { campo: 'sv_talla',  re: /\b(?:talla|estatura|mide)\s*:?\s*(?:de\s*)?(\d{3}|\d(?:[.,]\d{1,2})?)\s*(?:m\b|mts?\b|metros?|cm\b|cent[ií]metros?)?/,
+      arma: function (m) { return m[1].replace(',', '.'); } }
   ];
+
+  /* Destino falso que marca la pregunta de signos vitales del guion: no va a
+     un campo, va a ocho. Vive en el diccionario (estructurar.py) para que el
+     guion siga siendo una sola fuente de verdad. */
+  var CAMPO_VITALES = '__signos_vitales__';
 
   /* Al sacar los signos vitales del párrafo queda la armazón de la frase sin
      su contenido: de «la exploración física presenta una arterial de 110/70,
@@ -2942,6 +3014,26 @@ function pantallaConsentimiento(){
 
 /* Qué guion le toca a este documento. El nombre tiene que ser el mismo que
    usa estructurar.py en la Mac, si no, las respuestas no caen en su campo. */
+/* El esquema que se le entrega al motor y a la pantalla de grabación.
+
+   Si la paciente es un varón, las preguntas gineco-obstétricas no se le leen
+   ni se le cuentan como pendientes: hoy salían como siete renglones "no
+   interrogado" en la revisión de un paciente hombre, que es ruido y hace
+   dudar de lo que sí falta. Se filtran aquí, en un solo lugar, para que la
+   pantalla y el motor vean exactamente el mismo guion. */
+function esquemaDictado(){
+  if (!ESQUEMA) return ESQUEMA;
+  if (!esVaron()) return ESQUEMA;
+  var guiones = {};
+  Object.keys(ESQUEMA.guiones || {}).forEach(function(n){
+    guiones[n] = ESQUEMA.guiones[n].filter(function(g){ return g.clave !== 'ago'; });
+  });
+  var copia = {};
+  Object.keys(ESQUEMA).forEach(function(k){ copia[k] = ESQUEMA[k]; });
+  copia.guiones = guiones;
+  return copia;
+}
+
 function guionDe(tipo){
   return ({
     historia_clinica:  'historia',
@@ -2998,7 +3090,8 @@ function pintaGuion(caja){
   if (sec) return pintaSecuencia(caja, sec);
 
   var cual = guionDe(TIPO);
-  var lista = (ESQUEMA && ESQUEMA.guiones && ESQUEMA.guiones[cual]) || [];
+  var esq = esquemaDictado();
+  var lista = (esq && esq.guiones && esq.guiones[cual]) || [];
   caja.innerHTML = '';
   if (!lista.length){
     var v = document.createElement('div');
@@ -3282,7 +3375,7 @@ function transcribeEnLaNube(avance){
       if (!r || !r.texto) throw new Error('No vino texto.');
       avance(100, 'armando la nota');
 
-      var d = Motor.estructura(r.texto, ESQUEMA, guionDe(TIPO), TIPO.id);
+      var d = Motor.estructura(r.texto, esquemaDictado(), guionDe(TIPO), TIPO.id);
       D.origen = (r.proveedor || 'nube') + (r.segundos ? ' · ' + r.segundos + ' s' : '');
       return reparteSobrante(d, avance);
     })

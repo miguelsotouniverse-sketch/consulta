@@ -3222,6 +3222,223 @@
     ],
     "neg": "Piel y anexos: cicatrización referida como normal. Niega queloides.",
     "pos": "Piel y anexos: {r}."
+   },
+   {
+    "id": "ef0",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Signos vitales: tensión arterial, frecuencia cardiaca, frecuencia respiratoria, temperatura, saturación, peso y talla.",
+    "campo": "__signos_vitales__",
+    "llaves": [
+     "signos",
+     "vitales",
+     "tension",
+     "arterial",
+     "presion",
+     "frecuencia",
+     "cardiaca",
+     "respiratoria",
+     "temperatura",
+     "saturacion",
+     "oxigeno",
+     "peso",
+     "talla",
+     "estatura"
+    ],
+    "neg": "No se registraron signos vitales.",
+    "pos": "{r}"
+   },
+   {
+    "id": "ef1",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "A la exploración física, habitus exterior: ¿cómo se encuentra en general?",
+    "campo": "ef_habitus",
+    "llaves": [
+     "exploracion",
+     "habitus",
+     "exterior",
+     "aparente",
+     "cronologica",
+     "complexion",
+     "marcha",
+     "consciente",
+     "conciente",
+     "orientada",
+     "orientado",
+     "hidratada",
+     "hidratado"
+    ],
+    "neg": "Habitus exterior sin alteraciones.",
+    "pos": "Habitus exterior: {r}."
+   },
+   {
+    "id": "ef2",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Cuello y cráneo: ¿pupilas, conjuntivas, tiroides, ganglios?",
+    "campo": "ef_cabeza_cuello",
+    "llaves": [
+     "cuello",
+     "craneo",
+     "normocefalo",
+     "pupilas",
+     "conjuntivas",
+     "tiroides",
+     "ganglios",
+     "isocoricas",
+     "escleras"
+    ],
+    "neg": "Cabeza y cuello sin alteraciones.",
+    "pos": "Cabeza y cuello: {r}."
+   },
+   {
+    "id": "ef3",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Tórax: ¿campos pulmonares, ruidos cardiacos?",
+    "campo": "ef_torax",
+    "llaves": [
+     "torax",
+     "toracico",
+     "cardiopulmonar",
+     "pulmonares",
+     "ruidos",
+     "cardiacos",
+     "auscultacion",
+     "ventilados",
+     "murmullo",
+     "vesicular",
+     "ritmicos"
+    ],
+    "neg": "Tórax sin alteraciones.",
+    "pos": "Tórax: {r}."
+   },
+   {
+    "id": "ef4",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Mamas: ¿simetría, pezón, areola, surco submamario, ptosis?",
+    "campo": "ef_mamas",
+    "llaves": [
+     "mamario",
+     "mamarias",
+     "pezon",
+     "pezones",
+     "areola",
+     "areolas",
+     "surco",
+     "submamario",
+     "ptosis",
+     "glandular",
+     "simetricas",
+     "simetria"
+    ],
+    "neg": "Mamas sin alteraciones.",
+    "pos": "Mamas: {r}."
+   },
+   {
+    "id": "ef5",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Abdomen: ¿blando, peristalsis, diástasis, panículo, cicatrices previas?",
+    "campo": "ef_abdomen",
+    "llaves": [
+     "abdomen",
+     "peristalsis",
+     "blando",
+     "depresible",
+     "visceromegalias",
+     "diastasis",
+     "paniculo",
+     "adiposo",
+     "ombligo",
+     "flancos"
+    ],
+    "neg": "Abdomen sin alteraciones.",
+    "pos": "Abdomen: {r}."
+   },
+   {
+    "id": "ef6",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Genitales y región púbica.",
+    "campo": "ef_genitales",
+    "llaves": [
+     "genitales",
+     "genital",
+     "vulva",
+     "pubica",
+     "pubis",
+     "monte",
+     "escroto",
+     "inguinal",
+     "inguinales"
+    ],
+    "neg": "Genitales sin alteraciones.",
+    "pos": "Genitales: {r}."
+   },
+   {
+    "id": "ef7",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Extremidades: ¿pulsos, edema, várices, llenado capilar?",
+    "campo": "ef_extremidades",
+    "llaves": [
+     "extremidades",
+     "extremidad",
+     "piernas",
+     "brazos",
+     "varices",
+     "variz",
+     "edema",
+     "pulsos",
+     "llenado",
+     "capilar",
+     "muslos",
+     "tobillos"
+    ],
+    "neg": "Extremidades sin alteraciones.",
+    "pos": "Extremidades: {r}."
+   },
+   {
+    "id": "ef8",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Exploración regional dirigida a la zona que se va a operar.",
+    "campo": "ef_regional",
+    "llaves": [
+     "regional",
+     "dirigida",
+     "sitio",
+     "zona",
+     "region",
+     "area",
+     "quirurgica"
+    ],
+    "neg": "Sin exploración regional dirigida.",
+    "pos": "Exploración regional dirigida: {r}."
+   },
+   {
+    "id": "ef9",
+    "bloque": "EXPLORACIÓN FÍSICA",
+    "clave": "exploracion",
+    "pregunta": "Medidas antropométricas: cintura, cadera, perímetros.",
+    "campo": "ef_antropometria",
+    "llaves": [
+     "antropometricas",
+     "antropometria",
+     "antropometricos",
+     "medidas",
+     "cintura",
+     "cadera",
+     "circunferencia",
+     "circunferencias",
+     "perimetro",
+     "perimetros"
+    ],
+    "neg": "Sin medidas antropométricas registradas.",
+    "pos": "Medidas antropométricas: {r}."
    }
   ],
   "evolucion": [
@@ -3819,6 +4036,6 @@
    "izenta": "dehiscente"
   }
  },
- "version": "a6436c066f7e925d",
+ "version": "d8640ca1fc9064b8",
  "generado": "2026-09-13"
 }
