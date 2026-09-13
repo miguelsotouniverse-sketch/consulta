@@ -489,6 +489,109 @@ function pide(accion, datos){
 }
 
 /* ============================================================
+   EL DICCIONARIO SE ACTUALIZA SOLO
+
+   El esquema vive en Drive y el gateway lo sirve. Hasta hoy, cambiar una
+   palabra del diccionario obligaba al médico a bajar el campos.json y
+   subirlo a mano a Drive —un paso manual, fácil de olvidar, y que dejaba
+   al consultorio trabajando con un diccionario viejo sin que nadie se
+   enterara.
+
+   Ahora el campos.json se publica junto a esta página. Al entrar, la app
+   compara la huella del que está publicado contra la del que sirve el
+   gateway y, si cambió, lo sube ella misma por la acción `esquemaGuardar`
+   que el gateway ya tenía.
+
+   Las reglas, en este orden:
+
+     1. NO PISA LO BUENO. Antes de subir nada se revisa que lo publicado
+        sea un esquema completo. Si llega cortado, si el servidor devolvió
+        una página de error en vez del JSON, o si trae muchos menos campos
+        que el que ya estaba funcionando, NO SE SUBE.
+     2. NO ESTORBA. Corre aparte de la entrada. Si algo falla —no hay red,
+        el archivo no está publicado, el gateway dice que no— la app sigue
+        con el diccionario que ya tenía, que es exactamente lo que hacía
+        antes de que esto existiera.
+     3. NO ES MAGIA CALLADA. Cuando actualiza, lo dice en pantalla. Esto
+        es un sistema clínico: nada cambia sin que el médico lo vea.
+
+   El archivo viejo no se borra: `esquemaGuardar_` lo manda a la papelera
+   de Drive, de donde se puede recuperar.
+   ============================================================ */
+
+/* Qué tiene que traer para considerarse un esquema y no un accidente.
+   Devuelve null si está sano, o el motivo por el que no lo está. */
+function esquemaSano_(d, comparaCon){
+  if (!d || typeof d !== 'object' || Array.isArray(d)) return 'no es un objeto';
+  if (!d.version)                       return 'no trae versión';
+  if (!Array.isArray(d.grupos) || !d.grupos.length) return 'no trae grupos';
+  if (!Array.isArray(d.campos))         return 'no trae campos';
+  if (d.campos.length < 50)             return 'solo trae ' + d.campos.length + ' campos';
+  if (!d.guiones || !d.tablas)          return 'no trae guiones o no trae tablas';
+  if (!d.tablas.vacias || !d.tablas.seguras) return 'las tablas del motor están incompletas';
+  var mancos = d.campos.filter(function(c){ return !c || !c.id || !c.grupo; }).length;
+  if (mancos)                           return mancos + ' campos sin id o sin grupo';
+  /* La guarda que de verdad importa: un archivo truncado puede pasar todas
+     las de arriba y aun así haber perdido la mitad del expediente. */
+  if (comparaCon && Array.isArray(comparaCon.campos) &&
+      d.campos.length < comparaCon.campos.length * 0.6){
+    return 'trae ' + d.campos.length + ' campos y el que ya estaba trae ' +
+           comparaCon.campos.length + '; no voy a reemplazarlo';
+  }
+  return null;
+}
+
+function avisaDiccionario(texto, malo){
+  var caja = $('avisoDiccionario');
+  if (!caja){
+    caja = document.createElement('div');
+    caja.id = 'avisoDiccionario';
+    caja.className = 'aviso' + (malo ? ' ojo' : '');
+    var lista = $('pantallaLista');
+    if (lista) lista.insertBefore(caja, lista.firstChild); else return;
+  }
+  caja.className = 'aviso' + (malo ? ' ojo' : '');
+  caja.textContent = texto;
+}
+
+function sincronizaDiccionario(){
+  /* cache:'no-store' y el sello de tiempo son contra la caché del navegador.
+     La del CDN que publica la página tarda unos minutos más en soltar la
+     copia nueva; cuando eso pasa, se sincroniza en la siguiente entrada. */
+  fetch('campos.json?v=' + Date.now(), { cache: 'no-store' })
+    .then(function(r){
+      if (!r.ok) throw new Error('el servidor contestó ' + r.status);
+      return r.text();
+    })
+    .then(function(t){
+      var d;
+      try { d = JSON.parse(t); }
+      catch(e){ throw new Error('lo publicado no es JSON'); }
+
+      if (ESQUEMA && ESQUEMA.version && ESQUEMA.version === d.version) return;
+
+      var mal = esquemaSano_(d, ESQUEMA);
+      if (mal){
+        console.warn('Diccionario publicado descartado: ' + mal);
+        avisaDiccionario('Hay un diccionario publicado que no pude usar (' + mal +
+                         '). Se sigue trabajando con el que ya estaba.', true);
+        return;
+      }
+
+      return pide('esquemaGuardar', { nombre: 'campos.json', contenido: d })
+        .then(function(){
+          ESQUEMA = d;
+          avisaDiccionario('Diccionario actualizado al del ' + (d.generado || 'día de hoy') +
+                           '. Las correcciones nuevas ya están en uso.');
+        });
+    })
+    .catch(function(e){
+      // Sin red, sin archivo publicado o sin permiso: se sigue con el de Drive.
+      console.warn('No se pudo sincronizar el diccionario: ' + e.message);
+    });
+}
+
+/* ============================================================
    ESTADO
    ============================================================ */
 var ESQUEMA = null, CONSTANTES = {}, VALORES = {}, PACIENTE = {}, FOLIO = '';
@@ -712,6 +815,7 @@ function entra(){
       if (ESQUEMA && ESQUEMA.error) throw new Error(ESQUEMA.error);
       $('fechaAgenda').value = hoyISO();
       cargaAgenda();
+      sincronizaDiccionario();   // aparte: nunca debe retrasar la entrada
     })
     .catch(function(e){
       if (!CRED) return;
