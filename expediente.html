@@ -1664,56 +1664,141 @@ function armaImpresion(){
   }
 
   var fuera = gruposFuera(TIPO);
-  ESQUEMA.grupos.forEach(function(g){
-    if (fuera.indexOf(g) >= 0) return;
-    var conValor = mios.filter(function(c){
+  var impresos = {};                    // qué campos ya salieron, para no repetirlos
+
+  function campoPorId(id){
+    return ESQUEMA.campos.filter(function(c){ return c.id === id; })[0];
+  }
+
+  function conValorDe(g){
+    return mios.filter(function(c){
       return c.grupo === g && EN_CABECERA.indexOf(c.id) < 0 && txt(c.id) &&
-             RECETA.indexOf(c.id) < 0;
+             RECETA.indexOf(c.id) < 0 && !impresos[c.id];
     });
-    var hayReceta = txt('rx_medicamento') &&
-                    mios.some(function(c){ return c.id === 'rx_medicamento' && c.grupo === g; });
-    if (!conValor.length && !hayReceta) return;
+  }
 
-    raiz.appendChild(el('h2', null, g));
-
+  /* `sinRotulo`: el encabezado de la sección ya dice qué es. Repetir
+     "EVOLUCIÓN Y ACTUALIZACIÓN DEL CUADRO CLÍNICO" debajo de un h2 que dice
+     "Evolución" es ruido en una hoja que se firma. */
+  function pintaLista(lista, sinRotulo){
     var buffer = [];
     function vacia(){
       if (!buffer.length) return;
       raiz.appendChild(sueltos(buffer));
       buffer = [];
     }
-    conValor.forEach(function(c){
+    lista.forEach(function(c){
+      impresos[c.id] = true;
       if (CORTOS.indexOf(c.control) >= 0){ buffer.push(c); return; }
       vacia();
       var d = el('div','dato');
-      d.appendChild(el('div','e', c.etiqueta || c.id));
+      if (!sinRotulo) d.appendChild(el('div','e', c.etiqueta || c.id));
       d.appendChild(el('div','v', txt(c.id)));
       raiz.appendChild(d);
     });
     vacia();
+  }
 
-    // La receta se lee como receta, no como cinco campos sueltos.
-    // Si el médico anotó NA en el medicamento está diciendo que no recetó nada;
-    // pegar los cinco NA producía "NA NA, NA, durante NA." impreso en un
-    // documento que se firma. Se escribe la frase que corresponde, que además
-    // deja constancia de que la decisión fue no prescribir.
-    if (hayReceta){
-      var linea;
-      if (esNada(txt('rx_medicamento'))){
-        linea = 'Ninguna.';
-      } else {
-        linea = txt('rx_medicamento') +
-          (esNada(txt('rx_dosis'))      ? '' : ' ' + txt('rx_dosis')) +
-          (esNada(txt('rx_via'))        ? '' : ', vía ' + txt('rx_via').toLowerCase()) +
-          (esNada(txt('rx_frecuencia')) ? '' : ', ' + txt('rx_frecuencia')) +
-          (esNada(txt('rx_duracion'))   ? '' : ', durante ' + txt('rx_duracion')) + '.';
-      }
-      var r = el('div','dato');
-      r.appendChild(el('div','e', 'Prescripción'));
-      r.appendChild(el('div','v', linea));
-      raiz.appendChild(r);
+  // La receta se lee como receta, no como cinco campos sueltos.
+  // Si el médico anotó NA en el medicamento está diciendo que no recetó nada;
+  // pegar los cinco NA producía "NA NA, NA, durante NA." impreso en un
+  // documento que se firma. Se escribe la frase que corresponde, que además
+  // deja constancia de que la decisión fue no prescribir.
+  function pintaReceta(){
+    impresos['rx_medicamento'] = true;
+    var linea;
+    if (esNada(txt('rx_medicamento'))){
+      linea = 'Ninguna.';
+    } else {
+      linea = txt('rx_medicamento') +
+        (esNada(txt('rx_dosis'))      ? '' : ' ' + txt('rx_dosis')) +
+        (esNada(txt('rx_via'))        ? '' : ', vía ' + txt('rx_via').toLowerCase()) +
+        (esNada(txt('rx_frecuencia')) ? '' : ', ' + txt('rx_frecuencia')) +
+        (esNada(txt('rx_duracion'))   ? '' : ', durante ' + txt('rx_duracion')) + '.';
     }
-  });
+    var r = el('div','dato');
+    r.appendChild(el('div','e', 'Prescripción'));
+    r.appendChild(el('div','v', linea));
+    raiz.appendChild(r);
+  }
+
+  function hayRecetaEn(g){
+    return !impresos['rx_medicamento'] && txt('rx_medicamento') &&
+           mios.some(function(c){ return c.id === 'rx_medicamento' && c.grupo === g; });
+  }
+
+  function pintaGrupo(g){
+    if (fuera.indexOf(g) >= 0) return;
+    var conValor = conValorDe(g);
+    var receta = hayRecetaEn(g);
+    if (!conValor.length && !receta) return;
+    raiz.appendChild(el('h2', null, g));
+    pintaLista(conValor);
+    if (receta) pintaReceta();
+  }
+
+  /* Un documento que se DICTA en una secuencia fija tiene que LEERSE en esa
+     misma secuencia. La nota de evolución se dicta situación actual →
+     lo que refiere la paciente → exploración → diagnóstico → pronóstico →
+     plan; pero la evolución, el diagnóstico y el plan viven en el grupo
+     "Cierre clínico" del diccionario, que en el esquema va DESPUÉS de
+     "Exploración física". Impresa por grupo, la nota se leía al revés: la
+     exploración antes que el motivo, y la situación actual hasta el final,
+     que es justo lo que el médico reportó como "no viene".
+
+     Aquí se imprime en el orden de la secuencia, con el rótulo de cada paso.
+     Los pasos que comparten campo —situación actual y lo subjetivo van los
+     dos a "Evolución"— salen bajo un solo encabezado, sin repetirlo.
+     Nada de esto cambia lo que se guarda: sólo el orden en el papel. */
+  var pasos = (window.Motor && Motor.SECUENCIAS && TIPO && Motor.SECUENCIAS[TIPO.id]) || null;
+
+  if (pasos){
+    var gobernados = {};
+    pasos.forEach(function(s){
+      var c = campoPorId(s.campo);
+      if (c) gobernados[c.grupo] = true;
+    });
+    var corte = ESQUEMA.grupos.length;
+    ESQUEMA.grupos.forEach(function(g, i){
+      if (gobernados[g] && i < corte) corte = i;
+    });
+
+    // lo que en el esquema va antes de la secuencia conserva su lugar
+    ESQUEMA.grupos.slice(0, corte).forEach(pintaGrupo);
+
+    // la secuencia, en el orden en que se dictó
+    var rotuloPrevio = null;
+    pasos.forEach(function(s){
+      var c = campoPorId(s.campo);
+      if (!c) return;
+      var propio = !impresos[c.id] && txt(c.id) ? [c] : [];
+      // los signos vitales encabezan la exploración, no un grupo aparte
+      var acompanan = s.vitales
+        ? conValorDe(c.grupo).filter(function(x){
+            return x.id !== c.id && CORTOS.indexOf(x.control) >= 0; })
+        : [];
+      if (!propio.length && !acompanan.length) return;
+      var rotulo = s.impreso || s.titulo;
+      if (rotulo !== rotuloPrevio){
+        raiz.appendChild(el('h2', null, rotulo));
+        rotuloPrevio = rotulo;
+      }
+      if (acompanan.length) pintaLista(acompanan);
+      if (propio.length) pintaLista(propio, true);
+      /* La receta y la próxima cita son el plan, no un apartado aparte:
+         se imprimen debajo de él y no bajo un "Cierre clínico" suelto. */
+      if (s.cierra){
+        pintaLista(conValorDe(c.grupo).filter(function(x){
+          return CORTOS.indexOf(x.control) >= 0; }));
+        if (hayRecetaEn(c.grupo)) pintaReceta();
+      }
+    });
+
+    // y todo lo demás que el médico haya capturado, bajo su propio grupo
+    ESQUEMA.grupos.forEach(pintaGrupo);
+  } else {
+    ESQUEMA.grupos.forEach(pintaGrupo);
+  }
 
   /* ---- lo que el dictado dejó anotado y no se capturó ---- */
   var pend = Object.keys(PENDIENTE_DICTADO);
@@ -2233,30 +2318,35 @@ var Motor = (function () {
   var SECUENCIAS = {
     nota_evolucion: [
       { clave: 'objetiva', ayuda: 'Quién es y en qué momento va. «Paciente de una semana de postoperada de deep plane.»', campo: 'evolucion_cuadro',
-        titulo: 'Situación actual', anclas: [] },
+        titulo: 'Situación actual', impreso: 'Evolución', anclas: [] },
 
       { clave: 'subjetiva', ayuda: 'Lo que ELLA te dice. Empieza con «refiere…» o «niega…».', campo: 'evolucion_cuadro',
-        titulo: 'Lo que refiere la paciente',
+        titulo: 'Lo que refiere la paciente', impreso: 'Evolución',
         anclas: [/\b(refiere|refiriendo|manifiesta|se queja|comenta|menciona|niega)\b/] },
 
       { clave: 'exploracion', ayuda: 'Primero los signos vitales: TA, FC, FR, temperatura, saturación. Después el resto de la exploración.', campo: 'ef_regional', vitales: true,
-        titulo: 'Exploración física',
+        titulo: 'Exploración física', impreso: 'Exploración física',
         anclas: [/\b(signos vitales|a la exploracion|exploracion fisica)\b/,
-                 /\b(t\.?\s?a\.?|tension arterial|presion arterial)\s*:?\s*(?:de\s*)?\d{2,3}\s*(?:\/|sobre)/,
+                 /\b(t\.?\s?a\.?|tension arterial|presion arterial)\s*:?\s*(?:de\s*)?\d{2,3}\s*(?:\/|-|sobre)/,
                  /\b\d{2,3}\s*\/\s*\d{2,3}\b/],
-        etiqueta: /^\s*(signos vitales|a la exploracion(?: fisica)?|exploracion fisica)\s*[:,.]?\s*/ },
+        etiqueta: /^\s*(?:(?:a\s+)?la\s+|el\s+)?(signos vitales|exploracion(?: fisica)?)\s*[:,.]?\s*/ },
 
-      { clave: 'diagnostico', ayuda: 'Di la palabra «diagnóstico» y luego cuál es.', campo: 'diagnosticos', titulo: 'Diagnóstico',
+      { clave: 'diagnostico', ayuda: 'Di la palabra «diagnóstico» y luego cuál es.', campo: 'diagnosticos', titulo: 'Diagnóstico', impreso: 'Diagnóstico',
         anclas: [/\b(diagnosticos?|impresion diagnostica|dx)\b/],
-        etiqueta: /^\s*(diagnosticos?|impresion diagnostica|dx)\b\s*[:,.]?\s*/i },
+        etiqueta: /^\s*(?:el\s+)?(diagnosticos?|impresion diagnostica|dx)\b\s*[:,.]?\s*/i },
 
-      { clave: 'pronostico', ayuda: 'Di la palabra «pronóstico» y luego cuál es.', campo: 'pronostico', titulo: 'Pronóstico',
+      { clave: 'pronostico', ayuda: 'Di la palabra «pronóstico» y luego cuál es.', campo: 'pronostico', titulo: 'Pronóstico', impreso: 'Pronóstico',
         anclas: [/\bpronostico\b/],
-        etiqueta: /^\s*pronostico\b\s*[:,.]?\s*/i },
+        etiqueta: /^\s*(?:el\s+)?pronostico\b\s*[:,.]?\s*/i },
 
-      { clave: 'plan', ayuda: 'Qué hiciste y qué sigue. «Se retiraron puntos… se cita en… se agrega…»', campo: 'plan_tratamiento', titulo: 'Plan',
-        anclas: [/\bplan\b\s*[:,]/, /\b(se indica|se indican|se cita|se retir|se agrega|se agregan|se prescribe|se solicita|se continua|se envia|se programa|continua con)\b/],
-        etiqueta: /^\s*plan\b\s*[:,.]?\s*/i }
+      { clave: 'plan', ayuda: 'Qué hiciste y qué sigue. «Se retiraron puntos… se cita en… se agrega…»', campo: 'plan_tratamiento', titulo: 'Plan', impreso: 'Plan', cierra: true,
+        /* Las raíces van con \w* a propósito: escritas como «se retir» con un
+           \b detrás nunca casaban —«retiraron» sigue con letra— y el plan se
+           quedaba colgado de la sección anterior. */
+        anclas: [/\b(?:el\s+)?plan\b/,
+                 /\bse\s+(?:indica\w*|cita|da\s+cita|dio\s+cita|retir\w*|agrega\w*|ajust\w*|realiz\w*|prescrib\w*|solicit\w*|continu\w*|envi\w*|program\w*|inici\w*|suspend\w*)\b/,
+                 /\bcontinua\s+con\b/],
+        etiqueta: /^\s*(?:el\s+)?plan\b\s*[:,.]?\s*/i }
     ]
   };
 
@@ -2264,9 +2354,12 @@ var Motor = (function () {
      uno es un campo del diccionario, y un número en su casilla se puede
      graficar, comparar y buscar; enterrado en un párrafo, no. */
   var VITALES = [
-    { campo: 'sv_ta',     re: /\b(?:t\.?\s?a\.?|tension arterial|presion arterial)\s*:?\s*(?:de\s*)?(\d{2,3})\s*(?:\/|sobre)\s*(\d{2,3})/,
+    /* El reconocimiento de voz se come palabras: «tensión arterial de 110/80» le
+       sale como «una arterial de 110-70». Por eso basta con la palabra
+       «arterial», y el separador puede ser barra, guion o la palabra «sobre». */
+    { campo: 'sv_ta',     re: /\b(?:t\.?\s?a\.?|(?:tensi[oó]n|presi[oó]n|una)?\s*arterial)\s*:?\s*(?:de\s*)?(\d{2,3})\s*(?:\/|-|sobre)\s*(\d{2,3})/,
       arma: function (m) { return m[1] + '/' + m[2]; } },
-    { campo: 'sv_ta',     re: /\b(\d{2,3})\s*\/\s*(\d{2,3})\b(?!\s*%)/,
+    { campo: 'sv_ta',     re: /\b(\d{2,3})\s*(?:\/|-)\s*(\d{2,3})\b(?!\s*%)/,
       arma: function (m) { return m[1] + '/' + m[2]; } },
     /* La unidad se traga a propósito: si se deja fuera, el párrafo de
        exploración queda con «por minuto, por minuto,» colgando. */
@@ -2276,9 +2369,58 @@ var Motor = (function () {
       arma: function (m) { return m[1]; } },
     { campo: 'sv_temp',   re: /\b(?:temperatura|temp\.?)\s*:?\s*(?:de\s*)?(\d{2}(?:[.,]\d{1,2})?)\s*(?:grados(?:\s+cent[ií]grados)?|°\s*c?|c\b)?/,
       arma: function (m) { return m[1].replace(',', '.'); } },
-    { campo: 'sv_sato2',  re: /\b(?:saturacion(?:\s+de\s+oxigeno)?|sat\.?\s?o?\.?\s?2?)\s*:?\s*(?:de\s+|al\s+|en\s+)?(\d{2,3})\s*(?:%|por ciento)?/,
+    /* «satural», «saturada», «saturacion»: el dictado de esta palabra sale mal
+       muy seguido. Se acepta cualquier cosa que empiece por «satur». */
+    { campo: 'sv_sato2',  re: /\bsatur\w*(?:\s+de\s+ox\w*)?\s*:?\s*(?:de\s+|al\s+|en\s+)?(\d{2,3})\s*(?:%|por ciento)?/,
+      arma: function (m) { return m[1]; } },
+    { campo: 'sv_sato2',  re: /\bsat\.?\s?o?\.?\s?2\s*:?\s*(?:de\s+|al\s+|en\s+)?(\d{2,3})\s*(?:%|por ciento)?/,
       arma: function (m) { return m[1]; } }
   ];
+
+  /* Al sacar los signos vitales del párrafo queda la armazón de la frase sin
+     su contenido: de «la exploración física presenta una arterial de 110/70,
+     FC 80, FR 16, temperatura 36 y saturación 94%» sobra «presenta, y.», que
+     se imprimía tal cual en una hoja que se firma.
+
+     Se corta en oraciones y se tira la que ya no dice nada: aquella en la que
+     no queda ni una palabra que no sea conector, artículo, verbo de enlace o
+     unidad de medida. Si queda una sola palabra con contenido, la oración se
+     conserva íntegra: más vale una frase torpe que una frase perdida. */
+  var SIN_CONTENIDO = {
+    la: 1, el: 1, los: 1, las: 1, lo: 1, un: 1, una: 1, unos: 1, unas: 1,
+    de: 1, del: 1, al: 1, a: 1, y: 1, e: 1, o: 1, u: 1, con: 1, en: 1,
+    se: 1, su: 1, sus: 1, que: 1, es: 1, esta: 1, encuentra: 1,
+    presenta: 1, presentando: 1, presento: 1, muestra: 1, tiene: 1,
+    paciente: 1, exploracion: 1, fisica: 1, signos: 1, vitales: 1,
+    por: 1, minuto: 1, minutos: 1, grados: 1, centigrados: 1, ciento: 1,
+    mmhg: 1, lpm: 1, rpm: 1, c: 1
+  };
+
+  function oraciones_(texto) {
+    /* No se parte con una expresión regular porque «36.5» lleva punto: el
+       punto sólo termina la oración cuando lo sigue un espacio o el final. */
+    var fuera = [], act = '';
+    for (var i = 0; i < texto.length; i++) {
+      act += texto[i];
+      if ((texto[i] === '.' || texto[i] === ';') &&
+          (i + 1 >= texto.length || /\s/.test(texto[i + 1]))) {
+        fuera.push(act); act = '';
+      }
+    }
+    if (act.trim()) fuera.push(act);
+    return fuera;
+  }
+
+  function limpiaResiduo(texto) {
+    if (!texto) return texto;
+    var vivas = oraciones_(texto).filter(function (o) {
+      var palabras = plana(o).replace(/[^a-z0-9\s]/g, ' ').split(/\s+/);
+      return palabras.some(function (p) {
+        return p && !SIN_CONTENIDO[p] && !/^\d+$/.test(p);
+      });
+    });
+    return vivas.join(' ').replace(/\s{2,}/g, ' ').trim();
+  }
 
   function sacaVitales(texto) {
     var campos = {}, ref = plana(texto), cortes = [];
@@ -2299,7 +2441,25 @@ var Motor = (function () {
                  .replace(/\s+([,;.])/g, '$1')
                  .trim()
                  .replace(/^[,;.]\s*/, '');
+    resto = limpiaResiduo(resto);
     return { campos: campos, resto: resto };
+  }
+
+  /* El ancla de una sección cae sobre su palabra clave, pero la frase suele
+     empezar un poco antes: «La exploración física presenta…» ancla en
+     «exploración» y deja un «La» colgando al final de la sección anterior.
+     Se retrocede sobre el artículo o el posesivo que la antecede. */
+  var ARRASTRA = /(?:\b(?:a\s+)?(?:el|la|los|las|su|sus|un|una)\s+(?:paciente\s+)?)$/;
+
+  function retrocede_(ref, pos) {
+    var m = ARRASTRA.exec(ref.slice(0, pos));
+    return m ? pos - m[0].length : pos;
+  }
+
+  /* Cortar por en medio deja la sección empezando en minúscula. Poner la
+     mayúscula no es inventar nada: es la misma palabra. */
+  function mayuscula_(t) {
+    return t ? t.charAt(0).toUpperCase() + t.slice(1) : t;
   }
 
   function porSecuencia(texto, tipo) {
@@ -2321,6 +2481,7 @@ var Motor = (function () {
         faltaron.push(plan[i].titulo);
         inicios.push(-1);                    // sección ausente
       } else {
+        pos = retrocede_(ref, pos);
         inicios.push(pos);
         desde = pos + 1;
       }
@@ -2353,6 +2514,14 @@ var Motor = (function () {
         var v = sacaVitales(t);
         Object.keys(v.campos).forEach(function (id) { campos[id] = v.campos[id]; });
         t = v.resto;
+        /* El médico dice «a la exploración física» dos veces: una para entrar
+           a los signos vitales y otra para entrar al resto. Al quitar los
+           vitales, la segunda queda al principio del párrafo; se corta igual
+           que la primera, porque el encabezado impreso ya lo dice. */
+        if (s.etiqueta) {
+          var mv = s.etiqueta.exec(plana(t));
+          if (mv) t = t.slice(mv[0].length).replace(/^[\s,;.:]+/, '');
+        }
         if (!Object.keys(v.campos).length) {
           avisos.push('No reconocí ningún signo vital en la exploración. ' +
                       'Revisa TA, FC, FR, temperatura y saturación a mano.');
@@ -2362,7 +2531,9 @@ var Motor = (function () {
       bloques.push({ clave: s.clave, titulo: s.titulo, texto: t,
                      interrogado: !!t });
       if (!t) return;
-      campos[s.campo] = campos[s.campo] ? (campos[s.campo] + ' ' + t).trim() : t;
+      campos[s.campo] = campos[s.campo]
+        ? (campos[s.campo] + ' ' + t).trim()
+        : mayuscula_(t);
     });
 
     if (faltaron.length) {
