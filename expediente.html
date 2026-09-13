@@ -1819,6 +1819,31 @@ setInterval(function(){ if (sucio && CRED) guarda(true); }, 25000);
    cambia allá, cambia aquí, y no hay manera de que se desincronicen.
    ========================================================================== */
 
+/* ==========================================================================
+   MOTOR DE ESTRUCTURACIÓN — Dr. Miguel Ángel Soto Miranda
+
+   Convierte la transcripción de la consulta en los campos del expediente.
+   Es la traducción exacta de corregir.py y estructurar.py, que hasta hoy
+   corrían en Python en la Mac del consultorio.
+
+   Vive en el navegador por una razón de fondo: mientras la estructuración
+   viviera en esa Mac, dictar obligaba a esperarla, y si estaba apagada la
+   nota no llegaba nunca. Aquí se arma en la misma máquina donde el médico
+   la está viendo.
+
+   Las reglas son las mismas de siempre, en este orden de importancia:
+
+     1. NO INVENTA. Pregunta que no se hizo queda como NO INTERROGADO.
+        Nunca escribe "niega X" por algo que nadie preguntó.
+     2. NO TIRA NADA. Lo que no ubica se va íntegro a "sin ubicar".
+     3. Lo dudoso no se corrige: se marca ⟨? ...⟩ para que el médico decida
+        antes de firmar.
+
+   Los guiones, las tablas de palabras y las de corrección NO viven aquí:
+   llegan en campos.json, que se genera desde el diccionario. Si el guion
+   cambia allá, cambia aquí, y no hay manera de que se desincronicen.
+   ========================================================================== */
+
 var Motor = (function () {
   'use strict';
 
@@ -2177,10 +2202,184 @@ var Motor = (function () {
     return { guion: mejor, marcas: marcas };
   }
 
+  /* ======================================================================
+     LA NOTA POR SECUENCIA
+
+     Una nota de evolución no es un cuestionario: es una secuencia fija que el
+     médico recita siempre en el mismo orden. Dictada por el Dr. Soto:
+
+       1. Situación objetiva ... «paciente de una semana de postoperada de
+          deep plane»
+       2. Lo que la paciente refiere ... «refiere dolor en sitio quirúrgico
+          que se controla con los medicamentos»
+       3. Exploración, empezando por signos vitales ... «TA 110/80, FC 80,
+          FR 16, temperatura 36.5, saturación 94%, cardiopulmonar sin
+          compromiso, sitios quirúrgicos normoevolutivos»
+       4. Diagnóstico
+       5. Pronóstico
+       6. Plan ... «se retiraron puntos, se cita en una semana, se agrega
+          analgésico vía oral»
+
+     Que el orden sea fijo permite cortar el dictado por posición en vez de
+     adivinar por contenido. Se busca dónde ARRANCA cada sección —la primera
+     vez que aparece su marca después de donde terminó la anterior— y lo que
+     queda en medio es el contenido. No hay modelo, no hay puntajes, no hay
+     manera de que invente: solo corta y pega lo que el médico dijo.
+
+     Si una marca no aparece, esa sección se queda vacía y se avisa cuál faltó.
+     Nunca se rellena con la sección de al lado.
+     ====================================================================== */
+
+  var SECUENCIAS = {
+    nota_evolucion: [
+      { clave: 'objetiva', campo: 'evolucion_cuadro',
+        titulo: 'Situación actual', anclas: [] },
+
+      { clave: 'subjetiva', campo: 'evolucion_cuadro',
+        titulo: 'Lo que refiere la paciente',
+        anclas: [/\b(refiere|refiriendo|manifiesta|se queja|comenta|menciona|niega)\b/] },
+
+      { clave: 'exploracion', campo: 'ef_regional', vitales: true,
+        titulo: 'Exploración física',
+        anclas: [/\b(signos vitales|a la exploracion|exploracion fisica)\b/,
+                 /\b(t\.?\s?a\.?|tension arterial|presion arterial)\s*:?\s*(?:de\s*)?\d{2,3}\s*(?:\/|sobre)/,
+                 /\b\d{2,3}\s*\/\s*\d{2,3}\b/],
+        etiqueta: /^\s*(signos vitales|a la exploracion(?: fisica)?|exploracion fisica)\s*[:,.]?\s*/ },
+
+      { clave: 'diagnostico', campo: 'diagnosticos', titulo: 'Diagnóstico',
+        anclas: [/\b(diagnosticos?|impresion diagnostica|dx)\b/],
+        etiqueta: /^\s*(diagnosticos?|impresion diagnostica|dx)\b\s*[:,.]?\s*/i },
+
+      { clave: 'pronostico', campo: 'pronostico', titulo: 'Pronóstico',
+        anclas: [/\bpronostico\b/],
+        etiqueta: /^\s*pronostico\b\s*[:,.]?\s*/i },
+
+      { clave: 'plan', campo: 'plan_tratamiento', titulo: 'Plan',
+        anclas: [/\bplan\b\s*[:,]/, /\b(se indica|se indican|se cita|se retir|se agrega|se agregan|se prescribe|se solicita|se continua|se envia|se programa|continua con)\b/],
+        etiqueta: /^\s*plan\b\s*[:,.]?\s*/i }
+    ]
+  };
+
+  /* Los signos vitales salen de la exploración a sus propias casillas. Cada
+     uno es un campo del diccionario, y un número en su casilla se puede
+     graficar, comparar y buscar; enterrado en un párrafo, no. */
+  var VITALES = [
+    { campo: 'sv_ta',     re: /\b(?:t\.?\s?a\.?|tension arterial|presion arterial)\s*:?\s*(?:de\s*)?(\d{2,3})\s*(?:\/|sobre)\s*(\d{2,3})/,
+      arma: function (m) { return m[1] + '/' + m[2]; } },
+    { campo: 'sv_ta',     re: /\b(\d{2,3})\s*\/\s*(\d{2,3})\b(?!\s*%)/,
+      arma: function (m) { return m[1] + '/' + m[2]; } },
+    /* La unidad se traga a propósito: si se deja fuera, el párrafo de
+       exploración queda con «por minuto, por minuto,» colgando. */
+    { campo: 'sv_fc',     re: /\b(?:f\.?\s?c\.?|frecuencia cardiaca)\s*:?\s*(?:de\s*)?(\d{2,3})\s*(?:x\s*'|por minuto|\/\s*min\.?|lpm|latidos por minuto)?/,
+      arma: function (m) { return m[1]; } },
+    { campo: 'sv_fr',     re: /\b(?:f\.?\s?r\.?|frecuencia respiratoria)\s*:?\s*(?:de\s*)?(\d{1,2})\s*(?:x\s*'|por minuto|\/\s*min\.?|rpm|respiraciones por minuto)?/,
+      arma: function (m) { return m[1]; } },
+    { campo: 'sv_temp',   re: /\b(?:temperatura|temp\.?)\s*:?\s*(?:de\s*)?(\d{2}(?:[.,]\d{1,2})?)\s*(?:grados(?:\s+cent[ií]grados)?|°\s*c?|c\b)?/,
+      arma: function (m) { return m[1].replace(',', '.'); } },
+    { campo: 'sv_sato2',  re: /\b(?:saturacion(?:\s+de\s+oxigeno)?|sat\.?\s?o?\.?\s?2?)\s*:?\s*(?:de\s+|al\s+|en\s+)?(\d{2,3})\s*(?:%|por ciento)?/,
+      arma: function (m) { return m[1]; } }
+  ];
+
+  function sacaVitales(texto) {
+    var campos = {}, ref = plana(texto), cortes = [];
+    VITALES.forEach(function (v) {
+      if (campos[v.campo]) return;          // ya salió con un patrón mejor
+      var m = v.re.exec(ref);
+      if (!m) return;
+      campos[v.campo] = v.arma(m);
+      cortes.push([m.index, m.index + m[0].length]);
+    });
+    // se quitan del párrafo para no decir lo mismo dos veces
+    cortes.sort(function (a, b) { return b[0] - a[0]; });
+    var resto = texto;
+    cortes.forEach(function (c) { resto = resto.slice(0, c[0]) + resto.slice(c[1]); });
+    resto = resto.replace(/\s*[,;]\s*(?=[,;])/g, '')
+                 .replace(/^[\s,;.]+/, '')
+                 .replace(/\s{2,}/g, ' ')
+                 .replace(/\s+([,;.])/g, '$1')
+                 .trim()
+                 .replace(/^[,;.]\s*/, '');
+    return { campos: campos, resto: resto };
+  }
+
+  function porSecuencia(texto, tipo) {
+    var plan = SECUENCIAS[tipo];
+    if (!plan) return null;
+
+    var ref = plana(texto);
+    var inicios = [0], desde = 0, faltaron = [];
+
+    for (var i = 1; i < plan.length; i++) {
+      var pos = -1;
+      plan[i].anclas.forEach(function (re) {
+        var r = new RegExp(re.source, re.flags.indexOf('g') >= 0 ? re.flags : re.flags + 'g');
+        r.lastIndex = desde;
+        var m = r.exec(ref);
+        if (m && (pos < 0 || m.index < pos)) pos = m.index;
+      });
+      if (pos < 0) {
+        faltaron.push(plan[i].titulo);
+        inicios.push(-1);                    // sección ausente
+      } else {
+        inicios.push(pos);
+        desde = pos + 1;
+      }
+    }
+
+    // cada sección va desde su inicio hasta el inicio de la siguiente que sí existió
+    var trozos = [];
+    for (var k = 0; k < plan.length; k++) {
+      if (inicios[k] < 0) { trozos.push(''); continue; }
+      var fin = texto.length;
+      for (var j = k + 1; j < plan.length; j++) {
+        if (inicios[j] >= 0) { fin = inicios[j]; break; }
+      }
+      trozos.push(texto.slice(inicios[k], fin).trim());
+    }
+
+    var campos = {}, bloques = [], avisos = [];
+    plan.forEach(function (s, n) {
+      var t = trozos[n];
+      /* La etiqueta se busca sobre la versión sin acentos y se corta sobre el
+         texto real: si no, «Diagnóstico:» no coincide con «diagnostico» y el
+         campo acaba diciendo su propio nombre. */
+      if (s.etiqueta) {
+        var me = s.etiqueta.exec(plana(t));
+        if (me) t = t.slice(me[0].length);
+      }
+      t = t.replace(/^[\s,;.:]+/, '').replace(/[\s,;]+$/, '').trim();
+
+      if (s.vitales && t) {
+        var v = sacaVitales(t);
+        Object.keys(v.campos).forEach(function (id) { campos[id] = v.campos[id]; });
+        t = v.resto;
+        if (!Object.keys(v.campos).length) {
+          avisos.push('No reconocí ningún signo vital en la exploración. ' +
+                      'Revisa TA, FC, FR, temperatura y saturación a mano.');
+        }
+      }
+
+      bloques.push({ clave: s.clave, titulo: s.titulo, texto: t,
+                     interrogado: !!t });
+      if (!t) return;
+      campos[s.campo] = campos[s.campo] ? (campos[s.campo] + ' ' + t).trim() : t;
+    });
+
+    if (faltaron.length) {
+      avisos.push('No encontré dónde empiezan: ' + faltaron.join(', ') +
+                  '. Esas secciones quedaron vacías; nada se rellenó por su cuenta.');
+    }
+
+    var puestas = bloques.filter(function (b) { return b.interrogado; }).length;
+    return { campos: campos, bloques: bloques, avisos: avisos,
+             sin_ubicar: [], contestadas: puestas, total: plan.length,
+             guion: 'secuencia:' + tipo, por_secuencia: true };
+  }
+
   /* Punto de entrada: texto crudo del servicio de transcripción → expediente.
      Devuelve también la transcripción corregida, porque es lo que se guarda
      junto a la nota y lo que el médico revisa si algo no le cuadra. */
-  function estructura(textoCrudo, esquema, guionForzado) {
+  function estructura(textoCrudo, esquema, guionForzado, tipo) {
     var tablas = compilaTablas(esquema.tablas || {});
     // splitlines a la Python: un salto de línea final NO abre un renglón vacío
     var crudo = String(textoCrudo || '').replace(/\r?\n$/, '');
@@ -2193,6 +2392,20 @@ var Motor = (function () {
         dudas.push('línea ' + (i + 1) + ': «' + d[0] + '» ¿será «' + d[1] + '»?');
       });
     });
+
+    /* Si el documento tiene una secuencia definida, se usa ESA. Es la forma
+       en que el médico dicta de verdad, y corta por posición en vez de
+       reconocer preguntas. Solo si la secuencia no reconoce nada —porque se
+       dictó de otra manera— se cae al motor de preguntas. */
+    if (tipo && SECUENCIAS[tipo]) {
+      var s = porSecuencia(corregidas.join(' '), tipo);
+      if (s && s.contestadas > 1) {
+        s.dudas = dudas;
+        s.marcas = null;
+        s.transcripcion = corregidas.join('\n');
+        return s;
+      }
+    }
 
     var cual, marcas;
     if (guionForzado && esquema.guiones[guionForzado]) {
@@ -2210,7 +2423,8 @@ var Motor = (function () {
   }
 
   return { estructura: estructura, procesa: procesa, escogeGuion: escogeGuion,
-           corrige: corrige, compilaTablas: compilaTablas, plano: plano };
+           corrige: corrige, compilaTablas: compilaTablas, plano: plano,
+           porSecuencia: porSecuencia, SECUENCIAS: SECUENCIAS };
 })();
 
 
@@ -2750,7 +2964,7 @@ function transcribeEnLaNube(avance){
       if (!r || !r.texto) throw new Error('No vino texto.');
       avance(100, 'armando la nota');
 
-      var d = Motor.estructura(r.texto, ESQUEMA, guionDe(TIPO));
+      var d = Motor.estructura(r.texto, ESQUEMA, guionDe(TIPO), TIPO.id);
       D.origen = (r.proveedor || 'nube') + (r.segundos ? ' · ' + r.segundos + ' s' : '');
       return reparteSobrante(d, avance);
     })
@@ -2766,7 +2980,8 @@ function transcribeEnLaNube(avance){
 
       ofreceDictadoListo({
         campos: d.campos, sin_ubicar: d.sin_ubicar, dudas: d.dudas,
-        avisos: d.avisos, contestadas: d.contestadas, total: d.total
+        avisos: d.avisos, contestadas: d.contestadas, total: d.total,
+        por_secuencia: d.por_secuencia
       }, d.transcripcion);
     })
     .catch(function(e){
@@ -2906,6 +3121,7 @@ function ofreceDictadoListo(dic, transcripcion){
   D.transcripcion = transcripcion;
   D.contestadas = dic.contestadas || 0;
   D.total = dic.total || 0;
+  D.porSecuencia = !!dic.por_secuencia;
   capaAbre();
   pintaRevision();
 }
@@ -2923,9 +3139,13 @@ function pintaRevision(){
      antes de firmar. */
   var rep = (D.repartidos || []).length;
   enc.innerHTML =
-    '<div>Contestó <b>' + D.contestadas + ' de ' + D.total + '</b> preguntas del ' +
-    'guion. Lo que no se preguntó se queda vacío: el programa no escribe "niega" por una ' +
-    'pregunta que nadie hizo.</div>' +
+    (D.porSecuencia
+      ? '<div>Reconoció <b>' + D.contestadas + ' de ' + D.total + '</b> secciones de la nota, ' +
+        'cortando el dictado por el orden en que lo dijiste. Lo que no dijiste se queda ' +
+        'vacío: ninguna sección se rellena con la de al lado.</div>'
+      : '<div>Contestó <b>' + D.contestadas + ' de ' + D.total + '</b> preguntas del ' +
+        'guion. Lo que no se preguntó se queda vacío: el programa no escribe "niega" por una ' +
+        'pregunta que nadie hizo.</div>') +
     (rep ? '<div style="margin-top:6px">Dictaste corrido, sin leer el guion, así que ' +
            '<b>' + rep + ' campo(s)</b> los acomodó el reparto automático. Solo pudo ' +
            'copiar palabras que dijiste —lo que no, se descartó— pero revísalos con ' +
