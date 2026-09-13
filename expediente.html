@@ -2232,29 +2232,29 @@ var Motor = (function () {
 
   var SECUENCIAS = {
     nota_evolucion: [
-      { clave: 'objetiva', campo: 'evolucion_cuadro',
+      { clave: 'objetiva', ayuda: 'Quién es y en qué momento va. «Paciente de una semana de postoperada de deep plane.»', campo: 'evolucion_cuadro',
         titulo: 'Situación actual', anclas: [] },
 
-      { clave: 'subjetiva', campo: 'evolucion_cuadro',
+      { clave: 'subjetiva', ayuda: 'Lo que ELLA te dice. Empieza con «refiere…» o «niega…».', campo: 'evolucion_cuadro',
         titulo: 'Lo que refiere la paciente',
         anclas: [/\b(refiere|refiriendo|manifiesta|se queja|comenta|menciona|niega)\b/] },
 
-      { clave: 'exploracion', campo: 'ef_regional', vitales: true,
+      { clave: 'exploracion', ayuda: 'Primero los signos vitales: TA, FC, FR, temperatura, saturación. Después el resto de la exploración.', campo: 'ef_regional', vitales: true,
         titulo: 'Exploración física',
         anclas: [/\b(signos vitales|a la exploracion|exploracion fisica)\b/,
                  /\b(t\.?\s?a\.?|tension arterial|presion arterial)\s*:?\s*(?:de\s*)?\d{2,3}\s*(?:\/|sobre)/,
                  /\b\d{2,3}\s*\/\s*\d{2,3}\b/],
         etiqueta: /^\s*(signos vitales|a la exploracion(?: fisica)?|exploracion fisica)\s*[:,.]?\s*/ },
 
-      { clave: 'diagnostico', campo: 'diagnosticos', titulo: 'Diagnóstico',
+      { clave: 'diagnostico', ayuda: 'Di la palabra «diagnóstico» y luego cuál es.', campo: 'diagnosticos', titulo: 'Diagnóstico',
         anclas: [/\b(diagnosticos?|impresion diagnostica|dx)\b/],
         etiqueta: /^\s*(diagnosticos?|impresion diagnostica|dx)\b\s*[:,.]?\s*/i },
 
-      { clave: 'pronostico', campo: 'pronostico', titulo: 'Pronóstico',
+      { clave: 'pronostico', ayuda: 'Di la palabra «pronóstico» y luego cuál es.', campo: 'pronostico', titulo: 'Pronóstico',
         anclas: [/\bpronostico\b/],
         etiqueta: /^\s*pronostico\b\s*[:,.]?\s*/i },
 
-      { clave: 'plan', campo: 'plan_tratamiento', titulo: 'Plan',
+      { clave: 'plan', ayuda: 'Qué hiciste y qué sigue. «Se retiraron puntos… se cita en… se agrega…»', campo: 'plan_tratamiento', titulo: 'Plan',
         anclas: [/\bplan\b\s*[:,]/, /\b(se indica|se indican|se cita|se retir|se agrega|se agregan|se prescribe|se solicita|se continua|se envia|se programa|continua con)\b/],
         etiqueta: /^\s*plan\b\s*[:,.]?\s*/i }
     ]
@@ -2682,7 +2682,46 @@ function guionDe(tipo){
 /* El guion en pantalla, para leerlo. Sin esto el dictado no sirve: el sistema
    reconoce cada respuesta PORQUE usted leyó la pregunta tal como está escrita.
    Tocar una pregunta la tacha, para no perder el hilo. No es obligatorio. */
+/* Lo que ve el médico mientras graba.
+
+   Si el documento se dicta por SECUENCIA —como la nota de evolución— se le
+   muestran sus pasos en orden, no un cuestionario. La pantalla tiene que
+   enseñar lo mismo que el motor espera oír: si le pide leer preguntas y el
+   motor corta por secuencia, el médico dicta una cosa y el programa entiende
+   otra. Eso ya pasó una vez y el resultado fueron cero campos llenos. */
+function pintaSecuencia(caja, pasos){
+  caja.innerHTML = '';
+  var h = document.createElement('div');
+  h.className = 'bloqueGuion';
+  h.textContent = 'Dicta en este orden';
+  caja.appendChild(h);
+
+  pasos.forEach(function(s, i){
+    var p = document.createElement('div');
+    p.className = 'preg';
+    var n = document.createElement('span');
+    n.className = 'num'; n.textContent = (i + 1);
+    var t = document.createElement('span'); t.className = 't';
+    var fuerte = document.createElement('div');
+    fuerte.style.fontWeight = '500';
+    fuerte.textContent = s.titulo;
+    t.appendChild(fuerte);
+    if (s.ayuda){
+      var a = document.createElement('div');
+      a.style.cssText = 'font-size:13px;color:var(--gris);margin-top:2px';
+      a.textContent = s.ayuda;
+      t.appendChild(a);
+    }
+    p.appendChild(n); p.appendChild(t);
+    p.onclick = function(){ p.classList.toggle('hecha'); };
+    caja.appendChild(p);
+  });
+}
+
 function pintaGuion(caja){
+  var sec = TIPO && Motor.SECUENCIAS && Motor.SECUENCIAS[TIPO.id];
+  if (sec) return pintaSecuencia(caja, sec);
+
   var cual = guionDe(TIPO);
   var lista = (ESQUEMA && ESQUEMA.guiones && ESQUEMA.guiones[cual]) || [];
   caja.innerHTML = '';
@@ -2719,7 +2758,11 @@ function pantallaGrabando(){
     '<div class="grabando">' +
       '<div class="reloj" id="reloj">0:00</div>' +
       '<div class="medidor" style="margin:8px 0 4px"><i id="nivel"></i></div>' +
-      '<div class="subreloj">Lee las preguntas tal como están. Tócalas para tacharlas.</div>' +
+      '<div class="subreloj">' +
+      (TIPO && Motor.SECUENCIAS && Motor.SECUENCIAS[TIPO.id]
+        ? 'Dicta de corrido, en este orden. Toca cada paso para tacharlo.'
+        : 'Lee las preguntas tal como están. Tócalas para tacharlas.') +
+      '</div>' +
     '</div>' +
     '<div class="aviso malo" id="avisoMudo" style="display:none;margin:12px 0">' +
     '<b>No estoy oyendo nada.</b> Llevas veinte segundos sin señal de audio. ' +
