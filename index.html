@@ -358,6 +358,18 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
     <div class="mosaico" id="mosCaptura"></div>
     <div class="seccion">Imprimir y firmar</div>
     <div class="mosaico" id="mosFirmar"></div>
+
+    <!-- Feedback a ventas: sale directo al CRM, NO entra a la historia clínica -->
+    <div class="seccion">Feedback a ventas</div>
+    <div id="cajaVentas" style="border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:14px;background:rgba(0,0,0,.02)">
+      <textarea id="fbVentasTexto" rows="3"
+        placeholder="Feedback de la consulta para el equipo de ventas (esto NO entra a la historia clínica)…"
+        style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border:1px solid rgba(0,0,0,.15);border-radius:8px;resize:vertical"></textarea>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px">
+        <span id="fbVentasEstado" style="font-size:13px;color:var(--negro,#1a1a1a);opacity:.8"></span>
+        <button class="p" id="bEnviarVentas">Enviar a ventas</button>
+      </div>
+    </div>
   </div>
 
   <!-- pantalla: expediente -->
@@ -1674,6 +1686,34 @@ function guarda(silencioso){
     });
 }
 $('bGuardar').onclick = function(){ guarda(false); };
+
+/* ---------------- feedback a ventas ---------------- */
+/* Manda el feedback de la consulta al CRM (vía la acción 'feedbackVentas' del
+   gateway). El teléfono sale del paciente ya cargado; el secreto vive en el
+   servidor, nunca aquí. Esto NO toca la historia clínica. */
+var bEnviarVentas = document.getElementById('bEnviarVentas');
+if (bEnviarVentas){
+  bEnviarVentas.onclick = function(){
+    var est   = document.getElementById('fbVentasEstado');
+    var texto = (document.getElementById('fbVentasTexto').value || '').trim();
+    var tel   = (PACIENTE && (PACIENTE['Teléfono'] || PACIENTE['Telefono_2'])) || '';
+    if (!texto){ est.style.color = 'var(--rojo,#a13a3a)'; est.textContent = 'Escribe el feedback primero.'; return; }
+    if (!tel){ est.style.color = 'var(--rojo,#a13a3a)'; est.textContent = 'Esta paciente no tiene teléfono en la base; no puedo mandarlo a ventas.'; return; }
+    est.style.color = 'var(--negro,#1a1a1a)'; est.textContent = 'Enviando…';
+    bEnviarVentas.disabled = true;
+    pide('feedbackVentas', { telefono: String(tel), texto: texto })
+      .then(function(d){
+        est.style.color = 'var(--verde,#5a7a4e)';
+        est.textContent = 'Enviado a ventas ✓' + (d && d.paciente ? ' (' + d.paciente + ')' : '');
+        document.getElementById('fbVentasTexto').value = '';
+      })
+      .catch(function(e){
+        est.style.color = 'var(--rojo,#a13a3a)';
+        est.textContent = 'No se pudo enviar: ' + e.message;
+      })
+      .then(function(){ bEnviarVentas.disabled = false; });
+  };
+}
 
 /* ============================================================
    IMPRIMIR
