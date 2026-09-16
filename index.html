@@ -1701,7 +1701,7 @@ if (bEnviarVentas){
     if (!tel){ est.style.color = 'var(--rojo,#a13a3a)'; est.textContent = 'Esta paciente no tiene teléfono en la base; no puedo mandarlo a ventas.'; return; }
     est.style.color = 'var(--negro,#1a1a1a)'; est.textContent = 'Enviando…';
     bEnviarVentas.disabled = true;
-    pide('feedbackVentas', { telefono: String(tel), texto: texto })
+    pide('feedbackVentas', { telefono: String(tel), texto: texto, nombre: (PACIENTE && PACIENTE['Paciente']) || '' })
       .then(function(d){
         est.style.color = 'var(--verde,#5a7a4e)';
         est.textContent = 'Enviado a ventas ✓' + (d && d.paciente ? ' (' + d.paciente + ')' : '');
