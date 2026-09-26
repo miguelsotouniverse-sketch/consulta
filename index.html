@@ -318,6 +318,30 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .firmasHoja td{height:13mm;border-bottom:.5pt solid #000}
 #impresion .firmasHoja td.e{font-size:8pt;width:34%;border-bottom:.5pt solid #000}
 
+/* ---- recetas ----
+   Cada receta es una página completa. `saltoPagina` las separa: la segunda y
+   la tercera empiezan en hoja nueva, porque cada una es un documento con su
+   propia firma y su propio destino (una se queda en la farmacia). */
+#impresion .receta{page-break-inside:auto}
+#impresion .receta.saltoPagina{page-break-before:always;break-before:page;padding-top:4mm}
+#impresion .rxLinea{margin:0 0 4px;padding-bottom:3px;
+  border-bottom:.25pt solid #DED9D4;page-break-inside:avoid;break-inside:avoid}
+#impresion .rxNombre{font-size:10pt;font-weight:500;line-height:1.3}
+#impresion .rxSoloSi{font-size:7pt;letter-spacing:.5px;margin-left:7px;
+  padding:1px 5px;border:.5pt solid #8A6D1F;color:#8A6D1F;white-space:nowrap}
+#impresion .rxInd{font-size:9pt;line-height:1.35;margin-top:1px}
+#impresion .rxMeta{font-size:8pt;color:#555;white-space:nowrap}
+#impresion .rxNota{font-size:8pt;color:#555;margin-top:8px;padding:6px 8px;
+  background:#F2F0EE;page-break-inside:avoid;break-inside:avoid}
+#impresion .rxPaciente{font-size:9.5pt;font-weight:500;margin-top:6px}
+#impresion .rxAlarma{margin-top:8px;padding:6px 9px;border:.75pt solid #8A2F27;
+  color:#8A2F27;page-break-inside:avoid;break-inside:avoid}
+#impresion .rxAlarmaT{font-size:9pt;font-weight:500;margin-bottom:3px}
+#impresion .rxAlarma ul{margin:0;padding-left:14px;font-size:8.5pt;line-height:1.3}
+#impresion .rxAlarma li{margin-bottom:2px}
+#impresion .rxAlarmaTel{margin-top:5px;font-weight:500;font-size:9pt}
+#impresion.hojaRx h1{margin-bottom:6px}
+
 #impresion .firma{margin-top:16px;page-break-inside:avoid;break-inside:avoid;text-align:center}
 #impresion .firma .linea{border-top:.75pt solid #000;width:74mm;margin:24px auto 4px}
 #impresion .firma .n{font-weight:500}
@@ -705,13 +729,21 @@ var DOCUMENTOS = [
      se captura y se imprime de otra manera. */
   { id:'indicaciones_alta',  nombre:'Indicaciones de alta',    grupo:'firma',
     icono:'indicaciones', dictado:false, hoja:true,
-    etiquetas:['Indicaciones de alta'] }
+    etiquetas:['Indicaciones de alta'] },
+
+  /* La receta postoperatoria imprime TRES hojas, no una: el antibiótico se
+     queda en la farmacia, el tramadol tiene su propio régimen de surtido y
+     el resto se lo lleva la paciente. Ver el bloque RECETA POSTOPERATORIA. */
+  { id:'receta_post',        nombre:'Receta postoperatoria',   grupo:'firma',
+    icono:'receta', dictado:false, receta:true,
+    etiquetas:['Receta postoperatoria'] }
 ];
 
 var ICONOS = {
   identidad:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/><path d="M15 10h4M15 13.5h3"/>',
   expediente:'<path d="M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M9 7h6M9 11h6M9 15h3"/>',
   pulso:'<path d="M3 12h4l2-6 4 12 2-6h6"/>',
+  receta:'<path d="M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M9 8h6M9 12h6M9 16h4"/><path d="M15.5 5.5l1.8-1.8"/>',
   indicaciones:'<path d="M6 3h9l4 4v14a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5"/><path d="M8 12h8M8 15.5h8M8 19h5"/>',
   bisturi:'<path d="M14 4l6 6-8 8H6v-6z"/><path d="M4 20h6"/>',
   reloj:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
@@ -1166,6 +1198,7 @@ function pintaDocumentos(){
       if (existente && t.unico) c.textContent = 'ya existe · abrir';
       else if (existente) c.textContent = 'otra más';
       else if (t.hoja) c.textContent = 'escoger e imprimir';
+      else if (t.receta) c.textContent = 'plantilla · 3 hojas';
       else c.textContent = faltanDe(t, {}) + ' campos';
       b.appendChild(n); b.appendChild(c);
       b.onclick = function(){
@@ -1188,6 +1221,7 @@ function abreDocumento(tipoId, docId){
      al abrir otro, la anterior sigue en memoria y se podría imprimir la hoja de
      la paciente pasada. */
   HOJA = null;
+  PLANTILLA = null;
 
   ocultaTodo();
   $('pantallaExp').classList.remove('oculto');
@@ -1439,8 +1473,583 @@ function armaHoja(){
   });
 }
 
+/* ============================================================
+   RECETA POSTOPERATORIA
+
+   Una plantilla precarga los renglones según lo que el médico marque
+   —Bichat, alergias, función renal, ISRS— y él edita, quita o agrega antes
+   de imprimir. Las reglas clínicas no viven aquí: llegan de recetas.json.
+
+   SE IMPRIMEN TRES HOJAS, NO UNA. En México cada grupo de medicamentos
+   tiene un régimen de dispensación distinto, y juntos, el más estricto se
+   traga a los demás:
+
+     · ANTIBIÓTICO — la farmacia RETIENE la receta al surtir la cantidad
+       completa (Acuerdo DOF 27-V-2010, art. 226 fr. IV de la Ley General de
+       Salud). Si va en la misma hoja que lo demás, la paciente sale de la
+       farmacia sin ninguna de sus otras prescripciones.
+
+     · TRAMADOL — desde el 14 de julio de 2026 es fracción III: psicotrópico
+       (decreto DOF 15-I-2026). Hasta 3 surtidos, vigencia de 6 meses,
+       registro en libros de control, retención en el tercer surtido. Como
+       la paciente se la lleva a casa para usarla solo si la necesita, la
+       cantidad y la duración impresas son lo único que acota esos 6 meses.
+
+     · EL RESTO — fracción IV ordinaria. No se retiene. Esta la conserva.
+
+   Cada hoja lleva, por el artículo 29 del Reglamento de Insumos para la
+   Salud, el nombre, el domicilio y la cédula impresos, la fecha y espacio
+   para FIRMA AUTÓGRAFA; y por el artículo 30, dosis, vía, frecuencia y
+   duración del tratamiento.
+   ============================================================ */
+var RECETAS = null;      // el catálogo
+var PLANTILLA = null;    // la plantilla escogida
+
+function cargaRecetas(){
+  if (RECETAS) return Promise.resolve(RECETAS);
+  return fetch('recetas.json?v=' + Date.now(), { cache: 'no-store' })
+    .then(function(r){
+      if (!r.ok) throw new Error('el servidor contestó ' + r.status);
+      return r.json();
+    })
+    .then(function(d){
+      if (!d || !Array.isArray(d.plantillas) || !d.plantillas.length){
+        throw new Error('el catálogo llegó vacío');
+      }
+      RECETAS = d;
+      return d;
+    });
+}
+
+/* El estado que leen todas las reglas. Se arma una sola vez y de aquí en
+   adelante nadie vuelve a mirar los controles: si una regla y la pantalla
+   discrepan, es que se leyó dos veces la misma cosa de dos maneras. */
+function estadoReceta(){
+  var edad = parseInt(VALORES['paciente_edad'], 10) || 0;
+  var s = {
+    bichat:  VALORES['rx_bichat'] === 'si',
+    peni:    VALORES['rx_peni'] || 'no',
+    sulfa:   VALORES['rx_sulfa'] === 'si',
+    renal:   VALORES['rx_renal'] === 'si',
+    isrs:    VALORES['rx_isrs'] === 'si',
+    sintram: VALORES['rx_sintram'] === 'si',
+    edad:    edad
+  };
+  s.c24   = (edad >= 65) || s.renal;   // celecoxib cada 24 h
+  s.menor = edad > 0 && edad < 18;
+  s.diasPPI = s.sulfa ? 5 : 14;        // el protector dura lo que dure el AINE
+  return s;
+}
+
+/* Una condición se cumple cuando TODAS sus llaves coinciden. Un arreglo
+   significa «cualquiera de estos»; cualquier otro valor, igualdad exacta.
+   Una condición vacía siempre se cumple: sirve de regla por omisión. */
+function cumple_(cond, s){
+  if (!cond) return true;
+  for (var k in cond){
+    if (!Object.prototype.hasOwnProperty.call(cond, k)) continue;
+    var v = cond[k];
+    if (Object.prototype.toString.call(v) === '[object Array]'){
+      if (v.indexOf(s[k]) < 0) return false;
+    } else if (v !== s[k]) return false;
+  }
+  return true;
+}
+
+function sustituye_(t, s){
+  return String(t == null ? '' : t).split('{diasPPI}').join(String(s.diasPPI));
+}
+
+/* Los renglones que la plantilla propone. Devuelve objetos nuevos: lo que el
+   médico edite después es suyo y no se vuelve a pisar. */
+function renglonesDe(plantilla, s){
+  return (plantilla.medicamentos || [])
+    .filter(function(m){ return cumple_(m.si, s); })
+    .map(function(m){
+      return {
+        hoja: m.hoja,
+        nombre: sustituye_(m.nombre, s),
+        indicacion: sustituye_(m.indicacion, s),
+        cantidad: sustituye_(m.cantidad, s),
+        duracion: sustituye_(m.duracion, s),
+        rescate: !!m.rescate,
+        horario: m.horario || null
+      };
+    });
+}
+
+function profilaxisDe(plantilla, s){
+  var r = (plantilla.profilaxis || []).filter(function(p){ return cumple_(p.si, s); })[0];
+  return r ? r.texto : '';
+}
+
+function avisosDe(plantilla, s){
+  return (plantilla.avisos || []).filter(function(a){ return cumple_(a.si, s); });
+}
+
+function alarmaDe(plantilla, s){
+  return (plantilla.alarma || []).filter(function(a){ return cumple_(a.si, s); })
+    .map(function(a){ return a.t; });
+}
+
+function plantillaSugerida(){
+  if (!RECETAS) return null;
+  var proc = plano_(VALORES['proc_nombre'] || '');
+  if (!proc) return null;
+  var h = RECETAS.plantillas.filter(function(p){
+    return (p.coincide || []).some(function(c){ return proc.indexOf(plano_(c)) >= 0; });
+  });
+  return h.length === 1 ? h[0] : null;
+}
+
+/* ---------------- la pantalla ---------------- */
+function armaReceta(){
+  var cont = $('formulario');
+  cont.innerHTML = '';
+  var caja = document.createElement('div');
+  caja.className = 'grupo';
+  caja.style.padding = '18px';
+  cont.appendChild(caja);
+  caja.innerHTML = '<div class="vacio">Cargando las plantillas de receta…</div>';
+
+  heredaProcedimiento();
+
+  cargaRecetas().then(function(d){
+    caja.innerHTML = '';
+
+    /* --- qué plantilla --- */
+    var c0 = document.createElement('div'); c0.className = 'campo';
+    var e0 = document.createElement('label'); e0.textContent = 'Plantilla de receta';
+    c0.appendChild(e0);
+    var sel = document.createElement('select');
+    var vac = document.createElement('option');
+    vac.value = ''; vac.textContent = '— escoge la plantilla —';
+    sel.appendChild(vac);
+    d.plantillas.forEach(function(p){
+      var o = document.createElement('option');
+      o.value = p.id; o.textContent = p.nombre;
+      sel.appendChild(o);
+    });
+    c0.appendChild(sel); caja.appendChild(c0);
+
+    var zonaPreg = document.createElement('div'); caja.appendChild(zonaPreg);
+    var zonaMed  = document.createElement('div'); caja.appendChild(zonaMed);
+    var zonaRx   = document.createElement('div'); cont.appendChild(zonaRx);
+
+    function escoge(id, primeraVez){
+      PLANTILLA = d.plantillas.filter(function(p){ return p.id === id; })[0] || null;
+      if (PLANTILLA){
+        VALORES['rx_plantilla'] = PLANTILLA.id;
+        VALORES['rx_plantilla_version'] = PLANTILLA.version;
+      } else {
+        delete VALORES['rx_plantilla']; delete VALORES['rx_plantilla_version'];
+      }
+      pintaPreguntas();
+      if (!primeraVez || !(VALORES['rx_renglones'] || []).length) recalculaRenglones();
+      pintaTodo();
+      if (!primeraVez){ sucio = true; guardaBorrador(); }
+    }
+
+    function pintaPreguntas(){
+      zonaPreg.innerHTML = '';
+      if (!PLANTILLA) return;
+      (PLANTILLA.preguntas || []).forEach(function(q){
+        var c = document.createElement('div'); c.className = 'campo';
+        var l = document.createElement('label'); l.textContent = q.etiqueta;
+        c.appendChild(l);
+        var ctrl;
+        if (q.tipo === 'lista'){
+          ctrl = document.createElement('select');
+          (q.opciones || []).forEach(function(o){
+            var op = document.createElement('option');
+            op.value = o[0]; op.textContent = o[1];
+            ctrl.appendChild(op);
+          });
+          ctrl.value = VALORES['rx_' + q.id] || (q.opciones[0] && q.opciones[0][0]) || '';
+        } else if (q.tipo === 'texto'){
+          ctrl = document.createElement('input');
+          ctrl.type = 'text';
+          ctrl.value = VALORES['rx_' + q.id] || '';
+        } else {
+          ctrl = document.createElement('select');
+          [['no','No'],['si','Sí']].forEach(function(o){
+            var op = document.createElement('option');
+            op.value = o[0]; op.textContent = o[1];
+            ctrl.appendChild(op);
+          });
+          ctrl.value = VALORES['rx_' + q.id] || 'no';
+        }
+        ctrl.setAttribute('data-campo', 'rx_' + q.id);
+        ctrl.addEventListener('change', function(){
+          pon('rx_' + q.id, this.value);
+          recalculaRenglones();
+          pintaTodo();
+        });
+        if (q.tipo === 'texto'){
+          ctrl.addEventListener('input', function(){ pon('rx_' + q.id, this.value); });
+        }
+        c.appendChild(ctrl);
+        if (q.ayuda){
+          var a = document.createElement('div');
+          a.className = 'alerta';
+          a.style.color = 'var(--gris)'; a.style.borderColor = 'transparent';
+          a.textContent = q.ayuda;
+          c.appendChild(a);
+        }
+        zonaPreg.appendChild(c);
+      });
+    }
+
+    /* Vuelve a proponer los renglones. Se llama cuando cambia algo que los
+       afecta; lo que el médico haya escrito a mano se pierde aquí, y por eso
+       se le avisa antes en pantalla. */
+    function recalculaRenglones(){
+      if (!PLANTILLA) { VALORES['rx_renglones'] = []; return; }
+      VALORES['rx_renglones'] = renglonesDe(PLANTILLA, estadoReceta());
+      sucio = true;
+    }
+
+    function pintaTodo(){
+      pintaPanelMedico(zonaMed);
+      pintaRenglones(zonaRx, recalculaRenglones, pintaTodo);
+      pinta();
+    }
+
+    sel.addEventListener('change', function(){ escoge(this.value); });
+
+    var ini = VALORES['rx_plantilla'] ||
+              (plantillaSugerida() ? plantillaSugerida().id : '');
+    if (ini){ sel.value = ini; escoge(ini, true); }
+    else { pintaTodo(); }
+  })
+  .catch(function(e){
+    PLANTILLA = null; pinta();
+    caja.innerHTML = '';
+    var mal = document.createElement('div');
+    mal.className = 'aviso malo';
+    mal.textContent = 'No pude cargar las plantillas de receta (' + e.message +
+      '). Revisa la conexión y vuelve a entrar; no se imprime una receta a medias.';
+    caja.appendChild(mal);
+  });
+}
+
+/* Lo que es para el médico y NUNCA sale impreso: la profilaxis intravenosa,
+   que se aplica en quirófano, y los avisos de interacción. */
+function pintaPanelMedico(zona){
+  zona.innerHTML = '';
+  if (!PLANTILLA) return;
+  var s = estadoReceta();
+
+  var t = document.createElement('div');
+  t.className = 'seccion';
+  t.style.margin = '18px 0 8px';
+  t.textContent = 'Para ti — no se imprime';
+  zona.appendChild(t);
+
+  var pro = profilaxisDe(PLANTILLA, s);
+  if (pro){
+    var p = document.createElement('div');
+    p.className = 'aviso';
+    p.innerHTML = '<b>Profilaxis preincisión:</b> ' + pro +
+      (PLANTILLA.profilaxisNota ? ' ' + PLANTILLA.profilaxisNota : '');
+    zona.appendChild(p);
+  }
+  avisosDe(PLANTILLA, s).forEach(function(a){
+    var d = document.createElement('div');
+    d.className = 'aviso' + (a.tono ? ' ' + a.tono : '');
+    d.textContent = a.texto;
+    zona.appendChild(d);
+  });
+}
+
+var HOJAS_RX = [['antibiotico','Antibiótico — la farmacia la retiene'],
+                ['controlado','Controlado — tramadol, fracción III'],
+                ['general','Receta general']];
+
+function pintaRenglones(zona, recalcula, repinta){
+  zona.innerHTML = '';
+  if (!PLANTILLA) return;
+  var renglones = VALORES['rx_renglones'] || [];
+
+  var enc = document.createElement('div');
+  enc.className = 'seccion';
+  enc.style.margin = '18px 0 8px';
+  enc.textContent = 'Medicamentos · ' + renglones.length + ' renglones';
+  zona.appendChild(enc);
+
+  var nota = document.createElement('div');
+  nota.className = 'aviso';
+  nota.innerHTML = 'Puedes editar, quitar o agregar renglones. <b>Si cambias ' +
+    'alguna de las respuestas de arriba, la plantilla se vuelve a calcular y ' +
+    'se pierde lo que hayas escrito aquí.</b>';
+  zona.appendChild(nota);
+
+  HOJAS_RX.forEach(function(h){
+    var suyos = renglones.filter(function(r){ return r.hoja === h[0]; });
+    if (!suyos.length) return;
+
+    var titulo = document.createElement('div');
+    titulo.className = 'seccion';
+    titulo.style.margin = '14px 0 6px';
+    titulo.style.fontSize = '12px';
+    titulo.textContent = h[1];
+    zona.appendChild(titulo);
+
+    suyos.forEach(function(r){
+      var i = renglones.indexOf(r);
+      var d = document.createElement('details');
+      d.className = 'grupo';
+      var sm = document.createElement('summary');
+      var fl = document.createElement('span'); fl.className = 'flecha'; fl.textContent = '▸';
+      var ti = document.createElement('span'); ti.className = 'titulo';
+      ti.textContent = r.nombre + (r.rescate ? '  ·  solo si es necesario' : '');
+      sm.appendChild(fl); sm.appendChild(ti);
+      d.appendChild(sm);
+
+      var cuerpo = document.createElement('div');
+      cuerpo.className = 'cuerpo';
+
+      function campo(etq, valor, largo, alGuardar){
+        var c = document.createElement('div'); c.className = 'campo';
+        var l = document.createElement('label'); l.textContent = etq;
+        c.appendChild(l);
+        var ctrl = document.createElement(largo ? 'textarea' : 'input');
+        if (!largo) ctrl.type = 'text';
+        if (largo) ctrl.rows = 3;
+        ctrl.value = valor || '';
+        ctrl.addEventListener('input', function(){
+          alGuardar(this.value); sucio = true; guardaBorrador();
+        });
+        c.appendChild(ctrl);
+        cuerpo.appendChild(c);
+        return ctrl;
+      }
+
+      campo('Medicamento', r.nombre, false, function(v){ r.nombre = v; });
+      campo('Indicación (dosis, vía, frecuencia y duración)', r.indicacion, true,
+            function(v){ r.indicacion = v; });
+      campo('Cantidad', r.cantidad, false, function(v){ r.cantidad = v; });
+      campo('Duración del tratamiento', r.duracion, false, function(v){ r.duracion = v; });
+
+      var cH = document.createElement('div'); cH.className = 'campo';
+      var lH = document.createElement('label'); lH.textContent = 'Va en la receta';
+      cH.appendChild(lH);
+      var sH = document.createElement('select');
+      HOJAS_RX.forEach(function(x){
+        var o = document.createElement('option');
+        o.value = x[0]; o.textContent = x[1];
+        sH.appendChild(o);
+      });
+      sH.value = r.hoja;
+      sH.addEventListener('change', function(){
+        r.hoja = this.value; sucio = true; guardaBorrador(); repinta();
+      });
+      cH.appendChild(sH); cuerpo.appendChild(cH);
+
+      var quitar = document.createElement('button');
+      quitar.type = 'button'; quitar.className = 's';
+      quitar.style.marginTop = '8px';
+      quitar.textContent = 'Quitar este medicamento';
+      quitar.onclick = function(){
+        renglones.splice(i, 1);
+        sucio = true; guardaBorrador(); repinta();
+      };
+      cuerpo.appendChild(quitar);
+
+      d.appendChild(cuerpo);
+      zona.appendChild(d);
+    });
+  });
+
+  var mas = document.createElement('button');
+  mas.type = 'button'; mas.className = 's';
+  mas.style.marginTop = '12px';
+  mas.textContent = 'Agregar un medicamento';
+  mas.onclick = function(){
+    renglones.push({ hoja:'general', nombre:'', indicacion:'', cantidad:'',
+                     duracion:'', rescate:false, horario:null });
+    VALORES['rx_renglones'] = renglones;
+    sucio = true; guardaBorrador(); repinta();
+  };
+  zona.appendChild(mas);
+
+  var rehacer = document.createElement('button');
+  rehacer.type = 'button'; rehacer.className = 's';
+  rehacer.style.marginTop = '12px'; rehacer.style.marginLeft = '8px';
+  rehacer.textContent = 'Volver a la plantilla';
+  rehacer.onclick = function(){ recalcula(); repinta(); };
+  zona.appendChild(rehacer);
+}
+
+/* ============================================================
+   IMPRIMIR LAS TRES RECETAS
+
+   Cada hoja es una receta completa e independiente: membrete, datos de la
+   paciente, medicamentos, alergias, signos de alarma y firma autógrafa. Se
+   imprimen una tras otra, cada una en su propia página.
+
+   Una receta a la que le falte el domicilio o la cédula no es una receta
+   válida (artículo 29 del Reglamento de Insumos para la Salud), y una a la
+   que le falte la duración del tratamiento no es surtible sin discusión
+   (artículo 30). Por eso si algo de eso falta, se dice en pantalla ANTES de
+   imprimir, no se descubre en la farmacia.
+   ============================================================ */
+
+function faltantesReceta(){
+  var f = [];
+  if (!CONSTANTES['medico_nombre'])      f.push('el nombre del médico');
+  if (!CONSTANTES['medico_cedula_prof']) f.push('la cédula profesional');
+  if (!CONSTANTES['estab_domicilio'])    f.push('el domicilio del consultorio');
+  if (!nombreCompleto())                 f.push('el nombre de la paciente');
+  var sin = (VALORES['rx_renglones'] || []).filter(function(r){
+    return r.nombre && !String(r.duracion || '').trim();
+  });
+  if (sin.length) f.push('la duración del tratamiento en ' + sin.length +
+                         ' medicamento(s)');
+  return f;
+}
+
+function pintaRecetasImpresas(raiz, el){
+  if (!PLANTILLA){
+    raiz.appendChild(el('div', 'dato', 'No hay plantilla de receta escogida.'));
+    return;
+  }
+  var s = estadoReceta();
+  var renglones = (VALORES['rx_renglones'] || []).filter(function(r){
+    return String(r.nombre || '').trim();
+  });
+  var hojas = (RECETAS && RECETAS.hojas) || [];
+
+  var primera = true;
+  hojas.forEach(function(h){
+    var suyos = renglones.filter(function(r){ return r.hoja === h.id; });
+    if (!suyos.length) return;
+
+    var pag = el('div', 'receta');
+    if (!primera) pag.classList.add('saltoPagina');
+    primera = false;
+
+    pag.appendChild(membreteReceta(el));
+    pag.appendChild(el('h1', null, h.titulo.toUpperCase()));
+    pag.appendChild(fichaReceta(el, s));
+
+    suyos.forEach(function(r){
+      var d = el('div', 'rxLinea');
+      var n = el('div', 'rxNombre', r.nombre);
+      if (r.rescate){
+        var et = el('span', 'rxSoloSi', 'SOLO SI ES NECESARIO');
+        n.appendChild(et);
+      }
+      d.appendChild(n);
+      var ind = el('div', 'rxInd', r.indicacion);
+      var pie = [];
+      if (r.cantidad) pie.push('Cantidad: ' + r.cantidad);
+      if (r.duracion) pie.push('Duración: ' + r.duracion);
+      if (pie.length) ind.appendChild(el('span', 'rxMeta', '  ' + pie.join('  ·  ')));
+      d.appendChild(ind);
+      pag.appendChild(d);
+    });
+
+    if (h.nota) pag.appendChild(el('div', 'rxNota', h.nota));
+    if (h.paraPaciente) pag.appendChild(el('div', 'rxPaciente', h.paraPaciente));
+
+    if (h.alarma) pag.appendChild(alarmaReceta(el, s));
+    pag.appendChild(firmaReceta(el));
+    raiz.appendChild(pag);
+  });
+
+  if (primera){
+    raiz.appendChild(el('div', 'dato', 'No hay ningún medicamento con nombre. ' +
+      'Regresa y captura al menos uno.'));
+  }
+}
+
+function membreteReceta(el){
+  var cab = el('div', 'cab');
+  var img = document.createElement('img');
+  img.src = 'ms-horizontal.png'; img.alt = '';
+  var datos = el('div', 'datos');
+  datos.appendChild(el('b', null, CONSTANTES['medico_nombre'] || ''));
+  [CONSTANTES['medico_especialidad'] || 'Cirugía Plástica, Estética y Reconstructiva',
+   [CONSTANTES['medico_cedula_prof'] ? 'Céd. Prof. ' + CONSTANTES['medico_cedula_prof'] : '',
+    CONSTANTES['medico_cedula_esp'] ? 'Céd. Esp. ' + CONSTANTES['medico_cedula_esp'] : '',
+    CONSTANTES['medico_consejo'] || ''
+   ].filter(Boolean).join('  ·  '),
+   CONSTANTES['estab_domicilio'] || '',
+   [CONSTANTES['seg_telefono'] ? 'Tel. ' + CONSTANTES['seg_telefono'] : '',
+    CONSTANTES['seg_telefono_urgencias'] ? 'Urgencias ' + CONSTANTES['seg_telefono_urgencias'] : ''
+   ].filter(Boolean).join('  ·  '),
+   CONSTANTES['estab_licencia'] || ''
+  ].filter(Boolean).forEach(function(t){ datos.appendChild(el('div', null, t)); });
+  cab.appendChild(img); cab.appendChild(datos);
+  return cab;
+}
+
+function fichaReceta(el, s){
+  var t = el('table', 'ficha');
+  function fila(pares){
+    var tr = document.createElement('tr');
+    pares.forEach(function(p){
+      tr.appendChild(el('td', 'e', p[0]));
+      tr.appendChild(el('td', null, p[1] || '—'));
+    });
+    t.appendChild(tr);
+  }
+  fila([['Paciente', nombreCompleto()]]);
+  fila([['Expediente', txt('expediente_folio') || FOLIO],
+        ['Edad', txt('paciente_edad')]]);
+  fila([['Fecha', fechaLarga_(txt('doc_fecha')) || fechaLarga_(hoyISO())]]);
+  var proc = s.bichat ? (PLANTILLA.procedimientoBichat || PLANTILLA.procedimiento)
+                      : PLANTILLA.procedimiento;
+  fila([['Procedimiento', proc]]);
+  fila([['Alergias', alergiasTexto(s)]]);
+  return t;
+}
+
+/* Las alergias se imprimen SIEMPRE, incluso cuando no hay ninguna. Un renglón
+   que dice «Negadas» es información; un renglón ausente no distingue entre
+   «no tiene» y «no se preguntó». */
+function alergiasTexto(s){
+  var a = [];
+  if (s.peni === 'leve')  a.push('penicilina (leve)');
+  if (s.peni === 'grave') a.push('penicilina (grave)');
+  if (s.sulfa)            a.push('sulfonamidas');
+  var otras = String(VALORES['rx_otras'] || '').trim();
+  if (otras) a.push(otras);
+  return a.length ? a.join(' · ') : 'Negadas';
+}
+
+function alarmaReceta(el, s){
+  var caja = el('div', 'rxAlarma');
+  caja.appendChild(el('div', 'rxAlarmaT',
+    'Signos de alarma. Llame de inmediato si presenta:'));
+  var ul = document.createElement('ul');
+  alarmaDe(PLANTILLA, s).forEach(function(t){ ul.appendChild(el('li', null, t)); });
+  caja.appendChild(ul);
+  var tel = [];
+  if (CONSTANTES['seg_telefono_urgencias'])
+    tel.push('Urgencias: ' + CONSTANTES['seg_telefono_urgencias']);
+  if (CONSTANTES['seg_telefono'])
+    tel.push('WhatsApp del consultorio: ' + CONSTANTES['seg_telefono']);
+  if (tel.length) caja.appendChild(el('div', 'rxAlarmaTel', tel.join('   ·   ')));
+  return caja;
+}
+
+function firmaReceta(el){
+  var f = el('div', 'firma');
+  f.appendChild(el('div', 'linea'));
+  f.appendChild(el('div', 'n', CONSTANTES['medico_nombre'] || ''));
+  var ced = [CONSTANTES['medico_cedula_prof'] ? 'Cédula profesional ' + CONSTANTES['medico_cedula_prof'] : '',
+             CONSTANTES['medico_cedula_esp'] ? 'Cédula de especialidad ' + CONSTANTES['medico_cedula_esp'] : ''
+            ].filter(Boolean).join('  ·  ');
+  if (ced) f.appendChild(el('div', 'c', ced));
+  f.appendChild(el('div', 'c', 'Firma autógrafa'));
+  return f;
+}
+
 function dibujaTodo(){
   if (TIPO && TIPO.hoja){ armaHoja(); aplicaConstantes(); pinta(); return; }
+  if (TIPO && TIPO.receta){ armaReceta(); aplicaConstantes(); pinta(); return; }
   arma(); vuelca(); aplicaConstantes(); recalcula(); pinta();
 }
 
@@ -1761,6 +2370,17 @@ function pinta(){
   /* Una hoja de indicaciones no se "llena": se escoge y se imprime. Contar
      campos ahí no dice nada; lo que el médico necesita ver es qué hoja está
      a punto de entregarle a la paciente. */
+  if (TIPO.receta){
+    var n = (VALORES['rx_renglones'] || []).filter(function(r){
+      return String(r.nombre || '').trim(); }).length;
+    var falta = PLANTILLA ? faltantesReceta() : ['la plantilla'];
+    $('progreso').style.width = (PLANTILLA && n && !falta.length) ? '100%' : '0%';
+    $('estado').textContent = !PLANTILLA ? 'Falta escoger la plantilla'
+      : falta.length ? 'Falta ' + falta.join(', ')
+      : n + ' medicamentos  ·  listo para imprimir';
+    return;
+  }
+
   if (TIPO.hoja){
     $('progreso').style.width = HOJA ? '100%' : '0%';
     $('estado').textContent = HOJA
@@ -1994,7 +2614,7 @@ function esNada(v){
 function armaImpresion(){
   var raiz = $('impresion');
   raiz.innerHTML = '';
-  raiz.classList.remove('hojaIndic');
+  raiz.classList.remove('hojaIndic'); raiz.classList.remove('hojaRx');
   if (!TIPO || !ESQUEMA) return;
 
   function el(tag, clase, texto){
@@ -2027,6 +2647,11 @@ function armaImpresion(){
   if (TIPO.hoja){
     raiz.classList.add('hojaIndic');
     pintaHojaImpresa(raiz, el);
+    return;
+  }
+  if (TIPO.receta){
+    raiz.classList.add('hojaRx');
+    pintaRecetasImpresas(raiz, el);
     return;
   }
 
