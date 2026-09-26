@@ -1658,26 +1658,28 @@ function armaReceta(){
         var l = document.createElement('label'); l.textContent = q.etiqueta;
         c.appendChild(l);
         var ctrl;
-        if (q.tipo === 'lista'){
-          ctrl = document.createElement('select');
-          (q.opciones || []).forEach(function(o){
-            var op = document.createElement('option');
-            op.value = o[0]; op.textContent = o[1];
-            ctrl.appendChild(op);
-          });
-          ctrl.value = VALORES['rx_' + q.id] || (q.opciones[0] && q.opciones[0][0]) || '';
-        } else if (q.tipo === 'texto'){
+        if (q.tipo === 'texto'){
           ctrl = document.createElement('input');
           ctrl.type = 'text';
           ctrl.value = VALORES['rx_' + q.id] || '';
         } else {
+          /* Una pregunta obligatoria arranca en blanco. No se contesta sola,
+             porque su respuesta decide qué medicamento se receta. */
           ctrl = document.createElement('select');
-          [['no','No'],['si','Sí']].forEach(function(o){
+          if (q.obligatoria){
+            var vac = document.createElement('option');
+            vac.value = ''; vac.textContent = '— sin contestar —';
+            ctrl.appendChild(vac);
+          }
+          var ops = q.tipo === 'lista' ? (q.opciones || []) : [['no','No'],['si','Sí']];
+          ops.forEach(function(o){
             var op = document.createElement('option');
             op.value = o[0]; op.textContent = o[1];
             ctrl.appendChild(op);
           });
-          ctrl.value = VALORES['rx_' + q.id] || 'no';
+          ctrl.value = VALORES['rx_' + q.id] ||
+                       (q.obligatoria ? '' : (ops[0] && ops[0][0]) || '');
+          if (q.obligatoria && !VALORES['rx_' + q.id]) ctrl.style.borderColor = 'var(--ambar)';
         }
         ctrl.setAttribute('data-campo', 'rx_' + q.id);
         ctrl.addEventListener('change', function(){
@@ -1704,7 +1706,7 @@ function armaReceta(){
        afecta; lo que el médico haya escrito a mano se pierde aquí, y por eso
        se le avisa antes en pantalla. */
     function recalculaRenglones(){
-      if (!PLANTILLA) { VALORES['rx_renglones'] = []; return; }
+      if (!PLANTILLA || sinContestar().length){ VALORES['rx_renglones'] = []; return; }
       VALORES['rx_renglones'] = renglonesDe(PLANTILLA, estadoReceta());
       sucio = true;
     }
@@ -1769,6 +1771,19 @@ var HOJAS_RX = [['antibiotico','Antibiótico — la farmacia la retiene'],
 function pintaRenglones(zona, recalcula, repinta){
   zona.innerHTML = '';
   if (!PLANTILLA) return;
+
+  var pendientes = sinContestar();
+  if (pendientes.length){
+    var av = document.createElement('div');
+    av.className = 'aviso ojo';
+    av.style.marginTop = '18px';
+    av.innerHTML = '<b>Faltan datos para armar la receta:</b> ' +
+      pendientes.join(', ') + '. De estas respuestas depende qué medicamento ' +
+      'se receta —el antibiótico entre ellos—, así que no las contesto por ti.';
+    zona.appendChild(av);
+    return;
+  }
+
   var renglones = VALORES['rx_renglones'] || [];
 
   var enc = document.createElement('div');
@@ -1895,8 +1910,15 @@ function pintaRenglones(zona, recalcula, repinta){
    imprimir, no se descubre en la farmacia.
    ============================================================ */
 
+function sinContestar(){
+  if (!PLANTILLA) return [];
+  return (PLANTILLA.preguntas || []).filter(function(q){
+    return q.obligatoria && !VALORES['rx_' + q.id];
+  }).map(function(q){ return q.etiqueta; });
+}
+
 function faltantesReceta(){
-  var f = [];
+  var f = sinContestar().map(function(e){ return 'contestar «' + e + '»'; });
   if (!CONSTANTES['medico_nombre'])      f.push('el nombre del médico');
   if (!CONSTANTES['medico_cedula_prof']) f.push('la cédula profesional');
   if (!CONSTANTES['estab_domicilio'])    f.push('el domicilio del consultorio');
@@ -2638,7 +2660,10 @@ function armaImpresion(){
    ].filter(Boolean).join('  ·  ')
   ].filter(Boolean).forEach(function(t){ datos.appendChild(el('div', null, t)); });
   cab.appendChild(img); cab.appendChild(datos);
-  raiz.appendChild(cab);
+  /* La receta NO lleva el membrete genérico: cada una de sus tres hojas trae
+     el suyo, porque cada hoja es una receta independiente que puede acabar en
+     manos distintas. Ponerlo aquí imprimía dos membretes en la primera. */
+  if (!TIPO.receta) raiz.appendChild(cab);
 
   /* Una hoja de indicaciones trae su propio título y su propia tabla de datos
      —la que le importa a la paciente: su nombre, la fecha de su cirugía y el
@@ -2995,6 +3020,22 @@ function fechaLarga_(iso){
 }
 
 $('bImprimir').onclick = function(){
+  /* Una receta a la que le falte una respuesta clínica no se imprime. Antes
+     sí: las preguntas arrancaban contestadas que no, y una paciente se podía
+     ir a su casa sin el antibiótico que sí necesitaba, sin que la hoja lo
+     dijera en ninguna parte. */
+  if (TIPO && TIPO.receta){
+    var falta = PLANTILLA ? faltantesReceta() : ['escoger la plantilla'];
+    if (falta.length){
+      $('estado').textContent = 'No se imprime: falta ' + falta.join(', ') + '.';
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML = '<b>No imprimí la receta.</b> Falta ' +
+        falta.join(', ') + '. Son datos que deciden qué medicamento se receta, ' +
+        'así que no los contesto por ti.';
+      window.scrollTo(0, 0);
+      return;
+    }
+  }
   $('estado').textContent = 'Guardando antes de imprimir…';
   guarda(true).then(function(){
     armaImpresion();

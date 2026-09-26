@@ -18,12 +18,14 @@
      "id": "bichat",
      "etiqueta": "Bichat intraoral",
      "tipo": "sino",
-     "ayuda": "Define si lleva antibiótico oral y enjuague."
+     "obligatoria": true,
+     "ayuda": "Decide si lleva antibiótico oral y enjuague bucal."
     },
     {
      "id": "peni",
      "etiqueta": "Alergia a penicilina",
      "tipo": "lista",
+     "obligatoria": true,
      "opciones": [
       [
        "no",
@@ -43,6 +45,7 @@
      "id": "sulfa",
      "etiqueta": "Alergia a sulfonamidas",
      "tipo": "sino",
+     "obligatoria": true,
      "ayuda": "Si es sí, el celecoxib queda contraindicado."
     },
     {
@@ -53,7 +56,9 @@
     {
      "id": "renal",
      "etiqueta": "Función renal disminuida",
-     "tipo": "casilla"
+     "tipo": "sino",
+     "obligatoria": true,
+     "ayuda": "Cambia el celecoxib de cada 12 a cada 24 horas."
     },
     {
      "id": "isrs",
@@ -376,7 +381,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "c34a361d"
+   "version": "e8fbf92d"
   }
  ],
  "hojas": [
@@ -414,6 +419,6 @@
   "22:00",
   "24:00"
  ],
- "version": "08a0cfe8118c1537",
+ "version": "f183ad00cdc3bb3b",
  "generado": "2026-09-26"
 }
