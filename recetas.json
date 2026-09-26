@@ -19,7 +19,7 @@
      "etiqueta": "Bichat intraoral",
      "tipo": "sino",
      "obligatoria": true,
-     "ayuda": "Decide si lleva antibiótico oral y enjuague bucal."
+     "ayuda": "Decide el enjuague bucal y el texto del procedimiento. El antibiótico oral va en los dos casos."
     },
     {
      "id": "peni",
@@ -78,7 +78,6 @@
      "nombre": "Amoxicilina / ácido clavulánico 875/125 mg, tabletas.",
      "indicacion": "Tomar 1 tableta vía oral cada 12 horas, con alimentos, durante 5 días.",
      "si": {
-      "bichat": true,
       "peni": [
        "no"
       ]
@@ -98,7 +97,6 @@
      "nombre": "Clindamicina 300 mg, cápsulas.",
      "indicacion": "Tomar 1 cápsula vía oral cada 8 horas, con un vaso completo de agua, durante 5 días. Si presenta diarrea frecuente o con moco, avise.",
      "si": {
-      "bichat": true,
       "peni": [
        "leve",
        "grave"
@@ -290,7 +288,7 @@
       "bichat": false
      },
      "tono": "",
-     "texto": "Sin Bichat: no se receta antibiótico oral; basta la profilaxis IV."
+     "texto": "Sin Bichat: lleva antibiótico oral igual, pero no lleva clorhexidina — el enjuague es para la incisión intraoral."
     },
     {
      "si": {
@@ -381,7 +379,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "e8fbf92d"
+   "version": "bf6af2f3"
   }
  ],
  "hojas": [
@@ -419,6 +417,6 @@
   "22:00",
   "24:00"
  ],
- "version": "f183ad00cdc3bb3b",
+ "version": "534247160c4ec94a",
  "generado": "2026-09-26"
 }

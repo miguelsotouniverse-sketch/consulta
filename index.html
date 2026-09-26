@@ -340,7 +340,10 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .rxAlarma ul{margin:0;padding-left:14px;font-size:8.5pt;line-height:1.3}
 #impresion .rxAlarma li{margin-bottom:2px}
 #impresion .rxAlarmaTel{margin-top:5px;font-weight:500;font-size:9pt}
+#impresion .rxVersion{margin-top:3px;font-size:6.5pt;color:#8C867F;text-align:center}
 #impresion.hojaRx h1{margin-bottom:6px}
+#impresion.hojaRx .firma{margin-top:9px}
+#impresion.hojaRx .firma .linea{margin:13px auto 3px}
 
 #impresion .firma{margin-top:16px;page-break-inside:avoid;break-inside:avoid;text-align:center}
 #impresion .firma .linea{border-top:.75pt solid #000;width:74mm;margin:24px auto 4px}
@@ -1976,7 +1979,14 @@ function pintaRecetasImpresas(raiz, el){
     if (h.paraPaciente) pag.appendChild(el('div', 'rxPaciente', h.paraPaciente));
 
     if (h.alarma) pag.appendChild(alarmaReceta(el, s));
-    pag.appendChild(firmaReceta(el));
+    /* La versión de la plantilla va DENTRO del bloque de firma, no después:
+       suelta se quedaba sola en una cuarta hoja. Y va, porque cuando una
+       receta sale distinta de lo esperado esto dice con qué reglas se armó
+       sin tener que preguntárselo a nadie. Faltaba, y costó una tarde. */
+    var f = firmaReceta(el);
+    f.appendChild(el('div', 'rxVersion',
+      PLANTILLA.nombre + ' · plantilla ' + PLANTILLA.version + ' · ' + folioDocumento()));
+    pag.appendChild(f);
     raiz.appendChild(pag);
   });
 
