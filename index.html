@@ -310,6 +310,10 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .tablaHoja td{padding:4px 6px 4px 0;vertical-align:top;
   border-bottom:.25pt solid #DED9D4;line-height:1.35}
 #impresion .tablaHoja tr{page-break-inside:avoid;break-inside:avoid}
+/* La última columna de las citas es un renglón para escribir a mano. Se ve
+   como renglón, no como celda vacía, para que quede claro que ahí se escribe. */
+#impresion .tablaHoja.conRenglon td:last-child{min-width:44mm;height:9mm;
+  border-bottom:.5pt solid #000}
 #impresion .firmasHoja{margin-top:10px}
 #impresion .firmasHoja td{height:13mm;border-bottom:.5pt solid #000}
 #impresion .firmasHoja td.e{font-size:8pt;width:34%;border-bottom:.5pt solid #000}
@@ -1285,24 +1289,6 @@ function plano_(t){
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
 }
 
-/* Las fechas de las citas salen de la fecha de cirugía. Calcularlas no es
-   inventar nada —es aritmética— y le ahorra a recepción escribir siete fechas
-   a mano en cada hoja. Si no hay fecha de cirugía, la columna sale en blanco
-   para llenarse a mano, que es como estaba antes. */
-function fechaCita_(base, paso){
-  if (!base) return '';
-  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(base);
-  if (!m) return '';
-  var d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-  if (paso.dias)  d.setDate(d.getDate() + paso.dias);
-  if (paso.meses) d.setMonth(d.getMonth() + paso.meses);
-  var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
-  var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto',
-               'septiembre','octubre','noviembre','diciembre'];
-  return DIAS[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()] +
-         ' de ' + d.getFullYear();
-}
-
 /* El procedimiento y su fecha ya están capturados en el expediente: en la nota
    de procedimiento, en el consentimiento o en el convenio. Volver a teclearlos
    aquí es trabajo repetido y una oportunidad de equivocarse en la fecha, que es
@@ -1373,9 +1359,9 @@ function armaHoja(){
     var ayuda = document.createElement('div');
     ayuda.className = 'alerta';
     ayuda.style.color = 'var(--gris)'; ayuda.style.borderColor = 'transparent';
-    ayuda.textContent = 'De aquí salen las fechas de las citas de seguimiento que se ' +
-                        'imprimen en la hoja. Si se deja vacía, esa columna sale en ' +
-                        'blanco para llenarse a mano.';
+    ayuda.textContent = 'Se imprime en el encabezado de la hoja. Las fechas de las ' +
+                        'citas de seguimiento NO se calculan de aquí: las asigna ' +
+                        'recepción y van en blanco para escribirse a mano.';
     c2.appendChild(ayuda);
     caja.appendChild(c2);
 
@@ -1407,18 +1393,15 @@ function armaHoja(){
         return;
       }
       resumen.className = 'aviso';
-      var f = VALORES['proc_fecha'];
       var citas = (HOJA.bloques || []).filter(function(b){ return b.t === 'citas'; })[0];
       var n = citas ? citas.x.length : 0;
       resumen.innerHTML =
         '<b>' + HOJA.nombre + '</b> · versión ' + HOJA.version + '<br>' +
-        (f && n
-          ? 'Se imprimirán las ' + n + ' citas de seguimiento con fecha calculada ' +
-            'desde el ' + f + '.'
-          : (n ? 'Sin fecha de cirugía: las ' + n + ' citas saldrán con la fecha en blanco.'
-               : 'Esta hoja no lleva calendario de citas.')) +
-        '<br>Al imprimir sale con el nombre de la paciente, su número de expediente ' +
-        'y el cuadro de firmas de constancia de entrega.';
+        'Sale con el nombre de la paciente, su número de expediente, la fecha de ' +
+        'cirugía, el teléfono de urgencias y el cuadro de firmas de constancia ' +
+        'de entrega.' +
+        (n ? '<br>Las ' + n + ' citas de seguimiento salen con la <b>fecha en blanco</b>, ' +
+             'con renglón para que recepción la escriba al confirmarla.' : '');
     }
 
     sel.addEventListener('change', function(){ escoge(this.value); });
@@ -2313,11 +2296,14 @@ function pintaHojaImpresa(raiz, el){
       raiz.appendChild(tablaHoja_(b.cols, b.x, el));
 
     } else if (b.t === 'citas'){
-      var base = txt('proc_fecha');
-      var filas = b.x.map(function(c){
-        return [c.cita, c.que, fechaCita_(base, c)];
-      });
-      raiz.appendChild(tablaHoja_(b.cols, filas, el));
+      /* La fecha va en blanco a propósito. Las citas postoperatorias no se
+         asignan por regla: las confirma recepción según la agenda. Una fecha
+         calculada e impresa se lee como un compromiso, y la paciente se
+         presentaría ese día. */
+      var filas = b.x.map(function(c){ return [c.cita, c.que, '']; });
+      var t = tablaHoja_(b.cols, filas, el);
+      t.classList.add('conRenglon');
+      raiz.appendChild(t);
 
     } else if (b.t === 'firmas'){
       raiz.appendChild(tablaFirmas_(b.x, el));

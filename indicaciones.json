@@ -234,37 +234,30 @@
      "x": [
       {
        "cita": "24 horas",
-       "dias": 1,
        "que": "Revisión de hematoma, retiro de vendaje y drenajes (si los hay)"
       },
       {
        "cita": "Día 5",
-       "dias": 5,
        "que": "Retiro de puntos del rostro (frente a la oreja)"
       },
       {
        "cita": "Día 10",
-       "dias": 10,
        "que": "Retiro de puntos detrás de la oreja y grapas del cuero cabelludo"
       },
       {
        "cita": "Mes 1",
-       "meses": 1,
        "que": "Revisión de cicatrices, inicio de silicona y fotografías"
       },
       {
        "cita": "Mes 3",
-       "meses": 3,
        "que": "Revisión y fotografías"
       },
       {
        "cita": "Mes 6",
-       "meses": 6,
        "que": "Revisión y fotografías"
       },
       {
        "cita": "Mes 12",
-       "meses": 12,
        "que": "Resultado final y fotografías"
       }
      ]
@@ -330,9 +323,9 @@
      ]
     }
    ],
-   "version": "13c648d1"
+   "version": "2bc86437"
   }
  ],
- "version": "a3ace1df0ae015d4",
+ "version": "cefae474fc27969f",
  "generado": "2026-09-26"
 }
