@@ -279,6 +279,41 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .sueltos .par{white-space:nowrap}
 #impresion .sueltos .e{font-size:7.5pt;letter-spacing:.4px;text-transform:uppercase;
   color:#555;margin-right:5px}
+/* ---- hojas de indicaciones que se lleva la paciente ----
+   Se imprimen un punto más grandes que una nota clínica, a propósito: esto lo
+   lee la paciente en su casa, recién operada y con analgésicos encima, no un
+   médico con lupa. */
+#impresion .entradaHoja{font-size:9.5pt;line-height:1.5;margin:10px 0 4px;
+  padding:8px 10px;background:#F2F0EE;border-left:2pt solid #A19487}
+#impresion h3{font-size:9.5pt;font-weight:500;margin:9px 0 3px;
+  page-break-after:avoid;break-after:avoid}
+#impresion .pHoja{font-size:9.5pt;line-height:1.5;margin:0 0 6px}
+#impresion .ulHoja{font-size:9.5pt;line-height:1.5;margin:0 0 8px;padding-left:15px}
+#impresion .ulHoja li{margin-bottom:3.5px;page-break-inside:avoid;break-inside:avoid}
+#impresion .notaHoja{font-size:9.5pt;line-height:1.5;margin:6px 0 8px;padding:8px 10px;
+  border:.5pt solid #999;page-break-inside:avoid;break-inside:avoid}
+/* Los signos de alarma no se parten entre dos hojas: si se corta a la mitad,
+   la mitad de abajo es la que no se lee. */
+/* Menos espaciado entre letras que en una nota clínica. Es deliberado: con el
+   espaciado del expediente, el texto se copia partido («IMPO RTA N TE») si esta
+   hoja llega a mandarse por correo, y esta hoja es para la paciente. */
+#impresion.hojaIndic h2{letter-spacing:.3px}
+#impresion h2.alarma{border-bottom-color:#8A2F27;color:#8A2F27}
+#impresion .ulHoja.alarma,#impresion .notaHoja.alarma{border-left:2pt solid #8A2F27;
+  padding-left:12px;page-break-inside:avoid;break-inside:avoid}
+#impresion .notaHoja.alarma{border:.75pt solid #8A2F27;color:#8A2F27}
+#impresion .tablaHoja{margin:4px 0 10px;page-break-inside:avoid;break-inside:avoid}
+#impresion .tablaHoja table{width:100%;border-collapse:collapse;font-size:9pt}
+#impresion .tablaHoja th{text-align:left;font-size:7.5pt;letter-spacing:.4px;
+  text-transform:uppercase;color:#555;border-bottom:.5pt solid #999;
+  padding:3px 6px 3px 0;vertical-align:bottom}
+#impresion .tablaHoja td{padding:4px 6px 4px 0;vertical-align:top;
+  border-bottom:.25pt solid #DED9D4;line-height:1.35}
+#impresion .tablaHoja tr{page-break-inside:avoid;break-inside:avoid}
+#impresion .firmasHoja{margin-top:10px}
+#impresion .firmasHoja td{height:13mm;border-bottom:.5pt solid #000}
+#impresion .firmasHoja td.e{font-size:8pt;width:34%;border-bottom:.5pt solid #000}
+
 #impresion .firma{margin-top:16px;page-break-inside:avoid;break-inside:avoid;text-align:center}
 #impresion .firma .linea{border-top:.75pt solid #000;width:74mm;margin:24px auto 4px}
 #impresion .firma .n{font-weight:500}
@@ -358,18 +393,6 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
     <div class="mosaico" id="mosCaptura"></div>
     <div class="seccion">Imprimir y firmar</div>
     <div class="mosaico" id="mosFirmar"></div>
-
-    <!-- Feedback a ventas: sale directo al CRM, NO entra a la historia clínica -->
-    <div class="seccion">Feedback a ventas</div>
-    <div id="cajaVentas" style="border:1px solid rgba(0,0,0,.12);border-radius:12px;padding:14px;background:rgba(0,0,0,.02)">
-      <textarea id="fbVentasTexto" rows="3"
-        placeholder="Feedback de la consulta para el equipo de ventas (esto NO entra a la historia clínica)…"
-        style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border:1px solid rgba(0,0,0,.15);border-radius:8px;resize:vertical"></textarea>
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px">
-        <span id="fbVentasEstado" style="font-size:13px;color:var(--negro,#1a1a1a);opacity:.8"></span>
-        <button class="p" id="bEnviarVentas">Enviar a ventas</button>
-      </div>
-    </div>
   </div>
 
   <!-- pantalla: expediente -->
@@ -668,13 +691,24 @@ var DOCUMENTOS = [
     etiquetas:['Convenio de honorarios','Convenio'] },
   { id:'faja',               nombre:'Indicaciones de faja',    grupo:'firma',
     icono:'faja', dictado:false,
-    etiquetas:['Indicaciones de faja','Faja'] }
+    etiquetas:['Indicaciones de faja','Faja'] },
+
+  /* Las indicaciones de alta no son campos del expediente: son una hoja que se
+     le entrega a la paciente y que ella se lleva a su casa. El contenido vive
+     en indicaciones.json, publicado junto a esta página, y no aquí dentro:
+     afinar una indicación clínica no debe obligar a tocar el código de la
+     aplicación. `hoja:true` le dice al resto del programa que este documento
+     se captura y se imprime de otra manera. */
+  { id:'indicaciones_alta',  nombre:'Indicaciones de alta',    grupo:'firma',
+    icono:'indicaciones', dictado:false, hoja:true,
+    etiquetas:['Indicaciones de alta'] }
 ];
 
 var ICONOS = {
   identidad:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/><path d="M15 10h4M15 13.5h3"/>',
   expediente:'<path d="M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M9 7h6M9 11h6M9 15h3"/>',
   pulso:'<path d="M3 12h4l2-6 4 12 2-6h6"/>',
+  indicaciones:'<path d="M6 3h9l4 4v14a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M14 3v5h5"/><path d="M8 12h8M8 15.5h8M8 19h5"/>',
   bisturi:'<path d="M14 4l6 6-8 8H6v-6z"/><path d="M4 20h6"/>',
   reloj:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
   pastilla:'<rect x="3" y="9" width="18" height="7" rx="3.5"/><path d="M12 9v7"/>',
@@ -1127,6 +1161,7 @@ function pintaDocumentos(){
       var c = document.createElement('div'); c.className = 'c';
       if (existente && t.unico) c.textContent = 'ya existe · abrir';
       else if (existente) c.textContent = 'otra más';
+      else if (t.hoja) c.textContent = 'escoger e imprimir';
       else c.textContent = faltanDe(t, {}) + ' campos';
       b.appendChild(n); b.appendChild(c);
       b.onclick = function(){
@@ -1145,6 +1180,10 @@ function abreDocumento(tipoId, docId){
 
   VALORES = {}; PENDIENTE_DICTADO = {}; SIN_UBICAR = []; DUDAS = []; AVISOS_ASR = [];
   AUDIO_ID = ''; sucio = false;
+  /* La hoja escogida es de ESTE documento y de esta paciente. Si no se limpia
+     al abrir otro, la anterior sigue en memoria y se podría imprimir la hoja de
+     la paciente pasada. */
+  HOJA = null;
 
   ocultaTodo();
   $('pantallaExp').classList.remove('oculto');
@@ -1196,7 +1235,229 @@ function abreDocumento(tipoId, docId){
   muestraAntecedentes();
 }
 
+/* ============================================================
+   HOJAS DE INDICACIONES DE ALTA
+
+   Lo que la paciente se lleva a su casa. El contenido no vive aquí: llega de
+   indicaciones.json, publicado junto a esta página, para que corregir una
+   indicación clínica no obligue a tocar el código ni a volver a desplegar la
+   aplicación entera.
+
+   Cada hoja trae su propia versión, que se imprime al pie. Si una paciente
+   regresa en tres meses con su hoja en la mano, se puede saber exactamente
+   cuál leyó — que en una hoja de cuidados postoperatorios no es un detalle.
+   ============================================================ */
+var INDICACIONES = null;     // el catálogo, una vez cargado
+var HOJA = null;             // la hoja escogida para este documento
+
+function cargaIndicaciones(){
+  if (INDICACIONES) return Promise.resolve(INDICACIONES);
+  return fetch('indicaciones.json?v=' + Date.now(), { cache: 'no-store' })
+    .then(function(r){
+      if (!r.ok) throw new Error('el servidor contestó ' + r.status);
+      return r.json();
+    })
+    .then(function(d){
+      if (!d || !Array.isArray(d.hojas) || !d.hojas.length){
+        throw new Error('el catálogo llegó vacío');
+      }
+      INDICACIONES = d;
+      return d;
+    });
+}
+
+/* Cuál hoja corresponde: se compara el procedimiento capturado contra los
+   nombres que cada hoja declara reconocer. Si no coincide ninguna, NO se
+   escoge una a la fuerza: el médico la elige. Entregarle a una paciente las
+   indicaciones del procedimiento equivocado es peor que no entregarle nada. */
+function hojaSugerida(){
+  if (!INDICACIONES) return null;
+  var proc = plano_(VALORES['proc_nombre'] || '');
+  if (!proc) return null;
+  var halladas = INDICACIONES.hojas.filter(function(h){
+    return (h.coincide || []).some(function(c){ return proc.indexOf(plano_(c)) >= 0; });
+  });
+  return halladas.length === 1 ? halladas[0] : null;
+}
+
+function plano_(t){
+  return String(t || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+}
+
+/* Las fechas de las citas salen de la fecha de cirugía. Calcularlas no es
+   inventar nada —es aritmética— y le ahorra a recepción escribir siete fechas
+   a mano en cada hoja. Si no hay fecha de cirugía, la columna sale en blanco
+   para llenarse a mano, que es como estaba antes. */
+function fechaCita_(base, paso){
+  if (!base) return '';
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(base);
+  if (!m) return '';
+  var d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  if (paso.dias)  d.setDate(d.getDate() + paso.dias);
+  if (paso.meses) d.setMonth(d.getMonth() + paso.meses);
+  var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto',
+               'septiembre','octubre','noviembre','diciembre'];
+  return DIAS[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()] +
+         ' de ' + d.getFullYear();
+}
+
+/* El procedimiento y su fecha ya están capturados en el expediente: en la nota
+   de procedimiento, en el consentimiento o en el convenio. Volver a teclearlos
+   aquí es trabajo repetido y una oportunidad de equivocarse en la fecha, que es
+   justo de donde salen las siete citas de seguimiento.
+
+   Se toma del documento MÁS RECIENTE que los traiga. No se inventa nada: si en
+   el expediente no está la fecha, aquí sigue vacía y el médico la escribe. */
+function heredaProcedimiento(){
+  var docs = (EXPEDIENTE && EXPEDIENTE.documentos) || [];
+  var conProc = docs.filter(function(d){
+    return d.campos && (d.campos.proc_fecha || d.campos.proc_nombre);
+  }).sort(function(a, b){
+    return String(b.guardado || b.creado || '').localeCompare(
+           String(a.guardado || a.creado || ''));
+  });
+  if (!conProc.length) return null;
+  var c = conProc[0].campos;
+  if (!VALORES['proc_fecha']  && c.proc_fecha)  VALORES['proc_fecha']  = c.proc_fecha;
+  if (!VALORES['proc_nombre'] && c.proc_nombre) VALORES['proc_nombre'] = c.proc_nombre;
+  return conProc[0];
+}
+
+/* ---------------- la pantalla de captura de la hoja ---------------- */
+function armaHoja(){
+  var cont = $('formulario');
+  cont.innerHTML = '';
+
+  var caja = document.createElement('div');
+  caja.className = 'grupo';
+  caja.style.padding = '18px';
+  cont.appendChild(caja);
+
+  var cargando = document.createElement('div');
+  cargando.className = 'vacio';
+  cargando.textContent = 'Cargando las hojas de indicaciones…';
+  caja.appendChild(cargando);
+
+  var heredado = heredaProcedimiento();
+
+  cargaIndicaciones().then(function(d){
+    caja.innerHTML = '';
+
+    // --- qué hoja ---
+    var c1 = document.createElement('div'); c1.className = 'campo';
+    var e1 = document.createElement('label'); e1.textContent = 'Hoja que se va a entregar';
+    c1.appendChild(e1);
+    var sel = document.createElement('select');
+    sel.setAttribute('data-campo', 'indicaciones_hoja');
+    var vacia = document.createElement('option');
+    vacia.value = ''; vacia.textContent = '— escoge la hoja —';
+    sel.appendChild(vacia);
+    d.hojas.forEach(function(h){
+      var o = document.createElement('option');
+      o.value = h.id; o.textContent = h.nombre;
+      sel.appendChild(o);
+    });
+    c1.appendChild(sel); caja.appendChild(c1);
+
+    // --- fecha de cirugía ---
+    var c2 = document.createElement('div'); c2.className = 'campo';
+    var e2 = document.createElement('label');
+    e2.textContent = 'Fecha de la cirugía';
+    c2.appendChild(e2);
+    var fec = document.createElement('input');
+    fec.type = 'date'; fec.setAttribute('data-campo', 'proc_fecha');
+    fec.value = VALORES['proc_fecha'] || '';
+    c2.appendChild(fec);
+    var ayuda = document.createElement('div');
+    ayuda.className = 'alerta';
+    ayuda.style.color = 'var(--gris)'; ayuda.style.borderColor = 'transparent';
+    ayuda.textContent = 'De aquí salen las fechas de las citas de seguimiento que se ' +
+                        'imprimen en la hoja. Si se deja vacía, esa columna sale en ' +
+                        'blanco para llenarse a mano.';
+    c2.appendChild(ayuda);
+    caja.appendChild(c2);
+
+    var resumen = document.createElement('div');
+    resumen.className = 'aviso';
+    resumen.style.marginTop = '14px';
+    caja.appendChild(resumen);
+
+    function escoge(id, primeraVez){
+      HOJA = d.hojas.filter(function(h){ return h.id === id; })[0] || null;
+      if (HOJA){
+        VALORES['indicaciones_hoja'] = HOJA.id;
+        VALORES['indicaciones_version'] = HOJA.version;
+      } else {
+        delete VALORES['indicaciones_hoja'];
+        delete VALORES['indicaciones_version'];
+      }
+      if (!primeraVez){ sucio = true; guardaBorrador(); }
+      pintaResumen();
+      pinta();
+    }
+
+    function pintaResumen(){
+      if (!HOJA){
+        resumen.className = 'aviso ojo';
+        resumen.textContent = 'Escoge la hoja que le vas a entregar. No elijo una ' +
+          'por ti cuando el procedimiento no coincide con ninguna: entregar las ' +
+          'indicaciones del procedimiento equivocado es peor que no entregar nada.';
+        return;
+      }
+      resumen.className = 'aviso';
+      var f = VALORES['proc_fecha'];
+      var citas = (HOJA.bloques || []).filter(function(b){ return b.t === 'citas'; })[0];
+      var n = citas ? citas.x.length : 0;
+      resumen.innerHTML =
+        '<b>' + HOJA.nombre + '</b> · versión ' + HOJA.version + '<br>' +
+        (f && n
+          ? 'Se imprimirán las ' + n + ' citas de seguimiento con fecha calculada ' +
+            'desde el ' + f + '.'
+          : (n ? 'Sin fecha de cirugía: las ' + n + ' citas saldrán con la fecha en blanco.'
+               : 'Esta hoja no lleva calendario de citas.')) +
+        '<br>Al imprimir sale con el nombre de la paciente, su número de expediente ' +
+        'y el cuadro de firmas de constancia de entrega.';
+    }
+
+    sel.addEventListener('change', function(){ escoge(this.value); });
+    fec.addEventListener('input', function(){
+      pon('proc_fecha', this.value);
+      pintaResumen();
+    });
+
+    if (heredado){
+      var h = document.createElement('div');
+      h.className = 'aviso';
+      h.style.margin = '0 0 14px';
+      h.innerHTML = '<b>El procedimiento y su fecha se tomaron de un documento ' +
+        'que ya estaba en el expediente</b>' +
+        (heredado.fecha ? ' (' + heredado.fecha + ')' : '') +
+        ': ' + (VALORES['proc_nombre'] || 'sin nombre') +
+        (VALORES['proc_fecha'] ? ', ' + VALORES['proc_fecha'] : '') +
+        '. Verifícalos; de la fecha salen las citas de seguimiento.';
+      caja.insertBefore(h, caja.firstChild);
+    }
+
+    var inicial = VALORES['indicaciones_hoja'] ||
+                  (hojaSugerida() ? hojaSugerida().id : '');
+    if (inicial){ sel.value = inicial; escoge(inicial, true); }
+    else { pintaResumen(); pinta(); }
+  })
+  .catch(function(e){
+    HOJA = null; pinta();
+    caja.innerHTML = '';
+    var mal = document.createElement('div');
+    mal.className = 'aviso malo';
+    mal.textContent = 'No pude cargar las hojas de indicaciones (' + e.message +
+      '). Revisa la conexión y vuelve a entrar; no se imprime una hoja a medias.';
+    caja.appendChild(mal);
+  });
+}
+
 function dibujaTodo(){
+  if (TIPO && TIPO.hoja){ armaHoja(); aplicaConstantes(); pinta(); return; }
   arma(); vuelca(); aplicaConstantes(); recalcula(); pinta();
 }
 
@@ -1513,6 +1774,18 @@ function pon(id, valor){
 
 function pinta(){
   if (!ESQUEMA || !TIPO) return;
+
+  /* Una hoja de indicaciones no se "llena": se escoge y se imprime. Contar
+     campos ahí no dice nada; lo que el médico necesita ver es qué hoja está
+     a punto de entregarle a la paciente. */
+  if (TIPO.hoja){
+    $('progreso').style.width = HOJA ? '100%' : '0%';
+    $('estado').textContent = HOJA
+      ? HOJA.nombre + ' · versión ' + HOJA.version + '  ·  lista para imprimir'
+      : 'Falta escoger la hoja';
+    return;
+  }
+
   var delDoc = camposDe(TIPO);
   var propios = delDoc.filter(function(c){ return c.control !== 'automatico'; });
   var llenos = propios.filter(function(c){ return VALORES[c.id]; }).length;
@@ -1687,34 +1960,6 @@ function guarda(silencioso){
 }
 $('bGuardar').onclick = function(){ guarda(false); };
 
-/* ---------------- feedback a ventas ---------------- */
-/* Manda el feedback de la consulta al CRM (vía la acción 'feedbackVentas' del
-   gateway). El teléfono sale del paciente ya cargado; el secreto vive en el
-   servidor, nunca aquí. Esto NO toca la historia clínica. */
-var bEnviarVentas = document.getElementById('bEnviarVentas');
-if (bEnviarVentas){
-  bEnviarVentas.onclick = function(){
-    var est   = document.getElementById('fbVentasEstado');
-    var texto = (document.getElementById('fbVentasTexto').value || '').trim();
-    var tel   = (PACIENTE && (PACIENTE['Teléfono'] || PACIENTE['Telefono_2'])) || '';
-    if (!texto){ est.style.color = 'var(--rojo,#a13a3a)'; est.textContent = 'Escribe el feedback primero.'; return; }
-    if (!tel){ est.style.color = 'var(--rojo,#a13a3a)'; est.textContent = 'Esta paciente no tiene teléfono en la base; no puedo mandarlo a ventas.'; return; }
-    est.style.color = 'var(--negro,#1a1a1a)'; est.textContent = 'Enviando…';
-    bEnviarVentas.disabled = true;
-    pide('feedbackVentas', { telefono: String(tel), texto: texto, nombre: (PACIENTE && PACIENTE['Paciente']) || '' })
-      .then(function(d){
-        est.style.color = 'var(--verde,#5a7a4e)';
-        est.textContent = 'Enviado a ventas ✓' + (d && d.paciente ? ' (' + d.paciente + ')' : '');
-        document.getElementById('fbVentasTexto').value = '';
-      })
-      .catch(function(e){
-        est.style.color = 'var(--rojo,#a13a3a)';
-        est.textContent = 'No se pudo enviar: ' + e.message;
-      })
-      .then(function(){ bEnviarVentas.disabled = false; });
-  };
-}
-
 /* ============================================================
    IMPRIMIR
    Se guarda primero y se imprime después: lo que sale en papel es
@@ -1766,6 +2011,7 @@ function esNada(v){
 function armaImpresion(){
   var raiz = $('impresion');
   raiz.innerHTML = '';
+  raiz.classList.remove('hojaIndic');
   if (!TIPO || !ESQUEMA) return;
 
   function el(tag, clase, texto){
@@ -1790,6 +2036,16 @@ function armaImpresion(){
   ].filter(Boolean).forEach(function(t){ datos.appendChild(el('div', null, t)); });
   cab.appendChild(img); cab.appendChild(datos);
   raiz.appendChild(cab);
+
+  /* Una hoja de indicaciones trae su propio título y su propia tabla de datos
+     —la que le importa a la paciente: su nombre, la fecha de su cirugía y el
+     teléfono al que debe llamar—. Se desvía aquí, antes del encabezado
+     genérico, para no imprimir dos títulos y dos fichas. */
+  if (TIPO.hoja){
+    raiz.classList.add('hojaIndic');
+    pintaHojaImpresa(raiz, el);
+    return;
+  }
 
   raiz.appendChild(el('h1', null, TIPO.nombre.toUpperCase()));
 
@@ -1993,6 +2249,138 @@ function armaImpresion(){
   pie.appendChild(el('div','f', folioDocumento()));
   pie.appendChild(el('div', null, 'Capturó: ' + (CORREO || '')));
   raiz.appendChild(pie);
+}
+
+/* ============================================================
+   IMPRIMIR UNA HOJA DE INDICACIONES
+
+   Sale con el mismo membrete que el resto del expediente, con los datos de la
+   paciente, y con el cuadro de constancia de entrega para firma autógrafa.
+   Al pie va la versión de la hoja: así se sabe qué texto exacto se le entregó.
+   ============================================================ */
+function pintaHojaImpresa(raiz, el){
+  if (!HOJA){
+    raiz.appendChild(el('div', 'dato', 'No hay ninguna hoja escogida. Regresa y ' +
+      'elige cuál se le va a entregar a la paciente.'));
+    return;
+  }
+
+  raiz.appendChild(el('h1', null, HOJA.titulo.toUpperCase()));
+
+  /* Los datos que la hoja original pedía escribir a mano arriba. Aquí ya vienen
+     puestos: el nombre, la fecha de la cirugía y el teléfono al que tiene que
+     llamar si algo pasa. Ese teléfono es el dato más importante de la hoja. */
+  var t = el('table', 'ficha');
+  function fila(etq, val){
+    var tr = document.createElement('tr');
+    tr.appendChild(el('td', 'e', etq));
+    tr.appendChild(el('td', null, val || '—'));
+    t.appendChild(tr);
+  }
+  fila('Paciente', nombreCompleto());
+  fila('Expediente', txt('expediente_folio') || FOLIO);
+  fila('Fecha de cirugía', fechaLarga_(txt('proc_fecha')));
+  fila('Teléfono de urgencias (24 h)',
+       CONSTANTES['seg_telefono_urgencias'] || CONSTANTES['seg_telefono'] || '');
+  raiz.appendChild(t);
+
+  if (HOJA.entrada){
+    var ent = el('div', 'entradaHoja', HOJA.entrada);
+    raiz.appendChild(ent);
+  }
+
+  (HOJA.bloques || []).forEach(function(b){
+    if (b.t === 'h'){
+      var h = el('h2', b.alarma ? 'alarma' : null, b.x);
+      raiz.appendChild(h);
+
+    } else if (b.t === 'h2'){
+      raiz.appendChild(el('h3', null, b.x));
+
+    } else if (b.t === 'p'){
+      raiz.appendChild(el('p', 'pHoja', b.x));
+
+    } else if (b.t === 'nota'){
+      raiz.appendChild(el('div', 'notaHoja' + (b.alarma ? ' alarma' : ''), b.x));
+
+    } else if (b.t === 'ul'){
+      var ul = document.createElement('ul');
+      ul.className = 'ulHoja' + (b.alarma ? ' alarma' : '');
+      b.x.forEach(function(li){ ul.appendChild(el('li', null, li)); });
+      raiz.appendChild(ul);
+
+    } else if (b.t === 'tabla'){
+      raiz.appendChild(tablaHoja_(b.cols, b.x, el));
+
+    } else if (b.t === 'citas'){
+      var base = txt('proc_fecha');
+      var filas = b.x.map(function(c){
+        return [c.cita, c.que, fechaCita_(base, c)];
+      });
+      raiz.appendChild(tablaHoja_(b.cols, filas, el));
+
+    } else if (b.t === 'firmas'){
+      raiz.appendChild(tablaFirmas_(b.x, el));
+    }
+  });
+
+  var pie = el('div', 'pieimp');
+  pie.appendChild(el('div', 'f',
+    HOJA.nombre + ' · versión ' + HOJA.version + ' · ' + folioDocumento()));
+  pie.appendChild(el('div', null, 'Entregó: ' + (CONSTANTES['medico_nombre'] || CORREO || '')));
+  raiz.appendChild(pie);
+}
+
+function tablaHoja_(cols, filas, el){
+  var caja = document.createElement('div');
+  caja.className = 'tablaHoja';
+  var t = document.createElement('table');
+  var thead = document.createElement('thead');
+  var tr = document.createElement('tr');
+  (cols || []).forEach(function(c){ tr.appendChild(el('th', null, c)); });
+  thead.appendChild(tr); t.appendChild(thead);
+  var tb = document.createElement('tbody');
+  (filas || []).forEach(function(f){
+    var r = document.createElement('tr');
+    f.forEach(function(c){ r.appendChild(el('td', null, c)); });
+    tb.appendChild(r);
+  });
+  t.appendChild(tb); caja.appendChild(t);
+  return caja;
+}
+
+/* La firma es autógrafa, siempre. Este cuadro son los renglones donde se firma
+   con pluma: nunca hay firma electrónica. */
+function tablaFirmas_(quienes, el){
+  var caja = document.createElement('div');
+  caja.className = 'tablaHoja firmasHoja';
+  var t = document.createElement('table');
+  var thead = document.createElement('thead');
+  var tr = document.createElement('tr');
+  ['', 'Nombre', 'Firma', 'Fecha'].forEach(function(c){
+    tr.appendChild(el('th', null, c));
+  });
+  thead.appendChild(tr); t.appendChild(thead);
+  var tb = document.createElement('tbody');
+  (quienes || []).forEach(function(q){
+    var r = document.createElement('tr');
+    r.appendChild(el('td', 'e', q));
+    var esMedico = /m[eé]dico/i.test(q);
+    r.appendChild(el('td', null, esMedico ? (CONSTANTES['medico_nombre'] || '') : ''));
+    r.appendChild(el('td', null, ''));
+    r.appendChild(el('td', null, ''));
+    tb.appendChild(r);
+  });
+  t.appendChild(tb); caja.appendChild(t);
+  return caja;
+}
+
+function fechaLarga_(iso){
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+  if (!m) return '';
+  var MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto',
+               'septiembre','octubre','noviembre','diciembre'];
+  return Number(m[3]) + ' de ' + MESES[Number(m[2]) - 1] + ' de ' + m[1];
 }
 
 $('bImprimir').onclick = function(){
