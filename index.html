@@ -1992,7 +1992,14 @@ function membreteReceta(el){
   img.src = 'ms-horizontal.png'; img.alt = '';
   var datos = el('div', 'datos');
   datos.appendChild(el('b', null, CONSTANTES['medico_nombre'] || ''));
+  /* `medico_titulo` y `medico_diploma` no los exige el Reglamento de Insumos
+     para la Salud —su artículo 29 pide el NÚMERO de cédula, no la institución—,
+     pero el Suplemento de la Farmacopea que siguen las farmacias sí los pide, y
+     una receta válida que la farmacia rechaza es un problema de la paciente.
+     Se imprimen solo si están capturados en las constantes del consultorio. */
   [CONSTANTES['medico_especialidad'] || 'Cirugía Plástica, Estética y Reconstructiva',
+   CONSTANTES['medico_titulo'] || '',
+   CONSTANTES['medico_diploma'] || '',
    [CONSTANTES['medico_cedula_prof'] ? 'Céd. Prof. ' + CONSTANTES['medico_cedula_prof'] : '',
     CONSTANTES['medico_cedula_esp'] ? 'Céd. Esp. ' + CONSTANTES['medico_cedula_esp'] : '',
     CONSTANTES['medico_consejo'] || ''
