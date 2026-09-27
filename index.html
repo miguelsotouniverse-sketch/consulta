@@ -832,11 +832,32 @@ function parteNombre(completo){
            paterno:p[p.length-2], materno:p[p.length-1] };
 }
 
+var MESES_EN = { jan:1, feb:2, mar:3, apr:4, may:5, jun:6,
+                jul:7, aug:8, sep:9, oct:10, nov:11, dec:12 };
+
+/* La hoja Base Datos guarda la fecha de nacimiento como FECHA, no como texto,
+   y Apps Script la entrega convertida con String(Date):
+   "Sun Oct 06 1963 00:00:00 GMT-0600 (hora de verano central)".
+   Mientras esto no se entendiera, la fecha de nacimiento no se heredaba en
+   NINGUNA paciente y la edad —que se calcula de ella— tampoco.
+   Se parte con expresion regular y no con new Date(t): new Date de una cadena
+   ISO la lee en UTC y en Mexico devuelve el dia anterior. */
 function aFechaISO(v){
   var t = String(v || '').trim();
+  if (!t) return '';
+
   var m = t.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
   if (m) return m[3] + '-' + ('0'+m[2]).slice(-2) + '-' + ('0'+m[1]).slice(-2);
-  if (/^\d{4}-\d{2}-\d{2}$/.test(t)) return t;
+
+  m = t.match(/^(\d{4})-(\d{2})-(\d{2})/);        // ISO, con o sin hora
+  if (m) return m[1] + '-' + m[2] + '-' + m[3];
+
+  // "Sun Oct 06 1963 …" y "Oct 06 1963", con o sin coma
+  m = t.match(/^(?:[A-Za-z]{3,}\s+)?([A-Za-z]{3})[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})\b/);
+  if (m){
+    var mes = MESES_EN[m[1].toLowerCase()];
+    if (mes) return m[3] + '-' + ('0'+mes).slice(-2) + '-' + ('0'+m[2]).slice(-2);
+  }
   return '';
 }
 
@@ -1250,9 +1271,12 @@ function abreDocumento(tipoId, docId){
     DUDAS = doc.dictado_dudas || [];
     AVISOS_ASR = doc.dictado_avisos || [];
     AUDIO_ID = doc.audio_id || '';
+    /* Un documento firmado no se toca ni para completarlo. */
+    var completado = doc.firmado ? '' : completaGuardado();
     dibujaTodo();
     $('avisoPrefill').innerHTML = '<b>' + TIPO.nombre + ' ya empezada.</b> Guardada el ' +
-      (doc.guardado || '') + (doc.por ? ' por ' + doc.por : '') + '.';
+      (doc.guardado || '') + (doc.por ? ' por ' + doc.por : '') + '.' + completado;
+    if (completado) sucio = true;
     if (doc.firmado){
       $('avisoPrefill').className = 'aviso malo';
       $('avisoPrefill').innerHTML = '<b>Este documento ya está firmado.</b> No se edita: ' +
@@ -2156,25 +2180,61 @@ function muestraAntecedentes(){
   $('pantallaExp').insertBefore(d, $('formulario'));
 }
 
-function prellena(){
-  var puestos = 0;
+function etiquetaDe(id){
+  var c = (ESQUEMA && ESQUEMA.campos || []).filter(function(x){ return x.id === id; })[0];
+  return (c && c.etiqueta) || id;
+}
+
+/* Copia a VALORES lo que la base de pacientes ya sabe.
+
+   soloVacios = true no toca NADA de lo que ya esta escrito. Es el modo con el
+   que se reabre un documento guardado: un documento que se empezo cuando un
+   dato todavia no se heredaba se quedaria vacio para siempre si nadie lo
+   volviera a intentar, pero pisar una correccion hecha a mano por el medico
+   seria peor que dejar el hueco. Entre las dos, se rellena solo el hueco. */
+function desdeLaBase(soloVacios){
+  var puestos = 0, cuales = [];
+  function pon(campo, valor){
+    if (!valor) return;
+    if (soloVacios && String(VALORES[campo] || '').trim()) return;
+    VALORES[campo] = valor; puestos++; cuales.push(campo);
+  }
+
   for (var campo in DESDE_AGENDA){
     if (!DESDE_AGENDA.hasOwnProperty(campo)) continue;
     var v = PACIENTE[DESDE_AGENDA[campo]];
     if (!v) continue;
     v = String(v);
-    if (campo === 'paciente_fecha_nacimiento'){
-      v = aFechaISO(v);
-      if (!v) continue;
-    }
-    VALORES[campo] = v; puestos++;
+    if (campo === 'paciente_fecha_nacimiento') v = aFechaISO(v);
+    pon(campo, v);
   }
   var n = parteNombre(PACIENTE['Paciente']);
   if (n){
-    if (n.nombres){ VALORES['paciente_nombres'] = n.nombres; puestos++; }
-    if (n.paterno){ VALORES['paciente_apellido_paterno'] = n.paterno; puestos++; }
-    if (n.materno){ VALORES['paciente_apellido_materno'] = n.materno; puestos++; }
+    pon('paciente_nombres', n.nombres);
+    pon('paciente_apellido_paterno', n.paterno);
+    pon('paciente_apellido_materno', n.materno);
   }
+  if (!VALORES['expediente_folio'] && FOLIO){
+    VALORES['expediente_folio'] = FOLIO; puestos++; cuales.push('expediente_folio');
+  }
+  return { puestos: puestos, cuales: cuales };
+}
+
+/* Completa los huecos de un documento que ya estaba guardado. Devuelve el
+   texto que hay que decirle al medico, o '' si no hubo nada que completar. */
+function completaGuardado(){
+  var r = desdeLaBase(true);
+  if (!r.puestos) return '';
+  var faltaba = r.cuales.map(etiquetaDe).join(', ');
+  return '<br><br><b>Se completaron ' + r.puestos + ' campo' +
+         (r.puestos === 1 ? '' : 's') + ' que estaban en blanco</b> con lo que ' +
+         'ya estaba en la base: ' + faltaba + '. Lo que ya estaba escrito no se ' +
+         'toco. <b>Guarda</b> para que quede asi en el expediente.';
+}
+
+function prellena(){
+  var r = desdeLaBase(false);
+  var puestos = r.puestos;
 
   /* El número de expediente NUNCA se queda en blanco.
      Si la paciente ya está dada de alta trae su Paciente_ID y ese es el folio
@@ -2184,10 +2244,6 @@ function prellena(){
      sistema" y "este dato todavía no existe", y el médico no tiene por qué
      adivinar cuál de las dos es. */
   var provisional = !PACIENTE['Paciente_ID'];
-  if (!VALORES['expediente_folio'] && FOLIO){
-    VALORES['expediente_folio'] = FOLIO;
-    puestos++;
-  }
 
   var t = '<b>' + puestos + ' campos</b> se llenaron solos con los datos de la cita. ' +
           'Revisa que los <b>apellidos</b> hayan quedado bien partidos. Falta capturar ' +
