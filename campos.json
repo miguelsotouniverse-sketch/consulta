@@ -133,9 +133,9 @@
    "sistema": "AltaPacientes",
    "captura": "Alta de paciente",
    "obligatorio": false,
-   "aparece": "Hoja frontal, Historia clínica",
-   "notas": "",
-   "valoracion": true
+   "aparece": "",
+   "notas": "No lo pide la NOM-004-SSA3-2012: la palabra CURP no aparece en ningún numeral. La exige la NOM-024-SSA3-2012 (6.5.1, 6.5.5) solo a los sistemas que intercambian información en salud. Se quitó de los formatos del expediente el 2026-09-27. El dato sigue siendo de AltaPacientes; si algún día hay que interoperar o expedir certificado electrónico de defunción, se vuelve a poner aquí su APARECE EN.",
+   "valoracion": false
   },
   {
    "id": "paciente_lugar_nacimiento",
@@ -4036,6 +4036,6 @@
    "izenta": "dehiscente"
   }
  },
- "version": "d8640ca1fc9064b8",
- "generado": "2026-09-13"
+ "version": "d73de285564f8292",
+ "generado": "2026-09-27"
 }
