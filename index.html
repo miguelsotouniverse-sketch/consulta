@@ -681,8 +681,13 @@ var SIEMPRE = 'Todos los formatos';
 var DOCUMENTOS = [
   /* La hoja frontal va primero porque es la carátula del expediente y la que
      abre el legajo. No se dicta: casi todo viene del alta, y lo que falta
-     —CURP, domicilio con calle y número, estado civil, escolaridad— no está
-     en la base de pacientes y se teclea una sola vez en la vida del paciente. */
+     —domicilio con calle y número, estado civil, escolaridad— no está en la
+     base de pacientes y se teclea una sola vez en la vida del paciente.
+     La CURP se quitó a propósito: la NOM-004-SSA3-2012 no la menciona en
+     ningún numeral (pide nombre, sexo, edad y domicilio, 5.2.3). La exige la
+     NOM-024-SSA3-2012 a los sistemas que intercambian información en salud,
+     que no es el caso, y un identificador que se recaba sin finalidad que lo
+     sostenga es justo lo que castiga el principio de proporcionalidad. */
   { id:'hoja_frontal',       nombre:'Hoja frontal',            grupo:'captura',
     icono:'identidad', dictado:false,
     etiquetas:['Hoja frontal'], unico:true },
@@ -2247,7 +2252,7 @@ function prellena(){
 
   var t = '<b>' + puestos + ' campos</b> se llenaron solos con los datos de la cita. ' +
           'Revisa que los <b>apellidos</b> hayan quedado bien partidos. Falta capturar ' +
-          'a mano: <b>CURP</b> y <b>domicilio con calle y número</b>, que no vienen en la base.';
+          'a mano: <b>domicilio con calle y número</b>, que no viene en la base.';
   if (provisional){
     t += '<br><br><b>El número de expediente es provisional</b> (' + FOLIO + '): esta ' +
          'paciente todavía no tiene número en la base. La nota se puede hacer y firmar ' +
@@ -2673,7 +2678,7 @@ var GRUPOS_FUERA = ['Médico','Establecimiento','Control documental','Identifica
 
    La identificación normalmente se excluye porque ya va en la tabla de arriba
    de cada hoja; repetirla sería ruido. Pero en la HOJA FRONTAL la
-   identificación ES el documento —domicilio, CURP, estado civil, escolaridad,
+   identificación ES el documento —domicilio, estado civil, escolaridad,
    contacto de urgencia— y sin ella la hoja sale en blanco. */
 function gruposFuera(tipo){
   if (tipo && tipo.id === 'hoja_frontal'){
