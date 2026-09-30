@@ -22,6 +22,13 @@
      "ayuda": "Decide el enjuague bucal y el texto del procedimiento. El antibiótico oral va en los dos casos."
     },
     {
+     "id": "blefaro",
+     "etiqueta": "Blefaroplastia en el mismo tiempo quirúrgico",
+     "tipo": "sino",
+     "obligatoria": true,
+     "ayuda": "Decide el lubricante ocular y los signos de alarma del ojo."
+    },
+    {
      "id": "peni",
      "etiqueta": "Alergia a penicilina",
      "tipo": "lista",
@@ -125,6 +132,20 @@
      "horario": {
       "n": "Clorhexidina (enjuague)",
       "t": "Después de desayuno, comida y cena"
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Hipromelosa 5 mg/mL (0.5 %), solución oftálmica estéril.",
+     "indicacion": "Instilar 2 gotas en cada ojo cada 2 horas mientras esté despierta, durante 14 días. No toque el gotero con el ojo ni con los dedos.",
+     "si": {
+      "blefaro": true
+     },
+     "cantidad": "2 frascos de 15 mL",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Hipromelosa (gotas)",
+      "t": "Cada 2 horas mientras esté despierta"
      }
     },
     {
@@ -354,6 +375,18 @@
    ],
    "alarma": [
     {
+     "t": "Pérdida o disminución repentina de la visión, o visión doble que no se quita al parpadear.",
+     "si": {
+      "blefaro": true
+     }
+    },
+    {
+     "t": "Dolor intenso en un ojo, que no mejora y va en aumento.",
+     "si": {
+      "blefaro": true
+     }
+    },
+    {
      "t": "Aumento rápido de volumen, dolor intenso o moretón que crece en un solo lado de la cara o del cuello."
     },
     {
@@ -379,7 +412,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "bf6af2f3"
+   "version": "c69d9a46"
   },
   {
    "id": "body360",
@@ -749,6 +782,354 @@
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
    "version": "d5bb563d"
+  },
+  {
+   "id": "blefaroplastia",
+   "nombre": "Blefaroplastia",
+   "coincide": [
+    "blefaroplastia",
+    "blefaro",
+    "cirugia de parpados"
+   ],
+   "procedimiento": "Blefaroplastia",
+   "preguntas": [
+    {
+     "id": "peni",
+     "etiqueta": "Alergia a penicilina",
+     "tipo": "lista",
+     "obligatoria": true,
+     "opciones": [
+      [
+       "no",
+       "No alérgica"
+      ],
+      [
+       "leve",
+       "Leve — rash sin datos de gravedad"
+      ],
+      [
+       "grave",
+       "Grave — anafilaxia, angioedema, broncoespasmo o Stevens-Johnson"
+      ]
+     ]
+    },
+    {
+     "id": "sulfa",
+     "etiqueta": "Alergia a sulfonamidas",
+     "tipo": "sino",
+     "obligatoria": true,
+     "ayuda": "Si es sí, el celecoxib queda contraindicado."
+    },
+    {
+     "id": "otras",
+     "etiqueta": "Otras alergias",
+     "tipo": "texto"
+    },
+    {
+     "id": "renal",
+     "etiqueta": "Función renal disminuida",
+     "tipo": "sino",
+     "obligatoria": true,
+     "ayuda": "Cambia el celecoxib de cada 12 a cada 24 horas."
+    },
+    {
+     "id": "isrs",
+     "etiqueta": "Toma ISRS / IRSN",
+     "tipo": "casilla"
+    },
+    {
+     "id": "sintram",
+     "etiqueta": "Omitir tramadol",
+     "tipo": "casilla",
+     "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    }
+   ],
+   "medicamentos": [
+    {
+     "hoja": "antibiotico",
+     "nombre": "Amoxicilina / ácido clavulánico 875/125 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas, con alimentos, durante 5 días.",
+     "si": {
+      "peni": [
+       "no"
+      ]
+     },
+     "cantidad": "10 tabletas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Amoxicilina / clavulanato",
+      "h": [
+       "09:00",
+       "21:00"
+      ]
+     }
+    },
+    {
+     "hoja": "antibiotico",
+     "nombre": "Clindamicina 300 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 8 horas, con un vaso completo de agua, durante 5 días. Si presenta diarrea frecuente o con moco, avise.",
+     "si": {
+      "peni": [
+       "leve",
+       "grave"
+      ]
+     },
+     "cantidad": "15 cápsulas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Clindamicina",
+      "h": [
+       "06:00",
+       "14:00",
+       "22:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Hipromelosa 5 mg/mL (0.5 %), solución oftálmica estéril.",
+     "indicacion": "Instilar 2 gotas en cada ojo cada 2 horas mientras esté despierta, durante 14 días. No toque el gotero con el ojo ni con los dedos.",
+     "cantidad": "2 frascos de 15 mL",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Hipromelosa (gotas)",
+      "t": "Cada 2 horas mientras esté despierta"
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Paracetamol 500 mg, tabletas.",
+     "indicacion": "Tomar 2 tabletas (1 g) vía oral cada 8 horas durante 14 días. No tome otros productos que contengan paracetamol.",
+     "cantidad": "84 tabletas",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Paracetamol",
+      "h": [
+       "08:00",
+       "16:00",
+       "24:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Celecoxib 200 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 12 horas, con alimentos, durante 14 días.",
+     "si": {
+      "sulfa": false,
+      "c24": false
+     },
+     "cantidad": "28 cápsulas",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Celecoxib",
+      "h": [
+       "12:00",
+       "20:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Celecoxib 200 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 24 horas, con alimentos, durante 14 días.",
+     "si": {
+      "sulfa": false,
+      "c24": true
+     },
+     "cantidad": "14 cápsulas",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Celecoxib",
+      "h": [
+       "14:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Ketorolaco 10 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 8 horas, con alimentos, alternando con el paracetamol, durante 5 días. No tomar más de 5 días.",
+     "si": {
+      "sulfa": true
+     },
+     "cantidad": "15 tabletas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Ketorolaco",
+      "h": [
+       "12:00",
+       "20:00",
+       "04:00*"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Pantoprazol 40 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta en ayunas, 30 minutos antes del desayuno, cada 24 horas durante {diasPPI} días.",
+     "cantidad": "{diasPPI} tabletas",
+     "duracion": "{diasPPI} días",
+     "horario": {
+      "n": "Pantoprazol",
+      "h": [
+       "07:00"
+      ]
+     }
+    },
+    {
+     "hoja": "controlado",
+     "nombre": "Tramadol 50 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula cada 8 horas solo si hay dolor intenso que no cede con lo anterior. Máximo 3 al día. No maneje ni tome alcohol mientras lo use.",
+     "si": {
+      "sintram": false
+     },
+     "rescate": true,
+     "cantidad": "9 cápsulas",
+     "duracion": "3 días"
+    },
+    {
+     "hoja": "general",
+     "nombre": "Ondansetrón 8 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta cada 8 horas solo si hay náusea o vómito.",
+     "rescate": true,
+     "cantidad": "10 tabletas",
+     "duracion": "Según necesidad"
+    },
+    {
+     "hoja": "general",
+     "nombre": "Polietilenglicol 3350, sobres de 17 g.",
+     "indicacion": "Disolver 1 sobre en un vaso de agua (240 mL) cada 24 horas durante 7 días, o mientras tome tramadol. Suspender si las evacuaciones son blandas.",
+     "cantidad": "7 sobres",
+     "duracion": "7 días",
+     "horario": {
+      "n": "Polietilenglicol",
+      "h": [
+       "09:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Senósidos A-B 8.6 mg, tabletas.",
+     "indicacion": "Tomar 2 tabletas por la noche solo si no ha evacuado en 48 horas.",
+     "rescate": true,
+     "cantidad": "20 tabletas",
+     "duracion": "Según necesidad"
+    }
+   ],
+   "profilaxis": [
+    {
+     "si": {
+      "peni": [
+       "grave"
+      ]
+     },
+     "texto": "Clindamicina 900 mg IV"
+    },
+    {
+     "si": {},
+     "texto": "Cefazolina 2 g IV"
+    }
+   ],
+   "profilaxisNota": "Repetir si la cirugía pasa de 4 h (cefazolina, ampicilina/sulbactam) o de 6 h (clindamicina).",
+   "avisos": [
+    {
+     "si": {
+      "c24": true
+     },
+     "tono": "",
+     "texto": "Celecoxib cada 24 horas por edad ≥ 65 años o función renal disminuida."
+    },
+    {
+     "si": {
+      "sulfa": true
+     },
+     "tono": "ojo",
+     "texto": "Alergia a sulfas: celecoxib contraindicado. Se usa ketorolaco, con tope de 5 días sumando lo intravenoso y lo oral."
+    },
+    {
+     "si": {
+      "renal": true
+     },
+     "tono": "malo",
+     "texto": "Si la TFG es menor de 30 mL/min, quite el AINE de la receta y deje paracetamol con tramadol de rescate."
+    },
+    {
+     "si": {
+      "isrs": true,
+      "sintram": false
+     },
+     "tono": "malo",
+     "texto": "Tramadol + ISRS/IRSN: riesgo de síndrome serotoninérgico y de convulsiones. Considere omitirlo."
+    },
+    {
+     "si": {
+      "sintram": true
+     },
+     "tono": "",
+     "texto": "Tramadol omitido. El dolor intenso se maneja por consulta."
+    },
+    {
+     "si": {
+      "peni": [
+       "leve"
+      ]
+     },
+     "tono": "",
+     "texto": "Alergia leve a penicilina: cefazolina IV aceptable (reactividad cruzada menor al 2 %). Por vía oral, clindamicina, porque la amoxicilina sí está contraindicada."
+    },
+    {
+     "si": {
+      "peni": [
+       "grave"
+      ]
+     },
+     "tono": "ojo",
+     "texto": "Alergia grave a penicilina: ningún betalactámico."
+    },
+    {
+     "si": {
+      "menor": true
+     },
+     "tono": "ojo",
+     "texto": "Paciente menor de 18 años: revise todas las dosis."
+    }
+   ],
+   "alarma": [
+    {
+     "t": "Pérdida o disminución repentina de la visión, o visión doble que no se quita al parpadear."
+    },
+    {
+     "t": "Dolor intenso en un ojo, que no mejora y va en aumento."
+    },
+    {
+     "t": "Un ojo que se abulta o se sale hacia adelante, con el párpado muy tenso, duro y morado."
+    },
+    {
+     "t": "Sangrado que no se detiene después de 10 minutos de presión suave con una gasa."
+    },
+    {
+     "t": "Fiebre de 38 °C o más."
+    },
+    {
+     "t": "Enrojecimiento que se extiende, calor, pus o mal olor en una herida."
+    },
+    {
+     "t": "Una herida que se abre."
+    },
+    {
+     "t": "Secreción amarilla o verde en el ojo, o ojo rojo con dolor."
+    },
+    {
+     "t": "Inflamación que aumenta después del día 3 en lugar de bajar."
+    },
+    {
+     "t": "Incapacidad para cerrar el ojo que no mejora, con ardor intenso."
+    }
+   ],
+   "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
+   "version": "e69e3ecf"
   }
  ],
  "hojas": [
@@ -786,6 +1167,6 @@
   "22:00",
   "24:00"
  ],
- "version": "d9f1fbbdbc673638",
+ "version": "8c511be89c9cb90c",
  "generado": "2026-09-30"
 }

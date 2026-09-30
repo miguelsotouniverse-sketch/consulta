@@ -1600,6 +1600,19 @@ function estadoReceta(){
     sintram: VALORES['rx_sintram'] === 'si',
     edad:    edad
   };
+
+  /* Las preguntas que declara la plantilla se leen solas. Antes cada pregunta
+     nueva obligaba a tocar el código de la aplicación y volver a desplegarla,
+     que es exactamente lo que recetas.json existe para evitar: el contenido
+     clínico cambia sin que nadie toque el programa. Las de arriba se quedan
+     escritas porque de ellas cuelgan cálculos (c24, diasPPI) que sí son código. */
+  ((typeof PLANTILLA !== 'undefined' && PLANTILLA && PLANTILLA.preguntas) || [])
+    .forEach(function(q){
+      if (Object.prototype.hasOwnProperty.call(s, q.id)) return;
+      var v = VALORES['rx_' + q.id];
+      s[q.id] = (q.tipo === 'sino' || q.tipo === 'casilla') ? (v === 'si') : (v || '');
+    });
+
   s.c24   = (edad >= 65) || s.renal;   // celecoxib cada 24 h
   s.menor = edad > 0 && edad < 18;
   s.diasPPI = s.sulfa ? 5 : 14;        // el protector dura lo que dure el AINE
