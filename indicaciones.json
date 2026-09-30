@@ -324,8 +324,1119 @@
     }
    ],
    "version": "2bc86437"
+  },
+  {
+   "id": "lipoescultura",
+   "nombre": "Lipoescultura Body360",
+   "titulo": "Recomendaciones postoperatorias — Lipoescultura",
+   "coincide": [
+    "lipoescultura",
+    "lipo escultura",
+    "liposuccion",
+    "body360",
+    "body 360",
+    "ribxcar"
+   ],
+   "entrada": "Su recuperación forma parte del resultado. Estas indicaciones son generales; si alguna difiere de lo que el Dr. Soto le indicó en persona, siga siempre la indicación personal.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Procedimiento",
+       "Lipoescultura Body360® (4D / 5D)"
+      ],
+      [
+       "Zonas tratadas",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Primeras 72 horas"
+    },
+    {
+     "t": "p",
+     "x": "Caminar desde el mismo día de la cirugía es la medida más importante para prevenir coágulos en las piernas."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Caminar 5–10 minutos cada 1–2 horas mientras esté despierta, siempre acompañada los primeros días.",
+      "Levantarse despacio: primero siéntese en la orilla de la cama 1–2 minutos. Es común sentir mareo al incorporarse.",
+      "Reposo relativo: no reposo absoluto en cama. Descanse semisentada o boca arriba, con almohada bajo las rodillas.",
+      "Mover tobillos en círculos y de arriba abajo 10 veces cada hora mientras esté acostada.",
+      "Respiraciones profundas: 10 cada hora, para mantener los pulmones bien expandidos.",
+      "Salida de líquido teñido de sangre por las incisiones es normal y esperado las primeras 24–72 horas. Use toallas sanitarias o gasas sobre las incisiones y proteja cama y asientos.",
+      "Siempre acompañada las primeras 24–48 horas; no se bañe sola la primera vez."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Prenda de compresión"
+    },
+    {
+     "t": "p",
+     "x": "La faja se usa día y noche durante 6 semanas y después 12 horas al día otras 6 semanas: 3 meses en total."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Periodo",
+      "Uso",
+      "Indicación"
+     ],
+     "x": [
+      [
+       "Semanas 1–6",
+       "Faja etapa 1, día y noche",
+       "Retirar solo para bañarse"
+      ],
+      [
+       "Semanas 7–12",
+       "Faja etapa 1, 12 horas al día",
+       "Usted elige el horario: de día o de noche"
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento, cambio de color en la piel o falta de aire, aflójela y llame.",
+      "Pliegues: revise que la faja no forme arrugas, sobre todo en cintura, ingles y axilas; un pliegue marca la piel.",
+      "Higiene: tenga dos fajas para alternarlas y lavarlas a mano.",
+      "Pacientes Body360® 5D (RibXcar®): el corset inicia en el día 4 y se ajusta 1 broche por semana hasta la semana 8."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Baño y cuidado de heridas"
+    },
+    {
+     "t": "p",
+     "x": "Puede bañarse a partir de las 48 horas, con agua tibia y acompañada la primera vez."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Regadera, no tina, alberca, jacuzzi, mar ni vapor por 4 semanas.",
+      "Agua tibia, nunca caliente: el calor aumenta la inflamación y puede marear.",
+      "Jabón neutro; deje correr el agua sobre las incisiones sin tallarlas.",
+      "Secado a toques con toalla limpia; seque bien las incisiones antes de volver a poner la faja.",
+      "Incisiones: manténgalas limpias y secas. No aplique cremas, pomadas, alcohol ni remedios caseros salvo indicación.",
+      "Calor y frío local: no aplique compresas calientes, bolsas de agua ni hielo directo. La piel tratada tiene menos sensibilidad y puede quemarse sin que lo note."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Alimentación e hidratación"
+    },
+    {
+     "t": "p",
+     "x": "Beba de 2 a 3 litros de líquidos al día: después de una lipoescultura el cuerpo pierde líquido por las incisiones y la deshidratación causa mareo y desmayos."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Primer día: dieta blanda (caldos, gelatina, fruta, pan tostado) y avance a su dieta normal según tolere.",
+      "Líquidos: agua natural, suero oral y agua de coco. Evite refrescos y bebidas muy azucaradas.",
+      "Proteína en cada comida (pollo, pescado, huevo, leguminosas, lácteos): favorece la cicatrización.",
+      "Sal: reduzca embutidos, enlatados, comida rápida y botanas; la sal aumenta la inflamación.",
+      "Estreñimiento: es frecuente por los analgésicos y la menor actividad. Coma fibra (fruta, verdura, avena) y avise si pasan más de 3 días sin evacuar.",
+      "Orina: debe ser clara y abundante. Orina escasa u oscura indica que necesita más líquidos.",
+      "Alcohol: ninguno por al menos 2 semanas.",
+      "Tabaco y vapeador: ninguno por al menos 4 semanas; retrasan la cicatrización y aumentan el riesgo de complicaciones."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "La mayoría de las pacientes vuelve a trabajo de oficina en 7–10 días y al ejercicio completo a las 6 semanas."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar",
+       "Día 0",
+       "Obligatorio, varias veces al día"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 7–10",
+       "Pararse y caminar cada hora"
+      ],
+      [
+       "Manejar",
+       "Día 7–10",
+       "Sin analgésicos que den sueño y con movilidad completa para frenar"
+      ],
+      [
+       "Viaje en avión corto (< 3 h)",
+       "Semana 2",
+       "Con faja, medias de compresión y caminando en el vuelo; avise antes"
+      ],
+      [
+       "Viaje largo (> 3 h)",
+       "Semana 3–4",
+       "Solo con autorización"
+      ],
+      [
+       "Cargar objetos pesados (> 5 kg)",
+       "Semana 4",
+       "Incluye cargar niños"
+      ],
+      [
+       "Ejercicio ligero (caminadora, bicicleta fija)",
+       "Semana 3",
+       "Intensidad baja, sin impacto"
+      ],
+      [
+       "Ejercicio completo (pesas, correr, abdomen)",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Relaciones sexuales",
+       "Semana 2–3",
+       "Sin presión sobre las zonas tratadas"
+      ],
+      [
+       "Sol directo / bronceado",
+       "Semana 6–8",
+       "Protector solar FPS 50 en cicatrices por 12 meses"
+      ],
+      [
+       "Alberca, mar, tina, vapor",
+       "Semana 4",
+       "Con incisiones completamente cerradas"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Postura: no duerma boca abajo las primeras 2 semanas. Si tiene injerto de glúteos, siga la indicación específica de no apoyarse sobre ellos."
+    },
+    {
+     "t": "h",
+     "x": "Qué es normal"
+    },
+    {
+     "t": "p",
+     "x": "El resultado no se ve en la primera semana: la inflamación baja de forma progresiva y el contorno final se aprecia entre los 3 y 6 meses."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Moretones extensos, que cambian de morado a verde y amarillo y bajan hacia zonas inferiores. Desaparecen en 2–4 semanas.",
+      "Inflamación que aumenta al final del día y baja por la mañana. Puede durar semanas, con altibajos.",
+      "Adormecimiento u hormigueo de la piel tratada. La sensibilidad regresa en semanas a meses.",
+      "Zonas duras o con bordes bajo la piel en las semanas 3–8. Se suavizan con el tiempo.",
+      "Cansancio las primeras 1–2 semanas.",
+      "Cambios de ánimo los primeros días: impaciencia o tristeza pasajera al verse inflamada. Es frecuente y pasa.",
+      "Aumento de peso en la báscula la primera semana, por líquidos. No refleja el resultado.",
+      "Dolor: sensación de haber hecho mucho ejercicio, ardor y sensibilidad al tacto. Mejora de forma clara a partir del día 3–5."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Signos de alarma",
+     "alarma": true
+    },
+    {
+     "t": "p",
+     "x": "Ante cualquiera de estos síntomas llámenos al teléfono de urgencias del consultorio, a cualquier hora."
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos de inmediato, sin esperar"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Falta de aire, dolor en el pecho, tos con sangre o sensación de que el corazón late muy rápido.",
+      "Desmayo, confusión o somnolencia excesiva."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos el mismo día"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Dolor, hinchazón o calor en una sola pantorrilla o pierna.",
+      "Fiebre de 38 °C o más.",
+      "Sangrado rojo brillante que empapa gasas o toallas en menos de 1 hora.",
+      "Una zona que crece rápido, se pone tensa y muy dolorosa, o que se siente como bolsa de líquido.",
+      "Enrojecimiento que se extiende, calor, pus o mal olor en una incisión.",
+      "Piel que se torna oscura, morada intensa o negra, o ampollas.",
+      "Dolor que empeora en lugar de mejorar y no cede con sus medicamentos.",
+      "Mareo persistente, palidez marcada u orina muy escasa.",
+      "Náusea o vómito que no le permite tomar líquidos ni medicamentos."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Sus citas de control se coordinan con recepción."
+    },
+    {
+     "t": "p",
+     "x": "Recibí y entendí estas indicaciones."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente"
+     ]
+    }
+   ],
+   "version": "729c9b3a"
+  },
+  {
+   "id": "mastopexia",
+   "nombre": "Mastopexia",
+   "titulo": "Recomendaciones postoperatorias — Mastopexia",
+   "coincide": [
+    "mastopexia",
+    "pexia mamaria",
+    "levantamiento de busto",
+    "levantamiento de senos",
+    "levantamiento mamario"
+   ],
+   "entrada": "Su recuperación forma parte del resultado. Estas indicaciones son generales; si alguna difiere de lo que el Dr. Soto le indicó en persona, siga siempre la indicación personal.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Procedimiento",
+       "Mastopexia — sin implantes / con implantes"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Primeras 72 horas"
+    },
+    {
+     "t": "p",
+     "x": "Descanse boca arriba y semisentada, y camine varias veces al día desde el día de la cirugía."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Posición para dormir: boca arriba, con la espalda elevada 30–45° (dos o tres almohadas o un respaldo). No duerma de lado ni boca abajo.",
+      "Caminar 5–10 minutos cada 1–2 horas mientras esté despierta, acompañada los primeros días.",
+      "Levantarse despacio: siéntese primero en la orilla de la cama y apóyese en las piernas, no en los brazos. Es común sentir mareo al incorporarse.",
+      "Brazos pegados al cuerpo: no los levante por arriba de los hombros ni empuje o jale con ellos. Puede comer, peinarse con cuidado y usar el celular.",
+      "Mover tobillos en círculos y de arriba abajo 10 veces cada hora mientras esté acostada.",
+      "Respiraciones profundas: 10 cada hora.",
+      "Siempre acompañada las primeras 24–48 horas; no se bañe sola la primera vez."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Brasier postquirúrgico"
+    },
+    {
+     "t": "p",
+     "x": "El brasier postquirúrgico se usa día y noche durante 6 semanas; solo se retira para bañarse."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Periodo",
+      "Uso",
+      "Indicación"
+     ],
+     "x": [
+      [
+       "Semanas 1–6",
+       "Brasier postquirúrgico, día y noche",
+       "Retirar solo para bañarse"
+      ],
+      [
+       "Semanas 7–12",
+       "Brasier deportivo sin varilla",
+       "Día y noche, o como se le indique"
+      ],
+      [
+       "A partir de la semana 12",
+       "Brasier con varilla",
+       "Solo con autorización"
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento o cambio de color en la piel, aflójelo y llámenos.",
+      "Pliegues: revise que no se formen arrugas ni que el borde apriete sobre las cicatrices.",
+      "Higiene: tenga dos brasieres para alternarlos y lavarlos a mano."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Baño y cuidado de cicatrices"
+    },
+    {
+     "t": "p",
+     "x": "Puede bañarse a partir de las 48 horas, con agua tibia y acompañada la primera vez."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Regadera, no tina, alberca, jacuzzi, mar ni vapor por 4 semanas.",
+      "Agua tibia, nunca caliente; dé la espalda al chorro para que el agua no golpee directo sobre las mamas.",
+      "Jabón neutro; deje correr el agua sobre las heridas sin tallarlas.",
+      "Secado a toques con toalla limpia; seque bien las heridas antes de volver a poner el brasier.",
+      "Cintas adhesivas (si las tiene): no las retire; se caen solas o se retiran por el equipo médico.",
+      "Heridas: manténgalas limpias y secas. No aplique cremas, pomadas, alcohol ni remedios caseros salvo indicación.",
+      "Cicatrices: una vez cerradas por completo, protéjalas del sol con ropa y protector FPS 50 durante 12 meses. Es normal que se vean rojizas y firmes los primeros meses.",
+      "Calor y frío local: no aplique compresas calientes, bolsas de agua ni hielo directo. La piel del pezón y la areola puede tener menos sensibilidad y quemarse sin que lo note."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Alimentación e hidratación"
+    },
+    {
+     "t": "p",
+     "x": "Beba de 2 a 2.5 litros de líquidos al día y coma proteína en cada comida para favorecer la cicatrización."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Primer día: dieta blanda (caldos, gelatina, fruta, pan tostado) y avance a su dieta normal según tolere.",
+      "Líquidos: agua natural, suero oral y agua de coco. Evite refrescos y bebidas muy azucaradas.",
+      "Proteína en cada comida (pollo, pescado, huevo, leguminosas, lácteos).",
+      "Sal: reduzca embutidos, enlatados, comida rápida y botanas; la sal aumenta la inflamación.",
+      "Estreñimiento: coma fibra (fruta, verdura, avena) y avise si pasan más de 3 días sin evacuar.",
+      "Alcohol: ninguno por al menos 2 semanas.",
+      "Tabaco y vapeador: ninguno por al menos 4 semanas. En la mastopexia el tabaco reduce la circulación del pezón y la areola y aumenta el riesgo de que las heridas se abran."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "La mayoría de las pacientes vuelve a trabajo de oficina en 5–7 días y al ejercicio completo a las 6–8 semanas."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar",
+       "Día 0",
+       "Obligatorio, varias veces al día"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 5–7",
+       "Sin cargar ni levantar los brazos"
+      ],
+      [
+       "Manejar",
+       "Día 7–10",
+       "Cuando pueda girar el volante y frenar sin dolor"
+      ],
+      [
+       "Viaje en avión corto (< 3 h)",
+       "Semana 2",
+       "Con brasier y caminando en el vuelo; avísenos antes"
+      ],
+      [
+       "Viaje largo (> 3 h)",
+       "Semana 3–4",
+       "Solo con autorización"
+      ],
+      [
+       "Levantar los brazos por arriba de los hombros",
+       "Semana 3",
+       "De forma progresiva"
+      ],
+      [
+       "Cargar objetos pesados (> 5 kg)",
+       "Semana 4–6",
+       "Incluye cargar niños, bolsas del súper y maletas"
+      ],
+      [
+       "Ejercicio ligero (caminadora, bicicleta fija)",
+       "Semana 3",
+       "Intensidad baja, sin rebote"
+      ],
+      [
+       "Ejercicio de piernas",
+       "Semana 4",
+       "Sin usar brazos ni pecho"
+      ],
+      [
+       "Ejercicio completo (pecho, brazos, correr, saltar)",
+       "Semana 6–8",
+       "Con brasier deportivo firme"
+      ],
+      [
+       "Dormir de lado",
+       "Semana 4–6",
+       ""
+      ],
+      [
+       "Dormir boca abajo",
+       "Semana 8",
+       ""
+      ],
+      [
+       "Relaciones sexuales",
+       "Semana 2–3",
+       "Sin presión ni manipulación de las mamas"
+      ],
+      [
+       "Alberca, mar, tina, vapor",
+       "Semana 4",
+       "Con heridas completamente cerradas"
+      ],
+      [
+       "Sol directo / bronceado",
+       "Semana 6–8",
+       "Cicatrices siempre cubiertas o con FPS 50"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Qué es normal"
+    },
+    {
+     "t": "p",
+     "x": "Las mamas se ven altas, firmes e inflamadas al inicio; la forma final se asienta entre los 3 y 6 meses."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mamas altas y apretadas las primeras semanas. Descienden y se redondean de forma progresiva.",
+      "Asimetría leve entre un lado y otro mientras baja la inflamación; cada mama se desinflama a su ritmo.",
+      "Moretones que cambian de morado a verde y amarillo. Desaparecen en 2–3 semanas.",
+      "Sensibilidad del pezón y la areola aumentada, disminuida o con hormigueo. Suele recuperarse en semanas a meses.",
+      "Punzadas o «toques eléctricos» breves: son parte de la recuperación de los nervios.",
+      "Pequeñas costras en la unión de las cicatrices (bajo la areola o en el surco). Manténgalas limpias y secas.",
+      "Cicatrices rojizas y firmes los primeros 3–6 meses; se aclaran y suavizan durante el primer año.",
+      "Dolor: sensación de tensión y ardor en el pecho. Mejora de forma clara a partir del día 3–5.",
+      "Cansancio las primeras 1–2 semanas."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Signos de alarma",
+     "alarma": true
+    },
+    {
+     "t": "p",
+     "x": "Ante cualquiera de estos síntomas llámenos al teléfono de urgencias del consultorio, a cualquier hora."
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos de inmediato, sin esperar"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Falta de aire, dolor en el pecho, tos con sangre o sensación de que el corazón late muy rápido.",
+      "Desmayo, confusión o somnolencia excesiva.",
+      "Una mama que crece rápido, se pone tensa, dura y muy dolorosa, mucho más que la otra.",
+      "Pezón o areola que se torna morada oscura, gris o negra, o que se siente fría."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos el mismo día"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Dolor, hinchazón o calor en una sola pantorrilla o pierna.",
+      "Fiebre de 38 °C o más.",
+      "Sangrado rojo brillante que empapa gasas o el brasier.",
+      "Enrojecimiento que se extiende, calor, pus o mal olor en una herida.",
+      "Una herida que se abre o deja ver tejido.",
+      "Salida de líquido abundante o una zona que se siente como bolsa de líquido.",
+      "Dolor que empeora en lugar de mejorar.",
+      "Náusea o vómito que no le permite tomar líquidos."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Sus citas de control se coordinan con recepción."
+    },
+    {
+     "t": "p",
+     "x": "Recibí y entendí estas indicaciones."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente"
+     ]
+    }
+   ],
+   "version": "b58538f5"
+  },
+  {
+   "id": "rinoplastia",
+   "nombre": "Rinoplastia",
+   "titulo": "Recomendaciones postoperatorias — Rinoplastia",
+   "coincide": [
+    "rinoplastia",
+    "septorrinoplastia",
+    "rinoseptoplastia"
+   ],
+   "entrada": "Su recuperación forma parte del resultado. Estas indicaciones son generales; si alguna difiere de lo que el Dr. Soto le indicó en persona, siga siempre la indicación personal.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Procedimiento",
+       "Rinoplastia ultrasónica"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Primeras 72 horas"
+    },
+    {
+     "t": "p",
+     "x": "Cabeza elevada, frío local y no golpear ni presionar la nariz son las tres medidas más importantes de los primeros días."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cabeza elevada a 30–45° día y noche (dos o tres almohadas o un respaldo), durante 1–2 semanas. Duerma boca arriba; no de lado ni boca abajo.",
+      "Compresas frías sobre los ojos y mejillas, nunca sobre la nariz: gasas humedecidas en agua fría o chícharos congelados envueltos en una tela delgada, 15–20 minutos cada hora mientras esté despierto(a), durante las primeras 48–72 horas.",
+      "Respiración por la boca: es normal tener la nariz tapada. Tenga agua a la mano y bálsamo para los labios.",
+      "Gasa bajo la nariz (bigotera): cámbiela cuando se manche. Es normal que escurra un poco de sangre los primeros 2–3 días.",
+      "No se suene la nariz ni introduzca hisopos o dedos en las fosas nasales.",
+      "Estornudar con la boca abierta, para que el aire no salga con fuerza por la nariz.",
+      "No agacharse con la cabeza por debajo del corazón ni hacer esfuerzos (cargar, pujar).",
+      "Caminar dentro de casa varias veces al día, acompañado(a) las primeras 24 horas."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Férula, nariz y heridas"
+    },
+    {
+     "t": "p",
+     "x": "La férula protege la nueva forma de la nariz: no la moje, no la mueva y no la retire usted."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Férula y cintas: manténgalas secas. Si una orilla se despega, no la jale ni la vuelva a pegar; llámenos.",
+      "Baño: puede bañarse a partir de las 24–48 horas, con la cabeza fuera del chorro. Lave el cabello con la cabeza hacia atrás, como en la estética, para no mojar la férula.",
+      "Cara: lávela con una toallita húmeda evitando la nariz; seque a toques.",
+      "Orillas de las fosas nasales: retire las costras de la entrada con un hisopo humedecido en agua, solo en la parte visible, sin introducirlo.",
+      "Herida de la columela (si se le hizo): manténgala limpia y seca. No aplique cremas, pomadas, alcohol ni remedios caseros salvo indicación.",
+      "Anteojos: no los apoye sobre la nariz durante 6 semanas. Use lentes de contacto o péguelos con cinta a la frente.",
+      "Presión sobre la nariz: nada de cubrebocas apretados, antifaces para dormir ni cargar a niños o mascotas que puedan golpearle la cara.",
+      "Sol: la piel de la nariz se mancha con facilidad. Use gorra y protector FPS 50 durante 6 meses.",
+      "Después de retirar la férula: toque la nariz con suavidad; no la masajee ni la apriete salvo indicación."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Alimentación e hidratación"
+    },
+    {
+     "t": "p",
+     "x": "Coma alimentos blandos y a temperatura tibia la primera semana, y reduzca la sal para bajar la inflamación."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Primera semana: alimentos blandos que no requieran masticar mucho ni abrir mucho la boca (purés, caldos, huevo, pescado, pasta). Evite alimentos duros como manzana entera, elote o carne dura.",
+      "Temperatura: tibia o fría; evite bebidas y comidas muy calientes los primeros 3 días.",
+      "Líquidos: 2 litros al día de agua natural. Con la nariz tapada la boca se reseca más.",
+      "Sal: reduzca embutidos, enlatados, comida rápida, botanas y salsas.",
+      "Picante: evitarlo la primera semana; congestiona la nariz.",
+      "Estreñimiento: coma fibra (fruta, verdura, avena); pujar aumenta la presión en la cara.",
+      "Alcohol: ninguno por al menos 2 semanas.",
+      "Tabaco y vapeador: ninguno por al menos 4 semanas; retrasan la cicatrización y el humo irrita la nariz."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "La mayoría de los pacientes vuelve a trabajo de oficina en 7–10 días y al ejercicio completo a las 4–6 semanas."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar dentro de casa",
+       "Día 0",
+       "Varias veces al día"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 7–10",
+       ""
+      ],
+      [
+       "Manejar",
+       "Día 7–10",
+       "Con buena visión y sin inflamación de párpados que la limite"
+      ],
+      [
+       "Viaje en avión",
+       "Semana 2",
+       "Avísenos antes; la presión de cabina puede congestionar"
+      ],
+      [
+       "Ejercicio ligero (caminata)",
+       "Semana 2",
+       "Sin agacharse ni cargar"
+      ],
+      [
+       "Ejercicio completo (pesas, correr, yoga invertido)",
+       "Semana 4–6",
+       ""
+      ],
+      [
+       "Nadar, alberca, mar",
+       "Semana 4–6",
+       ""
+      ],
+      [
+       "Deportes de contacto o con pelota",
+       "Semana 8–12",
+       "Riesgo de golpe en la nariz"
+      ],
+      [
+       "Anteojos apoyados en la nariz",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Dormir de lado",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Dormir boca abajo",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Sol directo",
+       "Semana 4",
+       "Siempre con gorra y FPS 50"
+      ],
+      [
+       "Tratamientos faciales, depilación o láser en la nariz",
+       "Semana 6–8",
+       "Solo con autorización"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Qué es normal"
+    },
+    {
+     "t": "p",
+     "x": "La nariz tarda en mostrar su forma final: la mayor parte de la inflamación baja en 3 meses, pero la punta termina de definirse entre los 12 y 18 meses."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Nariz tapada las primeras 1–2 semanas, y congestión intermitente durante semanas después.",
+      "Escurrimiento de moco con un poco de sangre los primeros 2–3 días.",
+      "Moretones e inflamación alrededor de los ojos y mejillas, mayores entre el día 2 y 3. Desaparecen en 1–2 semanas.",
+      "Mancha roja en lo blanco del ojo: no afecta la visión y desaparece en 2–3 semanas.",
+      "Nariz más ancha o gruesa al retirar la férula, y más inflamada por la mañana. Es inflamación y baja poco a poco.",
+      "Punta dura y adormecida, y a veces el labio superior. La sensibilidad regresa en semanas a meses.",
+      "Dificultad para sonreír con naturalidad las primeras semanas.",
+      "Piel grasosa o con granitos en la nariz al retirar la férula.",
+      "Olfato disminuido mientras la nariz está congestionada.",
+      "Dolor leve y sensación de presión. Mejora de forma clara a partir del día 2–3."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Signos de alarma",
+     "alarma": true
+    },
+    {
+     "t": "p",
+     "x": "Ante cualquiera de estos síntomas llámenos al teléfono de urgencias del consultorio, a cualquier hora."
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos de inmediato, sin esperar"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Sangrado rojo brillante por la nariz o por la garganta que no se detiene después de 15 minutos sentado(a), con la cabeza ligeramente hacia adelante.",
+      "Falta de aire, dolor en el pecho o desmayo.",
+      "Golpe fuerte en la nariz.",
+      "Pérdida o disminución repentina de la visión."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos el mismo día"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Fiebre de 38 °C o más.",
+      "Dolor que empeora en lugar de mejorar.",
+      "Enrojecimiento que se extiende, calor, pus o mal olor en la nariz o en la herida.",
+      "Salida abundante de líquido claro y aguado por la nariz, sobre todo al inclinarse hacia adelante.",
+      "Piel de la nariz que se torna oscura, morada o con ampollas bajo la férula.",
+      "Férula que se despega o se mueve.",
+      "Náusea o vómito que no le permite tomar líquidos."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Sus citas de control se coordinan con recepción."
+    },
+    {
+     "t": "p",
+     "x": "Recibí y entendí estas indicaciones."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente"
+     ]
+    }
+   ],
+   "version": "20ba2762"
+  },
+  {
+   "id": "blefaroplastia",
+   "nombre": "Blefaroplastia",
+   "titulo": "Recomendaciones postoperatorias — Blefaroplastia",
+   "coincide": [
+    "blefaroplastia",
+    "blefaro",
+    "cirugia de parpados",
+    "cirugía de párpados"
+   ],
+   "entrada": "Su recuperación forma parte del resultado. Estas indicaciones son generales; si alguna difiere de lo que el Dr. Soto le indicó en persona, siga siempre la indicación personal.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Procedimiento",
+       "Blefaroplastia — superior / inferior / superior e inferior"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Primeras 72 horas"
+    },
+    {
+     "t": "p",
+     "x": "Cabeza elevada y compresas frías son las dos medidas que más reducen la inflamación y los moretones."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cabeza elevada a 30–45° día y noche (dos o tres almohadas o un respaldo), durante 1 semana. Duerma boca arriba, no de lado ni boca abajo.",
+      "Compresas frías: gasas humedecidas en agua fría o solución salina, o chícharos congelados envueltos en una tela delgada, sobre los ojos cerrados 15–20 minutos cada hora mientras esté despierto(a), durante las primeras 48–72 horas. Nunca hielo directo sobre la piel.",
+      "No se frote ni se talle los ojos.",
+      "Reposo visual: evite leer, pantallas y televisión por periodos largos los primeros 2–3 días; cansan la vista y resecan el ojo. Descanse los ojos cerrados con frecuencia.",
+      "Caminar dentro de casa varias veces al día.",
+      "No agacharse con la cabeza por debajo del corazón ni hacer esfuerzos (cargar, pujar); aumentan la inflamación y el riesgo de sangrado.",
+      "Acompañado(a) las primeras 24 horas."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Cuidado de ojos y heridas"
+    },
+    {
+     "t": "p",
+     "x": "Mantenga las heridas limpias y secas, y proteja los ojos del sol, el polvo y el viento."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Limpieza: retire con suavidad las costras o secreciones de las heridas con un hisopo o gasa humedecida en solución salina, sin tallar.",
+      "Baño: puede bañarse a partir de las 24–48 horas. Lave el cabello con la cabeza hacia atrás y evite que el agua o el champú caigan directo sobre los ojos.",
+      "Cara: lávela con agua y jabón neutro evitando la zona de los párpados; seque a toques.",
+      "Lentes de contacto: no los use durante 2 semanas. Use sus anteojos de graduación.",
+      "Maquillaje en los ojos (sombras, delineador, rímel) y pestañas postizas: no los use durante 2 semanas, ni sobre las heridas hasta que estén completamente cerradas.",
+      "Lentes oscuros al salir: protegen del sol, el viento y el polvo.",
+      "Cremas y remedios caseros: no aplique ninguno sobre las heridas salvo indicación.",
+      "Cicatrices: una vez cerradas, protéjalas del sol con lentes oscuros y protector FPS 50 durante 6 meses."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Alimentación e hidratación"
+    },
+    {
+     "t": "p",
+     "x": "Reduzca la sal y beba suficiente agua: la sal aumenta la inflamación de los párpados."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Primer día: dieta blanda y avance a su dieta normal según tolere.",
+      "Líquidos: 2 litros al día de agua natural. Evite refrescos y bebidas muy azucaradas.",
+      "Sal: reduzca embutidos, enlatados, comida rápida, botanas y salsas; favorecen que los párpados se hinchen, sobre todo por la mañana.",
+      "Proteína en cada comida (pollo, pescado, huevo, leguminosas, lácteos): favorece la cicatrización.",
+      "Estreñimiento: coma fibra (fruta, verdura, avena); pujar aumenta la presión en la cara.",
+      "Alcohol: ninguno por al menos 2 semanas.",
+      "Tabaco y vapeador: ninguno por al menos 4 semanas; retrasan la cicatrización y el humo irrita los ojos."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "La mayoría de los pacientes vuelve a trabajo de oficina en 7–10 días y al ejercicio completo a las 3–4 semanas."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar dentro de casa",
+       "Día 0",
+       "Varias veces al día"
+      ],
+      [
+       "Leer, pantallas, televisión",
+       "Día 3",
+       "En periodos cortos, con descansos"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 7–10",
+       "Descansos frecuentes para los ojos"
+      ],
+      [
+       "Manejar",
+       "Día 7–10",
+       "Cuando vea con claridad, sin visión borrosa"
+      ],
+      [
+       "Viaje en avión",
+       "Semana 2",
+       "Avísenos antes"
+      ],
+      [
+       "Lentes de contacto",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Maquillaje en los ojos",
+       "Semana 2",
+       "Con heridas completamente cerradas"
+      ],
+      [
+       "Ejercicio ligero (caminata)",
+       "Semana 2",
+       "Sin agacharse ni cargar"
+      ],
+      [
+       "Ejercicio completo (pesas, correr, yoga invertido)",
+       "Semana 3–4",
+       ""
+      ],
+      [
+       "Alberca, mar, vapor, sauna",
+       "Semana 3–4",
+       "Con heridas completamente cerradas"
+      ],
+      [
+       "Sol directo",
+       "Semana 4",
+       "Siempre con lentes oscuros y FPS 50"
+      ],
+      [
+       "Tinte de pestañas, extensiones, tratamientos faciales",
+       "Semana 6",
+       "Solo con autorización"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Qué es normal"
+    },
+    {
+     "t": "p",
+     "x": "La mayor parte de la inflamación y los moretones baja en 2 semanas; el resultado final se aprecia entre los 3 y 6 meses."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación de párpados, mayor entre el día 2 y 3, y más marcada por la mañana.",
+      "Moretones alrededor de los ojos y a veces en mejillas, que cambian de morado a verde y amarillo. Desaparecen en 2–3 semanas.",
+      "Mancha roja en lo blanco del ojo (derrame en la conjuntiva): no afecta la visión y desaparece en 2–3 semanas.",
+      "Ojo seco o lagrimeo, ardor y sensación de arenilla las primeras semanas.",
+      "Visión un poco borrosa los primeros días por la inflamación; mejora al parpadear.",
+      "Dificultad para cerrar los ojos por completo los primeros días, sobre todo al dormir. Mejora conforme baja la inflamación.",
+      "Adormecimiento o tirantez de los párpados, que mejora en semanas.",
+      "Asimetría leve entre un ojo y otro mientras baja la inflamación.",
+      "Cicatrices rosadas los primeros meses; se aclaran y quedan escondidas en el pliegue del párpado o bajo las pestañas.",
+      "Dolor leve: sensación de tirantez y ardor. Mejora de forma clara a partir del día 2–3."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Signos de alarma",
+     "alarma": true
+    },
+    {
+     "t": "p",
+     "x": "Ante cualquiera de estos síntomas llámenos al teléfono de urgencias del consultorio, a cualquier hora."
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos de inmediato, sin esperar"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Pérdida o disminución repentina de la visión, o visión doble que no se quita al parpadear.",
+      "Dolor intenso en un ojo, que no mejora y va en aumento.",
+      "Un ojo que se abulta o se sale hacia adelante, con el párpado muy tenso, duro y morado.",
+      "Falta de aire, dolor en el pecho o desmayo."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos el mismo día"
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Sangrado que no se detiene después de 10 minutos de presión suave con una gasa.",
+      "Fiebre de 38 °C o más.",
+      "Enrojecimiento que se extiende, calor, pus o mal olor en una herida.",
+      "Una herida que se abre.",
+      "Secreción amarilla o verde en el ojo, o ojo rojo con dolor.",
+      "Inflamación que aumenta después del día 3 en lugar de bajar.",
+      "Incapacidad para cerrar el ojo que no mejora, con ardor intenso."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Sus citas de control se coordinan con recepción."
+    },
+    {
+     "t": "p",
+     "x": "Recibí y entendí estas indicaciones."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente"
+     ]
+    }
+   ],
+   "version": "1b5ef5b3"
   }
  ],
- "version": "cefae474fc27969f",
- "generado": "2026-09-26"
+ "version": "9562084bbcb821a6",
+ "generado": "2026-09-30"
 }
