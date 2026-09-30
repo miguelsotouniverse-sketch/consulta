@@ -534,7 +534,7 @@ function sesionCaida(mensaje){
    navegador lo trata como petición simple y no hay preflight,
    que Apps Script no sabe contestar.
    ============================================================ */
-function pide(accion, datos){
+function pide(accion, datos, reintento){
   var cuerpo = { accion: accion, credential: CRED };
   if (datos) for (var k in datos) if (datos.hasOwnProperty(k)) cuerpo[k] = datos[k];
   return fetch(GATEWAY, { method:'POST', body: JSON.stringify(cuerpo) })
@@ -543,6 +543,20 @@ function pide(accion, datos){
       var d;
       try{ d = JSON.parse(t); }
       catch(e){ throw new Error('El servidor contestó algo que no entiendo.'); }
+
+      /* Apps Script no contesta el POST de frente: contesta con un redirect a
+         script.googleusercontent.com y el navegador lo sigue. Cuando ese salto
+         se pierde, la petición vuelve a caer en /exec como GET y el gateway
+         responde el aviso de doGet. No es sesión caída ni falta de permiso: es
+         transitorio del lado de Google. Sin esto, al médico le aparece un error
+         que no puede resolver y se queda fuera de la aplicación con la paciente
+         enfrente. Se reintenta UNA vez; si vuelve a pasar, el error se muestra
+         tal cual, porque entonces ya no es un tropiezo sino algo que revisar. */
+      if (d && d.error && /solo responde por POST/i.test(d.error) && !reintento){
+        return new Promise(function(sigue){ setTimeout(sigue, 700); })
+          .then(function(){ return pide(accion, datos, true); });
+      }
+
       if (d && d.error){
         if (/sesión|sesion|identificarse|expiró|expiro/i.test(d.error)){
           sesionCaida(d.error);
