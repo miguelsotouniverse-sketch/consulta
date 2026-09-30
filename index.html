@@ -337,13 +337,32 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .rxAlarma{margin-top:8px;padding:6px 9px;border:.75pt solid #8A2F27;
   color:#8A2F27;page-break-inside:avoid;break-inside:avoid}
 #impresion .rxAlarmaT{font-size:9pt;font-weight:500;margin-bottom:3px}
-#impresion .rxAlarma ul{margin:0;padding-left:14px;font-size:8.5pt;line-height:1.3}
-#impresion .rxAlarma li{margin-bottom:2px}
+/* Los signos de alarma van a dos columnas. No es estética: con el renglón del
+   anticoagulante la lista creció y la receta general se pasaba de la página,
+   dejando la FIRMA sola en la hoja siguiente. Una hoja con medicamentos y sin
+   firma no es una receta, y la farmacia no tiene por qué adivinar que la firma
+   venía atrás. A dos columnas la caja mide la mitad y vuelve a caber, sin
+   quitarle a la paciente un solo signo de alarma. */
+#impresion .rxAlarma ul{margin:0;padding-left:14px;font-size:8.5pt;line-height:1.3;
+  column-count:2;column-gap:14px}
+#impresion .rxAlarma li{margin-bottom:2px;break-inside:avoid;page-break-inside:avoid}
+#impresion .rxAlarma{break-inside:avoid;page-break-inside:avoid}
+#impresion .firma{break-inside:avoid;page-break-inside:avoid}
 #impresion .rxAlarmaTel{margin-top:5px;font-weight:500;font-size:9pt}
 #impresion .rxVersion{margin-top:3px;font-size:6.5pt;color:#8C867F;text-align:center}
 #impresion.hojaRx h1{margin-bottom:6px}
-#impresion.hojaRx .firma{margin-top:9px}
-#impresion.hojaRx .firma .linea{margin:13px auto 3px}
+#impresion.hojaRx .firma{margin-top:5px}
+#impresion.hojaRx .firma .linea{margin:9px auto 3px}
+/* Apretado SOLO en la receta. Cada pliego tiene que caber entero en su hoja,
+   con su firma: el resto de los documentos del expediente no comparten esta
+   restricción y se quedan como están. */
+#impresion.hojaRx .ficha{margin-bottom:7px}
+#impresion.hojaRx .ficha td{padding:2px 6px;line-height:1.2}
+#impresion.hojaRx .cab{line-height:1.25}
+#impresion.hojaRx .rxLinea{margin-bottom:3px;padding-bottom:2px}
+#impresion.hojaRx .rxInd{line-height:1.3}
+#impresion.hojaRx .rxAlarma ul{font-size:8pt;line-height:1.25}
+#impresion.hojaRx .rxAlarma li{margin-bottom:1px}
 
 #impresion .firma{margin-top:16px;page-break-inside:avoid;break-inside:avoid;text-align:center}
 #impresion .firma .linea{border-top:.75pt solid #000;width:74mm;margin:24px auto 4px}
