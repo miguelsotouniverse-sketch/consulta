@@ -1995,6 +1995,13 @@ function sinContestar(){
   }).map(function(q){ return q.etiqueta; });
 }
 
+/* Cuántos renglones caben en un pliego con su membrete, sus datos, su caja de
+   signos de alarma y su firma. Medido, no supuesto: con siete renglones el
+   pliego general mide 950 px de los ~965 útiles de una hoja carta. Si algún día
+   se agregan medicamentos más largos, prueba_recetas_paginas.mjs lo detecta
+   antes de que salga impreso. */
+var RENGLONES_POR_HOJA = 7;
+
 function faltantesReceta(){
   var f = sinContestar().map(function(e){ return 'contestar «' + e + '»'; });
   if (!CONSTANTES['medico_nombre'])      f.push('el nombre del médico');
@@ -2025,15 +2032,38 @@ function pintaRecetasImpresas(raiz, el){
     var suyos = renglones.filter(function(r){ return r.hoja === h.id; });
     if (!suyos.length) return;
 
+    /* Un pliego con más renglones de los que caben se desborda y la FIRMA se
+       va sola a la hoja siguiente. Una hoja con medicamentos cuya firma quedó
+       atrás no es una receta (artículo 29 del RIS) y la farmacia no tiene por
+       qué adivinar dónde está. Ya pasó dos veces al crecer el contenido.
+
+       Así que el pliego se parte a propósito y cada parte sale completa:
+       membrete, datos de la paciente, sus medicamentos y su firma. La caja de
+       signos de alarma va sólo en la última, para no gastar dos veces el
+       espacio que hace que quepa. El título dice «hoja 1 de 2» para que nadie
+       crea que le falta una. */
+    var trozos = [];
+    /* Se reparten parejo. Cortar de siete en siete dejaría una segunda hoja
+       con un solo medicamento, que se lee como si algo se hubiera perdido. */
+    var cuantas = Math.ceil(suyos.length / RENGLONES_POR_HOJA) || 1;
+    var porHoja = Math.ceil(suyos.length / cuantas);
+    for (var i = 0; i < suyos.length; i += porHoja){
+      trozos.push(suyos.slice(i, i + porHoja));
+    }
+
+    trozos.forEach(function(grupo, t){
+    var ultima = (t === trozos.length - 1);
+
     var pag = el('div', 'receta');
     if (!primera) pag.classList.add('saltoPagina');
     primera = false;
 
     pag.appendChild(membreteReceta(el));
-    pag.appendChild(el('h1', null, h.titulo.toUpperCase()));
+    pag.appendChild(el('h1', null, h.titulo.toUpperCase() +
+      (trozos.length > 1 ? '  ·  HOJA ' + (t + 1) + ' DE ' + trozos.length : '')));
     pag.appendChild(fichaReceta(el, s));
 
-    suyos.forEach(function(r){
+    grupo.forEach(function(r){
       var d = el('div', 'rxLinea');
       var n = el('div', 'rxNombre', r.nombre);
       if (r.rescate){
@@ -2051,9 +2081,9 @@ function pintaRecetasImpresas(raiz, el){
     });
 
     if (h.nota) pag.appendChild(el('div', 'rxNota', h.nota));
-    if (h.paraPaciente) pag.appendChild(el('div', 'rxPaciente', h.paraPaciente));
+    if (h.paraPaciente && ultima) pag.appendChild(el('div', 'rxPaciente', h.paraPaciente));
 
-    if (h.alarma) pag.appendChild(alarmaReceta(el, s));
+    if (h.alarma && ultima) pag.appendChild(alarmaReceta(el, s));
     /* La versión de la plantilla va DENTRO del bloque de firma, no después:
        suelta se quedaba sola en una cuarta hoja. Y va, porque cuando una
        receta sale distinta de lo esperado esto dice con qué reglas se armó
@@ -2063,7 +2093,8 @@ function pintaRecetasImpresas(raiz, el){
       PLANTILLA.nombre + ' · plantilla ' + PLANTILLA.version + ' · ' + folioDocumento()));
     pag.appendChild(f);
     raiz.appendChild(pag);
-  });
+    });   // trozos
+  });     // hojas
 
   if (primera){
     raiz.appendChild(el('div', 'dato', 'No hay ningún medicamento con nombre. ' +
