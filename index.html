@@ -758,8 +758,18 @@ var DOCUMENTOS = [
   { id:'convenio',           nombre:'Convenio de honorarios',  grupo:'firma',
     icono:'pesos', dictado:false,
     etiquetas:['Convenio de honorarios','Convenio'] },
+  /* «Indicaciones de faja» era un formulario de cuatro campos —prenda, talla,
+     horas al día, semanas— que imprimía cuatro renglones. El 1 de octubre de
+     2026 se publicó la hoja completa de uso de faja, y entonces había dos
+     cosas con el mismo nombre: el médico entró por aquí, no llenó los cuatro
+     campos, y salió una hoja con el membrete y la firma y nada en medio.
+
+     Ahora este documento ES la hoja. Se abre directo en «Uso de la faja», sin
+     que haya que escogerla, y el selector sigue ahí por si hay que cambiarla.
+     Los cuatro campos viejos ya no se capturan: lo que decían —modelo, talla—
+     va en los renglones en blanco de la hoja, que es donde la paciente lo ve. */
   { id:'faja',               nombre:'Indicaciones de faja',    grupo:'firma',
-    icono:'faja', dictado:false,
+    icono:'faja', dictado:false, hoja:true, hojaPorDefecto:'faja',
     etiquetas:['Indicaciones de faja','Faja'] },
 
   /* Las indicaciones de alta no son campos del expediente: son una hoja que se
@@ -1522,7 +1532,7 @@ function armaHoja(){
       caja.insertBefore(h, caja.firstChild);
     }
 
-    var inicial = VALORES['indicaciones_hoja'] ||
+    var inicial = VALORES['indicaciones_hoja'] || TIPO.hojaPorDefecto ||
                   (hojaSugerida() ? hojaSugerida().id : '');
     if (inicial){ sel.value = inicial; escoge(inicial, true); }
     else { pintaResumen(); pinta(); }
