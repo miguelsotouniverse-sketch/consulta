@@ -1474,7 +1474,7 @@
     },
     {
      "t": "p",
-     "x": "La faja de cuerpo se usa 8 semanas en total; la de cuello, solo 2 semanas y solo mientras esté en casa."
+     "x": "La faja de cuerpo se usa 12 semanas en total —tres meses—; la de cuello, solo 2 semanas y solo mientras esté en casa."
     },
     {
      "t": "tabla",
@@ -1495,12 +1495,12 @@
        "Se suspende"
       ],
       [
-       "Semanas 7–8",
+       "Semanas 7–12",
        "12 horas al día, en el horario que usted elija",
        "—"
       ],
       [
-       "Desde la semana 9",
+       "Desde la semana 13",
        "Se suspende",
        "—"
       ]
@@ -1510,7 +1510,7 @@
      "t": "ul",
      "x": [
       "Una sola faja de primera etapa durante todo el tratamiento; no se cambia a una de segunda etapa.",
-      "Horario de las semanas 7–8: usted decide si la usa de día o de noche, siempre que sumen 12 horas.",
+      "Horario de las semanas 7–12: usted decide si la usa de día o de noche, siempre que sumen 12 horas.",
       "Faja de cuello: úsela en casa, incluida la noche, y no la lleve al salir. Después de 2 semanas ya no es necesaria."
      ]
     },
@@ -1644,9 +1644,9 @@
      ]
     }
    ],
-   "version": "42de68d9"
+   "version": "9277ec61"
   }
  ],
- "version": "a0484f46c175180f",
+ "version": "420dc0db35aec1d7",
  "generado": "2026-10-01"
 }
