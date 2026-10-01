@@ -1435,8 +1435,218 @@
     }
    ],
    "version": "1b5ef5b3"
+  },
+  {
+   "id": "faja",
+   "nombre": "Uso de la faja",
+   "titulo": "Recomendaciones de uso de faja",
+   "coincide": [],
+   "entrada": "La faja ayuda a que la piel se adhiera de forma pareja a su nuevo contorno y a controlar la inflamación. Bien usada no lastima: estas indicaciones están pensadas para proteger su piel durante todo el tiempo de uso.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos de la faja"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Zonas tratadas",
+       ""
+      ],
+      [
+       "Faja de cuerpo",
+       "Marena, primera etapa — modelo y talla:"
+      ],
+      [
+       "Faja de cuello",
+       "Sí / No"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Calendario de uso"
+    },
+    {
+     "t": "p",
+     "x": "La faja de cuerpo se usa 8 semanas en total; la de cuello, solo 2 semanas y solo mientras esté en casa."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Periodo",
+      "Faja de cuerpo",
+      "Faja de cuello"
+     ],
+     "x": [
+      [
+       "Semanas 1–2",
+       "Día y noche; solo se retira para bañarse",
+       "Solo mientras esté en casa"
+      ],
+      [
+       "Semanas 3–6",
+       "Día y noche; solo se retira para bañarse",
+       "Se suspende"
+      ],
+      [
+       "Semanas 7–8",
+       "12 horas al día, en el horario que usted elija",
+       "—"
+      ],
+      [
+       "Desde la semana 9",
+       "Se suspende",
+       "—"
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Una sola faja de primera etapa durante todo el tratamiento; no se cambia a una de segunda etapa.",
+      "Horario de las semanas 7–8: usted decide si la usa de día o de noche, siempre que sumen 12 horas.",
+      "Faja de cuello: úsela en casa, incluida la noche, y no la lleve al salir. Después de 2 semanas ya no es necesaria."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Cómo proteger la piel"
+    },
+    {
+     "t": "p",
+     "x": "Use siempre una camiseta de algodón debajo de la faja: evita que la faja roce, marque o irrite directamente la piel."
+    },
+    {
+     "t": "h2",
+     "x": "La camiseta"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "100 % algodón, delgada, ajustada al cuerpo y sin estampados, etiquetas ni costuras gruesas.",
+      "Larga, que llegue por debajo de la cadera para que quede entre la faja y la piel en toda la zona cubierta.",
+      "Al revés si sus costuras son marcadas, para que no queden contra la piel.",
+      "Bien estirada: antes de cerrar la faja, jale la camiseta hacia abajo y alise cualquier arruga. Un pliegue de tela bajo la faja deja marca.",
+      "Cámbiela cada día y siempre que se humedezca por sudor o por líquido de las incisiones. Tenga al menos 4–5 camisetas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Puntos de roce que debe revisar"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ingles, axilas y debajo de las mamas: es donde los bordes de la faja más lastiman. Revise que el borde no se enrolle ni se clave.",
+      "Cierres, broches y ganchos: no deben quedar directo sobre la piel; la camiseta debe cubrirlos por dentro.",
+      "Costuras de la faja: si una costura marca siempre el mismo lugar, avísenos."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Todos los días"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Revise su piel al bañarse, con ayuda de un espejo o de su acompañante, sobre todo en ingles, axilas, cintura y espalda.",
+      "Piel seca: séquela por completo antes de ponerse camiseta y faja. La humedad atrapada irrita y lastima la piel.",
+      "Sin cremas, aceites ni talcos bajo la faja salvo indicación; ablandan la piel y favorecen las rozaduras."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Cómo ponerla, ajustarla y retirarla"
+    },
+    {
+     "t": "p",
+     "x": "La faja debe sentirse firme, como un abrazo apretado, nunca dolorosa ni dificultando la respiración."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "1. Prepárese sentada o recostada, con la piel seca y la camiseta de algodón ya puesta y estirada.",
+      "2. Cierre de abajo hacia arriba, broche por broche o con el cierre, sin forzar. Pida ayuda las primeras semanas; no haga esfuerzo con los brazos.",
+      "3. Acomode la faja jalándola suavemente hacia abajo para que no queden arrugas y los bordes no se enrollen en ingles, cintura ni axilas.",
+      "4. Revise el ajuste: debe poder meter dos dedos entre la faja y la camiseta en el borde. Si no entran, está demasiado apretada.",
+      "5. Para retirarla, ábrala de arriba hacia abajo, sentada o recostada. Es normal sentir mareo o una sensación de «aflojamiento» al quitarla las primeras veces; hágalo acompañada y vuelva a ponerla en cuanto termine de bañarse."
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Tiempo sin faja en las primeras 6 semanas: solo el del baño, máximo 30 minutos.",
+      "Marcas leves de costuras que desaparecen en menos de una hora al quitarla son normales. Las que no desaparecen indican que algo está rozando o apretando de más.",
+      "Faja floja: conforme baja la inflamación la faja puede aflojarse. Si se forman pliegues o ya no comprime, avísenos; no la ajuste con alfileres, cintas ni fajas encimadas.",
+      "Faja de cuello: debe sujetar sin apretar. Si siente presión al tragar, dificultad para respirar o la cara se le inflama más, aflójela y llámenos."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Lavado y cuidado de la faja"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Tenga dos fajas para alternarlas: así puede lavar una sin quedarse sin compresión.",
+      "Lavado a mano con agua tibia o fría y jabón neutro, cada 1–2 días o cuando se humedezca.",
+      "Sin suavizante, cloro ni detergentes fuertes: irritan la piel y dañan la tela.",
+      "Secado a la sombra, extendida. No use secadora, plancha ni la exponga al sol directo; pierde elasticidad.",
+      "Cierres y broches: ciérrelos antes de lavar para que no se enganchen ni se deformen.",
+      "Faja dañada: si un broche se rompe, una costura se abre o la tela se estira de más, avísenos para reponerla."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Señales de que la faja la está lastimando",
+     "alarma": true
+    },
+    {
+     "t": "p",
+     "x": "Si nota cualquiera de estas señales, afloje la faja y llámenos el mismo día."
+    },
+    {
+     "t": "ul",
+     "alarma": true,
+     "x": [
+      "Rozadura, piel pelada o ardor en ingles, axilas, cintura o bajo las mamas.",
+      "Ampollas, aunque sean pequeñas.",
+      "Una marca roja o morada que no desaparece una hora después de quitarse la faja.",
+      "Una zona de piel que se torna oscura, morada intensa o negra.",
+      "Hormigueo, adormecimiento o frío en las piernas o los pies.",
+      "Dificultad para respirar con la faja puesta.",
+      "Mareo o desmayo al ponerse o quitarse la faja."
+     ]
+    },
+    {
+     "t": "nota",
+     "alarma": true,
+     "x": "Llámenos de inmediato si tiene falta de aire, dolor en el pecho, dolor e hinchazón en una sola pantorrilla, o si la faja de cuello le dificulta tragar o respirar."
+    },
+    {
+     "t": "h",
+     "x": "Constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recibí y entendí estas indicaciones."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente"
+     ]
+    }
+   ],
+   "version": "42de68d9"
   }
  ],
- "version": "9562084bbcb821a6",
- "generado": "2026-09-30"
+ "version": "a0484f46c175180f",
+ "generado": "2026-10-01"
 }
