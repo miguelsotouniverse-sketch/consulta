@@ -772,6 +772,14 @@ var DOCUMENTOS = [
     icono:'faja', dictado:false, hoja:true, hojaPorDefecto:'faja',
     etiquetas:['Indicaciones de faja','Faja'] },
 
+  /* Ésta se entrega ANTES, en la consulta de valoración, no al alta. Por eso es
+     su propio documento y no una hoja más dentro de «Indicaciones de alta»:
+     buscar una hoja preoperatoria dentro de un documento que se llama «de alta»
+     es justo el tipo de confusión que ya costó una impresión en blanco. */
+  { id:'preoperatorias',     nombre:'Recomendaciones preoperatorias', grupo:'firma',
+    icono:'reloj', dictado:false, hoja:true, hojaPorDefecto:'preoperatorias',
+    etiquetas:['Recomendaciones preoperatorias'] },
+
   /* Las indicaciones de alta no son campos del expediente: son una hoja que se
      le entrega a la paciente y que ella se lleva a su casa. El contenido vive
      en indicaciones.json, publicado junto a esta página, y no aquí dentro:
