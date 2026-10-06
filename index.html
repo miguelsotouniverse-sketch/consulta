@@ -780,6 +780,15 @@ var DOCUMENTOS = [
     icono:'reloj', dictado:false, hoja:true, hojaPorDefecto:'preoperatorias',
     etiquetas:['Recomendaciones preoperatorias'] },
 
+  /* La solicitud de laboratorios se usa casi siempre con pacientes foráneos,
+     que no pueden tomarse los estudios aquí. Sale con el nombre de la paciente
+     y la firma del médico solicitante, porque la entrega en un laboratorio que
+     no nos conoce. Para mandarla por WhatsApp: imprimir y escoger «Guardar como
+     PDF» en el destino, en vez de la impresora. */
+  { id:'laboratorios',       nombre:'Solicitud de laboratorios', grupo:'firma',
+    icono:'gota', dictado:false, hoja:true, hojaPorDefecto:'laboratorios',
+    etiquetas:['Solicitud de laboratorios'] },
+
   /* Las indicaciones de alta no son campos del expediente: son una hoja que se
      le entrega a la paciente y que ella se lleva a su casa. El contenido vive
      en indicaciones.json, publicado junto a esta página, y no aquí dentro:
