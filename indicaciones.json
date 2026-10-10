@@ -1442,7 +1442,7 @@
   },
   {
    "id": "facial_combinada",
-   "nombre": "Combinada facial — Deep Plane + blefaroplastia + rinoplastia + CO₂",
+   "nombre": "Combinada facial — Deep Plane de cuello + blefaroplastia 4 cuadrantes + rinoplastia + CO₂",
    "titulo": "Recomendaciones postoperatorias — cirugía facial combinada",
    "coincide": [],
    "entrada": "Esta hoja contiene todas las indicaciones que debe seguir en casa. Léala con calma en casa junto con su acompañante y consérvela hasta su alta definitiva. Si algo no está escrito aquí, no lo haga sin consultarlo antes.",
@@ -1456,7 +1456,7 @@
      "x": [
       [
        "Procedimiento",
-       "Deep Plane de cuello · Blefaroplastia · Rinoplastia ultrasónica · Láser CO₂ en rostro y cuello"
+       "Deep Plane de cuello (contorno cervical) · Blefaroplastia de 4 cuadrantes · Rinoplastia ultrasónica · Láser CO₂ en rostro y cuello"
       ]
      ]
     },
@@ -1567,18 +1567,18 @@
     },
     {
      "t": "h2",
-     "x": "Cuello y rostro (lifting)"
+     "x": "Cuello (contorno cervical)"
     },
     {
      "t": "ul",
      "x": [
-      "Secadora solo con aire frío durante 4 semanas. No use plancha ni tenazas de cabello durante 4 semanas.",
-      "Tinte, decoloración, keratina o permanente: no antes de 6 semanas.",
       "Limpie las incisiones 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de todos los puntos.",
       "No aplique cremas, aceites, remedios caseros ni maquillaje sobre las incisiones hasta que su médico lo autorice en consulta.",
       "No retire costras; se caen solas.",
       "A partir de su cita del mes 1 inicie gel o parches de silicona sobre las cicatrices, 2 veces al día, durante 3 meses.",
       "Use prendas que se abotonen o cierren por delante durante 14 días; no se ponga ropa que tenga que pasar por la cabeza.",
+      "Secadora, plancha y tenazas: sólo aire frío durante 4 semanas. El calor sobre la piel recién tratada con láser la mancha.",
+      "Tinte, decoloración, keratina o permanente: no antes de 6 semanas.",
       "No use aretes durante 6 semanas."
      ]
     },
@@ -1843,12 +1843,8 @@
        "que": "Revisión de la herida para descartar hematoma y retiro del vendaje. Si trae drenajes, se revisan: se retiran cuando el gasto y las características del líquido lo permiten, no por calendario"
       },
       {
-       "cita": "72 horas",
-       "que": "Retiro de la malla hemostática"
-      },
-      {
        "cita": "Día 5",
-       "que": "Retiro de puntos del rostro (frente a la oreja) y de los párpados"
+       "que": "Retiro de los puntos de los párpados"
       },
       {
        "cita": "Día 7",
@@ -1856,7 +1852,7 @@
       },
       {
        "cita": "Día 10",
-       "que": "Retiro de puntos detrás de la oreja y grapas del cuero cabelludo; revisión de la piel tratada con láser"
+       "que": "Retiro de los puntos del cuello y revisión de la piel tratada con láser"
       },
       {
        "cita": "Mes 1",
@@ -1882,18 +1878,17 @@
     },
     {
      "t": "h2",
-     "x": "Rostro y cuello"
+     "x": "Cuello y rostro"
     },
     {
      "t": "ul",
      "x": [
       "Inflamación y moretones en mejillas, cuello y alrededor de los ojos. Aumentan hasta el día 3 y disminuyen de forma progresiva. El 80% desaparece en 3 semanas; el resto, en 3 a 6 meses.",
       "Inflamación ligeramente distinta entre un lado y otro, siempre que sea blanda y sin dolor intenso.",
-      "Sensación de tirantez en rostro y cuello durante 4 a 6 semanas.",
-      "Adormecimiento de mejillas, orejas y cuello. Se recupera poco a poco entre 3 y 12 meses.",
+      "Sensación de tirantez en el cuello y bajo la mandíbula durante 4 a 6 semanas.",
+      "Adormecimiento del cuello, el mentón y las orejas. Se recupera poco a poco entre 3 y 12 meses.",
       "Zonas endurecidas o con pequeños bordes bajo la piel. Se suavizan en 2 a 3 meses con el drenaje linfático.",
-      "Sonrisa o movimiento de un lado del labio o la frente algo más débil en los primeros días. Suele ser temporal y recuperarse sola; avíselo al Dr. Soto en su siguiente cita.",
-      "Caída de cabello cerca de las incisiones durante 2 a 3 meses; vuelve a crecer.",
+      "Sonrisa o movimiento de un lado del labio algo más débil en los primeros días. Suele ser temporal y se recupera.",
       "Cambios de ánimo (tristeza o impaciencia) en las primeras 2 semanas, mientras baja la inflamación.",
       "Resultado final: entre 6 y 12 meses."
      ]
@@ -2003,7 +1998,7 @@
      ]
     }
    ],
-   "version": "776b1ad8"
+   "version": "a6306f7d"
   },
   {
    "id": "faja",
@@ -2571,6 +2566,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "1d6cb6426a97ad28",
+ "version": "99ba9adcebda3888",
  "generado": "2026-10-10"
 }

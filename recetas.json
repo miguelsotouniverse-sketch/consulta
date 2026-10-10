@@ -1512,10 +1512,10 @@
   },
   {
    "id": "facial_combinada",
-   "nombre": "Combinada facial — Deep Plane + blefaroplastia + rinoplastia + CO₂",
+   "nombre": "Combinada facial — Deep Plane de cuello + blefaroplastia 4 cuadrantes + rinoplastia + CO₂",
    "coincide": [],
-   "procedimiento": "Ritidectomía Deep Plane de cuello, blefaroplastia, rinoplastia ultrasónica y láser CO₂ en rostro y cuello",
-   "procedimientoBichat": "Ritidectomía Deep Plane de cuello, blefaroplastia, rinoplastia ultrasónica, láser CO₂ en rostro y cuello, y lipectomía de bolas de Bichat por vía intraoral",
+   "procedimiento": "Deep Plane de cuello (contorno cervical), blefaroplastia de 4 cuadrantes, rinoplastia ultrasónica y láser CO₂ en rostro y cuello",
+   "procedimientoBichat": "Deep Plane de cuello (contorno cervical), blefaroplastia de 4 cuadrantes, rinoplastia ultrasónica, láser CO₂ en rostro y cuello, y lipectomía de bolas de Bichat por vía intraoral",
    "preguntas": [
     {
      "id": "bichat",
@@ -2016,7 +2016,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "ff5cf47a"
+   "version": "c0a75216"
   }
  ],
  "hojas": [
@@ -2054,6 +2054,6 @@
   "22:00",
   "24:00"
  ],
- "version": "95398a6d4f658736",
+ "version": "eb8590e2322831fb",
  "generado": "2026-10-10"
 }
