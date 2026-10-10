@@ -1790,11 +1790,6 @@
        "Siempre con gorra, lentes oscuros y FPS 50"
       ],
       [
-       "Aretes",
-       "Semana 6",
-       ""
-      ],
-      [
        "Tinte, decoloración, keratina o permanente",
        "Semana 6",
        ""
@@ -2001,7 +1996,7 @@
      ]
     }
    ],
-   "version": "effbd225"
+   "version": "88275e1a"
   },
   {
    "id": "faja",
@@ -2569,6 +2564,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "2836abc25531704e",
+ "version": "00fb5dd33d5a0dff",
  "generado": "2026-10-10"
 }
