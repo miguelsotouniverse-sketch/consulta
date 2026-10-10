@@ -1442,7 +1442,7 @@
   },
   {
    "id": "facial_combinada",
-   "nombre": "Combinada facial — Deep Plane de cuello + blefaroplastia 4 cuadrantes + rinoplastia + CO₂",
+   "nombre": "Combinada facial — Deep Plane de cuello (contorno) + blefaroplastia 4 cuadrantes + rinoplastia + CO₂",
    "titulo": "Recomendaciones postoperatorias — cirugía facial combinada",
    "coincide": [],
    "entrada": "Esta hoja contiene todas las indicaciones que debe seguir en casa. Léala con calma en casa junto con su acompañante y consérvela hasta su alta definitiva. Si algo no está escrito aquí, no lo haga sin consultarlo antes.",
@@ -1996,7 +1996,7 @@
      ]
     }
    ],
-   "version": "88275e1a"
+   "version": "20305da2"
   },
   {
    "id": "faja",
@@ -2564,6 +2564,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "00fb5dd33d5a0dff",
+ "version": "68b60be48d7f943f",
  "generado": "2026-10-10"
 }
