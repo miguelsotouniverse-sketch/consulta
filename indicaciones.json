@@ -1570,16 +1570,19 @@
      "x": "Cuello (contorno cervical)"
     },
     {
+     "t": "p",
+     "x": "La única herida del cuello está debajo del mentón, escondida en el pliegue. No hay cortes delante ni detrás de las orejas."
+    },
+    {
      "t": "ul",
      "x": [
-      "Limpie las incisiones 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de todos los puntos.",
+      "Limpie la herida bajo el mentón 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de los puntos.",
       "No aplique cremas, aceites, remedios caseros ni maquillaje sobre las incisiones hasta que su médico lo autorice en consulta.",
       "No retire costras; se caen solas.",
       "A partir de su cita del mes 1 inicie gel o parches de silicona sobre las cicatrices, 2 veces al día, durante 3 meses.",
-      "Use prendas que se abotonen o cierren por delante durante 14 días; no se ponga ropa que tenga que pasar por la cabeza.",
+      "Use prendas que se abotonen o cierren por delante durante 14 días: pasar una prenda por la cabeza estira el cuello y roza la herida del mentón.",
       "Secadora, plancha y tenazas: sólo aire frío durante 4 semanas. El calor sobre la piel recién tratada con láser la mancha.",
-      "Tinte, decoloración, keratina o permanente: no antes de 6 semanas.",
-      "No use aretes durante 6 semanas."
+      "Tinte, decoloración o keratina: no antes de 6 semanas. El producto escurre al cuello, y la piel tratada con láser lo absorbe."
      ]
     },
     {
@@ -1886,7 +1889,7 @@
       "Inflamación y moretones en mejillas, cuello y alrededor de los ojos. Aumentan hasta el día 3 y disminuyen de forma progresiva. El 80% desaparece en 3 semanas; el resto, en 3 a 6 meses.",
       "Inflamación ligeramente distinta entre un lado y otro, siempre que sea blanda y sin dolor intenso.",
       "Sensación de tirantez en el cuello y bajo la mandíbula durante 4 a 6 semanas.",
-      "Adormecimiento del cuello, el mentón y las orejas. Se recupera poco a poco entre 3 y 12 meses.",
+      "Adormecimiento del cuello y del mentón, y piel dormida alrededor de la herida. Se recupera poco a poco entre 3 y 12 meses.",
       "Zonas endurecidas o con pequeños bordes bajo la piel. Se suavizan en 2 a 3 meses con el drenaje linfático.",
       "Sonrisa o movimiento de un lado del labio algo más débil en los primeros días. Suele ser temporal y se recupera.",
       "Cambios de ánimo (tristeza o impaciencia) en las primeras 2 semanas, mientras baja la inflamación.",
@@ -1942,7 +1945,7 @@
      "x": [
       "Inflamación de un solo lado que aumenta rápidamente, se siente dura o tensa, o se acompaña de dolor intenso.",
       "Sangrado que empapa la gasa o el vendaje.",
-      "Piel de color morado oscuro, negro o muy pálida, sobre todo detrás de las orejas.",
+      "Piel del cuello o bajo el mentón de color morado oscuro, negro o muy pálida.",
       "Dificultad para respirar o para tragar.",
       "Pérdida o disminución repentina de la visión, o visión doble que no se quita al parpadear.",
       "Dolor intenso en un ojo, que no mejora y va en aumento.",
@@ -1998,7 +2001,7 @@
      ]
     }
    ],
-   "version": "a6306f7d"
+   "version": "effbd225"
   },
   {
    "id": "faja",
@@ -2566,6 +2569,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "99ba9adcebda3888",
+ "version": "2836abc25531704e",
  "generado": "2026-10-10"
 }

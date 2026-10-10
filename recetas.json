@@ -1982,7 +1982,7 @@
      "t": "Sangrado que no cede con presión."
     },
     {
-     "t": "Piel de la cara que se pone oscura o morada."
+     "t": "Piel del cuello, bajo el mentón o de la cara que se pone oscura o morada."
     },
     {
      "t": "Fiebre mayor de 38 °C."
@@ -2016,7 +2016,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "c0a75216"
+   "version": "246e1828"
   }
  ],
  "hojas": [
@@ -2054,6 +2054,6 @@
   "22:00",
   "24:00"
  ],
- "version": "eb8590e2322831fb",
+ "version": "003b962f4eb24983",
  "generado": "2026-10-10"
 }
