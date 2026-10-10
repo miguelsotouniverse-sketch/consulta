@@ -1441,6 +1441,571 @@
    "version": "1b5ef5b3"
   },
   {
+   "id": "facial_combinada",
+   "nombre": "Combinada facial — Deep Plane + blefaroplastia + rinoplastia + CO₂",
+   "titulo": "Recomendaciones postoperatorias — cirugía facial combinada",
+   "coincide": [],
+   "entrada": "Esta hoja contiene todas las indicaciones que debe seguir en casa. Léala con calma en casa junto con su acompañante y consérvela hasta su alta definitiva. Si algo no está escrito aquí, no lo haga sin consultarlo antes.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Procedimiento",
+       "Deep Plane de cuello · Blefaroplastia · Rinoplastia ultrasónica · Láser CO₂ en rostro y cuello"
+      ]
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) Boca arriba, cabeza a 45°, día y noche, 14 días. 2) Frío sobre mejillas, cuello y párpados —nunca sobre la nariz—, 15 minutos cada hora. 3) No se agache, no cargue más de 2 kg, no puje. 4) Nada se apoya sobre la nariz: ni anteojos, ni cubrebocas, ni antifaz. 5) La piel del láser nunca debe quedar seca: Cicaplast y vaselina encima, las veces que haga falta. 6) No se baña hasta el día 3. 7) Tome su presión cada 2 horas y repórtela. 8) Acompañada día y noche las primeras 72 horas. Lo demás de esta hoja lo puede leer con calma mañana."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 72 horas: lo más importante"
+    },
+    {
+     "t": "p",
+     "x": "El riesgo principal de estos días es el hematoma (acumulación de sangre bajo la piel). Se previene manteniendo la presión arterial baja y estable."
+    },
+    {
+     "t": "p",
+     "x": "Se operaron cuatro zonas el mismo día. Las indicaciones de cada una están más adelante, por separado; esta primera sección es la que manda sobre todas. Donde dos indicaciones parezcan distintas, siga siempre la más estricta."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Reposo relativo. Permanezca en casa. Camine dentro de casa 5 minutos cada 2 horas mientras esté despierta; esto previene coágulos en las piernas.",
+      "No se agache, no cargue nada de más de 2 kg y no puje. Si tiene estreñimiento, tome el laxante indicado en su receta.",
+      "No grite, no ría a carcajadas y evite discusiones o situaciones de estrés.",
+      "Posición: duerma y descanse boca arriba, con la cabeza elevada a 45° (dos almohadas firmes o un reclinable). Mantenga esta posición 14 días, día y noche. No duerma de lado ni boca abajo.",
+      "Frío local: compresas frías o gel frío envueltos en un paño delgado y limpio, 15 minutos cada hora mientras esté despierta, sobre mejillas, cuello y párpados. Nunca sobre la nariz, y nunca directamente sobre la piel tratada con láser: siempre con un paño limpio y seco de por medio.",
+      "Cuello: manténgalo recto. Para voltear, gire los hombros junto con la cabeza. No flexione el cuello hacia el pecho.",
+      "Faja facial: úsela las 24 horas durante los primeros 7 días; solo se retira para bañarse. Del día 8 al 21 úsela únicamente para dormir.",
+      "Drenajes: si se le colocaron, no se retiran en una fecha fija. Se quitan cuando la cantidad y el aspecto del líquido lo permiten, y eso se revisa en cada cita. Mientras los traiga: no los jale, no los desconecte, no los destape y no los deje colgando —sujételos a su ropa—. Avísenos si uno se sale solo, deja de salir líquido o el líquido se vuelve rojo brillante.",
+      "Presión arterial: si usted es hipertensa, tome su medicamento para la presión exactamente a su hora, incluido el día de la cirugía.",
+      "Acompañante: debe estar acompañada por un adulto las primeras 72 horas, día y noche.",
+      "Respiración por la boca: es normal tener la nariz tapada. Tenga agua a la mano y bálsamo para los labios.",
+      "Gasa bajo la nariz (bigotera): cámbiela cuando se manche. Es normal que escurra un poco de sangre los primeros 2–3 días.",
+      "No se suene la nariz ni introduzca hisopos o dedos en las fosas nasales.",
+      "Estornudar con la boca abierta, para que el aire no salga con fuerza por la nariz.",
+      "No se frote ni se talle los ojos.",
+      "Reposo visual: evite leer, pantallas y televisión por periodos largos los primeros 2–3 días; cansan la vista y resecan el ojo. Descanse los ojos cerrados con frecuencia."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. Medicamentos"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Tome exclusivamente los medicamentos de su receta, en las dosis y horarios indicados, hasta terminarlos. El control del dolor viene indicado en su receta; no agregue ningún otro analgésico por su cuenta."
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Prohibidos durante 14 días después de la cirugía (aumentan el riesgo de sangrado):"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aspirina y cualquier producto que la contenga (Alka-Seltzer, Aspirina Protect, etc.).",
+      "Ibuprofeno, naproxeno, diclofenaco y cualquier otro antiinflamatorio que no esté en su receta.",
+      "Vitamina E, omega 3 / aceite de pescado, ginkgo biloba, ginseng, ajo en cápsulas, cúrcuma y tés o suplementos herbolarios."
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Tabaco, vapeador y nicotina (incluidos parches y chicles): prohibidos durante 4 semanas. La nicotina reduce la circulación de la piel y puede provocar pérdida de piel y cicatrices anormales."
+    },
+    {
+     "t": "p",
+     "x": "Alcohol: prohibido durante 14 días y mientras tome analgésicos o antibióticos."
+    },
+    {
+     "t": "p",
+     "x": "Manejar: no maneje durante 10 días, ni mientras tome analgésicos que den sueño, ni mientras la inflamación de los párpados le estorbe para ver."
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidados por zona"
+    },
+    {
+     "t": "h2",
+     "x": "Baño"
+    },
+    {
+     "t": "p",
+     "x": "Esta es la indicación que más se presta a confusión: el lifting manda esperar más que la nariz y los párpados, así que esta es la buena."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Puede bañarse y lavarse el cabello a partir del día 3 (72 horas), con agua tibia —nunca caliente— y champú de bebé.",
+      "Lave el cabello con la cabeza hacia atrás, como en la estética, para que no se moje la férula de la nariz ni caiga agua o champú sobre los párpados.",
+      "La férula y las cintas de la nariz se mantienen secas todo el tiempo.",
+      "No frote las incisiones ni la piel tratada con láser. Seque a toques con una toalla limpia, nunca con el secador.",
+      "Lavado de la cara: agua tibia y jabón neutro, sin tallar, evitando los párpados y la nariz; seque a toques con una toalla limpia. Sobre la piel tratada con láser vuelva a aplicar Cicaplast y vaselina enseguida."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Cuello y rostro (lifting)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Secadora solo con aire frío durante 4 semanas. No use plancha ni tenazas de cabello durante 4 semanas.",
+      "Tinte, decoloración, keratina o permanente: no antes de 6 semanas.",
+      "Limpie las incisiones 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de todos los puntos.",
+      "No aplique cremas, aceites, remedios caseros ni maquillaje sobre las incisiones hasta que su médico lo autorice en consulta.",
+      "No retire costras; se caen solas.",
+      "A partir de su cita del mes 1 inicie gel o parches de silicona sobre las cicatrices, 2 veces al día, durante 3 meses.",
+      "Use prendas que se abotonen o cierren por delante durante 14 días; no se ponga ropa que tenga que pasar por la cabeza.",
+      "No use aretes durante 6 semanas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Párpados (blefaroplastia)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Limpieza: retire con suavidad las costras o secreciones de las heridas con un hisopo o gasa humedecida en solución salina, sin tallar.",
+      "Maquillaje en los ojos (sombras, delineador, rímel) y pestañas postizas: no los use durante 2 semanas, ni sobre las heridas hasta que estén completamente cerradas.",
+      "Cremas y remedios caseros: no aplique ninguno sobre las heridas salvo indicación.",
+      "Cicatrices: una vez cerradas, protéjalas del sol con lentes oscuros y protector FPS 50 durante 6 meses."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Nariz y férula (rinoplastia)"
+    },
+    {
+     "t": "p",
+     "x": "La férula protege la nueva forma de la nariz: no la moje, no la mueva y no la retire usted."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Férula y cintas: manténgalas secas. Si una orilla se despega, no la jale ni la vuelva a pegar; llámenos.",
+      "Orillas de las fosas nasales: retire las costras de la entrada con un hisopo humedecido en agua, solo en la parte visible, sin introducirlo.",
+      "Herida de la columela (si se le hizo): manténgala limpia y seca. No aplique cremas, pomadas, alcohol ni remedios caseros salvo indicación.",
+      "Presión sobre la nariz: nada de cubrebocas apretados, antifaces para dormir ni cargar a niños o mascotas que puedan golpearle la cara.",
+      "Sol: la piel de la nariz se mancha con facilidad. Use gorra y protector FPS 50 durante 6 meses.",
+      "Después de retirar la férula: toque la nariz con suavidad; no la masajee ni la apriete salvo indicación."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Anteojos y lentes"
+    },
+    {
+     "t": "p",
+     "x": "Las indicaciones de la nariz y las de los párpados se cruzan aquí, así que esta regla sustituye a cualquier otra que lea sobre anteojos."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Durante 6 semanas no apoye nada sobre la nariz: ni anteojos de graduación, ni lentes oscuros, ni cubrebocas apretados, ni antifaz para dormir.",
+      "Semanas 1 y 2: no use lentes de contacto. Si necesita sus anteojos, péguelos con cinta microporosa a la frente, de modo que no toquen la nariz.",
+      "A partir de la semana 2 puede usar lentes de contacto, y así se evita el problema por completo.",
+      "Los lentes oscuros para salir también van pegados a la frente o sostenidos con la mano, nunca apoyados en la nariz."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Piel tratada con láser CO₂ (rostro y cuello)"
+    },
+    {
+     "t": "p",
+     "x": "La piel tratada queda en carne viva y se cierra sola en 7 a 10 días. Mientras tanto no debe secarse ni un momento: una costra seca deja mancha. Tenga las manos limpias cada vez que se toque la cara."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cicaplast: aplique una capa sobre toda la zona tratada cada 12 horas.",
+      "Clobesol (clobetasol): una capa delgada cada 12 horas durante 5 días, y suspéndalo. No lo use más días de los indicados ni lo aplique en los párpados.",
+      "Vaselina: aplíquela encima las veces que haga falta para que la piel nunca se sienta tirante ni se vea seca, de día y de noche.",
+      "Después de cada lavado vuelva a aplicar Cicaplast y vaselina enseguida: la piel no debe quedar sin nada encima ni un momento.",
+      "No arranque costras ni piel que se esté desprendiendo: se cae sola.",
+      "Protector solar FPS 50+: en cuanto la piel esté completamente cerrada, todos los días durante 12 meses, reaplicando cada 3 horas si está al aire libre. Antes de que cierre, el sol se evita con sombra, gorra y no salir.",
+      "Maquillaje sobre la piel tratada: hasta el día 14 y sólo si ya cerró por completo.",
+      "Nada de ácidos, retinoides, exfoliantes, mascarillas ni limpiadores con alcohol durante 4 semanas.",
+      "Es normal que la piel se vea roja intensa las primeras 2 semanas y rosada durante 2 a 3 meses, y que pique mientras cierra."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Alimentación — dieta para la glándula submandibular"
+    },
+    {
+     "t": "p",
+     "x": "Durante su cirugía se trató parte de la glándula submandibular, la glándula salival que está bajo la mandíbula. Todo lo que estimula la saliva la hace trabajar y retrasa su cicatrización, así que durante 14 días la dieta es parte del tratamiento, no una recomendación."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Evite: limón, naranja, toronja, piña, mandarina y cualquier fruta o bebida ácida; vinagre, encurtidos y salsas; picante y chile; dulces ácidos, chicles y caramelos; alimentos muy salados o muy condimentados; refrescos y bebidas con gas; café.",
+      "Consuma: alimentos de sabor suave, blandos y tibios o fríos: purés, sopas no calientes, arroz, pasta, huevo, pollo o pescado desmenuzado, yogur natural, plátano, papaya, avena.",
+      "Días 1 a 7: alimentos blandos que no obliguen a masticar mucho ni a abrir mucho la boca.",
+      "Tome al menos 2 litros de agua al día, a sorbos.",
+      "Desde el día 15 puede regresar a su dieta normal.",
+      "Temperatura: tibia o fría; evite bebidas y comidas muy calientes los primeros 3 días.",
+      "Sal: además de lo anterior, reduzca embutidos, enlatados, comida rápida y botanas; la sal hincha los párpados, sobre todo por la mañana.",
+      "Proteína en cada comida (pollo, pescado, huevo, leguminosas, lácteos): favorece la cicatrización.",
+      "Estreñimiento: coma fibra (fruta, verdura, avena); pujar aumenta la presión en la cara."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "5. Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "Un solo calendario para las cuatro cirugías. Cada renglón lleva el plazo más largo de todas ellas: es el que aplica cuando se operan el mismo día."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar dentro de casa",
+       "Día 1",
+       "5 minutos cada 2 horas"
+      ],
+      [
+       "Leer, pantallas, televisión",
+       "Día 3",
+       "En periodos cortos, con descansos"
+      ],
+      [
+       "Caminar fuera de casa (paseo tranquilo)",
+       "Día 4",
+       "Con gorra y a la sombra"
+      ],
+      [
+       "Drenaje linfático manual facial",
+       "Día 7",
+       "Con terapeuta autorizado por el consultorio — 10 sesiones, 2 a 3 por semana"
+      ],
+      [
+       "Manejar",
+       "Día 10",
+       "Sin analgésicos que den sueño y viendo con claridad"
+      ],
+      [
+       "Trabajo de oficina y vida social",
+       "Día 14",
+       ""
+      ],
+      [
+       "Relaciones sexuales",
+       "Día 14",
+       "Sin esfuerzo intenso"
+      ],
+      [
+       "Maquillaje en el rostro",
+       "Día 14",
+       "Fuera de las incisiones y sólo con la piel del láser cerrada"
+      ],
+      [
+       "Viajar en avión",
+       "Semana 2",
+       "Avísenos antes; la cabina congestiona la nariz"
+      ],
+      [
+       "Lentes de contacto",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Maquillaje en los ojos",
+       "Semana 2",
+       "Con heridas completamente cerradas"
+      ],
+      [
+       "Dormir de lado",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Cardio ligero (caminadora, bicicleta fija suave)",
+       "Semana 3",
+       ""
+      ],
+      [
+       "Pesas, yoga, pilates, correr, deportes y ejercicio de impacto",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Alberca y mar",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Sauna, vapor, temazcal, jacuzzi",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Dormir boca abajo",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Anteojos apoyados en la nariz",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Exposición directa al sol",
+       "Semana 6",
+       "Siempre con gorra, lentes oscuros y FPS 50"
+      ],
+      [
+       "Aretes",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Tinte, decoloración, keratina o permanente",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Secadora con aire caliente, plancha o tenazas",
+       "Semana 4",
+       "Antes, sólo aire frío"
+      ],
+      [
+       "Deportes de contacto o con pelota",
+       "Semana 8–12",
+       "Riesgo de golpe en la nariz"
+      ],
+      [
+       "Tratamientos faciales (toxina, rellenos, láser, peelings, radiofrecuencia)",
+       "Mes 3",
+       "Sólo con autorización"
+      ],
+      [
+       "Masajes faciales fuera del drenaje indicado",
+       "Mes 3",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Protección solar: protector FPS 50+ en rostro, cuello y cicatrices todos los días durante 12 meses, reaplicando cada 3 horas si está al aire libre. Use sombrero de ala ancha al salir durante las primeras 6 semanas."
+    },
+    {
+     "t": "h",
+     "x": "6. Citas de seguimiento"
+    },
+    {
+     "t": "p",
+     "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con su faja puesta y con un acompañante a las citas de las primeras 2 semanas."
+    },
+    {
+     "t": "citas",
+     "cols": [
+      "Cita",
+      "Qué se hace",
+      "Fecha asignada"
+     ],
+     "x": [
+      {
+       "cita": "24 horas",
+       "que": "Revisión de la herida para descartar hematoma y retiro del vendaje. Si trae drenajes, se revisan: se retiran cuando el gasto y las características del líquido lo permiten, no por calendario"
+      },
+      {
+       "cita": "72 horas",
+       "que": "Retiro de la malla hemostática"
+      },
+      {
+       "cita": "Día 5",
+       "que": "Retiro de puntos del rostro (frente a la oreja) y de los párpados"
+      },
+      {
+       "cita": "Día 7",
+       "que": "Retiro de la férula nasal y de las cintas"
+      },
+      {
+       "cita": "Día 10",
+       "que": "Retiro de puntos detrás de la oreja y grapas del cuero cabelludo; revisión de la piel tratada con láser"
+      },
+      {
+       "cita": "Mes 1",
+       "que": "Revisión de cicatrices, inicio de silicona y fotografías"
+      },
+      {
+       "cita": "Mes 3",
+       "que": "Revisión y fotografías"
+      },
+      {
+       "cita": "Mes 6",
+       "que": "Revisión y fotografías"
+      },
+      {
+       "cita": "Mes 12",
+       "que": "Resultado final y fotografías"
+      }
+     ]
+    },
+    {
+     "t": "h",
+     "x": "7. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "h2",
+     "x": "Rostro y cuello"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación y moretones en mejillas, cuello y alrededor de los ojos. Aumentan hasta el día 3 y disminuyen de forma progresiva. El 80% desaparece en 3 semanas; el resto, en 3 a 6 meses.",
+      "Inflamación ligeramente distinta entre un lado y otro, siempre que sea blanda y sin dolor intenso.",
+      "Sensación de tirantez en rostro y cuello durante 4 a 6 semanas.",
+      "Adormecimiento de mejillas, orejas y cuello. Se recupera poco a poco entre 3 y 12 meses.",
+      "Zonas endurecidas o con pequeños bordes bajo la piel. Se suavizan en 2 a 3 meses con el drenaje linfático.",
+      "Sonrisa o movimiento de un lado del labio o la frente algo más débil en los primeros días. Suele ser temporal y recuperarse sola; avíselo al Dr. Soto en su siguiente cita.",
+      "Caída de cabello cerca de las incisiones durante 2 a 3 meses; vuelve a crecer.",
+      "Cambios de ánimo (tristeza o impaciencia) en las primeras 2 semanas, mientras baja la inflamación.",
+      "Resultado final: entre 6 y 12 meses."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Párpados"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mancha roja en lo blanco del ojo (derrame en la conjuntiva): no afecta la visión y desaparece en 2–3 semanas.",
+      "Ojo seco o lagrimeo, ardor y sensación de arenilla las primeras semanas.",
+      "Visión un poco borrosa los primeros días por la inflamación; mejora al parpadear.",
+      "Dificultad para cerrar los ojos por completo los primeros días, sobre todo al dormir. Mejora conforme baja la inflamación.",
+      "Adormecimiento o tirantez de los párpados, que mejora en semanas.",
+      "Asimetría leve entre un ojo y otro mientras baja la inflamación.",
+      "Cicatrices rosadas los primeros meses; se aclaran y quedan escondidas en el pliegue del párpado o bajo las pestañas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Nariz"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Nariz tapada las primeras 1–2 semanas, y congestión intermitente durante semanas después.",
+      "Escurrimiento de moco con un poco de sangre los primeros 2–3 días.",
+      "Nariz más ancha o gruesa al retirar la férula, y más inflamada por la mañana. Es inflamación y baja poco a poco.",
+      "Punta dura y adormecida, y a veces el labio superior. La sensibilidad regresa en semanas a meses.",
+      "Dificultad para sonreír con naturalidad las primeras semanas.",
+      "Piel grasosa o con granitos en la nariz al retirar la férula.",
+      "Olfato disminuido mientras la nariz está congestionada."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "8. Signos de alarma"
+    },
+    {
+     "t": "p",
+     "x": "Llame al teléfono de urgencias del consultorio a cualquier hora. No espere a la siguiente cita ni mande mensaje: llame."
+    },
+    {
+     "t": "h2",
+     "x": "Llame de inmediato, sin esperar"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación de un solo lado que aumenta rápidamente, se siente dura o tensa, o se acompaña de dolor intenso.",
+      "Sangrado que empapa la gasa o el vendaje.",
+      "Piel de color morado oscuro, negro o muy pálida, sobre todo detrás de las orejas.",
+      "Dificultad para respirar o para tragar.",
+      "Pérdida o disminución repentina de la visión, o visión doble que no se quita al parpadear.",
+      "Dolor intenso en un ojo, que no mejora y va en aumento.",
+      "Un ojo que se abulta o se sale hacia adelante, con el párpado muy tenso, duro y morado.",
+      "Sangrado rojo brillante por la nariz o por la garganta que no se detiene después de 15 minutos sentado(a), con la cabeza ligeramente hacia adelante.",
+      "Golpe fuerte en la nariz.",
+      "Falta de aire, dolor en el pecho o desmayo."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Llame el mismo día"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela en el grupo de WhatsApp de seguimiento).",
+      "Dolor que no cede con los medicamentos de su receta.",
+      "Fiebre de 38 °C o más.",
+      "Enrojecimiento que se extiende, calor local, salida de pus o mal olor en las incisiones.",
+      "Debilidad de un lado de la cara que aparece después del día 2 o que empeora.",
+      "Dolor, inflamación o enrojecimiento en una pantorrilla, o falta de aire repentina.",
+      "Una herida que se abre.",
+      "Secreción amarilla o verde en el ojo, o ojo rojo con dolor.",
+      "Inflamación que aumenta después del día 3 en lugar de bajar.",
+      "Incapacidad para cerrar el ojo que no mejora, con ardor intenso.",
+      "Salida abundante de líquido claro y aguado por la nariz, sobre todo al inclinarse hacia adelante.",
+      "Piel de la nariz que se torna oscura, morada o con ampollas bajo la férula.",
+      "Férula que se despega o se mueve.",
+      "Náusea o vómito que no le permite tomar líquidos.",
+      "Piel tratada con láser que duele más cada día, huele mal, escurre pus o forma una costra amarilla gruesa."
+     ]
+    },
+    {
+     "t": "nota",
+     "alarma": true,
+     "x": "Si no logra comunicarse y presenta dificultad para respirar, sangrado abundante o inflamación rápida del cuello, acuda a urgencias del hospital más cercano e informe que tiene una cirugía de estiramiento facial reciente."
+    },
+    {
+     "t": "h",
+     "x": "9. Constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Acompañante responsable",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "776b1ad8"
+  },
+  {
    "id": "faja",
    "nombre": "Uso de la faja",
    "titulo": "Recomendaciones de uso de faja",
@@ -2006,6 +2571,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "a9f917a66cea19fc",
+ "version": "1d6cb6426a97ad28",
  "generado": "2026-10-10"
 }
