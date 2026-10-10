@@ -234,7 +234,11 @@
      "x": [
       {
        "cita": "24 horas",
-       "que": "Revisión de hematoma, retiro de vendaje y drenajes (si los hay)"
+       "que": "Revisión de la herida para descartar hematoma, retiro de vendaje y drenajes (si los hay)"
+      },
+      {
+       "cita": "72 horas",
+       "que": "Retiro de la malla hemostática"
       },
       {
        "cita": "Día 5",
@@ -323,7 +327,7 @@
      ]
     }
    ],
-   "version": "2bc86437"
+   "version": "db7957d8"
   },
   {
    "id": "lipoescultura",
@@ -2002,6 +2006,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "a633f208d973872b",
- "generado": "2026-10-06"
+ "version": "e9cd69b0cedb662c",
+ "generado": "2026-10-09"
 }
