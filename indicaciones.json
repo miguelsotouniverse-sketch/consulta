@@ -32,7 +32,7 @@
       "Cuello: manténgalo recto. Para voltear, gire los hombros junto con la cabeza. No flexione el cuello hacia el pecho.",
       "Frío local: compresas frías o gel frío envueltos en un paño delgado, 15 minutos cada hora mientras esté despierta, sobre mejillas y cuello. Nunca aplique hielo directo sobre la piel. Suspenda el frío a las 72 horas.",
       "Faja facial: úsela las 24 horas durante los primeros 7 días; solo se retira para bañarse. Del día 8 al 21 úsela únicamente para dormir.",
-      "Drenajes: si se le colocaron, se retiran en su cita de las 24 horas. No los jale ni los desconecte.",
+      "Drenajes: si se le colocaron, no se retiran en una fecha fija. Se quitan cuando la cantidad y el aspecto del líquido lo permiten, y eso se revisa en cada cita. Mientras los traiga: no los jale, no los desconecte, no los destape y no los deje colgando —sujételos a su ropa—. Avísenos si uno se sale solo, deja de salir líquido o el líquido se vuelve rojo brillante.",
       "Presión arterial: si usted es hipertensa, tome su medicamento para la presión exactamente a su hora, incluido el día de la cirugía.",
       "Acompañante: debe estar acompañada por un adulto las primeras 72 horas, día y noche."
      ]
@@ -114,11 +114,11 @@
     },
     {
      "t": "h2",
-     "x": "Alimentación"
+     "x": "Alimentación — dieta para la glándula submandibular"
     },
     {
      "t": "p",
-     "x": "Durante su cirugía se trató parte de la glándula salival bajo la mandíbula. Para que cicatrice bien, durante 14 días debe seguir una dieta que no estimule la saliva."
+     "x": "Durante su cirugía se trató parte de la glándula submandibular, la glándula salival que está bajo la mandíbula. Todo lo que estimula la saliva la hace trabajar y retrasa su cicatrización, así que durante 14 días la dieta es parte del tratamiento, no una recomendación."
     },
     {
      "t": "ul",
@@ -234,7 +234,7 @@
      "x": [
       {
        "cita": "24 horas",
-       "que": "Revisión de la herida para descartar hematoma, retiro de vendaje y drenajes (si los hay)"
+       "que": "Revisión de la herida para descartar hematoma y retiro del vendaje. Si trae drenajes, se revisan: se retiran cuando el gasto y las características del líquido lo permiten, no por calendario"
       },
       {
        "cita": "72 horas",
@@ -327,7 +327,7 @@
      ]
     }
    ],
-   "version": "db7957d8"
+   "version": "a6e16a7c"
   },
   {
    "id": "lipoescultura",
@@ -2006,6 +2006,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "e9cd69b0cedb662c",
- "generado": "2026-10-09"
+ "version": "a9f917a66cea19fc",
+ "generado": "2026-10-10"
 }
