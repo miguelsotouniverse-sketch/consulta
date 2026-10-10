@@ -1380,11 +1380,24 @@ function abreDocumento(tipoId, docId){
    regresa en tres meses con su hoja en la mano, se puede saber exactamente
    cuál leyó — que en una hoja de cuidados postoperatorios no es un detalle.
    ============================================================ */
-var INDICACIONES = null;     // el catálogo, una vez cargado
+var INDICACIONES = null, INDICACIONES_AL = 0;   // el catálogo y cuándo se trajo
 var HOJA = null;             // la hoja escogida para este documento
 
+/* El catálogo se guarda en memoria para no pedirlo en cada pantalla, pero NO
+   para toda la sesión. Antes sí, y eso produjo un susto: se corrigió una hoja,
+   se publicó, se verificó que estaba en el servidor… y quien tenía la app
+   abierta seguía viendo la versión vieja, sin ninguna señal de que lo fuera.
+   Se reportó como «no subió». Ahora la copia caduca al minuto: en la práctica
+   basta con cambiar de pantalla para traer la hoja corregida, sin recargar.
+
+   Si al revalidar no hay red, se sigue con la copia que ya se tenía: quedarse
+   sin catálogo a media consulta sería peor que tenerlo un minuto viejo. */
+var CATALOGO_VIGENCIA = 60000;   // un minuto
+
 function cargaIndicaciones(){
-  if (INDICACIONES) return Promise.resolve(INDICACIONES);
+  if (INDICACIONES && (Date.now() - INDICACIONES_AL) < CATALOGO_VIGENCIA){
+    return Promise.resolve(INDICACIONES);
+  }
   return fetch('indicaciones.json?v=' + Date.now(), { cache: 'no-store' })
     .then(function(r){
       if (!r.ok) throw new Error('el servidor contestó ' + r.status);
@@ -1394,8 +1407,12 @@ function cargaIndicaciones(){
       if (!d || !Array.isArray(d.hojas) || !d.hojas.length){
         throw new Error('el catálogo llegó vacío');
       }
-      INDICACIONES = d;
+      INDICACIONES = d; INDICACIONES_AL = Date.now();
       return d;
+    })
+    .catch(function(e){
+      if (INDICACIONES) return INDICACIONES;
+      throw e;
     });
 }
 
@@ -1597,11 +1614,15 @@ function armaHoja(){
    para FIRMA AUTÓGRAFA; y por el artículo 30, dosis, vía, frecuencia y
    duración del tratamiento.
    ============================================================ */
-var RECETAS = null;      // el catálogo
+var RECETAS = null, RECETAS_AL = 0;   // el catálogo y cuándo se trajo
 var PLANTILLA = null;    // la plantilla escogida
 
+/* Mismo trato que el catálogo de hojas, y por la misma razón: una plantilla
+   de receta corregida tiene que llegar sin que nadie recargue nada. */
 function cargaRecetas(){
-  if (RECETAS) return Promise.resolve(RECETAS);
+  if (RECETAS && (Date.now() - RECETAS_AL) < CATALOGO_VIGENCIA){
+    return Promise.resolve(RECETAS);
+  }
   return fetch('recetas.json?v=' + Date.now(), { cache: 'no-store' })
     .then(function(r){
       if (!r.ok) throw new Error('el servidor contestó ' + r.status);
@@ -1611,8 +1632,12 @@ function cargaRecetas(){
       if (!d || !Array.isArray(d.plantillas) || !d.plantillas.length){
         throw new Error('el catálogo llegó vacío');
       }
-      RECETAS = d;
+      RECETAS = d; RECETAS_AL = Date.now();
       return d;
+    })
+    .catch(function(e){
+      if (RECETAS) return RECETAS;
+      throw e;
     });
 }
 
