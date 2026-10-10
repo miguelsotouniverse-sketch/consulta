@@ -2025,12 +2025,91 @@ function sinContestar(){
   }).map(function(q){ return q.etiqueta; });
 }
 
-/* Cuántos renglones caben en un pliego con su membrete, sus datos, su caja de
-   signos de alarma y su firma. Medido, no supuesto: con siete renglones el
-   pliego general mide 950 px de los ~965 útiles de una hoja carta. Si algún día
-   se agregan medicamentos más largos, prueba_recetas_paginas.mjs lo detecta
-   antes de que salga impreso. */
-var RENGLONES_POR_HOJA = 7;
+/* ------------------------------------------------------------
+   CÓMO SE PARTE UNA RECETA EN PLIEGOS
+
+   Un pliego que no cabe en su hoja empuja la FIRMA a la hoja siguiente, y una
+   hoja con medicamentos cuya firma quedó atrás no es una receta (artículo 29
+   del RIS): la farmacia no tiene por qué adivinar dónde está. Ya pasó dos
+   veces al crecer el contenido.
+
+   Se intentó cortar de siete en siete medicamentos y no sirve: lo que llena
+   la hoja no es el número de renglones sino el texto. «Oximetazolina 0.05 %…
+   NUNCA por más de 4 días seguidos: usarla más tiempo produce congestión de
+   rebote» ocupa cuatro veces lo que «Paracetamol 500 mg». Se intentó después
+   una fórmula de caracteres por renglón, y tampoco: la caja de signos de
+   alarma va a dos columnas y su alto depende de lo largo que sea cada signo,
+   no de cuántos haya — por eso Body360 llevaba meses saliendo con la firma en
+   una cuarta hoja sin que nadie lo notara.
+
+   Así que no se estima: SE MIDE. El pliego se dibuja fuera de la vista con el
+   ancho exacto que va a tener en el papel, se le pregunta al navegador cuánto
+   mide, y si no cabe se parte en uno más. Cualquier fórmula se queda corta en
+   cuanto el médico corrige el texto de un medicamento, y eso pasa seguido.
+
+   Las medidas salen de @page{size:letter;margin:8mm 4mm 12mm} y del relleno
+   de #impresion (6mm 10mm 0), a 96 dpi:
+     ancho = 816 − 2×4mm − 2×10mm ≈ 710 px
+     alto  = 1056 − 8mm − 12mm − 6mm ≈ 957 px
+   Se deja margen de seguridad: el navegador que imprime no siempre es éste, y
+   un milímetro de diferencia vuelve a mandar la firma atrás.
+   ------------------------------------------------------------ */
+var ANCHO_PLIEGO = 710;
+var ALTO_PLIEGO  = 940;      // de 957 utilizables, con margen de seguridad
+
+/* Dibuja los pliegos fuera de la vista, con el ancho del papel, y devuelve el
+   alto del más alto. Si el navegador no puede medir devuelve 0, y entonces el
+   reparto se queda con el intento que llevaba: nunca peor que no partir. */
+function midePliegos_(pliegos){
+  /* Se mide DENTRO de #impresion, no en una caja aparte: todos los estilos de
+     la receta cuelgan de ese id, y medirlos fuera daría otro tipo de letra y
+     otra altura. Se le pone el ancho del papel, se mide escondido y se deja
+     exactamente como estaba. */
+  var raiz = $('impresion');
+  if (!raiz) return 0;
+  var antes = raiz.getAttribute('style') || '';
+  raiz.style.cssText = antes + ';position:absolute;left:-10000px;top:0;' +
+    'visibility:hidden;display:block;width:' + ANCHO_PLIEGO + 'px';
+  var caja = document.createElement('div');
+  pliegos.forEach(function(p){ caja.appendChild(p); });
+  raiz.appendChild(caja);
+  var alto = 0;
+  [].forEach.call(caja.children, function(p){
+    alto = Math.max(alto, p.getBoundingClientRect().height);
+  });
+  raiz.removeChild(caja);
+  if (antes) raiz.setAttribute('style', antes); else raiz.removeAttribute('style');
+  return alto;
+}
+
+/* Reparte en k pliegos lo más parejo posible, respetando el orden en que se
+   recetaron los medicamentos. Parejo importa: una segunda hoja con un solo
+   medicamento se lee como si algo se hubiera perdido en el camino. */
+function reparte_(lista, k){
+  if (k <= 1) return [lista.slice()];
+  var trozos = [], base = Math.floor(lista.length / k), resto = lista.length % k, i = 0;
+  for (var n = 0; n < k; n++){
+    var cuantos = base + (n < resto ? 1 : 0);
+    if (!cuantos) continue;
+    trozos.push(lista.slice(i, i + cuantos));
+    i += cuantos;
+  }
+  return trozos;
+}
+
+/* El número más chico de pliegos en el que TODOS caben. */
+function parteEnPliegos_(lista, h, s, el){
+  for (var k = 1; k <= lista.length; k++){
+    var trozos = reparte_(lista, k);
+    var prueba = trozos.map(function(g, t){
+      return armaPliego_(h, g, t, trozos.length, s, el);
+    });
+    var alto = midePliegos_(prueba);
+    if (!alto || alto <= ALTO_PLIEGO) return trozos;
+  }
+  // Un medicamento que no cabe ni solo: se imprime igual, uno por hoja.
+  return lista.map(function(r){ return [r]; });
+}
 
 function faltantesReceta(){
   var f = sinContestar().map(function(e){ return 'contestar «' + e + '»'; });
@@ -2072,64 +2151,61 @@ function pintaRecetasImpresas(raiz, el){
        signos de alarma va sólo en la última, para no gastar dos veces el
        espacio que hace que quepa. El título dice «hoja 1 de 2» para que nadie
        crea que le falta una. */
-    var trozos = [];
-    /* Se reparten parejo. Cortar de siete en siete dejaría una segunda hoja
-       con un solo medicamento, que se lee como si algo se hubiera perdido. */
-    var cuantas = Math.ceil(suyos.length / RENGLONES_POR_HOJA) || 1;
-    var porHoja = Math.ceil(suyos.length / cuantas);
-    for (var i = 0; i < suyos.length; i += porHoja){
-      trozos.push(suyos.slice(i, i + porHoja));
-    }
+    var trozos = parteEnPliegos_(suyos, h, s, el);
 
     trozos.forEach(function(grupo, t){
-    var ultima = (t === trozos.length - 1);
-
-    var pag = el('div', 'receta');
-    if (!primera) pag.classList.add('saltoPagina');
-    primera = false;
-
-    pag.appendChild(membreteReceta(el));
-    pag.appendChild(el('h1', null, h.titulo.toUpperCase() +
-      (trozos.length > 1 ? '  ·  HOJA ' + (t + 1) + ' DE ' + trozos.length : '')));
-    pag.appendChild(fichaReceta(el, s));
-
-    grupo.forEach(function(r){
-      var d = el('div', 'rxLinea');
-      var n = el('div', 'rxNombre', r.nombre);
-      if (r.rescate){
-        var et = el('span', 'rxSoloSi', 'SOLO SI ES NECESARIO');
-        n.appendChild(et);
-      }
-      d.appendChild(n);
-      var ind = el('div', 'rxInd', r.indicacion);
-      var pie = [];
-      if (r.cantidad) pie.push('Cantidad: ' + r.cantidad);
-      if (r.duracion) pie.push('Duración: ' + r.duracion);
-      if (pie.length) ind.appendChild(el('span', 'rxMeta', '  ' + pie.join('  ·  ')));
-      d.appendChild(ind);
-      pag.appendChild(d);
+      var pag = armaPliego_(h, grupo, t, trozos.length, s, el);
+      if (!primera) pag.classList.add('saltoPagina');
+      primera = false;
+      raiz.appendChild(pag);
     });
-
-    if (h.nota) pag.appendChild(el('div', 'rxNota', h.nota));
-    if (h.paraPaciente && ultima) pag.appendChild(el('div', 'rxPaciente', h.paraPaciente));
-
-    if (h.alarma && ultima) pag.appendChild(alarmaReceta(el, s));
-    /* La versión de la plantilla va DENTRO del bloque de firma, no después:
-       suelta se quedaba sola en una cuarta hoja. Y va, porque cuando una
-       receta sale distinta de lo esperado esto dice con qué reglas se armó
-       sin tener que preguntárselo a nadie. Faltaba, y costó una tarde. */
-    var f = firmaReceta(el);
-    f.appendChild(el('div', 'rxVersion',
-      PLANTILLA.nombre + ' · plantilla ' + PLANTILLA.version + ' · ' + folioDocumento()));
-    pag.appendChild(f);
-    raiz.appendChild(pag);
-    });   // trozos
   });     // hojas
 
   if (primera){
     raiz.appendChild(el('div', 'dato', 'No hay ningún medicamento con nombre. ' +
       'Regresa y captura al menos uno.'));
   }
+}
+
+/* Un pliego completo de receta: membrete, título, ficha de la paciente, sus
+   medicamentos y su firma. Se arma aparte para poder MEDIRLO antes de
+   decidir cómo se parte la receta. */
+function armaPliego_(h, grupo, t, cuantos, s, el){
+  var ultima = (t === cuantos - 1);
+  var pag = el('div', 'receta');
+
+  pag.appendChild(membreteReceta(el));
+  pag.appendChild(el('h1', null, h.titulo.toUpperCase() +
+    (cuantos > 1 ? '  ·  HOJA ' + (t + 1) + ' DE ' + cuantos : '')));
+  pag.appendChild(fichaReceta(el, s));
+
+  grupo.forEach(function(r){
+    var d = el('div', 'rxLinea');
+    var n = el('div', 'rxNombre', r.nombre);
+    if (r.rescate) n.appendChild(el('span', 'rxSoloSi', 'SOLO SI ES NECESARIO'));
+    d.appendChild(n);
+    var ind = el('div', 'rxInd', r.indicacion);
+    var pie = [];
+    if (r.cantidad) pie.push('Cantidad: ' + r.cantidad);
+    if (r.duracion) pie.push('Duración: ' + r.duracion);
+    if (pie.length) ind.appendChild(el('span', 'rxMeta', '  ' + pie.join('  ·  ')));
+    d.appendChild(ind);
+    pag.appendChild(d);
+  });
+
+  if (h.nota) pag.appendChild(el('div', 'rxNota', h.nota));
+  if (h.paraPaciente && ultima) pag.appendChild(el('div', 'rxPaciente', h.paraPaciente));
+  if (h.alarma && ultima) pag.appendChild(alarmaReceta(el, s));
+
+  /* La versión de la plantilla va DENTRO del bloque de firma, no después:
+     suelta se quedaba sola en una cuarta hoja. Y va, porque cuando una receta
+     sale distinta de lo esperado esto dice con qué reglas se armó sin tener
+     que preguntárselo a nadie. Faltaba, y costó una tarde. */
+  var f = firmaReceta(el);
+  f.appendChild(el('div', 'rxVersion',
+    PLANTILLA.nombre + ' · plantilla ' + PLANTILLA.version + ' · ' + folioDocumento()));
+  pag.appendChild(f);
+  return pag;
 }
 
 function membreteReceta(el){
