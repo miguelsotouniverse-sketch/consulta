@@ -736,8 +736,16 @@ var DOCUMENTOS = [
   { id:'nota_preoperatoria', nombre:'Nota preoperatoria',      grupo:'captura',
     icono:'reloj', dictado:true,
     etiquetas:['Nota preoperatoria'] },
+  /* La receta de consultorio dejó de ser cinco campos sueltos —un solo
+     medicamento por receta, que no sirve para nada— y pasó a ser la misma
+     lista de renglones que ya usaba la receta postoperatoria: se escribe un
+     medicamento, se agrega otro, y así. `libre:true` significa que no cuelga
+     de una plantilla: aquí el médico escribe lo que va a recetar. Todo lo
+     demás —la separación en hoja de antibiótico y de controlado, el reparto
+     en pliegos que caben en su hoja, la firma en cada uno— es el mismo
+     mecanismo, y por eso no se duplicó nada. */
   { id:'receta',             nombre:'Receta',                  grupo:'captura',
-    icono:'pastilla', dictado:false,
+    icono:'pastilla', dictado:false, receta:true, libre:true,
     etiquetas:['Receta'] },
 
   { id:'ci_quirurgico',      nombre:'CI quirúrgico',           grupo:'firma',
@@ -1737,6 +1745,8 @@ function plantillaSugerida(){
 
 /* ---------------- la pantalla ---------------- */
 function armaReceta(){
+  if (TIPO && TIPO.libre) return armaRecetaLibre();
+
   var cont = $('formulario');
   cont.innerHTML = '';
   var caja = document.createElement('div');
@@ -1868,6 +1878,98 @@ function armaReceta(){
   });
 }
 
+/* ============================================================
+   RECETA DE CONSULTORIO — RENGLONES, NO UN SOLO MEDICAMENTO
+
+   Antes este documento eran cinco campos sueltos: medicamento, dosis, vía,
+   frecuencia y duración. Uno. Una receta de consultorio con un solo
+   medicamento no sirve: en una consulta se recetan tres o cuatro, y había que
+   imprimir una receta por cada uno.
+
+   Ahora usa la MISMA lista de renglones que la receta postoperatoria —se
+   escribe un medicamento, se agrega otro, y así—, con el mismo reparto en
+   pliegos que caben en su hoja, la misma separación de la hoja de antibiótico
+   y la de controlado, y la misma firma en cada pliego. No se duplicó una sola
+   línea de todo eso: lo único propio de aquí es que no hay plantilla que
+   proponga los renglones, porque los escribe el médico.
+
+   Lo que se capturó con el formato viejo no se pierde: al abrir una receta
+   que traía los cinco campos y ningún renglón, se convierte en un renglón.
+   ============================================================ */
+function armaRecetaLibre(){
+  var cont = $('formulario');
+  cont.innerHTML = '';
+
+  var caja = document.createElement('div');
+  caja.className = 'grupo';
+  caja.style.padding = '18px';
+  cont.appendChild(caja);
+  caja.innerHTML = '<div class="vacio">Cargando…</div>';
+
+  var zonaRx = document.createElement('div');
+  cont.appendChild(zonaRx);
+
+  /* Las hojas (antibiótico, controlado, general) viven en recetas.json con sus
+     notas legales; se necesitan aunque no haya plantilla. */
+  cargaRecetas().then(function(){
+    caja.innerHTML = '';
+    migraRecetaVieja_();
+
+    var c = document.createElement('div'); c.className = 'campo';
+    var l = document.createElement('label');
+    l.textContent = 'Alergias conocidas';
+    c.appendChild(l);
+    var ctrl = document.createElement('input');
+    ctrl.type = 'text';
+    ctrl.setAttribute('data-campo', 'rx_otras');
+    ctrl.value = VALORES['rx_otras'] || '';
+    ctrl.addEventListener('input', function(){ pon('rx_otras', this.value); });
+    c.appendChild(ctrl);
+    var ay = document.createElement('div');
+    ay.className = 'nota';
+    ay.textContent = 'Se imprime siempre, aunque esté vacío: la receta dirá ' +
+      '«Negadas». Un renglón ausente no distingue entre no tener alergias y ' +
+      'no haber preguntado.';
+    c.appendChild(ay);
+    caja.appendChild(c);
+
+    function repinta(){ pintaRenglones(zonaRx, null, repinta); pinta(); }
+    repinta();
+  })
+  .catch(function(e){
+    caja.innerHTML = '';
+    var mal = document.createElement('div');
+    mal.className = 'aviso malo';
+    mal.textContent = 'No pude cargar el catálogo de recetas (' + e.message +
+      '). Revisa la conexión y vuelve a entrar; no se imprime una receta a medias.';
+    caja.appendChild(mal);
+  });
+}
+
+/* Una receta guardada con el formato viejo —cinco campos, un medicamento—
+   se convierte en un renglón la primera vez que se abre. No se borra nada:
+   los campos viejos se quedan en el expediente tal como se guardaron. */
+function migraRecetaVieja_(){
+  if ((VALORES['rx_renglones'] || []).length) return;
+  var nombre = String(VALORES['rx_medicamento'] || '').trim();
+  if (!nombre || esNada(nombre)) return;
+
+  var partes = [];
+  if (!esNada(VALORES['rx_dosis']))      partes.push(String(VALORES['rx_dosis']).trim());
+  if (!esNada(VALORES['rx_via']))        partes.push('vía ' + String(VALORES['rx_via']).trim().toLowerCase());
+  if (!esNada(VALORES['rx_frecuencia'])) partes.push(String(VALORES['rx_frecuencia']).trim());
+  if (!esNada(VALORES['rx_duracion']))   partes.push('durante ' + String(VALORES['rx_duracion']).trim());
+
+  VALORES['rx_renglones'] = [{
+    hoja: 'general', nombre: nombre,
+    indicacion: partes.join(', ') + (partes.length ? '.' : ''),
+    cantidad: '',
+    duracion: esNada(VALORES['rx_duracion']) ? '' : String(VALORES['rx_duracion']).trim(),
+    rescate: false, horario: null
+  }];
+  sucio = true;
+}
+
 /* Lo que es para el médico y NUNCA sale impreso: la profilaxis intravenosa,
    que se aplica en quirófano, y los avisos de interacción. */
 function pintaPanelMedico(zona){
@@ -1903,9 +2005,13 @@ var HOJAS_RX = [['antibiotico','Antibiótico — la farmacia la retiene'],
 
 function pintaRenglones(zona, recalcula, repinta){
   zona.innerHTML = '';
-  if (!PLANTILLA) return;
+  /* Sin plantilla hay dos casos distintos: la receta de consultorio, que NO
+     tiene plantilla por diseño, y la postoperatoria a la que todavía no se le
+     escoge una. La primera se dibuja; la segunda espera. */
+  var libre = !!(TIPO && TIPO.libre);
+  if (!PLANTILLA && !libre) return;
 
-  var pendientes = sinContestar();
+  var pendientes = libre ? [] : sinContestar();
   if (pendientes.length){
     var av = document.createElement('div');
     av.className = 'aviso ojo';
@@ -1922,15 +2028,28 @@ function pintaRenglones(zona, recalcula, repinta){
   var enc = document.createElement('div');
   enc.className = 'seccion';
   enc.style.margin = '18px 0 8px';
-  enc.textContent = 'Medicamentos · ' + renglones.length + ' renglones';
+  enc.textContent = 'Medicamentos · ' + renglones.length +
+    (renglones.length === 1 ? ' renglón' : ' renglones');
   zona.appendChild(enc);
 
   var nota = document.createElement('div');
   nota.className = 'aviso';
-  nota.innerHTML = 'Puedes editar, quitar o agregar renglones. <b>Si cambias ' +
-    'alguna de las respuestas de arriba, la plantilla se vuelve a calcular y ' +
-    'se pierde lo que hayas escrito aquí.</b>';
+  nota.innerHTML = libre
+    ? 'Escribe un medicamento y oprime <b>Agregar un medicamento</b> para el ' +
+      'siguiente. El antibiótico y el controlado salen en su propia hoja —así ' +
+      'lo pide la ley— y cada hoja sale firmada.'
+    : 'Puedes editar, quitar o agregar renglones. <b>Si cambias alguna de las ' +
+      'respuestas de arriba, la plantilla se vuelve a calcular y se pierde lo ' +
+      'que hayas escrito aquí.</b>';
   zona.appendChild(nota);
+
+  /* Con la lista vacía no hay dónde escribir y el botón de abajo se pierde
+     entre el resto de la pantalla: se arranca con un renglón puesto. */
+  if (libre && !renglones.length){
+    renglones.push({ hoja:'general', nombre:'', indicacion:'', cantidad:'',
+                     duracion:'', rescate:false, horario:null });
+    VALORES['rx_renglones'] = renglones;
+  }
 
   HOJAS_RX.forEach(function(h){
     var suyos = renglones.filter(function(r){ return r.hoja === h[0]; });
@@ -1950,7 +2069,9 @@ function pintaRenglones(zona, recalcula, repinta){
       var sm = document.createElement('summary');
       var fl = document.createElement('span'); fl.className = 'flecha'; fl.textContent = '▸';
       var ti = document.createElement('span'); ti.className = 'titulo';
-      ti.textContent = r.nombre + (r.rescate ? '  ·  solo si es necesario' : '');
+      ti.textContent = (r.nombre || 'Medicamento sin nombre') +
+                       (r.rescate ? '  ·  solo si es necesario' : '');
+      if (libre && !r.nombre) d.open = true;
       sm.appendChild(fl); sm.appendChild(ti);
       d.appendChild(sm);
 
@@ -2021,12 +2142,14 @@ function pintaRenglones(zona, recalcula, repinta){
   };
   zona.appendChild(mas);
 
-  var rehacer = document.createElement('button');
-  rehacer.type = 'button'; rehacer.className = 's';
-  rehacer.style.marginTop = '12px'; rehacer.style.marginLeft = '8px';
-  rehacer.textContent = 'Volver a la plantilla';
-  rehacer.onclick = function(){ recalcula(); repinta(); };
-  zona.appendChild(rehacer);
+  if (!libre && recalcula){
+    var rehacer = document.createElement('button');
+    rehacer.type = 'button'; rehacer.className = 's';
+    rehacer.style.marginTop = '12px'; rehacer.style.marginLeft = '8px';
+    rehacer.textContent = 'Volver a la plantilla';
+    rehacer.onclick = function(){ recalcula(); repinta(); };
+    zona.appendChild(rehacer);
+  }
 }
 
 /* ============================================================
@@ -2137,7 +2260,12 @@ function parteEnPliegos_(lista, h, s, el){
 }
 
 function faltantesReceta(){
-  var f = sinContestar().map(function(e){ return 'contestar «' + e + '»'; });
+  var libre = !!(TIPO && TIPO.libre);
+  var f = libre ? [] : sinContestar().map(function(e){ return 'contestar «' + e + '»'; });
+  if (libre && !(VALORES['rx_renglones'] || []).some(function(r){
+        return String(r.nombre || '').trim(); })){
+    f.push('escribir al menos un medicamento');
+  }
   if (!CONSTANTES['medico_nombre'])      f.push('el nombre del médico');
   if (!CONSTANTES['medico_cedula_prof']) f.push('la cédula profesional');
   if (!CONSTANTES['estab_domicilio'])    f.push('el domicilio del consultorio');
@@ -2151,7 +2279,9 @@ function faltantesReceta(){
 }
 
 function pintaRecetasImpresas(raiz, el){
-  if (!PLANTILLA){
+  /* La receta de consultorio (TIPO.libre) no tiene plantilla y no debe tenerla.
+     La postoperatoria sí, y sin ella no hay nada que imprimir. */
+  if (!PLANTILLA && !(TIPO && TIPO.libre)){
     raiz.appendChild(el('div', 'dato', 'No hay plantilla de receta escogida.'));
     return;
   }
@@ -2220,7 +2350,10 @@ function armaPliego_(h, grupo, t, cuantos, s, el){
 
   if (h.nota) pag.appendChild(el('div', 'rxNota', h.nota));
   if (h.paraPaciente && ultima) pag.appendChild(el('div', 'rxPaciente', h.paraPaciente));
-  if (h.alarma && ultima) pag.appendChild(alarmaReceta(el, s));
+  /* La caja de signos de alarma pertenece al postoperatorio: la arma la
+     plantilla. En una receta de consultorio no hay de dónde sacarla, y poner
+     una genérica sería peor que no ponerla. */
+  if (h.alarma && ultima && PLANTILLA) pag.appendChild(alarmaReceta(el, s));
 
   /* La versión de la plantilla va DENTRO del bloque de firma, no después:
      suelta se quedaba sola en una cuarta hoja. Y va, porque cuando una receta
@@ -2228,7 +2361,8 @@ function armaPliego_(h, grupo, t, cuantos, s, el){
      que preguntárselo a nadie. Faltaba, y costó una tarde. */
   var f = firmaReceta(el);
   f.appendChild(el('div', 'rxVersion',
-    PLANTILLA.nombre + ' · plantilla ' + PLANTILLA.version + ' · ' + folioDocumento()));
+    (PLANTILLA ? PLANTILLA.nombre + ' · plantilla ' + PLANTILLA.version
+               : 'Receta de consultorio') + ' · ' + folioDocumento()));
   pag.appendChild(f);
   return pag;
 }
@@ -2275,9 +2409,13 @@ function fichaReceta(el, s){
   fila([['Expediente', txt('expediente_folio') || FOLIO],
         ['Edad', txt('paciente_edad')]]);
   fila([['Fecha', fechaLarga_(txt('doc_fecha')) || fechaLarga_(hoyISO())]]);
-  var proc = s.bichat ? (PLANTILLA.procedimientoBichat || PLANTILLA.procedimiento)
-                      : PLANTILLA.procedimiento;
-  fila([['Procedimiento', proc]]);
+  /* La receta de consultorio no sale de una cirugía: no hay procedimiento que
+     poner, y un renglón que diga «—» sólo estorba. */
+  if (PLANTILLA){
+    var proc = s.bichat ? (PLANTILLA.procedimientoBichat || PLANTILLA.procedimiento)
+                        : PLANTILLA.procedimiento;
+    fila([['Procedimiento', proc]]);
+  }
   fila([['Alergias', alergiasTexto(s)]]);
   return t;
 }
@@ -2685,11 +2823,12 @@ function pinta(){
   if (TIPO.receta){
     var n = (VALORES['rx_renglones'] || []).filter(function(r){
       return String(r.nombre || '').trim(); }).length;
-    var falta = PLANTILLA ? faltantesReceta() : ['la plantilla'];
-    $('progreso').style.width = (PLANTILLA && n && !falta.length) ? '100%' : '0%';
-    $('estado').textContent = !PLANTILLA ? 'Falta escoger la plantilla'
+    var libre = !!TIPO.libre;
+    var falta = (PLANTILLA || libre) ? faltantesReceta() : ['la plantilla'];
+    $('progreso').style.width = ((PLANTILLA || libre) && n && !falta.length) ? '100%' : '0%';
+    $('estado').textContent = (!PLANTILLA && !libre) ? 'Falta escoger la plantilla'
       : falta.length ? 'Falta ' + falta.join(', ')
-      : n + ' medicamentos  ·  listo para imprimir';
+      : n + (n === 1 ? ' medicamento' : ' medicamentos') + '  ·  listo para imprimir';
     return;
   }
 
@@ -3377,7 +3516,7 @@ $('bImprimir').onclick = function(){
      ir a su casa sin el antibiótico que sí necesitaba, sin que la hoja lo
      dijera en ninguna parte. */
   if (TIPO && TIPO.receta){
-    var falta = PLANTILLA ? faltantesReceta() : ['escoger la plantilla'];
+    var falta = (PLANTILLA || TIPO.libre) ? faltantesReceta() : ['escoger la plantilla'];
     if (falta.length){
       $('estado').textContent = 'No se imprime: falta ' + falta.join(', ') + '.';
       $('avisoPrefill').className = 'aviso malo';
