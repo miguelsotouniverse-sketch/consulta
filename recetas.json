@@ -1676,6 +1676,20 @@
     },
     {
      "hoja": "general",
+     "nombre": "Valaciclovir 500 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el día ANTES del procedimiento. No la suspenda aunque la piel se vea bien: sirve para evitar que brote herpes sobre la piel tratada con láser, que es la complicación más frecuente de este tratamiento.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días",
+     "horario": {
+      "n": "Valaciclovir",
+      "h": [
+       "08:00",
+       "20:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
      "nombre": "Clobetasol propionato 0.05 %, crema (Clobesol®), tubo de 30 g.",
      "indicacion": "Aplicar una capa delgada sobre la piel tratada con láser cada 12 horas durante 5 días y suspender. No lo use más días de los indicados, no lo aplique en los párpados y no lo use por su cuenta más adelante: es un esteroide de potencia muy alta y el uso prolongado adelgaza la piel de la cara.",
      "cantidad": "1 tubo de 30 g",
@@ -2016,7 +2030,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "f2126aab"
+   "version": "58890fc2"
   },
   {
    "id": "eco2",
@@ -2031,6 +2045,20 @@
     }
    ],
    "medicamentos": [
+    {
+     "hoja": "general",
+     "nombre": "Valaciclovir 500 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el día ANTES del procedimiento. No la suspenda aunque la piel se vea bien: sirve para evitar que brote herpes sobre la piel tratada con láser, que es la complicación más frecuente de este tratamiento.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días",
+     "horario": {
+      "n": "Valaciclovir",
+      "h": [
+       "08:00",
+       "20:00"
+      ]
+     }
+    },
     {
      "hoja": "general",
      "nombre": "Clobetasol propionato 0.05 %, crema (Clobesol®), tubo de 30 g.",
@@ -2089,12 +2117,17 @@
     {
      "si": {},
      "tono": "ojo",
-     "texto": "Esta receta NO lleva profilaxis antiviral ni antibiótico oral porque no se indicaron. Si en este caso los usa, agréguelos con el botón de abajo antes de imprimir."
+     "texto": "El valaciclovir empieza el día ANTES del procedimiento: si la receta se entrega el mismo día, dígaselo en voz alta o entréguela antes."
+    },
+    {
+     "si": {},
+     "tono": "",
+     "texto": "Esta receta no lleva antibiótico oral porque no se indicó. Si en este caso lo usa, agréguelo con el botón de abajo antes de imprimir."
     }
    ],
    "alarma": [],
    "horaNota": "",
-   "version": "7b16429f"
+   "version": "962d9bee"
   }
  ],
  "hojas": [
@@ -2132,6 +2165,6 @@
   "22:00",
   "24:00"
  ],
- "version": "bd9e8f5109b87618",
+ "version": "92f6d1421cd4c408",
  "generado": "2026-10-13"
 }

@@ -308,7 +308,7 @@
     {
      "t": "nota",
      "alarma": true,
-     "x": "Si no logra comunicarse y presenta dificultad para respirar, sangrado abundante o inflamación rápida del cuello, acuda a urgencias del hospital más cercano e informe que tiene una cirugía de estiramiento facial reciente."
+     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar."
     },
     {
      "t": "h",
@@ -327,7 +327,7 @@
      ]
     }
    ],
-   "version": "a6e16a7c"
+   "version": "bd920283"
   },
   {
    "id": "lipoescultura",
@@ -1977,7 +1977,7 @@
     {
      "t": "nota",
      "alarma": true,
-     "x": "Si no logra comunicarse y presenta dificultad para respirar, sangrado abundante o inflamación rápida del cuello, acuda a urgencias del hospital más cercano e informe que tiene una cirugía de estiramiento facial reciente."
+     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar."
     },
     {
      "t": "h",
@@ -1996,7 +1996,7 @@
      ]
     }
    ],
-   "version": "20305da2"
+   "version": "b82f638b"
   },
   {
    "id": "eco2",
@@ -2050,7 +2050,19 @@
     },
     {
      "t": "h",
-     "x": "2. Cuidado de la piel, todos los días"
+     "x": "2. Sus medicamentos"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Tome los medicamentos de su receta en los horarios indicados, hasta terminarlos.",
+      "El antiviral empieza el día ANTES del procedimiento y se toma completo, aunque la piel se vea bien: sirve para evitar que brote herpes sobre la piel tratada, que es la complicación más frecuente de este tratamiento. Si se le olvidó empezarlo, avísenos antes de venir.",
+      "La crema con esteroide (Clobesol) se usa sólo los días indicados y se suspende. No la use por su cuenta más adelante."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidado de la piel, todos los días"
     },
     {
      "t": "p",
@@ -2085,7 +2097,7 @@
     },
     {
      "t": "h",
-     "x": "3. Calendario de actividades"
+     "x": "4. Calendario de actividades"
     },
     {
      "t": "p",
@@ -2158,7 +2170,7 @@
     },
     {
      "t": "h",
-     "x": "4. Citas de seguimiento"
+     "x": "5. Citas de seguimiento"
     },
     {
      "t": "p",
@@ -2192,7 +2204,7 @@
     },
     {
      "t": "h",
-     "x": "5. Lo que es normal y no debe preocuparle"
+     "x": "6. Lo que es normal y no debe preocuparle"
     },
     {
      "t": "ul",
@@ -2209,7 +2221,7 @@
     },
     {
      "t": "h",
-     "x": "6. Signos de alarma: llame al teléfono de urgencias"
+     "x": "7. Signos de alarma: llame al teléfono de urgencias"
     },
     {
      "t": "ul",
@@ -2226,11 +2238,11 @@
     {
      "t": "nota",
      "alarma": true,
-     "x": "Si no logra comunicarse y presenta fiebre alta, dolor que no cede o una zona de piel que cambia de color, acuda a urgencias del hospital más cercano e informe que tiene un tratamiento con láser de CO₂ reciente."
+     "x": "Llámenos a cualquier hora, de día o de noche. La piel tratada con láser la tiene que ver quien la trató: no se automedique ni acuda a otro consultorio sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio — le devolvemos la llamada."
     },
     {
      "t": "h",
-     "x": "7. Constancia de entrega"
+     "x": "8. Constancia de entrega"
     },
     {
      "t": "p",
@@ -2244,7 +2256,7 @@
      ]
     }
    ],
-   "version": "0e8525d0"
+   "version": "f2724214"
   },
   {
    "id": "faja",
@@ -2812,6 +2824,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "c0bff3c76c5eaad8",
+ "version": "807209a03a84e8e2",
  "generado": "2026-10-13"
 }
