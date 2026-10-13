@@ -162,6 +162,10 @@ input[readonly]{background:var(--crema);color:var(--gris)}
 .pie .dentro{max-width:860px;margin:0 auto;padding:11px 18px;display:flex;gap:9px;
   align-items:center;flex-wrap:wrap}
 .pie .estado{flex:1;font-size:12.5px;color:var(--gris);min-width:140px}
+.opFirma{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gris);
+         white-space:nowrap;cursor:pointer;user-select:none}
+.opFirma input{width:16px;height:16px;cursor:pointer}
+.opFirma.on{color:var(--texto);font-weight:500}
 button.p{background:var(--negro);color:var(--crema);border:1px solid var(--negro);
   border-radius:3px;padding:11px 20px;font-size:15px;cursor:pointer;font-family:var(--sans)}
 button.s{background:#fff;color:var(--negro);border:1px solid var(--negro);
@@ -366,6 +370,11 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 
 #impresion .firma{margin-top:16px;page-break-inside:avoid;break-inside:avoid;text-align:center}
 #impresion .firma .linea{border-top:.75pt solid #000;width:74mm;margin:24px auto 4px}
+/* La firma visual se dibuja ENCIMA de la línea, como una firma de verdad: la
+   línea sigue ahí porque sostiene el nombre y las cédulas. El margen negativo
+   la acerca al trazo para que no quede flotando. */
+#impresion .firma .rubrica{display:block;width:58mm;margin:10px auto -14px}
+#impresion.hojaRx .firma .rubrica{width:52mm;margin:4px auto -12px}
 #impresion .firma .n{font-weight:500}
 #impresion .firma .c{font-size:8.5pt;line-height:1.4}
 #impresion .pieimp{margin-top:14px;border-top:.5pt solid #999;padding-top:5px;
@@ -455,6 +464,13 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
     <div class="dentro">
       <div class="estado" id="estado">Cargando…</div>
       <button class="s" id="bDictar">Dictar</button>
+      <!-- La firma visual va junto a Imprimir porque se decide en el mismo
+           momento: esta hoja se imprime y se firma a mano, o se manda en
+           digital ya firmada. Arranca APAGADA siempre: firmar es un acto, no
+           un valor por omisión. -->
+      <label class="opFirma oculto" id="etqFirmar" title="Estampa su firma en el documento, para mandarlo sin imprimir">
+        <input type="checkbox" id="chkFirmar"> Firmar
+      </label>
       <button class="s" id="bImprimir">Imprimir</button>
       <button class="p" id="bGuardar">Guardar</button>
     </div>
@@ -2414,7 +2430,13 @@ function armaPliego_(h, grupo, t, cuantos, s, el){
   /* La caja de signos de alarma pertenece al postoperatorio: la arma la
      plantilla. En una receta de consultorio no hay de dónde sacarla, y poner
      una genérica sería peor que no ponerla. */
-  if (h.alarma && ultima && PLANTILLA) pag.appendChild(alarmaReceta(el, s));
+  /* La caja de alarma sólo se dibuja si HAY signos que poner dentro. Una caja
+     que dice «Llame de inmediato si presenta:» y debajo no presenta nada no es
+     una caja vacía: es una caja rota, y la paciente no sabe si le faltó una
+     hoja. Pasaba con la receta del láser de CO₂, cuya plantilla no lleva
+     signos a propósito —los lleva completos su hoja de indicaciones—. */
+  if (h.alarma && ultima && PLANTILLA && alarmaDe(PLANTILLA, s).length)
+    pag.appendChild(alarmaReceta(el, s));
 
   /* La versión de la plantilla va DENTRO del bloque de firma, no después:
      suelta se quedaba sola en una cuarta hoja. Y va, porque cuando una receta
@@ -2510,15 +2532,53 @@ function alarmaReceta(el, s){
   return caja;
 }
 
+/* ============================================================
+   LA FIRMA VISUAL
+
+   Qué es y qué NO es
+   ------------------
+   Es la firma del médico dibujada, para los documentos que se mandan en
+   digital y no se imprimen. NO es una firma electrónica avanzada: no hay
+   certificado, no hay sello de tiempo, no hay manera de probar que no la
+   copió alguien más. Es el equivalente a firmar, escanear y mandar el PDF,
+   sin los dos pasos intermedios.
+
+   Por eso el pie cambia: una hoja firmada así no puede decir «Firma
+   autógrafa», porque no lo es, y decirlo sería afirmar algo falso en un
+   documento clínico.
+
+   Arranca siempre apagada. Se enciende documento por documento.
+   ============================================================ */
+function firmado_(){
+  return VALORES['doc_estado_firma'] === 'Firmado' && !!CONSTANTES['medico_firma'];
+}
+
+function rubrica_(el){
+  if (!firmado_()) return null;
+  var img = document.createElement('img');
+  img.className = 'rubrica';
+  img.src = CONSTANTES['medico_firma'];
+  img.alt = '';
+  return img;
+}
+
+function pieFirma_(){
+  return firmado_()
+    ? 'Firma del médico · documento emitido y enviado por medio electrónico'
+    : 'Firma autógrafa';
+}
+
 function firmaReceta(el){
   var f = el('div', 'firma');
+  var r = rubrica_(el);
+  if (r) f.appendChild(r);
   f.appendChild(el('div', 'linea'));
   f.appendChild(el('div', 'n', CONSTANTES['medico_nombre'] || ''));
   var ced = [CONSTANTES['medico_cedula_prof'] ? 'Cédula profesional ' + CONSTANTES['medico_cedula_prof'] : '',
              CONSTANTES['medico_cedula_esp'] ? 'Cédula de especialidad ' + CONSTANTES['medico_cedula_esp'] : ''
             ].filter(Boolean).join('  ·  ');
   if (ced) f.appendChild(el('div', 'c', ced));
-  f.appendChild(el('div', 'c', 'Firma autógrafa'));
+  f.appendChild(el('div', 'c', pieFirma_()));
   return f;
 }
 
@@ -2875,8 +2935,23 @@ function pon(id, valor){
   pinta();
 }
 
+/* La casilla de firmar: se muestra sólo si hay firma cargada en las
+   constantes y el documento es de los que llevan firma. Si el médico borra la
+   firma de las constantes, la casilla desaparece sola y todo vuelve a ser
+   manual, que es como estaba. */
+function pintaFirma_(){
+  var etq = $('etqFirmar'), chk = $('chkFirmar');
+  if (!etq || !chk) return;
+  var cabe = !!CONSTANTES['medico_firma'] && !!TIPO;
+  etq.classList.toggle('oculto', !cabe);
+  if (!cabe) return;
+  chk.checked = (VALORES['doc_estado_firma'] === 'Firmado');
+  etq.classList.toggle('on', chk.checked);
+}
+
 function pinta(){
   if (!ESQUEMA || !TIPO) return;
+  pintaFirma_();
 
   /* Una hoja de indicaciones no se "llena": se escoge y se imprime. Contar
      campos ahí no dice nada; lo que el médico necesita ver es qué hoja está
@@ -3074,6 +3149,38 @@ function guarda(silencioso){
     });
 }
 $('bGuardar').onclick = function(){ guarda(false); };
+
+/* Encender o apagar la firma del documento.
+
+   Se guarda en `doc_estado_firma`, que YA existía en el esquema de Base Datos
+   con las opciones Borrador / Impreso / Firmado / Escaneado / Anulado. No se
+   inventó una columna: el expediente ya tenía dónde decir que un documento
+   salió firmado, nada más no se usaba.
+
+   El aviso del medicamento controlado: esa hoja se la queda la farmacia. Si el
+   documento va a salir en digital, el médico tiene que saber que ese pliego en
+   particular puede necesitar el papel de todos modos. No se lo impido —es su
+   criterio y su responsabilidad— pero no lo dejo pasar en silencio. */
+$('chkFirmar').onchange = function(){
+  VALORES['doc_estado_firma'] = this.checked ? 'Firmado' : '';
+  sucio = true; guardaBorrador();
+
+  var hayControlado = !!(VALORES['rx_renglones'] || []).some(function(r){
+    return !r.fuera && r.hoja === 'controlado' && String(r.nombre || '').trim();
+  });
+  if (this.checked && hayControlado){
+    $('avisoPrefill').className = 'aviso ojo';
+    $('avisoPrefill').innerHTML =
+      '<b>Esta receta incluye un pliego de medicamento controlado.</b> Esa hoja ' +
+      'se la queda la farmacia. Antes de mandarla sólo en digital, confirme que ' +
+      'se la van a surtir así; si no, imprima al menos ese pliego y fírmelo a mano.';
+  } else if ($('avisoPrefill').className === 'aviso ojo' &&
+             /medicamento controlado/.test($('avisoPrefill').innerHTML)){
+    $('avisoPrefill').className = 'aviso oculto';
+    $('avisoPrefill').innerHTML = '';
+  }
+  pinta();
+};
 
 /* ============================================================
    IMPRIMIR
@@ -3381,8 +3488,10 @@ function armaImpresion(){
     });
   }
 
-  /* ---- firma autógrafa ---- */
+  /* ---- firma ---- */
   var f = el('div','firma');
+  var _r = rubrica_(el);
+  if (_r) f.appendChild(_r);
   f.appendChild(el('div','linea'));
   f.appendChild(el('div','n', CONSTANTES['medico_nombre'] || ''));
   var ced = [CONSTANTES['medico_cedula_prof'] ? 'Cédula profesional ' + CONSTANTES['medico_cedula_prof'] : '',
@@ -3390,7 +3499,7 @@ function armaImpresion(){
             ].filter(Boolean).join('  ·  ');
   if (ced) f.appendChild(el('div','c', ced));
   if (CONSTANTES['medico_consejo']) f.appendChild(el('div','c', CONSTANTES['medico_consejo']));
-  f.appendChild(el('div','c', 'Firma autógrafa'));
+  f.appendChild(el('div','c', pieFirma_()));
   raiz.appendChild(f);
 
   var pie = el('div','pieimp');
