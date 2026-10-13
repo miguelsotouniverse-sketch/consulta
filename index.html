@@ -270,6 +270,13 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion h1{font-family:var(--serif);font-size:16pt;font-weight:600;
   margin:0 0 8px;text-align:center;letter-spacing:.5px}
 #impresion .preambulo{margin:10px 0 2px;text-align:justify;line-height:1.5;white-space:pre-line}
+/* El bloque de datos de la constancia: etiqueta angosta y el valor con
+   todo el renglón, para que un nombre completo quepa sin partirse. */
+#impresion .constancia{display:flex;gap:10px;align-items:baseline;
+  margin:7px 0;padding-bottom:4px;border-bottom:.5pt solid #D8D3CD}
+#impresion .constancia .e{flex:0 0 58mm;font-size:8.5pt;letter-spacing:.3px;
+  text-transform:uppercase;color:#555}
+#impresion .constancia .v{flex:1;font-size:12pt;font-weight:500}
 /* Una carta de una página tiene que caber en una página: la firma suelta
    en la hoja 2, sin nada arriba, se lee como un documento incompleto.
    Aquí el bloque de firma va más apretado que en una nota clínica. */
@@ -887,17 +894,40 @@ var DOCUMENTOS = [
   { id:'constancia_acompanante', nombre:'Constancia de acompañante', grupo:'firma',
     icono:'firma', dictado:false,
     etiquetas:['Constancia de acompañante'],
-    /* SIN CAMPOS, a propósito. Todo lo que esta hoja dice cabe en su
-       párrafo. Un cuerpo por grupos obligaría a imprimir encabezados como
-       «PROCEDIMIENTO» en una hoja que va a manos de un patrón, y aunque
-       debajo sólo fuera la fecha, el encabezado ya dice de más. La lista
-       vacía es el candado: este documento no puede imprimir un dato
-       clínico aunque el expediente lo tenga. */
-    campos:[],
+    /* Los campos que SÍ se capturan aquí. Sin ellos el documento no se
+       puede llenar: la primera versión salió con la lista vacía —para que no
+       pudiera imprimir nada clínico— y el efecto fue que tampoco había dónde
+       escribir el nombre del acompañante ni la fecha de la cirugía. El
+       candado estaba bien puesto y en el lugar equivocado.
+
+       Ahora el candado es `imprime`: este documento NO usa el cuerpo
+       automático por grupos, escribe el suyo renglón por renglón. Lo que no
+       esté en esa función no sale impreso, venga de donde venga. */
+    campos:['urgencia_nombre', 'urgencia_parentesco',
+            'proc_fecha', 'proc_hora_inicio'],
+    imprime: function(raiz, el){
+      function fila(etq, valor){
+        var d = el('div', 'constancia');
+        d.appendChild(el('span', 'e', etq));
+        d.appendChild(el('span', 'v', valor || '_______________________________'));
+        raiz.appendChild(d);
+      }
+      fila('Acompañante', txt('urgencia_nombre'));
+      fila('Parentesco con la paciente', txt('urgencia_parentesco'));
+      fila('Fecha del procedimiento', fechaConDia_(txt('proc_fecha')));
+      if (txt('proc_hora_inicio'))
+        fila('Hora de ingreso a la unidad',
+             menosHoras_(txt('proc_hora_inicio'), INGRESO_ANTES) + ' h');
+      raiz.appendChild(el('div', 'preambulo',
+        'Esta constancia se expide a petición de la paciente y no contiene su ' +
+        'diagnóstico ni el procedimiento practicado, por estar amparados por el ' +
+        'secreto profesional. Quedo a sus órdenes en los datos del encabezado ' +
+        'para cualquier aclaración.'));
+    },
     preambulo: function(){
       var quien = txt('urgencia_nombre');
       var par = txt('urgencia_parentesco');
-      var f = txt('proc_fecha') ? fechaLarga_(txt('proc_fecha')) : '';
+      var f = fechaConDia_(txt('proc_fecha'));
       var h = txt('proc_hora_inicio');
       return 'A quien corresponda: hago constar que ' +
         (quien || '_____________________') +
@@ -906,11 +936,7 @@ var DOCUMENTOS = [
         (f ? ' para el ' + f : '') +
         (h ? ', con ingreso a la unidad a las ' + menosHoras_(h, INGRESO_ANTES) + ' h,' : ',') +
         ' y durante su recuperación inmediata, por lo que necesita ausentarse ' +
-        'de sus actividades ese día.\n\n' +
-        'Esta constancia se expide a petición de la paciente y no contiene su ' +
-        'diagnóstico ni el procedimiento practicado, por estar amparados por el ' +
-        'secreto profesional. Quedo a sus órdenes en los datos del encabezado ' +
-        'para cualquier aclaración.';
+        'de sus actividades ese día.';
     } }
 ];
 
@@ -3441,6 +3467,17 @@ function armaImpresion(){
     if (pr) raiz.appendChild(el('div', 'preambulo', pr));
   }
 
+  /* Un documento puede traer su PROPIO cuerpo y saltarse el automático. Lo
+     usa la constancia de acompañante, que va a manos de un tercero: ahí no
+     basta con escoger qué campos entran, porque el cuerpo automático imprime
+     encabezados de grupo y cualquier campo que alguien agregue después. Con
+     `imprime`, lo que no está escrito en esa función no sale. */
+  if (TIPO.imprime){
+    TIPO.imprime(raiz, el);
+    pintaFirmaYPie_(raiz, el);
+    return;
+  }
+
   /* ---- el cuerpo, por grupo, sin los campos vacíos ----
      Los datos cortos van en renglón corrido, no uno debajo de otro: siete
      signos vitales apilados gastan media hoja y no se leen mejor. */
@@ -3620,7 +3657,12 @@ function armaImpresion(){
     });
   }
 
-  /* ---- firma ---- */
+  pintaFirmaYPie_(raiz, el);
+}
+
+/* La firma y el pie de folio, iguales para todos los documentos. Se separaron
+   para que un documento con cuerpo propio los tenga sin copiarlos. */
+function pintaFirmaYPie_(raiz, el){
   var f = el('div','firma');
   var _r = rubrica_(el);
   if (_r) f.appendChild(_r);
@@ -3778,6 +3820,17 @@ function fechaLarga_(iso){
   return Number(m[3]) + ' de ' + MESES[Number(m[2]) - 1] + ' de ' + m[1];
 }
 
+/* La misma fecha con su día de la semana. En una constancia que alguien va a
+   presentar en su trabajo, «el miércoles 14 de octubre» se verifica de un
+   vistazo contra un calendario y «14/10/2026» no. */
+function fechaConDia_(iso){
+  var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || ''));
+  if (!m) return '';
+  var DIAS = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+  return DIAS[d.getDay()] + ' ' + fechaLarga_(iso);
+}
+
 /* ------------------------------------------------------------
    LO QUE LA NOM PIDE Y NO ESTÁ CAPTURADO
 
@@ -3832,6 +3885,24 @@ $('bImprimir').onclick = function(){
       return;
     }
   }
+  /* Una constancia sin el nombre de quien acompaña o sin la fecha de la
+     cirugía no sirve para nada: es una hoja firmada que no dice nada. No se
+     imprime, y se dice cuál de los dos falta. */
+  if (TIPO && TIPO.id === 'constancia_acompanante'){
+    var fal = [];
+    if (!txt('urgencia_nombre')) fal.push('el nombre de quien la acompaña');
+    if (!txt('proc_fecha'))      fal.push('la fecha del procedimiento');
+    if (fal.length){
+      $('estado').textContent = 'No se imprime: falta ' + fal.join(' y ') + '.';
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML = '<b>No imprimí la constancia.</b> Falta ' +
+        fal.join(' y ') + '. Sin eso la hoja no le sirve a nadie: es lo único ' +
+        'que el patrón va a leer para justificar el día.';
+      window.scrollTo(0, 0);
+      return;
+    }
+  }
+
   var faltan = faltantesNOM();
   var firma = faltan.map(function(c){ return c.id; }).sort().join('|');
   if (faltan.length && firma !== FALTANTES_PERDONADOS){
