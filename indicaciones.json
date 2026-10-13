@@ -1646,7 +1646,7 @@
      "t": "ul",
      "x": [
       "Cicaplast: aplique una capa sobre toda la zona tratada cada 12 horas.",
-      "Clobesol (clobetasol): una capa delgada cada 12 horas durante 5 días, y suspéndalo. No lo use más días de los indicados ni lo aplique en los párpados.",
+      "Clobesol (clobetasol): una capa delgada cada 12 horas durante 7 días, y suspéndalo. No lo use más días de los indicados ni lo aplique en los párpados.",
       "Vaselina: aplíquela encima las veces que haga falta para que la piel nunca se sienta tirante ni se vea seca, de día y de noche.",
       "Después de cada lavado vuelva a aplicar Cicaplast y vaselina enseguida: la piel no debe quedar sin nada encima ni un momento.",
       "No arranque costras ni piel que se esté desprendiendo: se cae sola.",
@@ -1849,8 +1849,8 @@
        "que": "Retiro de la férula nasal y de las cintas"
       },
       {
-       "cita": "Día 10",
-       "que": "Retiro de los puntos del cuello y revisión de la piel tratada con láser"
+       "cita": "Día 7",
+       "que": "Retiro de los puntos del mentón y revisión de la piel tratada con láser"
       },
       {
        "cita": "Mes 1",
@@ -1996,7 +1996,7 @@
      ]
     }
    ],
-   "version": "b82f638b"
+   "version": "02ec27a5"
   },
   {
    "id": "eco2",
@@ -2072,7 +2072,7 @@
      "t": "ul",
      "x": [
       "Cicaplast: aplique una capa sobre toda la zona tratada cada 12 horas.",
-      "Clobesol (clobetasol): una capa delgada cada 12 horas durante 5 días, y suspéndalo. No lo use más días de los indicados ni lo aplique en los párpados.",
+      "Clobesol (clobetasol): una capa delgada cada 12 horas durante 7 días, y suspéndalo. No lo use más días de los indicados ni lo aplique en los párpados.",
       "Vaselina: aplíquela encima las veces que haga falta para que la piel nunca se sienta tirante ni se vea seca, de día y de noche.",
       "Después de cada lavado vuelva a aplicar Cicaplast y vaselina enseguida: la piel no debe quedar sin nada encima ni un momento.",
       "No arranque costras ni piel que se esté desprendiendo: se cae sola.",
@@ -2256,7 +2256,7 @@
      ]
     }
    ],
-   "version": "f2724214"
+   "version": "867e551d"
   },
   {
    "id": "faja",
@@ -2826,6 +2826,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "5dfc783bd8017428",
+ "version": "6ec2542154d18e7a",
  "generado": "2026-10-13"
 }

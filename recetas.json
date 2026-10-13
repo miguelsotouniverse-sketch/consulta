@@ -1691,9 +1691,9 @@
     {
      "hoja": "general",
      "nombre": "Clobetasol propionato 0.05 %, crema (Clobesol®), tubo de 30 g.",
-     "indicacion": "Aplicar una capa delgada sobre la piel tratada con láser cada 12 horas durante 5 días y suspender. No lo use más días de los indicados, no lo aplique en los párpados y no lo use por su cuenta más adelante: es un esteroide de potencia muy alta y el uso prolongado adelgaza la piel de la cara.",
+     "indicacion": "Aplicar una capa delgada sobre la piel tratada con láser cada 12 horas durante 7 días y suspender. No lo use más días de los indicados, no lo aplique en los párpados y no lo use por su cuenta más adelante: es un esteroide de potencia muy alta y el uso prolongado adelgaza la piel de la cara.",
      "cantidad": "1 tubo de 30 g",
-     "duracion": "5 días",
+     "duracion": "7 días",
      "horario": {
       "n": "Clobesol (piel del láser)",
       "h": [
@@ -1893,7 +1893,7 @@
     {
      "si": {},
      "tono": "ojo",
-     "texto": "Clobesol es un esteroide de potencia muy alta. Esta receta lo limita a 5 días sobre la piel tratada y lo prohíbe en los párpados. Si su protocolo es otro plazo, edite el renglón antes de imprimir."
+     "texto": "Clobesol es un esteroide de potencia muy alta. Esta receta lo limita a 7 días sobre la piel tratada y lo prohíbe en los párpados. Si su protocolo es otro plazo, edite el renglón antes de imprimir."
     },
     {
      "si": {},
@@ -2030,7 +2030,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "58890fc2"
+   "version": "e3c6c6c5"
   },
   {
    "id": "eco2",
@@ -2062,9 +2062,9 @@
     {
      "hoja": "general",
      "nombre": "Clobetasol propionato 0.05 %, crema (Clobesol®), tubo de 30 g.",
-     "indicacion": "Aplicar una capa delgada sobre la piel tratada con láser cada 12 horas durante 5 días y suspender. No lo use más días de los indicados, no lo aplique en los párpados y no lo use por su cuenta más adelante: es un esteroide de potencia muy alta y el uso prolongado adelgaza la piel de la cara.",
+     "indicacion": "Aplicar una capa delgada sobre la piel tratada con láser cada 12 horas durante 7 días y suspender. No lo use más días de los indicados, no lo aplique en los párpados y no lo use por su cuenta más adelante: es un esteroide de potencia muy alta y el uso prolongado adelgaza la piel de la cara.",
      "cantidad": "1 tubo de 30 g",
-     "duracion": "5 días",
+     "duracion": "7 días",
      "horario": {
       "n": "Clobesol (piel del láser)",
       "h": [
@@ -2112,7 +2112,7 @@
     {
      "si": {},
      "tono": "ojo",
-     "texto": "Clobesol es un esteroide de potencia muy alta. Esta receta lo limita a 5 días sobre la piel tratada y lo prohíbe en los párpados. Si su protocolo es otro plazo, edite el renglón."
+     "texto": "Clobesol es un esteroide de potencia muy alta. Esta receta lo limita a 7 días sobre la piel tratada y lo prohíbe en los párpados. Si su protocolo es otro plazo, edite el renglón."
     },
     {
      "si": {},
@@ -2127,7 +2127,7 @@
    ],
    "alarma": [],
    "horaNota": "",
-   "version": "962d9bee"
+   "version": "8ec50bca"
   }
  ],
  "hojas": [
@@ -2165,6 +2165,6 @@
   "22:00",
   "24:00"
  ],
- "version": "92f6d1421cd4c408",
+ "version": "4e046abba7661068",
  "generado": "2026-10-13"
 }
