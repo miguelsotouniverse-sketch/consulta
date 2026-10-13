@@ -2485,7 +2485,8 @@
       "Léala completa hoy y vuelva a leerla una semana antes de su cirugía.",
       "Los medicamentos de su cirugía se los entregamos nosotros, junto con sus indicaciones para después de la cirugía: no necesita comprar nada.",
       "Si no se cumplen estas indicaciones, por su seguridad podemos reprogramar la cirugía.",
-      "Cualquier duda: escríbanos por WhatsApp al 55 6223 4133."
+      "Cualquier duda: escríbanos por WhatsApp al 55 6223 4133.",
+      "Si su procedimiento incluye láser de CO₂, le entregamos en esta consulta la receta del antiviral. Cómprelo con tiempo: se empieza el día ANTES del procedimiento, no el mismo día."
      ]
     },
     {
@@ -2676,6 +2677,7 @@
      "t": "ul",
      "x": [
       "Si le entregamos amlodipino 5 mg, tome una tableta el día anterior a su cirugía, como le indicamos. Ayuda a mantener su presión estable y a reducir el sangrado y la inflamación.",
+      "Si su procedimiento incluye láser de CO₂, hoy empieza el antiviral de su receta. Es la dosis que más importa de todo el tratamiento: sirve para evitar que brote herpes sobre la piel tratada. Si no lo consiguió o se le olvidó, avísenos hoy mismo.",
       "Cene ligero y bajo en sal.",
       "Báñese y lávese el cabello con su jabón y champú de siempre, o con el jabón antiséptico si se lo indicamos.",
       "No se rasure ni se depile la zona a operar: los pequeños cortes aumentan el riesgo de infección.",
@@ -2773,7 +2775,7 @@
      ]
     }
    ],
-   "version": "6138a9b5"
+   "version": "e917c374"
   },
   {
    "id": "laboratorios",
@@ -2824,6 +2826,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "807209a03a84e8e2",
+ "version": "5dfc783bd8017428",
  "generado": "2026-10-13"
 }
