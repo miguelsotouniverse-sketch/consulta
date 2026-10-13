@@ -117,6 +117,8 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_recetas_paginas.mjs` | que cada pliego quepa en su hoja y lleve firma, en toda plantilla y todo escenario de alergia |
 | `prueba_receta_consultorio.mjs` | que la receta de consultorio acepte varios medicamentos |
 | `prueba_casilla_renglones.mjs` | que la casilla saque un renglón de la receta y que lo deseleccionado no resucite al recalcular |
+| `prueba_firma_visual.mjs` | que la firma visual se estampe sólo cuando se enciende, y que un documento sin firmar siga diciendo «Firma autógrafa» |
+| `prueba_internamiento.mjs` | **el candado de la constancia**: que la hoja que va a manos de un patrón no pueda imprimir el diagnóstico ni el procedimiento, con el expediente lleno |
 
 `render_hoja.mjs`, `render_receta.mjs` y `render_impresion.mjs` son auxiliares:
 imprimen un documento a PDF para verlo.
@@ -126,6 +128,19 @@ opcionalmente `constantes.json`, que **no está aquí a propósito**: vive en la
 carpeta `esquema` de Drive, la sirve el gateway, y trae cédulas y teléfonos que
 no tienen por qué estar en un repositorio público. Sin él las pruebas corren
 igual, con el membrete vacío.
+
+## Dos documentos que son dos a propósito
+
+La **orden de internamiento** va a la unidad quirúrgica y lleva todo lo
+clínico. La **constancia de acompañante** va al patrón de quien acompaña a
+la paciente, y no lleva nada: ni diagnóstico, ni procedimiento, ni
+antecedentes. Un patrón no tiene por qué enterarse de qué cirugía se hizo la
+madre de su empleada para justificarle el día.
+
+El candado no es la buena intención de quien edite el archivo: la constancia
+declara su lista de campos VACÍA, así que no puede imprimir un dato clínico
+aunque el expediente lo tenga. `prueba_internamiento.mjs` lo verifica con un
+expediente lleno a propósito, y truena si alguien le agrega campos.
 
 ## Reglas que conviene no romper
 
@@ -138,6 +153,9 @@ igual, con el membrete vacío.
    alarma, sobre todo— lleva `←NUEVO` para que se revise renglón por renglón.
 4. **El texto que imprime la paciente no lleva instrucciones para el médico.**
    Esas van en los avisos, que son de pantalla.
-5. **Versión por contenido.** La versión de cada hoja y de cada catálogo es un
+5. **Un documento no imprime lo que su lector no debe ver.** Si una hoja va a
+   manos de un tercero, su lista de campos es el candado, no el cuidado de
+   quien la edita.
+6. **Versión por contenido.** La versión de cada hoja y de cada catálogo es un
    hash de su propio contenido. Dos reconstrucciones del mismo material dan la
    misma versión; si la versión cambió, el contenido cambió.
