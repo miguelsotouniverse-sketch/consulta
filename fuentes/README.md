@@ -20,8 +20,8 @@ encontrar ya no está. Los catálogos se **regeneran**, no se parchan.
 ## Cómo reconstruir todo, desde cero
 
 ```bash
-cp fuentes/indicaciones_base.json indicaciones.json
-cp fuentes/recetas_base.json      recetas.json
+python3 fuentes/construir_indicaciones.py      # las 8 hojas originales, desde su fuente
+cp fuentes/recetas_base.json recetas.json      # las recetas todavía parten del respaldo
 
 python3 fuentes/corregir_drenajes.py
 python3 fuentes/corregir_dieta_submandibular.py
@@ -50,14 +50,34 @@ subir nada.
 
 ## Los archivos
 
-### Los dos puntos de partida
+### El punto de partida
+
+`construir_indicaciones.py` tiene el texto de las **ocho hojas originales**
+—Deep Plane, lipoescultura, mastopexia, rinoplastia, blefaroplastia, faja,
+preoperatorias y laboratorios— escrito como código, con un ayudante por tipo de
+bloque (`h`, `h2`, `p`, `ul`, `tabla`, `citas`, `nota`, `firmas`). **Ése es el
+archivo que se edita cuando hay que corregir una hoja original.**
+
+No se transcribió a mano: lo emitió `generar_constructor.py` leyendo
+`indicaciones_base.json`, y se comprobó que lo que produce tiene exactamente el
+mismo contenido y las mismas ocho versiones que el original. `generar_constructor.py`
+se corrió una vez y se guarda sólo como prueba de procedencia; no se vuelve a correr.
 
 | archivo | qué es |
 |---|---|
-| `indicaciones_base.json` | 8 hojas · catálogo `e9cd69b0cedb662c` |
-| `recetas_base.json` | 4 plantillas · catálogo `d52a8784e7313b41` |
+| `construir_indicaciones.py` | las 8 hojas originales, editables · catálogo `e9cd69b0cedb662c` |
+| `indicaciones_base.json` | el JSON del que se emitió, como testigo. No se toca |
+| `recetas_base.json` | 4 plantillas · catálogo `d52a8784e7313b41`. Todavía sin constructor |
 
-Son el estado anterior a las correcciones de octubre de 2026. No se tocan.
+Una advertencia que importa: el original tenía el orden de llaves inconsistente
+—en unos bloques de alarma `alarma` iba antes de `x` y en otros después—. El
+constructor lo normaliza. El contenido, las ocho versiones de hoja y la versión
+del catálogo son idénticos; lo único que cambia es el orden en que se escriben
+catorce bloques, cosa que el sistema no mira porque lee JSON, no bytes.
+
+Lo que falta para cerrar el círculo: un `construir_recetas.py` equivalente para
+las cuatro plantillas originales. Mientras no exista, esa mitad arranca del
+respaldo.
 
 ### Correctores — arreglan texto que ya estaba y estaba mal
 
@@ -68,6 +88,12 @@ Son el estado anterior a las correcciones de octubre de 2026. No se tocan.
 | `corregir_a_donde_llamar.py` | la paciente llama al consultorio, nunca a urgencias de otro hospital |
 | `agregar_antiviral_preop.py` | el antiviral del láser se avisa en la hoja preoperatoria, que es cuando da tiempo de comprarlo |
 | `agregar_prednisona.py` | prednisona 20 mg × 14 días, que no estaba en ninguna plantilla |
+
+Los correctores existen porque antes no había constructor: eran la única forma
+de dejar rastro de un cambio. Ahora que `construir_indicaciones.py` existe, una
+corrección NUEVA a una hoja original se hace allí directamente, no con un
+corrector más. Los cinco que están aquí se quedan porque la cadena ya depende
+de ellos y porque cada uno explica una decisión clínica que conviene no perder.
 
 ### Constructores — crean hojas y plantillas nuevas
 

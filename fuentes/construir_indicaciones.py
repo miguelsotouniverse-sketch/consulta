@@ -1,0 +1,1350 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+LAS OCHO HOJAS ORIGINALES DE INDICACIONES
+==========================================
+
+Qué es esto
+-----------
+El texto de las ocho hojas que existían antes de octubre de 2026 —Deep Plane,
+lipoescultura, mastopexia, rinoplastia, blefaroplastia, faja, preoperatorias y
+laboratorios—, escrito como código en vez de como JSON.
+
+Antes, corregir una palabra de una hoja significaba editar `indicaciones.json`
+a mano, entre miles de renglones, sin manera de saber después por qué decía lo
+que decía. Ahora se corrige AQUÍ, se vuelve a correr, y el JSON se regenera.
+
+Este archivo se generó con `generar_constructor.py` leyendo
+`indicaciones_base.json`: el texto nunca se retecleó, se emitió. Y se comprobó
+que lo que produce es idéntico, byte por byte, al archivo del que salió.
+
+Cómo encaja en la cadena
+------------------------
+Es el PRIMER paso. Sustituye al `cp indicaciones_base.json indicaciones.json`:
+
+    python3 fuentes/construir_indicaciones.py        ← este archivo
+    python3 fuentes/corregir_drenajes.py
+    python3 fuentes/corregir_dieta_submandibular.py
+    ... y el resto, en el orden del README
+
+Los correctores que vienen después siguen funcionando igual: buscan un texto
+exacto y fallan ruidosamente si ya no está. Si usted corrige aquí una frase que
+un corrector busca, el corrector se queja —y hace bien, porque entonces el
+parche ya no hace falta y hay que quitarlo de la cadena.
+
+La versión de cada hoja y la del catálogo son hashes de su propio contenido: si
+usted no cambia nada, salen idénticas; si cambia una coma, cambian solas.
+
+Uso:  python3 construir_indicaciones.py [salida.json]
+"""
+
+import json
+import hashlib
+import datetime
+import sys
+
+SALIDA = sys.argv[1] if len(sys.argv) > 1 else 'indicaciones.json'
+
+
+# --- los ocho tipos de bloque que entiende la hoja ------------------------
+def _al(b, alarma):
+    """`alarma` pinta el bloque como signo de alarma. Va en encabezados,
+       listas y notas: los tres pueden formar parte de esa caja."""
+    if alarma:
+        b['alarma'] = True
+    return b
+
+def h(x, alarma=False):       return _al({'t': 'h',  'x': x}, alarma)
+def h2(x, alarma=False):      return _al({'t': 'h2', 'x': x}, alarma)
+def p(x):                     return {'t': 'p',  'x': x}
+def ul(*xs, **kw):            return _al({'t': 'ul', 'x': list(xs)}, kw.get('alarma'))
+def firmas(*xs):              return {'t': 'firmas', 'x': list(xs)}
+def tabla(cols, filas):       return {'t': 'tabla', 'cols': cols, 'x': filas}
+def citas(cols, filas):       return {'t': 'citas', 'cols': cols, 'x': filas}
+def nota(x, alarma=False):    return _al({'t': 'nota', 'x': x}, alarma)
+def crudo(s):                 return json.loads(s)
+
+
+HOJAS = [
+ {
+    'id': 'deep_plane',
+    'nombre': 'Deep Plane Facelift',
+    'titulo': 'Indicaciones de alta — Deep Plane Facelift',
+    'coincide': ['deep plane', 'deep plain', 'ritidectomia', 'estiramiento facial', 'lifting facial', 'facelift'],
+    'entrada': 'Esta hoja contiene todas las indicaciones que debe seguir en casa. '
+        'Léala con calma en casa junto con su acompañante y consérvela hasta '
+        'su alta definitiva. Si algo no está escrito aquí, no lo haga sin '
+        'consultarlo antes.',
+    'bloques': [
+        h('1. Primeras 72 horas: lo más importante'),
+        p('El riesgo principal de estos días es el hematoma (acumulación de '
+          'sangre bajo la piel). Se previene manteniendo la presión arterial '
+          'baja y estable.'),
+        ul(
+            'Reposo relativo. Permanezca en casa. Camine dentro de casa 5 minutos '
+              'cada 2 horas mientras esté despierta; esto previene coágulos en las '
+              'piernas.',
+            'No se agache, no cargue nada de más de 2 kg y no puje. Si tiene '
+              'estreñimiento, tome el laxante indicado en su receta.',
+            'No grite, no ría a carcajadas y evite discusiones o situaciones de '
+              'estrés.',
+            'Posición: duerma y descanse boca arriba, con la cabeza elevada a 45° '
+              '(dos almohadas firmes o un reclinable). Mantenga esta posición 14 '
+              'días. No duerma de lado ni boca abajo.',
+            'Cuello: manténgalo recto. Para voltear, gire los hombros junto con '
+              'la cabeza. No flexione el cuello hacia el pecho.',
+            'Frío local: compresas frías o gel frío envueltos en un paño delgado, '
+              '15 minutos cada hora mientras esté despierta, sobre mejillas y '
+              'cuello. Nunca aplique hielo directo sobre la piel. Suspenda el frío '
+              'a las 72 horas.',
+            'Faja facial: úsela las 24 horas durante los primeros 7 días; solo se '
+              'retira para bañarse. Del día 8 al 21 úsela únicamente para dormir.',
+            'Drenajes: si se le colocaron, se retiran en su cita de las 24 horas. '
+              'No los jale ni los desconecte.',
+            'Presión arterial: si usted es hipertensa, tome su medicamento para '
+              'la presión exactamente a su hora, incluido el día de la cirugía.',
+            'Acompañante: debe estar acompañada por un adulto las primeras 72 '
+              'horas, día y noche.',
+        ),
+        h2('Toma de presión arterial en casa (días 1 a 10)'),
+        ul(
+            'Mida su presión con un baumanómetro digital cada 2 horas mientras '
+              'esté despierta, sentada y después de 5 minutos de reposo.',
+            'Anote cada medición (fecha, hora y cifras).',
+            'Reporte de inmediato en el grupo de WhatsApp de seguimiento si la '
+              'presión sistólica (el número de arriba) es mayor de 130 o menor de '
+              '90 mmHg.',
+        ),
+        h('2. Medicamentos'),
+        ul(
+            'Tome exclusivamente los medicamentos de su receta, en las dosis y '
+              'horarios indicados, hasta terminarlos. El control del dolor viene '
+              'indicado en su receta; no agregue ningún otro analgésico por su '
+              'cuenta.',
+        ),
+        p('Prohibidos durante 14 días después de la cirugía (aumentan el riesgo '
+          'de sangrado):'),
+        ul(
+            'Aspirina y cualquier producto que la contenga (Alka-Seltzer, '
+              'Aspirina Protect, etc.).',
+            'Ibuprofeno, naproxeno, diclofenaco y cualquier otro antiinflamatorio '
+              'que no esté en su receta.',
+            'Vitamina E, omega 3 / aceite de pescado, ginkgo biloba, ginseng, ajo '
+              'en cápsulas, cúrcuma y tés o suplementos herbolarios.',
+        ),
+        p('Tabaco, vapeador y nicotina (incluidos parches y chicles): '
+          'prohibidos durante 4 semanas. La nicotina reduce la circulación de '
+          'la piel y puede provocar pérdida de piel y cicatrices anormales.'),
+        p('Alcohol: prohibido durante 14 días y mientras tome analgésicos o '
+          'antibióticos.'),
+        p('Manejar: no maneje durante 7 días ni mientras tome analgésicos que '
+          'den sueño.'),
+        h('3. Cuidados diarios'),
+        h2('Baño y cabello'),
+        ul(
+            'Puede bañarse y lavarse el cabello a partir del día 3 (72 horas), '
+              'con agua tibia —nunca caliente— y champú de bebé. No frote las '
+              'incisiones; deje correr el agua y seque con toques suaves con una '
+              'toalla limpia.',
+            'Secadora solo con aire frío durante 4 semanas. No use plancha ni '
+              'tenazas de cabello durante 4 semanas.',
+            'Tinte, decoloración, keratina o permanente: no antes de 6 semanas.',
+        ),
+        h2('Incisiones'),
+        ul(
+            'Limpie las incisiones 2 veces al día con agua y jabón neutro, seque '
+              'con gasa y aplique una capa delgada del ungüento indicado en su '
+              'receta, hasta el retiro de todos los puntos.',
+            'No aplique cremas, aceites, remedios caseros ni maquillaje sobre las '
+              'incisiones hasta que su médico lo autorice en consulta.',
+            'No retire costras; se caen solas.',
+            'A partir de su cita del mes 1 inicie gel o parches de silicona sobre '
+              'las cicatrices, 2 veces al día, durante 3 meses.',
+        ),
+        h2('Alimentación'),
+        p('Durante su cirugía se trató parte de la glándula salival bajo la '
+          'mandíbula. Para que cicatrice bien, durante 14 días debe seguir una '
+          'dieta que no estimule la saliva.'),
+        ul(
+            'Evite: limón, naranja, toronja, piña, mandarina y cualquier fruta o '
+              'bebida ácida; vinagre, encurtidos y salsas; picante y chile; dulces '
+              'ácidos, chicles y caramelos; alimentos muy salados o muy '
+              'condimentados; refrescos y bebidas con gas; café.',
+            'Consuma: alimentos de sabor suave, blandos y tibios o fríos: purés, '
+              'sopas no calientes, arroz, pasta, huevo, pollo o pescado '
+              'desmenuzado, yogur natural, plátano, papaya, avena.',
+            'Días 1 a 7: alimentos blandos que no obliguen a masticar mucho ni a '
+              'abrir mucho la boca.',
+            'Tome al menos 2 litros de agua al día, a sorbos.',
+            'Desde el día 15 puede regresar a su dieta normal.',
+        ),
+        h2('Ropa y accesorios'),
+        ul(
+            'Use prendas que se abotonen o cierren por delante durante 14 días; '
+              'no se ponga ropa que tenga que pasar por la cabeza.',
+            'No use aretes durante 6 semanas.',
+            'Puede usar lentes desde el día 1, colocándolos y retirándolos con '
+              'cuidado sin presionar detrás de las orejas.',
+            'Maquillaje en el rostro (fuera de las incisiones): a partir del día '
+              '14.',
+        ),
+        h('4. Calendario de actividades'),
+        tabla(
+            ['Actividad', 'Cuándo puede retomarla'],
+            [
+                ['Caminar dentro de casa', 'Día 1'],
+                ['Caminar fuera de casa (paseo tranquilo)', 'Día 4'],
+                ['Drenaje linfático manual facial (con terapeuta autorizado por el '
+                 'consultorio)', 'Día 7 — 10 sesiones, 2 a 3 por semana'],
+                ['Manejar', 'Día 8, sin analgésicos que den sueño'],
+                ['Viajar en avión', 'Día 10'],
+                ['Trabajo de oficina y vida social', 'Día 14'],
+                ['Relaciones sexuales', 'Día 14, sin esfuerzo intenso'],
+                ['Cardio ligero (caminadora, bicicleta fija suave)', 'Semana 3'],
+                ['Alberca y mar', 'Semana 4'],
+                ['Pesas, yoga, pilates, correr, deportes y ejercicio de impacto', 'Semana 6'],
+                ['Sauna, vapor, temazcal, jacuzzi', 'Semana 6'],
+                ['Exposición directa al sol', 'Semana 6, siempre con protector solar'],
+                ['Tratamientos faciales (toxina botulínica, rellenos, láser, peelings, '
+                 'radiofrecuencia)', 'Mes 3, solo con autorización del Dr. Soto'],
+                ['Masajes faciales fuera del drenaje indicado', 'Mes 3'],
+            ],
+        ),
+        p('Protección solar: protector FPS 50+ en rostro, cuello y cicatrices '
+          'todos los días durante 12 meses, reaplicando cada 3 horas si está al '
+          'aire libre. Use sombrero de ala ancha al salir durante las primeras '
+          '6 semanas.'),
+        h('5. Citas de seguimiento'),
+        p('Todas son obligatorias. Recepción agenda y confirma cada cita con '
+          'usted por WhatsApp. Acuda con su faja puesta y con un acompañante a '
+          'las citas de las primeras 2 semanas.'),
+        citas(
+            ['Cita', 'Qué se hace', 'Fecha asignada'],
+            [
+                {'cita': '24 horas', 'que': 'Revisión de la herida para descartar hematoma, retiro de vendaje y '
+                   'drenajes (si los hay)'},
+                {'cita': '72 horas', 'que': 'Retiro de la malla hemostática'},
+                {'cita': 'Día 5', 'que': 'Retiro de puntos del rostro (frente a la oreja)'},
+                {'cita': 'Día 10', 'que': 'Retiro de puntos detrás de la oreja y grapas del cuero cabelludo'},
+                {'cita': 'Mes 1', 'que': 'Revisión de cicatrices, inicio de silicona y fotografías'},
+                {'cita': 'Mes 3', 'que': 'Revisión y fotografías'},
+                {'cita': 'Mes 6', 'que': 'Revisión y fotografías'},
+                {'cita': 'Mes 12', 'que': 'Resultado final y fotografías'},
+            ],
+        ),
+        h('6. Lo que es normal y no debe preocuparle'),
+        ul(
+            'Inflamación y moretones en mejillas, cuello y alrededor de los ojos. '
+              'Aumentan hasta el día 3 y disminuyen de forma progresiva. El 80% '
+              'desaparece en 3 semanas; el resto, en 3 a 6 meses.',
+            'Inflamación ligeramente distinta entre un lado y otro, siempre que '
+              'sea blanda y sin dolor intenso.',
+            'Sensación de tirantez en rostro y cuello durante 4 a 6 semanas.',
+            'Adormecimiento de mejillas, orejas y cuello. Se recupera poco a poco '
+              'entre 3 y 12 meses.',
+            'Zonas endurecidas o con pequeños bordes bajo la piel. Se suavizan en '
+              '2 a 3 meses con el drenaje linfático.',
+            'Sonrisa o movimiento de un lado del labio o la frente algo más débil '
+              'en los primeros días. Suele ser temporal y recuperarse sola; avíselo '
+              'al Dr. Soto en su siguiente cita.',
+            'Caída de cabello cerca de las incisiones durante 2 a 3 meses; vuelve '
+              'a crecer.',
+            'Cambios de ánimo (tristeza o impaciencia) en las primeras 2 semanas, '
+              'mientras baja la inflamación.',
+            'Resultado final: entre 6 y 12 meses.',
+        ),
+        h('7. Signos de alarma: llame de inmediato al teléfono de urgencias', alarma=True),
+        ul(
+            'Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela en el '
+              'grupo de WhatsApp de seguimiento).',
+            'Inflamación de un solo lado que aumenta rápidamente, se siente dura '
+              'o tensa, o se acompaña de dolor intenso.',
+            'Dolor que no cede con los medicamentos de su receta.',
+            'Sangrado que empapa la gasa o el vendaje.',
+            'Piel de color morado oscuro, negro o muy pálida, sobre todo detrás '
+              'de las orejas.',
+            'Fiebre de 38 °C o más.',
+            'Enrojecimiento que se extiende, calor local, salida de pus o mal '
+              'olor en las incisiones.',
+            'Dificultad para respirar o para tragar.',
+            'Debilidad de un lado de la cara que aparece después del día 2 o que '
+              'empeora.',
+            'Dolor, inflamación o enrojecimiento en una pantorrilla, o falta de '
+              'aire repentina.',
+        alarma=True),
+        nota('Si no logra comunicarse y presenta dificultad para respirar, '
+             'sangrado abundante o inflamación rápida del cuello, acuda a '
+             'urgencias del hospital más cercano e informe que tiene una cirugía '
+             'de estiramiento facial reciente.', alarma=True),
+        h('8. Constancia de entrega'),
+        p('Recibí esta hoja de indicaciones y mi receta.'),
+        firmas('Paciente', 'Acompañante responsable', 'Médico que entrega'),
+    ],
+ },
+ {
+    'id': 'lipoescultura',
+    'nombre': 'Lipoescultura Body360',
+    'titulo': 'Recomendaciones postoperatorias — Lipoescultura',
+    'coincide': ['lipoescultura', 'lipo escultura', 'liposuccion', 'body360', 'body 360', 'ribxcar'],
+    'entrada': 'Su recuperación forma parte del resultado. Estas indicaciones son '
+        'generales; si alguna difiere de lo que el Dr. Soto le indicó en '
+        'persona, siga siempre la indicación personal.',
+    'bloques': [
+        h2('Datos del procedimiento'),
+        tabla(
+            ['Campo', 'Dato'],
+            [
+                ['Procedimiento', 'Lipoescultura Body360® (4D / 5D)'],
+                ['Zonas tratadas', ''],
+            ],
+        ),
+        h('Primeras 72 horas'),
+        p('Caminar desde el mismo día de la cirugía es la medida más importante '
+          'para prevenir coágulos en las piernas.'),
+        ul(
+            'Caminar 5–10 minutos cada 1–2 horas mientras esté despierta, siempre '
+              'acompañada los primeros días.',
+            'Levantarse despacio: primero siéntese en la orilla de la cama 1–2 '
+              'minutos. Es común sentir mareo al incorporarse.',
+            'Reposo relativo: no reposo absoluto en cama. Descanse semisentada o '
+              'boca arriba, con almohada bajo las rodillas.',
+            'Mover tobillos en círculos y de arriba abajo 10 veces cada hora '
+              'mientras esté acostada.',
+            'Respiraciones profundas: 10 cada hora, para mantener los pulmones '
+              'bien expandidos.',
+            'Salida de líquido teñido de sangre por las incisiones es normal y '
+              'esperado las primeras 24–72 horas. Use toallas sanitarias o gasas '
+              'sobre las incisiones y proteja cama y asientos.',
+            'Siempre acompañada las primeras 24–48 horas; no se bañe sola la '
+              'primera vez.',
+        ),
+        h('Prenda de compresión'),
+        p('La faja se usa día y noche durante 6 semanas y después 12 horas al '
+          'día otras 6 semanas: 3 meses en total.'),
+        tabla(
+            ['Periodo', 'Uso', 'Indicación'],
+            [
+                ['Semanas 1–6', 'Faja etapa 1, día y noche', 'Retirar solo para bañarse'],
+                ['Semanas 7–12', 'Faja etapa 1, 12 horas al día', 'Usted elige el horario: de día o de noche'],
+            ],
+        ),
+        ul(
+            'Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento, '
+              'cambio de color en la piel o falta de aire, aflójela y llame.',
+            'Pliegues: revise que la faja no forme arrugas, sobre todo en '
+              'cintura, ingles y axilas; un pliegue marca la piel.',
+            'Higiene: tenga dos fajas para alternarlas y lavarlas a mano.',
+            'Pacientes Body360® 5D (RibXcar®): el corset inicia en el día 4 y se '
+              'ajusta 1 broche por semana hasta la semana 8.',
+        ),
+        h('Baño y cuidado de heridas'),
+        p('Puede bañarse a partir de las 48 horas, con agua tibia y acompañada '
+          'la primera vez.'),
+        ul(
+            'Regadera, no tina, alberca, jacuzzi, mar ni vapor por 4 semanas.',
+            'Agua tibia, nunca caliente: el calor aumenta la inflamación y puede '
+              'marear.',
+            'Jabón neutro; deje correr el agua sobre las incisiones sin tallarlas.',
+            'Secado a toques con toalla limpia; seque bien las incisiones antes '
+              'de volver a poner la faja.',
+            'Incisiones: manténgalas limpias y secas. No aplique cremas, pomadas, '
+              'alcohol ni remedios caseros salvo indicación.',
+            'Calor y frío local: no aplique compresas calientes, bolsas de agua '
+              'ni hielo directo. La piel tratada tiene menos sensibilidad y puede '
+              'quemarse sin que lo note.',
+        ),
+        h('Alimentación e hidratación'),
+        p('Beba de 2 a 3 litros de líquidos al día: después de una '
+          'lipoescultura el cuerpo pierde líquido por las incisiones y la '
+          'deshidratación causa mareo y desmayos.'),
+        ul(
+            'Primer día: dieta blanda (caldos, gelatina, fruta, pan tostado) y '
+              'avance a su dieta normal según tolere.',
+            'Líquidos: agua natural, suero oral y agua de coco. Evite refrescos y '
+              'bebidas muy azucaradas.',
+            'Proteína en cada comida (pollo, pescado, huevo, leguminosas, '
+              'lácteos): favorece la cicatrización.',
+            'Sal: reduzca embutidos, enlatados, comida rápida y botanas; la sal '
+              'aumenta la inflamación.',
+            'Estreñimiento: es frecuente por los analgésicos y la menor '
+              'actividad. Coma fibra (fruta, verdura, avena) y avise si pasan más '
+              'de 3 días sin evacuar.',
+            'Orina: debe ser clara y abundante. Orina escasa u oscura indica que '
+              'necesita más líquidos.',
+            'Alcohol: ninguno por al menos 2 semanas.',
+            'Tabaco y vapeador: ninguno por al menos 4 semanas; retrasan la '
+              'cicatrización y aumentan el riesgo de complicaciones.',
+        ),
+        h('Calendario de actividades'),
+        p('La mayoría de las pacientes vuelve a trabajo de oficina en 7–10 días '
+          'y al ejercicio completo a las 6 semanas.'),
+        tabla(
+            ['Actividad', 'A partir de', 'Nota'],
+            [
+                ['Caminar', 'Día 0', 'Obligatorio, varias veces al día'],
+                ['Trabajo de escritorio / home office', 'Día 7–10', 'Pararse y caminar cada hora'],
+                ['Manejar', 'Día 7–10', 'Sin analgésicos que den sueño y con movilidad completa para frenar'],
+                ['Viaje en avión corto (< 3 h)', 'Semana 2', 'Con faja, medias de compresión y caminando en el vuelo; avise antes'],
+                ['Viaje largo (> 3 h)', 'Semana 3–4', 'Solo con autorización'],
+                ['Cargar objetos pesados (> 5 kg)', 'Semana 4', 'Incluye cargar niños'],
+                ['Ejercicio ligero (caminadora, bicicleta fija)', 'Semana 3', 'Intensidad baja, sin impacto'],
+                ['Ejercicio completo (pesas, correr, abdomen)', 'Semana 6', ''],
+                ['Relaciones sexuales', 'Semana 2–3', 'Sin presión sobre las zonas tratadas'],
+                ['Sol directo / bronceado', 'Semana 6–8', 'Protector solar FPS 50 en cicatrices por 12 meses'],
+                ['Alberca, mar, tina, vapor', 'Semana 4', 'Con incisiones completamente cerradas'],
+            ],
+        ),
+        p('Postura: no duerma boca abajo las primeras 2 semanas. Si tiene '
+          'injerto de glúteos, siga la indicación específica de no apoyarse '
+          'sobre ellos.'),
+        h('Qué es normal'),
+        p('El resultado no se ve en la primera semana: la inflamación baja de '
+          'forma progresiva y el contorno final se aprecia entre los 3 y 6 '
+          'meses.'),
+        ul(
+            'Moretones extensos, que cambian de morado a verde y amarillo y bajan '
+              'hacia zonas inferiores. Desaparecen en 2–4 semanas.',
+            'Inflamación que aumenta al final del día y baja por la mañana. Puede '
+              'durar semanas, con altibajos.',
+            'Adormecimiento u hormigueo de la piel tratada. La sensibilidad '
+              'regresa en semanas a meses.',
+            'Zonas duras o con bordes bajo la piel en las semanas 3–8. Se '
+              'suavizan con el tiempo.',
+            'Cansancio las primeras 1–2 semanas.',
+            'Cambios de ánimo los primeros días: impaciencia o tristeza pasajera '
+              'al verse inflamada. Es frecuente y pasa.',
+            'Aumento de peso en la báscula la primera semana, por líquidos. No '
+              'refleja el resultado.',
+            'Dolor: sensación de haber hecho mucho ejercicio, ardor y '
+              'sensibilidad al tacto. Mejora de forma clara a partir del día 3–5.',
+        ),
+        h('Signos de alarma', alarma=True),
+        p('Ante cualquiera de estos síntomas llámenos al teléfono de urgencias '
+          'del consultorio, a cualquier hora.'),
+        h2('Llámenos de inmediato, sin esperar'),
+        ul(
+            'Falta de aire, dolor en el pecho, tos con sangre o sensación de que '
+              'el corazón late muy rápido.',
+            'Desmayo, confusión o somnolencia excesiva.',
+        alarma=True),
+        h2('Llámenos el mismo día'),
+        ul(
+            'Dolor, hinchazón o calor en una sola pantorrilla o pierna.',
+            'Fiebre de 38 °C o más.',
+            'Sangrado rojo brillante que empapa gasas o toallas en menos de 1 hora.',
+            'Una zona que crece rápido, se pone tensa y muy dolorosa, o que se '
+              'siente como bolsa de líquido.',
+            'Enrojecimiento que se extiende, calor, pus o mal olor en una incisión.',
+            'Piel que se torna oscura, morada intensa o negra, o ampollas.',
+            'Dolor que empeora en lugar de mejorar y no cede con sus medicamentos.',
+            'Mareo persistente, palidez marcada u orina muy escasa.',
+            'Náusea o vómito que no le permite tomar líquidos ni medicamentos.',
+        alarma=True),
+        h('Citas y constancia de entrega'),
+        p('Sus citas de control se coordinan con recepción.'),
+        p('Recibí y entendí estas indicaciones.'),
+        firmas('Paciente'),
+    ],
+ },
+ {
+    'id': 'mastopexia',
+    'nombre': 'Mastopexia',
+    'titulo': 'Recomendaciones postoperatorias — Mastopexia',
+    'coincide': ['mastopexia', 'pexia mamaria', 'levantamiento de busto', 'levantamiento de senos', 'levantamiento mamario'],
+    'entrada': 'Su recuperación forma parte del resultado. Estas indicaciones son '
+        'generales; si alguna difiere de lo que el Dr. Soto le indicó en '
+        'persona, siga siempre la indicación personal.',
+    'bloques': [
+        h2('Datos del procedimiento'),
+        tabla(
+            ['Campo', 'Dato'],
+            [
+                ['Procedimiento', 'Mastopexia — sin implantes / con implantes'],
+            ],
+        ),
+        h('Primeras 72 horas'),
+        p('Descanse boca arriba y semisentada, y camine varias veces al día '
+          'desde el día de la cirugía.'),
+        ul(
+            'Posición para dormir: boca arriba, con la espalda elevada 30–45° '
+              '(dos o tres almohadas o un respaldo). No duerma de lado ni boca '
+              'abajo.',
+            'Caminar 5–10 minutos cada 1–2 horas mientras esté despierta, '
+              'acompañada los primeros días.',
+            'Levantarse despacio: siéntese primero en la orilla de la cama y '
+              'apóyese en las piernas, no en los brazos. Es común sentir mareo al '
+              'incorporarse.',
+            'Brazos pegados al cuerpo: no los levante por arriba de los hombros '
+              'ni empuje o jale con ellos. Puede comer, peinarse con cuidado y usar '
+              'el celular.',
+            'Mover tobillos en círculos y de arriba abajo 10 veces cada hora '
+              'mientras esté acostada.',
+            'Respiraciones profundas: 10 cada hora.',
+            'Siempre acompañada las primeras 24–48 horas; no se bañe sola la '
+              'primera vez.',
+        ),
+        h('Brasier postquirúrgico'),
+        p('El brasier postquirúrgico se usa día y noche durante 6 semanas; solo '
+          'se retira para bañarse.'),
+        tabla(
+            ['Periodo', 'Uso', 'Indicación'],
+            [
+                ['Semanas 1–6', 'Brasier postquirúrgico, día y noche', 'Retirar solo para bañarse'],
+                ['Semanas 7–12', 'Brasier deportivo sin varilla', 'Día y noche, o como se le indique'],
+                ['A partir de la semana 12', 'Brasier con varilla', 'Solo con autorización'],
+            ],
+        ),
+        ul(
+            'Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento o '
+              'cambio de color en la piel, aflójelo y llámenos.',
+            'Pliegues: revise que no se formen arrugas ni que el borde apriete '
+              'sobre las cicatrices.',
+            'Higiene: tenga dos brasieres para alternarlos y lavarlos a mano.',
+        ),
+        h('Baño y cuidado de cicatrices'),
+        p('Puede bañarse a partir de las 48 horas, con agua tibia y acompañada '
+          'la primera vez.'),
+        ul(
+            'Regadera, no tina, alberca, jacuzzi, mar ni vapor por 4 semanas.',
+            'Agua tibia, nunca caliente; dé la espalda al chorro para que el agua '
+              'no golpee directo sobre las mamas.',
+            'Jabón neutro; deje correr el agua sobre las heridas sin tallarlas.',
+            'Secado a toques con toalla limpia; seque bien las heridas antes de '
+              'volver a poner el brasier.',
+            'Cintas adhesivas (si las tiene): no las retire; se caen solas o se '
+              'retiran por el equipo médico.',
+            'Heridas: manténgalas limpias y secas. No aplique cremas, pomadas, '
+              'alcohol ni remedios caseros salvo indicación.',
+            'Cicatrices: una vez cerradas por completo, protéjalas del sol con '
+              'ropa y protector FPS 50 durante 12 meses. Es normal que se vean '
+              'rojizas y firmes los primeros meses.',
+            'Calor y frío local: no aplique compresas calientes, bolsas de agua '
+              'ni hielo directo. La piel del pezón y la areola puede tener menos '
+              'sensibilidad y quemarse sin que lo note.',
+        ),
+        h('Alimentación e hidratación'),
+        p('Beba de 2 a 2.5 litros de líquidos al día y coma proteína en cada '
+          'comida para favorecer la cicatrización.'),
+        ul(
+            'Primer día: dieta blanda (caldos, gelatina, fruta, pan tostado) y '
+              'avance a su dieta normal según tolere.',
+            'Líquidos: agua natural, suero oral y agua de coco. Evite refrescos y '
+              'bebidas muy azucaradas.',
+            'Proteína en cada comida (pollo, pescado, huevo, leguminosas, lácteos).',
+            'Sal: reduzca embutidos, enlatados, comida rápida y botanas; la sal '
+              'aumenta la inflamación.',
+            'Estreñimiento: coma fibra (fruta, verdura, avena) y avise si pasan '
+              'más de 3 días sin evacuar.',
+            'Alcohol: ninguno por al menos 2 semanas.',
+            'Tabaco y vapeador: ninguno por al menos 4 semanas. En la mastopexia '
+              'el tabaco reduce la circulación del pezón y la areola y aumenta el '
+              'riesgo de que las heridas se abran.',
+        ),
+        h('Calendario de actividades'),
+        p('La mayoría de las pacientes vuelve a trabajo de oficina en 5–7 días '
+          'y al ejercicio completo a las 6–8 semanas.'),
+        tabla(
+            ['Actividad', 'A partir de', 'Nota'],
+            [
+                ['Caminar', 'Día 0', 'Obligatorio, varias veces al día'],
+                ['Trabajo de escritorio / home office', 'Día 5–7', 'Sin cargar ni levantar los brazos'],
+                ['Manejar', 'Día 7–10', 'Cuando pueda girar el volante y frenar sin dolor'],
+                ['Viaje en avión corto (< 3 h)', 'Semana 2', 'Con brasier y caminando en el vuelo; avísenos antes'],
+                ['Viaje largo (> 3 h)', 'Semana 3–4', 'Solo con autorización'],
+                ['Levantar los brazos por arriba de los hombros', 'Semana 3', 'De forma progresiva'],
+                ['Cargar objetos pesados (> 5 kg)', 'Semana 4–6', 'Incluye cargar niños, bolsas del súper y maletas'],
+                ['Ejercicio ligero (caminadora, bicicleta fija)', 'Semana 3', 'Intensidad baja, sin rebote'],
+                ['Ejercicio de piernas', 'Semana 4', 'Sin usar brazos ni pecho'],
+                ['Ejercicio completo (pecho, brazos, correr, saltar)', 'Semana 6–8', 'Con brasier deportivo firme'],
+                ['Dormir de lado', 'Semana 4–6', ''],
+                ['Dormir boca abajo', 'Semana 8', ''],
+                ['Relaciones sexuales', 'Semana 2–3', 'Sin presión ni manipulación de las mamas'],
+                ['Alberca, mar, tina, vapor', 'Semana 4', 'Con heridas completamente cerradas'],
+                ['Sol directo / bronceado', 'Semana 6–8', 'Cicatrices siempre cubiertas o con FPS 50'],
+            ],
+        ),
+        h('Qué es normal'),
+        p('Las mamas se ven altas, firmes e inflamadas al inicio; la forma '
+          'final se asienta entre los 3 y 6 meses.'),
+        ul(
+            'Mamas altas y apretadas las primeras semanas. Descienden y se '
+              'redondean de forma progresiva.',
+            'Asimetría leve entre un lado y otro mientras baja la inflamación; '
+              'cada mama se desinflama a su ritmo.',
+            'Moretones que cambian de morado a verde y amarillo. Desaparecen en '
+              '2–3 semanas.',
+            'Sensibilidad del pezón y la areola aumentada, disminuida o con '
+              'hormigueo. Suele recuperarse en semanas a meses.',
+            'Punzadas o «toques eléctricos» breves: son parte de la recuperación '
+              'de los nervios.',
+            'Pequeñas costras en la unión de las cicatrices (bajo la areola o en '
+              'el surco). Manténgalas limpias y secas.',
+            'Cicatrices rojizas y firmes los primeros 3–6 meses; se aclaran y '
+              'suavizan durante el primer año.',
+            'Dolor: sensación de tensión y ardor en el pecho. Mejora de forma '
+              'clara a partir del día 3–5.',
+            'Cansancio las primeras 1–2 semanas.',
+        ),
+        h('Signos de alarma', alarma=True),
+        p('Ante cualquiera de estos síntomas llámenos al teléfono de urgencias '
+          'del consultorio, a cualquier hora.'),
+        h2('Llámenos de inmediato, sin esperar'),
+        ul(
+            'Falta de aire, dolor en el pecho, tos con sangre o sensación de que '
+              'el corazón late muy rápido.',
+            'Desmayo, confusión o somnolencia excesiva.',
+            'Una mama que crece rápido, se pone tensa, dura y muy dolorosa, mucho '
+              'más que la otra.',
+            'Pezón o areola que se torna morada oscura, gris o negra, o que se '
+              'siente fría.',
+        alarma=True),
+        h2('Llámenos el mismo día'),
+        ul(
+            'Dolor, hinchazón o calor en una sola pantorrilla o pierna.',
+            'Fiebre de 38 °C o más.',
+            'Sangrado rojo brillante que empapa gasas o el brasier.',
+            'Enrojecimiento que se extiende, calor, pus o mal olor en una herida.',
+            'Una herida que se abre o deja ver tejido.',
+            'Salida de líquido abundante o una zona que se siente como bolsa de '
+              'líquido.',
+            'Dolor que empeora en lugar de mejorar.',
+            'Náusea o vómito que no le permite tomar líquidos.',
+        alarma=True),
+        h('Citas y constancia de entrega'),
+        p('Sus citas de control se coordinan con recepción.'),
+        p('Recibí y entendí estas indicaciones.'),
+        firmas('Paciente'),
+    ],
+ },
+ {
+    'id': 'rinoplastia',
+    'nombre': 'Rinoplastia',
+    'titulo': 'Recomendaciones postoperatorias — Rinoplastia',
+    'coincide': ['rinoplastia', 'septorrinoplastia', 'rinoseptoplastia'],
+    'entrada': 'Su recuperación forma parte del resultado. Estas indicaciones son '
+        'generales; si alguna difiere de lo que el Dr. Soto le indicó en '
+        'persona, siga siempre la indicación personal.',
+    'bloques': [
+        h2('Datos del procedimiento'),
+        tabla(
+            ['Campo', 'Dato'],
+            [
+                ['Procedimiento', 'Rinoplastia ultrasónica'],
+            ],
+        ),
+        h('Primeras 72 horas'),
+        p('Cabeza elevada, frío local y no golpear ni presionar la nariz son '
+          'las tres medidas más importantes de los primeros días.'),
+        ul(
+            'Cabeza elevada a 30–45° día y noche (dos o tres almohadas o un '
+              'respaldo), durante 1–2 semanas. Duerma boca arriba; no de lado ni '
+              'boca abajo.',
+            'Compresas frías sobre los ojos y mejillas, nunca sobre la nariz: '
+              'gasas humedecidas en agua fría o chícharos congelados envueltos en '
+              'una tela delgada, 15–20 minutos cada hora mientras esté '
+              'despierto(a), durante las primeras 48–72 horas.',
+            'Respiración por la boca: es normal tener la nariz tapada. Tenga agua '
+              'a la mano y bálsamo para los labios.',
+            'Gasa bajo la nariz (bigotera): cámbiela cuando se manche. Es normal '
+              'que escurra un poco de sangre los primeros 2–3 días.',
+            'No se suene la nariz ni introduzca hisopos o dedos en las fosas '
+              'nasales.',
+            'Estornudar con la boca abierta, para que el aire no salga con fuerza '
+              'por la nariz.',
+            'No agacharse con la cabeza por debajo del corazón ni hacer esfuerzos '
+              '(cargar, pujar).',
+            'Caminar dentro de casa varias veces al día, acompañado(a) las '
+              'primeras 24 horas.',
+        ),
+        h('Férula, nariz y heridas'),
+        p('La férula protege la nueva forma de la nariz: no la moje, no la '
+          'mueva y no la retire usted.'),
+        ul(
+            'Férula y cintas: manténgalas secas. Si una orilla se despega, no la '
+              'jale ni la vuelva a pegar; llámenos.',
+            'Baño: puede bañarse a partir de las 24–48 horas, con la cabeza fuera '
+              'del chorro. Lave el cabello con la cabeza hacia atrás, como en la '
+              'estética, para no mojar la férula.',
+            'Cara: lávela con una toallita húmeda evitando la nariz; seque a '
+              'toques.',
+            'Orillas de las fosas nasales: retire las costras de la entrada con '
+              'un hisopo humedecido en agua, solo en la parte visible, sin '
+              'introducirlo.',
+            'Herida de la columela (si se le hizo): manténgala limpia y seca. No '
+              'aplique cremas, pomadas, alcohol ni remedios caseros salvo '
+              'indicación.',
+            'Anteojos: no los apoye sobre la nariz durante 6 semanas. Use lentes '
+              'de contacto o péguelos con cinta a la frente.',
+            'Presión sobre la nariz: nada de cubrebocas apretados, antifaces para '
+              'dormir ni cargar a niños o mascotas que puedan golpearle la cara.',
+            'Sol: la piel de la nariz se mancha con facilidad. Use gorra y '
+              'protector FPS 50 durante 6 meses.',
+            'Después de retirar la férula: toque la nariz con suavidad; no la '
+              'masajee ni la apriete salvo indicación.',
+        ),
+        h('Alimentación e hidratación'),
+        p('Coma alimentos blandos y a temperatura tibia la primera semana, y '
+          'reduzca la sal para bajar la inflamación.'),
+        ul(
+            'Primera semana: alimentos blandos que no requieran masticar mucho ni '
+              'abrir mucho la boca (purés, caldos, huevo, pescado, pasta). Evite '
+              'alimentos duros como manzana entera, elote o carne dura.',
+            'Temperatura: tibia o fría; evite bebidas y comidas muy calientes los '
+              'primeros 3 días.',
+            'Líquidos: 2 litros al día de agua natural. Con la nariz tapada la '
+              'boca se reseca más.',
+            'Sal: reduzca embutidos, enlatados, comida rápida, botanas y salsas.',
+            'Picante: evitarlo la primera semana; congestiona la nariz.',
+            'Estreñimiento: coma fibra (fruta, verdura, avena); pujar aumenta la '
+              'presión en la cara.',
+            'Alcohol: ninguno por al menos 2 semanas.',
+            'Tabaco y vapeador: ninguno por al menos 4 semanas; retrasan la '
+              'cicatrización y el humo irrita la nariz.',
+        ),
+        h('Calendario de actividades'),
+        p('La mayoría de los pacientes vuelve a trabajo de oficina en 7–10 días '
+          'y al ejercicio completo a las 4–6 semanas.'),
+        tabla(
+            ['Actividad', 'A partir de', 'Nota'],
+            [
+                ['Caminar dentro de casa', 'Día 0', 'Varias veces al día'],
+                ['Trabajo de escritorio / home office', 'Día 7–10', ''],
+                ['Manejar', 'Día 7–10', 'Con buena visión y sin inflamación de párpados que la limite'],
+                ['Viaje en avión', 'Semana 2', 'Avísenos antes; la presión de cabina puede congestionar'],
+                ['Ejercicio ligero (caminata)', 'Semana 2', 'Sin agacharse ni cargar'],
+                ['Ejercicio completo (pesas, correr, yoga invertido)', 'Semana 4–6', ''],
+                ['Nadar, alberca, mar', 'Semana 4–6', ''],
+                ['Deportes de contacto o con pelota', 'Semana 8–12', 'Riesgo de golpe en la nariz'],
+                ['Anteojos apoyados en la nariz', 'Semana 6', ''],
+                ['Dormir de lado', 'Semana 2', ''],
+                ['Dormir boca abajo', 'Semana 6', ''],
+                ['Sol directo', 'Semana 4', 'Siempre con gorra y FPS 50'],
+                ['Tratamientos faciales, depilación o láser en la nariz', 'Semana 6–8', 'Solo con autorización'],
+            ],
+        ),
+        h('Qué es normal'),
+        p('La nariz tarda en mostrar su forma final: la mayor parte de la '
+          'inflamación baja en 3 meses, pero la punta termina de definirse '
+          'entre los 12 y 18 meses.'),
+        ul(
+            'Nariz tapada las primeras 1–2 semanas, y congestión intermitente '
+              'durante semanas después.',
+            'Escurrimiento de moco con un poco de sangre los primeros 2–3 días.',
+            'Moretones e inflamación alrededor de los ojos y mejillas, mayores '
+              'entre el día 2 y 3. Desaparecen en 1–2 semanas.',
+            'Mancha roja en lo blanco del ojo: no afecta la visión y desaparece '
+              'en 2–3 semanas.',
+            'Nariz más ancha o gruesa al retirar la férula, y más inflamada por '
+              'la mañana. Es inflamación y baja poco a poco.',
+            'Punta dura y adormecida, y a veces el labio superior. La '
+              'sensibilidad regresa en semanas a meses.',
+            'Dificultad para sonreír con naturalidad las primeras semanas.',
+            'Piel grasosa o con granitos en la nariz al retirar la férula.',
+            'Olfato disminuido mientras la nariz está congestionada.',
+            'Dolor leve y sensación de presión. Mejora de forma clara a partir '
+              'del día 2–3.',
+        ),
+        h('Signos de alarma', alarma=True),
+        p('Ante cualquiera de estos síntomas llámenos al teléfono de urgencias '
+          'del consultorio, a cualquier hora.'),
+        h2('Llámenos de inmediato, sin esperar'),
+        ul(
+            'Sangrado rojo brillante por la nariz o por la garganta que no se '
+              'detiene después de 15 minutos sentado(a), con la cabeza ligeramente '
+              'hacia adelante.',
+            'Falta de aire, dolor en el pecho o desmayo.',
+            'Golpe fuerte en la nariz.',
+            'Pérdida o disminución repentina de la visión.',
+        alarma=True),
+        h2('Llámenos el mismo día'),
+        ul(
+            'Fiebre de 38 °C o más.',
+            'Dolor que empeora en lugar de mejorar.',
+            'Enrojecimiento que se extiende, calor, pus o mal olor en la nariz o '
+              'en la herida.',
+            'Salida abundante de líquido claro y aguado por la nariz, sobre todo '
+              'al inclinarse hacia adelante.',
+            'Piel de la nariz que se torna oscura, morada o con ampollas bajo la '
+              'férula.',
+            'Férula que se despega o se mueve.',
+            'Náusea o vómito que no le permite tomar líquidos.',
+        alarma=True),
+        h('Citas y constancia de entrega'),
+        p('Sus citas de control se coordinan con recepción.'),
+        p('Recibí y entendí estas indicaciones.'),
+        firmas('Paciente'),
+    ],
+ },
+ {
+    'id': 'blefaroplastia',
+    'nombre': 'Blefaroplastia',
+    'titulo': 'Recomendaciones postoperatorias — Blefaroplastia',
+    'coincide': ['blefaroplastia', 'blefaro', 'cirugia de parpados', 'cirugía de párpados'],
+    'entrada': 'Su recuperación forma parte del resultado. Estas indicaciones son '
+        'generales; si alguna difiere de lo que el Dr. Soto le indicó en '
+        'persona, siga siempre la indicación personal.',
+    'bloques': [
+        h2('Datos del procedimiento'),
+        tabla(
+            ['Campo', 'Dato'],
+            [
+                ['Procedimiento', 'Blefaroplastia — superior / inferior / superior e inferior'],
+            ],
+        ),
+        h('Primeras 72 horas'),
+        p('Cabeza elevada y compresas frías son las dos medidas que más reducen '
+          'la inflamación y los moretones.'),
+        ul(
+            'Cabeza elevada a 30–45° día y noche (dos o tres almohadas o un '
+              'respaldo), durante 1 semana. Duerma boca arriba, no de lado ni boca '
+              'abajo.',
+            'Compresas frías: gasas humedecidas en agua fría o solución salina, o '
+              'chícharos congelados envueltos en una tela delgada, sobre los ojos '
+              'cerrados 15–20 minutos cada hora mientras esté despierto(a), durante '
+              'las primeras 48–72 horas. Nunca hielo directo sobre la piel.',
+            'No se frote ni se talle los ojos.',
+            'Reposo visual: evite leer, pantallas y televisión por periodos '
+              'largos los primeros 2–3 días; cansan la vista y resecan el ojo. '
+              'Descanse los ojos cerrados con frecuencia.',
+            'Caminar dentro de casa varias veces al día.',
+            'No agacharse con la cabeza por debajo del corazón ni hacer esfuerzos '
+              '(cargar, pujar); aumentan la inflamación y el riesgo de sangrado.',
+            'Acompañado(a) las primeras 24 horas.',
+        ),
+        h('Cuidado de ojos y heridas'),
+        p('Mantenga las heridas limpias y secas, y proteja los ojos del sol, el '
+          'polvo y el viento.'),
+        ul(
+            'Limpieza: retire con suavidad las costras o secreciones de las '
+              'heridas con un hisopo o gasa humedecida en solución salina, sin '
+              'tallar.',
+            'Baño: puede bañarse a partir de las 24–48 horas. Lave el cabello con '
+              'la cabeza hacia atrás y evite que el agua o el champú caigan directo '
+              'sobre los ojos.',
+            'Cara: lávela con agua y jabón neutro evitando la zona de los '
+              'párpados; seque a toques.',
+            'Lentes de contacto: no los use durante 2 semanas. Use sus anteojos '
+              'de graduación.',
+            'Maquillaje en los ojos (sombras, delineador, rímel) y pestañas '
+              'postizas: no los use durante 2 semanas, ni sobre las heridas hasta '
+              'que estén completamente cerradas.',
+            'Lentes oscuros al salir: protegen del sol, el viento y el polvo.',
+            'Cremas y remedios caseros: no aplique ninguno sobre las heridas '
+              'salvo indicación.',
+            'Cicatrices: una vez cerradas, protéjalas del sol con lentes oscuros '
+              'y protector FPS 50 durante 6 meses.',
+        ),
+        h('Alimentación e hidratación'),
+        p('Reduzca la sal y beba suficiente agua: la sal aumenta la inflamación '
+          'de los párpados.'),
+        ul(
+            'Primer día: dieta blanda y avance a su dieta normal según tolere.',
+            'Líquidos: 2 litros al día de agua natural. Evite refrescos y bebidas '
+              'muy azucaradas.',
+            'Sal: reduzca embutidos, enlatados, comida rápida, botanas y salsas; '
+              'favorecen que los párpados se hinchen, sobre todo por la mañana.',
+            'Proteína en cada comida (pollo, pescado, huevo, leguminosas, '
+              'lácteos): favorece la cicatrización.',
+            'Estreñimiento: coma fibra (fruta, verdura, avena); pujar aumenta la '
+              'presión en la cara.',
+            'Alcohol: ninguno por al menos 2 semanas.',
+            'Tabaco y vapeador: ninguno por al menos 4 semanas; retrasan la '
+              'cicatrización y el humo irrita los ojos.',
+        ),
+        h('Calendario de actividades'),
+        p('La mayoría de los pacientes vuelve a trabajo de oficina en 7–10 días '
+          'y al ejercicio completo a las 3–4 semanas.'),
+        tabla(
+            ['Actividad', 'A partir de', 'Nota'],
+            [
+                ['Caminar dentro de casa', 'Día 0', 'Varias veces al día'],
+                ['Leer, pantallas, televisión', 'Día 3', 'En periodos cortos, con descansos'],
+                ['Trabajo de escritorio / home office', 'Día 7–10', 'Descansos frecuentes para los ojos'],
+                ['Manejar', 'Día 7–10', 'Cuando vea con claridad, sin visión borrosa'],
+                ['Viaje en avión', 'Semana 2', 'Avísenos antes'],
+                ['Lentes de contacto', 'Semana 2', ''],
+                ['Maquillaje en los ojos', 'Semana 2', 'Con heridas completamente cerradas'],
+                ['Ejercicio ligero (caminata)', 'Semana 2', 'Sin agacharse ni cargar'],
+                ['Ejercicio completo (pesas, correr, yoga invertido)', 'Semana 3–4', ''],
+                ['Alberca, mar, vapor, sauna', 'Semana 3–4', 'Con heridas completamente cerradas'],
+                ['Sol directo', 'Semana 4', 'Siempre con lentes oscuros y FPS 50'],
+                ['Tinte de pestañas, extensiones, tratamientos faciales', 'Semana 6', 'Solo con autorización'],
+            ],
+        ),
+        h('Qué es normal'),
+        p('La mayor parte de la inflamación y los moretones baja en 2 semanas; '
+          'el resultado final se aprecia entre los 3 y 6 meses.'),
+        ul(
+            'Inflamación de párpados, mayor entre el día 2 y 3, y más marcada por '
+              'la mañana.',
+            'Moretones alrededor de los ojos y a veces en mejillas, que cambian '
+              'de morado a verde y amarillo. Desaparecen en 2–3 semanas.',
+            'Mancha roja en lo blanco del ojo (derrame en la conjuntiva): no '
+              'afecta la visión y desaparece en 2–3 semanas.',
+            'Ojo seco o lagrimeo, ardor y sensación de arenilla las primeras '
+              'semanas.',
+            'Visión un poco borrosa los primeros días por la inflamación; mejora '
+              'al parpadear.',
+            'Dificultad para cerrar los ojos por completo los primeros días, '
+              'sobre todo al dormir. Mejora conforme baja la inflamación.',
+            'Adormecimiento o tirantez de los párpados, que mejora en semanas.',
+            'Asimetría leve entre un ojo y otro mientras baja la inflamación.',
+            'Cicatrices rosadas los primeros meses; se aclaran y quedan '
+              'escondidas en el pliegue del párpado o bajo las pestañas.',
+            'Dolor leve: sensación de tirantez y ardor. Mejora de forma clara a '
+              'partir del día 2–3.',
+        ),
+        h('Signos de alarma', alarma=True),
+        p('Ante cualquiera de estos síntomas llámenos al teléfono de urgencias '
+          'del consultorio, a cualquier hora.'),
+        h2('Llámenos de inmediato, sin esperar'),
+        ul(
+            'Pérdida o disminución repentina de la visión, o visión doble que no '
+              'se quita al parpadear.',
+            'Dolor intenso en un ojo, que no mejora y va en aumento.',
+            'Un ojo que se abulta o se sale hacia adelante, con el párpado muy '
+              'tenso, duro y morado.',
+            'Falta de aire, dolor en el pecho o desmayo.',
+        alarma=True),
+        h2('Llámenos el mismo día'),
+        ul(
+            'Sangrado que no se detiene después de 10 minutos de presión suave '
+              'con una gasa.',
+            'Fiebre de 38 °C o más.',
+            'Enrojecimiento que se extiende, calor, pus o mal olor en una herida.',
+            'Una herida que se abre.',
+            'Secreción amarilla o verde en el ojo, o ojo rojo con dolor.',
+            'Inflamación que aumenta después del día 3 en lugar de bajar.',
+            'Incapacidad para cerrar el ojo que no mejora, con ardor intenso.',
+        alarma=True),
+        h('Citas y constancia de entrega'),
+        p('Sus citas de control se coordinan con recepción.'),
+        p('Recibí y entendí estas indicaciones.'),
+        firmas('Paciente'),
+    ],
+ },
+ {
+    'id': 'faja',
+    'nombre': 'Uso de la faja',
+    'titulo': 'Recomendaciones de uso de faja',
+    'coincide': [],
+    'entrada': 'La faja ayuda a que la piel se adhiera de forma pareja a su nuevo '
+        'contorno y a controlar la inflamación. Bien usada no lastima: estas '
+        'indicaciones están pensadas para proteger su piel durante todo el '
+        'tiempo de uso.',
+    'bloques': [
+        h2('Datos de la faja'),
+        tabla(
+            ['Campo', 'Dato'],
+            [
+                ['Zonas tratadas', ''],
+                ['Faja de cuerpo', 'Marena, primera etapa — modelo y talla:'],
+                ['Faja de cuello', 'Sí / No'],
+            ],
+        ),
+        h('Calendario de uso'),
+        p('La faja de cuerpo se usa 12 semanas en total —tres meses—; la de '
+          'cuello, solo 2 semanas y solo mientras esté en casa.'),
+        tabla(
+            ['Periodo', 'Faja de cuerpo', 'Faja de cuello'],
+            [
+                ['Semanas 1–2', 'Día y noche; solo se retira para bañarse', 'Solo mientras esté en casa'],
+                ['Semanas 3–6', 'Día y noche; solo se retira para bañarse', 'Se suspende'],
+                ['Semanas 7–12', '12 horas al día, en el horario que usted elija', '—'],
+                ['Desde la semana 13', 'Se suspende', '—'],
+            ],
+        ),
+        ul(
+            'Una sola faja de primera etapa durante todo el tratamiento; no se '
+              'cambia a una de segunda etapa.',
+            'Horario de las semanas 7–12: usted decide si la usa de día o de '
+              'noche, siempre que sumen 12 horas.',
+            'Faja de cuello: úsela en casa, incluida la noche, y no la lleve al '
+              'salir. Después de 2 semanas ya no es necesaria.',
+        ),
+        h('Cómo proteger la piel'),
+        p('Use siempre una camiseta de algodón debajo de la faja: evita que la '
+          'faja roce, marque o irrite directamente la piel.'),
+        h2('La camiseta'),
+        ul(
+            '100 % algodón, delgada, ajustada al cuerpo y sin estampados, '
+              'etiquetas ni costuras gruesas.',
+            'Larga, que llegue por debajo de la cadera para que quede entre la '
+              'faja y la piel en toda la zona cubierta.',
+            'Al revés si sus costuras son marcadas, para que no queden contra la '
+              'piel.',
+            'Bien estirada: antes de cerrar la faja, jale la camiseta hacia abajo '
+              'y alise cualquier arruga. Un pliegue de tela bajo la faja deja '
+              'marca.',
+            'Cámbiela cada día y siempre que se humedezca por sudor o por líquido '
+              'de las incisiones. Tenga al menos 4–5 camisetas.',
+        ),
+        h2('Puntos de roce que debe revisar'),
+        ul(
+            'Ingles, axilas y debajo de las mamas: es donde los bordes de la faja '
+              'más lastiman. Revise que el borde no se enrolle ni se clave.',
+            'Cierres, broches y ganchos: no deben quedar directo sobre la piel; '
+              'la camiseta debe cubrirlos por dentro.',
+            'Costuras de la faja: si una costura marca siempre el mismo lugar, '
+              'avísenos.',
+        ),
+        h2('Todos los días'),
+        ul(
+            'Revise su piel al bañarse, con ayuda de un espejo o de su '
+              'acompañante, sobre todo en ingles, axilas, cintura y espalda.',
+            'Piel seca: séquela por completo antes de ponerse camiseta y faja. La '
+              'humedad atrapada irrita y lastima la piel.',
+            'Sin cremas, aceites ni talcos bajo la faja salvo indicación; '
+              'ablandan la piel y favorecen las rozaduras.',
+        ),
+        h('Cómo ponerla, ajustarla y retirarla'),
+        p('La faja debe sentirse firme, como un abrazo apretado, nunca dolorosa '
+          'ni dificultando la respiración.'),
+        ul(
+            '1. Prepárese sentada o recostada, con la piel seca y la camiseta de '
+              'algodón ya puesta y estirada.',
+            '2. Cierre de abajo hacia arriba, broche por broche o con el cierre, '
+              'sin forzar. Pida ayuda las primeras semanas; no haga esfuerzo con '
+              'los brazos.',
+            '3. Acomode la faja jalándola suavemente hacia abajo para que no '
+              'queden arrugas y los bordes no se enrollen en ingles, cintura ni '
+              'axilas.',
+            '4. Revise el ajuste: debe poder meter dos dedos entre la faja y la '
+              'camiseta en el borde. Si no entran, está demasiado apretada.',
+            '5. Para retirarla, ábrala de arriba hacia abajo, sentada o '
+              'recostada. Es normal sentir mareo o una sensación de «aflojamiento» '
+              'al quitarla las primeras veces; hágalo acompañada y vuelva a ponerla '
+              'en cuanto termine de bañarse.',
+        ),
+        ul(
+            'Tiempo sin faja en las primeras 6 semanas: solo el del baño, máximo '
+              '30 minutos.',
+            'Marcas leves de costuras que desaparecen en menos de una hora al '
+              'quitarla son normales. Las que no desaparecen indican que algo está '
+              'rozando o apretando de más.',
+            'Faja floja: conforme baja la inflamación la faja puede aflojarse. Si '
+              'se forman pliegues o ya no comprime, avísenos; no la ajuste con '
+              'alfileres, cintas ni fajas encimadas.',
+            'Faja de cuello: debe sujetar sin apretar. Si siente presión al '
+              'tragar, dificultad para respirar o la cara se le inflama más, '
+              'aflójela y llámenos.',
+        ),
+        h('Lavado y cuidado de la faja'),
+        ul(
+            'Tenga dos fajas para alternarlas: así puede lavar una sin quedarse '
+              'sin compresión.',
+            'Lavado a mano con agua tibia o fría y jabón neutro, cada 1–2 días o '
+              'cuando se humedezca.',
+            'Sin suavizante, cloro ni detergentes fuertes: irritan la piel y '
+              'dañan la tela.',
+            'Secado a la sombra, extendida. No use secadora, plancha ni la '
+              'exponga al sol directo; pierde elasticidad.',
+            'Cierres y broches: ciérrelos antes de lavar para que no se enganchen '
+              'ni se deformen.',
+            'Faja dañada: si un broche se rompe, una costura se abre o la tela se '
+              'estira de más, avísenos para reponerla.',
+        ),
+        h('Señales de que la faja la está lastimando', alarma=True),
+        p('Si nota cualquiera de estas señales, afloje la faja y llámenos el '
+          'mismo día.'),
+        ul(
+            'Rozadura, piel pelada o ardor en ingles, axilas, cintura o bajo las '
+              'mamas.',
+            'Ampollas, aunque sean pequeñas.',
+            'Una marca roja o morada que no desaparece una hora después de '
+              'quitarse la faja.',
+            'Una zona de piel que se torna oscura, morada intensa o negra.',
+            'Hormigueo, adormecimiento o frío en las piernas o los pies.',
+            'Dificultad para respirar con la faja puesta.',
+            'Mareo o desmayo al ponerse o quitarse la faja.',
+        alarma=True),
+        nota('Llámenos de inmediato si tiene falta de aire, dolor en el pecho, '
+             'dolor e hinchazón en una sola pantorrilla, o si la faja de cuello le '
+             'dificulta tragar o respirar.', alarma=True),
+        h('Constancia de entrega'),
+        p('Recibí y entendí estas indicaciones.'),
+        firmas('Paciente'),
+    ],
+ },
+ {
+    'id': 'preoperatorias',
+    'nombre': 'Recomendaciones preoperatorias',
+    'titulo': 'Recomendaciones preoperatorias',
+    'coincide': [],
+    'entrada': 'Lo que haga en las semanas previas pesa tanto como la cirugía: '
+        'reduce el sangrado, la inflamación y el tiempo de recuperación. Esta '
+        'hoja aplica a todas las cirugías; si su procedimiento necesita algo '
+        'distinto, se lo indicaremos por escrito.',
+    'bloques': [
+        h('Antes de empezar'),
+        ul(
+            'Léala completa hoy y vuelva a leerla una semana antes de su cirugía.',
+            'Los medicamentos de su cirugía se los entregamos nosotros, junto con '
+              'sus indicaciones para después de la cirugía: no necesita comprar '
+              'nada.',
+            'Si no se cumplen estas indicaciones, por su seguridad podemos '
+              'reprogramar la cirugía.',
+            'Cualquier duda: escríbanos por WhatsApp al 55 6223 4133.',
+        ),
+        h('Estudios y valoraciones'),
+        ul(
+            'Sus laboratorios se los tomamos nosotros: le diremos cuándo. Los '
+              'resultados deben estar listos y revisados antes de confirmar su '
+              'cirugía.',
+            'Tendrá una valoración preanestésica con la anestesióloga antes de la '
+              'cirugía. Cuéntele todo lo que toma y cualquier problema que haya '
+              'tenido con una anestesia, suyo o de su familia.',
+            'Si tiene presión alta, aunque sea «poquito», avísenos: debe estar '
+              'controlada antes de operar. Es una de las causas principales de '
+              'sangrado e inflamación.',
+        ),
+        h('Lo que debes suspender'),
+        p('Suspenda todo lo de esta tabla 14 días antes de la cirugía y no lo '
+          'retome hasta que se lo autoricemos. Aumentan el sangrado, los '
+          'moretones y la inflamación. Revise las etiquetas: muchos productos '
+          '«naturales» los contienen.'),
+        tabla(
+            ['Qué', 'Ejemplos'],
+            [
+                ['Analgésicos antiinflamatorios', 'Aspirina, ibuprofeno (Advil, Motrin), naproxeno (Flanax), '
+                 'diclofenaco, ketorolaco, celecoxib, Alka-Seltzer, Excedrin, '
+                 'ungüentos para dolor muscular'],
+                ['Suplementos y vitaminas', 'Omega 3 / aceite de pescado, vitamina E, multivitamínicos, colágeno '
+                 'con vitamina E, linaza'],
+                ['Herbolaria', 'Ginkgo biloba, ajo, jengibre, cúrcuma, ginseng, hierba de San Juan, '
+                 'té verde concentrado, valeriana'],
+                ['Productos para bajar de peso', 'Quemadores de grasa, tés adelgazantes, fentermina y similares'],
+                ['Cannabis y CBD', 'En cualquier forma: fumado, comestible, aceite'],
+            ],
+        ),
+        p('Si le duele algo, el único analgésico permitido es paracetamol '
+          '(Tylenol).'),
+        h('Medicamentos que debes informarnos'),
+        p('No suspenda por su cuenta ningún medicamento que le haya indicado '
+          'otro médico. Avísenos en la valoración y nosotros le diremos qué '
+          'hacer con cada uno.'),
+        ul(
+            'Anticoagulantes o antiagregantes (warfarina, rivaroxabán, apixabán, '
+              'clopidogrel): requieren un plan con su médico tratante.',
+            'Anticonceptivos hormonales y terapia de reemplazo hormonal: aumentan '
+              'el riesgo de trombosis; en algunas cirugías le pediremos '
+              'suspenderlos.',
+            'Medicamentos inyectables para bajar de peso (semaglutida, '
+              'tirzepatida: Ozempic, Wegovy, Mounjaro): retrasan el vaciamiento del '
+              'estómago y pueden ser peligrosos en la anestesia. Avísenos para '
+              'indicarle cuándo aplicar su última dosis.',
+            'Isotretinoína (Roaccutan, Isotrex) en el último año: afecta la '
+              'cicatrización.',
+            'Antidepresivos, ansiolíticos y medicamentos para dormir: casi '
+              'siempre se continúan, pero la anestesióloga debe saberlo.',
+            'Medicamentos para la presión, diabetes, tiroides o asma: normalmente '
+              'se continúan; le diremos cuáles tomar la mañana de la cirugía con un '
+              'sorbo de agua.',
+        ),
+        p('Traiga a su valoración con la anestesióloga una lista o fotos de '
+          'todo lo que toma, con dosis.'),
+        h('Tabaco, vapeo y alcohol'),
+        p('La nicotina cierra los vasos sanguíneos que alimentan la piel. Es la '
+          'causa más evitable de heridas que no cierran, piel que se necrosa y '
+          'cicatrices malas.'),
+        ul(
+            'Tabaco, vapeo, IQOS, parches, chicles y bolsitas de nicotina: '
+              'suspéndalos 4 semanas antes y 4 semanas después de la cirugía. El '
+              'vapeo y los parches también cuentan.',
+            'Alcohol: nada desde 2 semanas antes. Aumenta el sangrado y la '
+              'inflamación.',
+            'Si fuma y no puede dejarlo, díganoslo con honestidad: es preferible '
+              'reprogramar que arriesgar el resultado.',
+        ),
+        h('Rellenos y procedimientos previos'),
+        p('Cuéntenos todo lo que se haya hecho en la zona a operar, aunque haya '
+          'sido hace años. Cambia la planeación de su cirugía y la inflamación '
+          'que tendrá.'),
+        ul(
+            'Ácido hialurónico: retiene agua y prolonga la inflamación. Si lo '
+              'tiene en la zona, podemos proponerle disolverlo 2 a 4 semanas antes.',
+            'Bioestimuladores (Radiesse, Sculptra), rellenos permanentes '
+              '(biopolímeros, silicona líquida, metacrilato) e hilos tensores: '
+              'díganos el producto y la fecha aproximada.',
+            'Láser, radiofrecuencia, HIFU, criolipólisis, enzimas o mesoterapia: '
+              'no se haga ninguno en las 6 semanas previas.',
+            'Toxina botulínica: no se aplique en las 2 semanas previas sin '
+              'consultarnos.',
+            'Cirugías previas en la misma zona: traiga su información o el nombre '
+              'del cirujano si lo tiene.',
+        ),
+        h('Alimentación e hidratación'),
+        p('Llegue a su cirugía bien nutrida y con su peso estable. Una piel '
+          'bien nutrida cicatriza mejor y se inflama menos.'),
+        ul(
+            'Coma proteína en cada comida: huevo, pollo, pescado, carne magra, '
+              'lácteos, leguminosas.',
+            'Tome al menos 2 litros de agua al día.',
+            'Reduzca la sal desde una semana antes: evite embutidos, enlatados, '
+              'sopas instantáneas, botanas, comida rápida y salsas embotelladas.',
+            'No haga dietas extremas, ayunos prolongados ni cambios bruscos de '
+              'peso el mes previo.',
+            'Si está bajando de peso para su cirugía, avísenos cuando llegue a su '
+              'meta: lo ideal es mantenerla estable antes de operar.',
+        ),
+        h('Prepare su casa y a su acompañante'),
+        p('Deje todo listo antes de la cirugía: los primeros días no podrá '
+          'salir a comprar ni hacer esfuerzos.'),
+        h2('Acompañante'),
+        ul(
+            'Necesita un adulto responsable que la recoja y se quede con usted al '
+              'menos las primeras 24 a 48 horas.',
+            'No puede manejar ni irse sola en taxi o plataforma después de la '
+              'anestesia.',
+        ),
+        h2('En casa'),
+        ul(
+            'Ropa cómoda que abra por delante, con botones o cierre: nada que '
+              'pase por la cabeza.',
+            'Dos o tres almohadas extra o una almohada en cuña para dormir '
+              'semisentada.',
+            'Compresas frías o bolsas de chícharos congelados.',
+            'Comida baja en sal ya preparada para los primeros días, agua y '
+              'bebidas sin gas.',
+            'Un lugar a la mano junto a su cama para los medicamentos que le '
+              'entregaremos.',
+            'Termómetro.',
+            'Popotes y una botella de agua junto a su cama.',
+            'Alguien que cuide a niños pequeños y mascotas: no podrá cargar peso.',
+        ),
+        h2('Trabajo y viajes'),
+        ul(
+            'Pida los días de incapacidad o descanso que le indicamos en la '
+              'valoración.',
+            'Si viene de fuera de la Ciudad de México, quédese en la ciudad los '
+              'días que le indiquemos y no vuele hasta que se lo autoricemos.',
+            'Si su cirugía es facial y se tiñe el cabello, hágalo 1 o 2 semanas '
+              'antes: después tendrá que esperar varias semanas.',
+        ),
+        h('Un día antes'),
+        p('Confirme por WhatsApp su hora de llegada y déjelo todo listo desde '
+          'la noche anterior.'),
+        ul(
+            'Si le entregamos amlodipino 5 mg, tome una tableta el día anterior a '
+              'su cirugía, como le indicamos. Ayuda a mantener su presión estable y '
+              'a reducir el sangrado y la inflamación.',
+            'Cene ligero y bajo en sal.',
+            'Báñese y lávese el cabello con su jabón y champú de siempre, o con '
+              'el jabón antiséptico si se lo indicamos.',
+            'No se rasure ni se depile la zona a operar: los pequeños cortes '
+              'aumentan el riesgo de infección.',
+            'Retire barniz y uñas acrílicas o de gel de al menos un dedo de cada '
+              'mano: el monitor de oxigenación se coloca ahí.',
+            'Deje preparada la maleta (ver la lista del día de la cirugía).',
+            'Duerma bien: si le cuesta por los nervios, avísenos con anticipación '
+              'en lugar de tomar algo por su cuenta.',
+        ),
+        h('El día de su cirugía'),
+        p('Llegue en ayuno y a la hora exacta que le indicamos a Zorvix, '
+          'Gabriel Mancera 879, Col. Del Valle, Benito Juárez, CDMX.'),
+        h2('Ayuno'),
+        ul(
+            'Ayuno absoluto de 8 horas, siempre: nada de comida ni de bebida, ni '
+              'siquiera agua. Tampoco chicles, dulces ni mentas.',
+            'La única excepción son los medicamentos que le indiquemos para esa '
+              'mañana, con el mínimo de agua para pasarlos.',
+            'Si come o bebe algo por error, avísenos antes de llegar: no lo '
+              'oculte. Puede ser peligroso.',
+        ),
+        h2('Cómo llegar'),
+        ul(
+            'Sin maquillaje, cremas, aceites, desodorante, perfume ni bronceador.',
+            'Sin joyas, piercings, aretes, pestañas postizas ni extensiones de '
+              'cabello. Deje en casa todo lo de valor.',
+            'Con lentes de armazón, no de contacto.',
+            'Con el cabello limpio y sin peinados con pasadores o gel.',
+        ),
+        h2('Qué traer'),
+        ul(
+            'Identificación oficial.',
+            'Sus estudios y la lista de sus medicamentos.',
+            'Ropa cómoda que abra por delante y zapatos sin agujeta.',
+            'Su prenda de compresión, si su cirugía la lleva y le pedimos traerla.',
+            'Teléfono y cargador.',
+            'Su acompañante, que debe esperar en el lugar o estar localizable '
+              'todo el tiempo.',
+        ),
+        h('Cuándo avisarnos', alarma=True),
+        p('Escríbanos o llámenos al 55 6223 4133 en cuanto tenga cualquiera de '
+          'estas situaciones en las 2 semanas previas. Revisaremos juntos si es '
+          'seguro operar o si conviene reprogramar.'),
+        ul(
+            'Gripa, tos, dolor de garganta, fiebre, diarrea o cualquier '
+              'infección, incluida una infección dental o urinaria.',
+            'Prueba positiva de COVID-19 o contacto cercano con alguien enfermo.',
+            'Fuegos (herpes labial), granos infectados, heridas, quemaduras de '
+              'sol o irritación en la zona a operar.',
+            'Sospecha o confirmación de embarazo.',
+            'Un medicamento nuevo, un cambio de dosis o una visita a urgencias.',
+            'Haber tomado por error algo de la lista de suspensión.',
+        alarma=True),
+        p('Tener su periodo menstrual no es motivo para reprogramar.'),
+        h('Acuse de recibo'),
+        p('Recibí esta hoja en mi consulta de valoración, la leí y se me '
+          'resolvieron mis dudas. Entiendo que no seguir estas indicaciones '
+          'puede afectar mi resultado y mi seguridad, y que la cirugía puede '
+          'reprogramarse.'),
+        firmas('Paciente', 'Médico que entrega'),
+    ],
+ },
+ {
+    'id': 'laboratorios',
+    'nombre': 'Solicitud de laboratorios preoperatorios',
+    'titulo': 'Solicitud de laboratorios preoperatorios',
+    'coincide': [],
+    'entrada': 'Esta solicitud aplica a todos los pacientes que se realizarán una '
+        'cirugía con el Dr. Miguel Ángel Soto Miranda. Puede realizarse los '
+        'estudios en el laboratorio de su preferencia.',
+    'bloques': [
+        h('Indicaciones para la toma'),
+        ul(
+            'Ayuno: 8 horas sin alimentos. Puede tomar agua natural y sus '
+              'medicamentos habituales.',
+            'Cuándo: no antes de 30 días previos a su cirugía. La prueba de '
+              'embarazo, no antes de 7 días previos.',
+            'Resultados: envíelos por WhatsApp al 55 6223 4133 en cuanto los '
+              'tenga. Deben estar revisados por el médico antes de confirmar su '
+              'cirugía.',
+        ),
+        h('Estudios que debe realizarse'),
+        ul(
+            'Biometría hemática completa.',
+            'Química sanguínea: glucosa, urea, BUN y creatinina.',
+            'Electrolitos séricos: sodio, potasio y cloro.',
+            'Tiempos de coagulación: TP, INR y TTPa.',
+            'Grupo sanguíneo y factor Rh.',
+            'Electrocardiograma de 12 derivaciones en reposo, con interpretación.',
+            'Prueba de embarazo en sangre (fracción beta de hCG cuantitativa): '
+              'toda mujer en edad reproductiva.',
+        ),
+        p('Si su médico le solicita algún estudio adicional, se lo indicará por '
+          'separado.'),
+        firmas('Médico solicitante'),
+    ],
+ },
+]
+
+
+for _h in HOJAS:
+    _h['version'] = hashlib.sha256(json.dumps(
+        _h, ensure_ascii=False, sort_keys=True).encode('utf-8')).hexdigest()[:8]
+
+_cat = {
+    'hojas': HOJAS,
+    'version': hashlib.sha256(json.dumps(
+        {'hojas': HOJAS}, ensure_ascii=False, sort_keys=True
+    ).encode('utf-8')).hexdigest()[:16],
+    'generado': datetime.date.today().isoformat(),
+}
+
+with open(SALIDA, 'w', encoding='utf-8') as _f:
+    json.dump(_cat, _f, ensure_ascii=False, indent=1)
+
+print('%d hojas  ·  catalogo %s' % (len(HOJAS), _cat['version']))
+for _h in HOJAS:
+    print('   %-16s %s' % (_h['id'], _h['version']))
