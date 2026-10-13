@@ -3366,7 +3366,10 @@ function pintaHojaImpresa(raiz, el){
   }
   fila('Paciente', nombreCompleto());
   fila('Expediente', txt('expediente_folio') || FOLIO);
-  fila('Fecha de cirugía', fechaLarga_(txt('proc_fecha')));
+  /* «Procedimiento» y no «cirugía»: la misma ficha la usan las hojas que no
+     salen de un quirófano —el láser de CO₂, la faja, los laboratorios— y
+     decirle «fecha de cirugía» a quien vino a un láser confunde. */
+  fila('Fecha del procedimiento', fechaLarga_(txt('proc_fecha')));
   fila('Teléfono de urgencias (24 h)',
        CONSTANTES['seg_telefono_urgencias'] || CONSTANTES['seg_telefono'] || '');
   raiz.appendChild(t);

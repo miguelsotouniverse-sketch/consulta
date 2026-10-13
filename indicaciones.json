@@ -1999,6 +1999,254 @@
    "version": "20305da2"
   },
   {
+   "id": "eco2",
+   "nombre": "Láser eCO₂",
+   "titulo": "Recomendaciones posteriores al láser de CO₂",
+   "coincide": [
+    "eco2",
+    "e co2",
+    "co2",
+    "laser co2",
+    "laser de co2",
+    "resurfacing",
+    "rejuvenecimiento con laser"
+   ],
+   "entrada": "Esta hoja contiene todas las indicaciones que debe seguir en casa. Léala con calma en casa junto con su acompañante y consérvela hasta su alta definitiva. Si algo no está escrito aquí, no lo haga sin consultarlo antes.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Procedimiento",
+       "Láser fraccionado de CO₂ (eCO₂)"
+      ]
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) La piel tratada NUNCA debe quedar seca: Cicaplast y vaselina encima, las veces que haga falta. 2) No arranque costras ni piel que se desprende. 3) Manos limpias cada vez que se toque la cara. 4) Nada de sol hasta que la piel cierre; después, protector FPS 50 todos los días durante 12 meses. 5) Es normal verse roja e hinchada los primeros días: eso no es una complicación, es el tratamiento."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 72 horas"
+    },
+    {
+     "t": "p",
+     "x": "La piel tratada queda en carne viva y se cierra sola en 7 a 10 días. Mientras tanto no debe secarse ni un momento: una costra seca deja mancha. Tenga las manos limpias cada vez que se toque la cara."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación: la cara se hincha más entre el día 2 y el 3, sobre todo al despertar. Duerma con la cabeza elevada (dos almohadas) la primera semana.",
+      "Frío local: compresas frías sobre una gasa limpia y seca, 10 a 15 minutos cada hora mientras esté despierta. Nunca hielo directo sobre la piel tratada, y nunca una compresa que ya se usó.",
+      "Ardor: es normal las primeras horas y cede solo. Si le arde de forma intensa y creciente, llámenos.",
+      "No se exponga al viento, al polvo, al humo ni a la cocina caliente.",
+      "Beba al menos 2 litros de agua al día: la piel tratada pierde mucha agua."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. Cuidado de la piel, todos los días"
+    },
+    {
+     "t": "p",
+     "x": "Esto es el tratamiento: la piel cierra bien o cierra mal según cómo se cuide estos diez días."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cicaplast: aplique una capa sobre toda la zona tratada cada 12 horas.",
+      "Clobesol (clobetasol): una capa delgada cada 12 horas durante 5 días, y suspéndalo. No lo use más días de los indicados ni lo aplique en los párpados.",
+      "Vaselina: aplíquela encima las veces que haga falta para que la piel nunca se sienta tirante ni se vea seca, de día y de noche.",
+      "Después de cada lavado vuelva a aplicar Cicaplast y vaselina enseguida: la piel no debe quedar sin nada encima ni un momento.",
+      "No arranque costras ni piel que se esté desprendiendo: se cae sola.",
+      "Protector solar FPS 50+: en cuanto la piel esté completamente cerrada, todos los días durante 12 meses, reaplicando cada 3 horas si está al aire libre. Antes de que cierre, el sol se evita con sombra, gorra y no salir.",
+      "Maquillaje sobre la piel tratada: hasta el día 14 y sólo si ya cerró por completo.",
+      "Nada de ácidos, retinoides, exfoliantes, mascarillas ni limpiadores con alcohol durante 4 semanas.",
+      "Es normal que la piel se vea roja intensa las primeras 2 semanas y rosada durante 2 a 3 meses, y que pique mientras cierra."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Cómo lavarse la cara"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Agua tibia y jabón neutro, con la mano limpia y sin tallar, 2 veces al día. Nada de esponjas, cepillos ni toallitas desmaquillantes.",
+      "Seque a toques con una toalla limpia, nunca frotando y nunca con secadora.",
+      "Vuelva a aplicar Cicaplast y vaselina enseguida, con la piel todavía húmeda.",
+      "Toalla y funda de almohada limpias todos los días mientras la piel esté abierta."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "3. Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "Lo que manda es el cierre de la piel: hasta que no haya cerrado por completo, nada de sudor, agua de alberca ni sol."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Salir de casa a la sombra",
+       "Día 1",
+       "Con gorra o sombrero de ala ancha"
+      ],
+      [
+       "Trabajo de oficina / home office",
+       "Día 3",
+       "La cara se ve roja e hinchada"
+      ],
+      [
+       "Vida social",
+       "Día 10–14",
+       "Cuando la piel haya cerrado"
+      ],
+      [
+       "Maquillaje sobre la piel tratada",
+       "Día 14",
+       "Sólo con la piel cerrada por completo"
+      ],
+      [
+       "Ejercicio ligero (caminata)",
+       "Día 7",
+       "Sin sudar"
+      ],
+      [
+       "Ejercicio completo, sudor",
+       "Semana 3",
+       "Con la piel cerrada"
+      ],
+      [
+       "Alberca, mar, vapor, sauna, jacuzzi",
+       "Semana 4",
+       ""
+      ],
+      [
+       "Sol directo",
+       "Semana 6",
+       "Siempre con gorra y FPS 50; el sol antes de tiempo mancha la piel tratada"
+      ],
+      [
+       "Ácidos, retinoides, exfoliantes, mascarillas",
+       "Semana 4",
+       ""
+      ],
+      [
+       "Depilación con cera o láser en la zona tratada",
+       "Semana 6",
+       "Sólo con autorización"
+      ],
+      [
+       "Toxina botulínica, rellenos u otros tratamientos faciales",
+       "Mes 3",
+       "Sólo con autorización"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Citas de seguimiento"
+    },
+    {
+     "t": "p",
+     "x": "Recepción agenda y confirma cada cita con usted por WhatsApp."
+    },
+    {
+     "t": "citas",
+     "cols": [
+      "Cita",
+      "Qué se hace",
+      "Fecha asignada"
+     ],
+     "x": [
+      {
+       "cita": "Día 7 a 10",
+       "que": "Revisión del cierre de la piel y alta de los cuidados intensivos"
+      },
+      {
+       "cita": "Mes 1",
+       "que": "Revisión del color y la textura; fotografías"
+      },
+      {
+       "cita": "Mes 3",
+       "que": "Revisión y fotografías; se decide si hay una segunda sesión"
+      },
+      {
+       "cita": "Mes 6",
+       "que": "Resultado y fotografías"
+      }
+     ]
+    },
+    {
+     "t": "h",
+     "x": "5. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ardor y sensación de quemadura de sol las primeras horas.",
+      "Inflamación de la cara, mayor entre el día 2 y el 3, y más marcada al despertar. Baja en una semana.",
+      "Piel roja intensa las primeras 2 semanas y rosada durante 2 a 3 meses.",
+      "Costras finas y descamación entre el día 3 y el 10. Se caen solas.",
+      "Comezón mientras la piel cierra.",
+      "Piel tirante, áspera o con los poros marcados durante algunas semanas.",
+      "Brotes de granitos o puntos blancos pequeños al cerrar la piel.",
+      "El resultado final del colágeno se ve entre los 3 y los 6 meses."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "6. Signos de alarma: llame al teléfono de urgencias"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Dolor que aumenta cada día en lugar de ceder.",
+      "Ampollas pequeñas agrupadas, en racimo, con ardor o picor intenso, sobre todo alrededor de la boca: avísenos el mismo día.",
+      "Zonas que se ponen amarillas, con costra gruesa, pus o mal olor.",
+      "Enrojecimiento que se extiende fuera de la zona tratada, con calor.",
+      "Fiebre de 38 °C o más.",
+      "Una zona de piel que se pone blanca, gris u oscura.",
+      "Sangrado que no cede con presión suave."
+     ]
+    },
+    {
+     "t": "nota",
+     "alarma": true,
+     "x": "Si no logra comunicarse y presenta fiebre alta, dolor que no cede o una zona de piel que cambia de color, acuda a urgencias del hospital más cercano e informe que tiene un tratamiento con láser de CO₂ reciente."
+    },
+    {
+     "t": "h",
+     "x": "7. Constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "0e8525d0"
+  },
+  {
    "id": "faja",
    "nombre": "Uso de la faja",
    "titulo": "Recomendaciones de uso de faja",
@@ -2564,6 +2812,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "68b60be48d7f943f",
- "generado": "2026-10-10"
+ "version": "c0bff3c76c5eaad8",
+ "generado": "2026-10-13"
 }

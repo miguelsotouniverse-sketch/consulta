@@ -2017,6 +2017,84 @@
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
    "version": "f2126aab"
+  },
+  {
+   "id": "eco2",
+   "nombre": "Láser eCO₂",
+   "coincide": [],
+   "procedimiento": "Láser fraccionado de CO₂ (eCO₂)",
+   "preguntas": [
+    {
+     "id": "otras",
+     "etiqueta": "Otras alergias",
+     "tipo": "texto"
+    }
+   ],
+   "medicamentos": [
+    {
+     "hoja": "general",
+     "nombre": "Clobetasol propionato 0.05 %, crema (Clobesol®), tubo de 30 g.",
+     "indicacion": "Aplicar una capa delgada sobre la piel tratada con láser cada 12 horas durante 5 días y suspender. No lo use más días de los indicados, no lo aplique en los párpados y no lo use por su cuenta más adelante: es un esteroide de potencia muy alta y el uso prolongado adelgaza la piel de la cara.",
+     "cantidad": "1 tubo de 30 g",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Clobesol (piel del láser)",
+      "h": [
+       "08:00",
+       "20:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Cicaplast Baume B5, bálsamo reparador, tubo de 100 mL.",
+     "indicacion": "Aplicar una capa sobre toda la piel tratada con láser cada 12 horas, y después de cada lavado, hasta que la piel cierre por completo (7 a 10 días). Manos limpias cada vez.",
+     "cantidad": "1 tubo de 100 mL",
+     "duracion": "Hasta que cierre la piel",
+     "horario": {
+      "n": "Cicaplast",
+      "h": [
+       "08:00",
+       "20:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Vaselina sólida pura, frasco de 100 g.",
+     "indicacion": "Aplicar encima del bálsamo las veces que haga falta para que la piel tratada nunca se sienta tirante ni se vea seca, de día y de noche. La piel no debe quedar sin nada encima ni un momento.",
+     "cantidad": "1 frasco de 100 g",
+     "duracion": "Hasta que cierre la piel",
+     "horario": {
+      "n": "Vaselina",
+      "t": "Las veces que haga falta"
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Protector solar FPS 50+ de amplio espectro, para piel sensible.",
+     "indicacion": "Aplicar en rostro y cuello todos los días EN CUANTO la piel esté completamente cerrada, reaplicando cada 3 horas si está al aire libre, durante 12 meses. Antes de que cierre, el sol se evita con sombra y gorra, no con protector.",
+     "cantidad": "1 envase, resurtible",
+     "duracion": "12 meses"
+    }
+   ],
+   "profilaxis": [],
+   "profilaxisNota": "",
+   "avisos": [
+    {
+     "si": {},
+     "tono": "ojo",
+     "texto": "Clobesol es un esteroide de potencia muy alta. Esta receta lo limita a 5 días sobre la piel tratada y lo prohíbe en los párpados. Si su protocolo es otro plazo, edite el renglón."
+    },
+    {
+     "si": {},
+     "tono": "ojo",
+     "texto": "Esta receta NO lleva profilaxis antiviral ni antibiótico oral porque no se indicaron. Si en este caso los usa, agréguelos con el botón de abajo antes de imprimir."
+    }
+   ],
+   "alarma": [],
+   "horaNota": "",
+   "version": "7b16429f"
   }
  ],
  "hojas": [
@@ -2054,6 +2132,6 @@
   "22:00",
   "24:00"
  ],
- "version": "a09b68f8dbb396ec",
- "generado": "2026-10-10"
+ "version": "bd9e8f5109b87618",
+ "generado": "2026-10-13"
 }
