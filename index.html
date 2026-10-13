@@ -1678,7 +1678,17 @@ function estadoReceta(){
 
   s.c24   = (edad >= 65) || s.renal;   // celecoxib cada 24 h
   s.menor = edad > 0 && edad < 18;
-  s.diasPPI = s.sulfa ? 5 : 14;        // el protector dura lo que dure el AINE
+  /* El protector gástrico duraba lo que durara el ANTIINFLAMATORIO: 14 días con
+     celecoxib, 5 con ketorolaco en la paciente alérgica a sulfas. Eso era
+     correcto mientras el AINE era el único fármaco de riesgo gástrico.
+
+     Al entrar la prednisona 20 mg por 14 días en todas las plantillas, la
+     paciente alérgica a sulfas quedaba con el esteroide corriendo del día 6 al
+     14 sin protección, y además con el AINE encima los primeros 5. Esa ventana
+     no existía antes; la abrió la prednisona. Así que el protector dura lo que
+     dure el tratamiento de riesgo completo, y hoy eso son 14 días en los dos
+     casos.                                                      ←CONFIRMAR */
+  s.diasPPI = Math.max(s.sulfa ? 5 : 14, 14);
   return s;
 }
 
@@ -1714,6 +1724,14 @@ function renglonesDe(plantilla, s){
         cantidad: sustituye_(m.cantidad, s),
         duracion: sustituye_(m.duracion, s),
         rescate: !!m.rescate,
+        /* Un renglón de la plantilla puede venir APAGADO por omisión: aparece
+           en la lista, visible, y se enciende con un clic. Es para el
+           medicamento que depende de un detalle del quirófano que la plantilla
+           no puede saber —el relajante muscular cuando el implante quedó
+           retromuscular, el esteroide en un láser sin cirugía—. Apagado por
+           omisión es más seguro que encendido: lo que no se enciende no se
+           receta, y lo que hace falta se ve desde la lista sin buscarlo. */
+        fuera: !!m.fuera,
         horario: m.horario || null
       };
     });
@@ -1847,10 +1865,23 @@ function armaReceta(){
 
     /* Vuelve a proponer los renglones. Se llama cuando cambia algo que los
        afecta; lo que el médico haya escrito a mano se pierde aquí, y por eso
-       se le avisa antes en pantalla. */
+       se le avisa antes en pantalla.
+
+       LO QUE NO SE PIERDE: el medicamento que él quitó con la casilla. Perder
+       una redacción es una molestia; resucitar un medicamento que el médico
+       decidió NO dar —porque el plano no fue retromuscular, porque la paciente
+       no lo tolera— es un error clínico que además aparece sin avisar, al
+       corregir cualquier otra respuesta de arriba. Así que la deselección se
+       guarda por nombre y se vuelve a aplicar sobre la plantilla recalculada. */
     function recalculaRenglones(){
       if (!PLANTILLA || sinContestar().length){ VALORES['rx_renglones'] = []; return; }
-      VALORES['rx_renglones'] = renglonesDe(PLANTILLA, estadoReceta());
+      var fuera = {};
+      (VALORES['rx_renglones'] || []).forEach(function(r){
+        if (r.fuera && r.nombre) fuera[r.nombre] = true;
+      });
+      var nuevos = renglonesDe(PLANTILLA, estadoReceta());
+      nuevos.forEach(function(r){ if (fuera[r.nombre]) r.fuera = true; });
+      VALORES['rx_renglones'] = nuevos;
       sucio = true;
     }
 
@@ -2024,12 +2055,15 @@ function pintaRenglones(zona, recalcula, repinta){
   }
 
   var renglones = VALORES['rx_renglones'] || [];
+  var dentro = renglones.filter(function(r){ return !r.fuera; }).length;
+  var sacados = renglones.length - dentro;
 
   var enc = document.createElement('div');
   enc.className = 'seccion';
   enc.style.margin = '18px 0 8px';
-  enc.textContent = 'Medicamentos · ' + renglones.length +
-    (renglones.length === 1 ? ' renglón' : ' renglones');
+  enc.textContent = 'Medicamentos · ' + dentro +
+    (dentro === 1 ? ' renglón' : ' renglones') +
+    (sacados ? '  ·  ' + sacados + ' fuera de la receta' : '');
   zona.appendChild(enc);
 
   var nota = document.createElement('div');
@@ -2038,9 +2072,12 @@ function pintaRenglones(zona, recalcula, repinta){
     ? 'Escribe un medicamento y oprime <b>Agregar un medicamento</b> para el ' +
       'siguiente. El antibiótico y el controlado salen en su propia hoja —así ' +
       'lo pide la ley— y cada hoja sale firmada.'
-    : 'Puedes editar, quitar o agregar renglones. <b>Si cambias alguna de las ' +
-      'respuestas de arriba, la plantilla se vuelve a calcular y se pierde lo ' +
-      'que hayas escrito aquí.</b>';
+    : 'La plantilla es una propuesta, no una orden: <b>quítele la marca a lo ' +
+      'que este caso no lleve</b> y no se imprime. Lo que usted deseleccione no ' +
+      'vuelve solo, aunque cambie una respuesta de arriba. También puede editar ' +
+      'el texto de cada renglón, agregar los que falten o borrar uno de plano. ' +
+      '<b>Eso sí: si cambia una respuesta de arriba, la plantilla se recalcula y ' +
+      'se pierde lo que haya escrito a mano.</b>';
   zona.appendChild(nota);
 
   /* Con la lista vacía no hay dónde escribir y el botón de abajo se pierde
@@ -2068,11 +2105,30 @@ function pintaRenglones(zona, recalcula, repinta){
       d.className = 'grupo';
       var sm = document.createElement('summary');
       var fl = document.createElement('span'); fl.className = 'flecha'; fl.textContent = '▸';
+
+      /* La casilla va en el resumen, no adentro: la decisión de dar o no dar un
+         medicamento se toma viendo la lista completa de un golpe, no abriendo
+         renglón por renglón. Se detiene la propagación del clic porque si no,
+         marcar la casilla abre y cierra el renglón. */
+      var ck = document.createElement('input');
+      ck.type = 'checkbox';
+      ck.checked = !r.fuera;
+      ck.title = 'Sin la marca, este medicamento no se imprime';
+      ck.style.marginRight = '8px';
+      ck.style.flex = '0 0 auto';
+      ck.addEventListener('click', function(ev){ ev.stopPropagation(); });
+      ck.addEventListener('change', function(){
+        r.fuera = !this.checked;
+        sucio = true; guardaBorrador(); repinta();
+      });
+
       var ti = document.createElement('span'); ti.className = 'titulo';
       ti.textContent = (r.nombre || 'Medicamento sin nombre') +
-                       (r.rescate ? '  ·  solo si es necesario' : '');
+                       (r.rescate ? '  ·  solo si es necesario' : '') +
+                       (r.fuera ? '  ·  fuera de la receta' : '');
+      if (r.fuera){ ti.style.opacity = '.55'; ti.style.textDecoration = 'line-through'; }
       if (libre && !r.nombre) d.open = true;
-      sm.appendChild(fl); sm.appendChild(ti);
+      sm.appendChild(fl); sm.appendChild(ck); sm.appendChild(ti);
       d.appendChild(sm);
 
       var cuerpo = document.createElement('div');
@@ -2262,16 +2318,19 @@ function parteEnPliegos_(lista, h, s, el){
 function faltantesReceta(){
   var libre = !!(TIPO && TIPO.libre);
   var f = libre ? [] : sinContestar().map(function(e){ return 'contestar «' + e + '»'; });
-  if (libre && !(VALORES['rx_renglones'] || []).some(function(r){
-        return String(r.nombre || '').trim(); })){
-    f.push('escribir al menos un medicamento');
+  /* Vale para los dos modos: con la casilla, una receta de plantilla también
+     puede quedarse sin ningún medicamento dentro, y eso no se imprime. */
+  if (!(VALORES['rx_renglones'] || []).some(function(r){
+        return !r.fuera && String(r.nombre || '').trim(); })){
+    f.push(libre ? 'escribir al menos un medicamento'
+                 : 'dejar al menos un medicamento dentro de la receta');
   }
   if (!CONSTANTES['medico_nombre'])      f.push('el nombre del médico');
   if (!CONSTANTES['medico_cedula_prof']) f.push('la cédula profesional');
   if (!CONSTANTES['estab_domicilio'])    f.push('el domicilio del consultorio');
   if (!nombreCompleto())                 f.push('el nombre de la paciente');
   var sin = (VALORES['rx_renglones'] || []).filter(function(r){
-    return r.nombre && !String(r.duracion || '').trim();
+    return !r.fuera && r.nombre && !String(r.duracion || '').trim();
   });
   if (sin.length) f.push('la duración del tratamiento en ' + sin.length +
                          ' medicamento(s)');
@@ -2286,8 +2345,10 @@ function pintaRecetasImpresas(raiz, el){
     return;
   }
   var s = estadoReceta();
+  /* `fuera` es lo que el médico deseleccionó con la casilla. No se imprime y
+     no se cuenta: para la paciente ese medicamento no existe. */
   var renglones = (VALORES['rx_renglones'] || []).filter(function(r){
-    return String(r.nombre || '').trim();
+    return !r.fuera && String(r.nombre || '').trim();
   });
   var hojas = (RECETAS && RECETAS.hojas) || [];
 
@@ -2822,7 +2883,7 @@ function pinta(){
      a punto de entregarle a la paciente. */
   if (TIPO.receta){
     var n = (VALORES['rx_renglones'] || []).filter(function(r){
-      return String(r.nombre || '').trim(); }).length;
+      return !r.fuera && String(r.nombre || '').trim(); }).length;
     var libre = !!TIPO.libre;
     var falta = (PLANTILLA || libre) ? faltantesReceta() : ['la plantilla'];
     $('progreso').style.width = ((PLANTILLA || libre) && n && !falta.length) ? '100%' : '0%';
