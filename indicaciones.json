@@ -291,7 +291,6 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela en el grupo de WhatsApp de seguimiento).",
       "Inflamación de un solo lado que aumenta rápidamente, se siente dura o tensa, o se acompaña de dolor intenso.",
@@ -303,12 +302,13 @@
       "Dificultad para respirar o para tragar.",
       "Debilidad de un lado de la cara que aparece después del día 2 o que empeora.",
       "Dolor, inflamación o enrojecimiento en una pantorrilla, o falta de aire repentina."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "nota",
-     "alarma": true,
-     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar."
+     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar.",
+     "alarma": true
     },
     {
      "t": "h",
@@ -574,11 +574,11 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Falta de aire, dolor en el pecho, tos con sangre o sensación de que el corazón late muy rápido.",
       "Desmayo, confusión o somnolencia excesiva."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h2",
@@ -586,7 +586,6 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Dolor, hinchazón o calor en una sola pantorrilla o pierna.",
       "Fiebre de 38 °C o más.",
@@ -597,7 +596,8 @@
       "Dolor que empeora en lugar de mejorar y no cede con sus medicamentos.",
       "Mareo persistente, palidez marcada u orina muy escasa.",
       "Náusea o vómito que no le permite tomar líquidos ni medicamentos."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h",
@@ -882,13 +882,13 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Falta de aire, dolor en el pecho, tos con sangre o sensación de que el corazón late muy rápido.",
       "Desmayo, confusión o somnolencia excesiva.",
       "Una mama que crece rápido, se pone tensa, dura y muy dolorosa, mucho más que la otra.",
       "Pezón o areola que se torna morada oscura, gris o negra, o que se siente fría."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h2",
@@ -896,7 +896,6 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Dolor, hinchazón o calor en una sola pantorrilla o pierna.",
       "Fiebre de 38 °C o más.",
@@ -906,7 +905,8 @@
       "Salida de líquido abundante o una zona que se siente como bolsa de líquido.",
       "Dolor que empeora en lugar de mejorar.",
       "Náusea o vómito que no le permite tomar líquidos."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h",
@@ -1142,13 +1142,13 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Sangrado rojo brillante por la nariz o por la garganta que no se detiene después de 15 minutos sentado(a), con la cabeza ligeramente hacia adelante.",
       "Falta de aire, dolor en el pecho o desmayo.",
       "Golpe fuerte en la nariz.",
       "Pérdida o disminución repentina de la visión."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h2",
@@ -1156,7 +1156,6 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Fiebre de 38 °C o más.",
       "Dolor que empeora en lugar de mejorar.",
@@ -1165,7 +1164,8 @@
       "Piel de la nariz que se torna oscura, morada o con ampollas bajo la férula.",
       "Férula que se despega o se mueve.",
       "Náusea o vómito que no le permite tomar líquidos."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h",
@@ -1394,13 +1394,13 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Pérdida o disminución repentina de la visión, o visión doble que no se quita al parpadear.",
       "Dolor intenso en un ojo, que no mejora y va en aumento.",
       "Un ojo que se abulta o se sale hacia adelante, con el párpado muy tenso, duro y morado.",
       "Falta de aire, dolor en el pecho o desmayo."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h2",
@@ -1408,7 +1408,6 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Sangrado que no se detiene después de 10 minutos de presión suave con una gasa.",
       "Fiebre de 38 °C o más.",
@@ -1417,7 +1416,8 @@
       "Secreción amarilla o verde en el ojo, o ojo rojo con dolor.",
       "Inflamación que aumenta después del día 3 en lugar de bajar.",
       "Incapacidad para cerrar el ojo que no mejora, con ardor intenso."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "h",
@@ -1976,8 +1976,8 @@
     },
     {
      "t": "nota",
-     "alarma": true,
-     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar."
+     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar.",
+     "alarma": true
     },
     {
      "t": "h",
@@ -2435,7 +2435,6 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Rozadura, piel pelada o ardor en ingles, axilas, cintura o bajo las mamas.",
       "Ampollas, aunque sean pequeñas.",
@@ -2444,12 +2443,13 @@
       "Hormigueo, adormecimiento o frío en las piernas o los pies.",
       "Dificultad para respirar con la faja puesta.",
       "Mareo o desmayo al ponerse o quitarse la faja."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "nota",
-     "alarma": true,
-     "x": "Llámenos de inmediato si tiene falta de aire, dolor en el pecho, dolor e hinchazón en una sola pantorrilla, o si la faja de cuello le dificulta tragar o respirar."
+     "x": "Llámenos de inmediato si tiene falta de aire, dolor en el pecho, dolor e hinchazón en una sola pantorrilla, o si la faja de cuello le dificulta tragar o respirar.",
+     "alarma": true
     },
     {
      "t": "h",
@@ -2745,7 +2745,6 @@
     },
     {
      "t": "ul",
-     "alarma": true,
      "x": [
       "Gripa, tos, dolor de garganta, fiebre, diarrea o cualquier infección, incluida una infección dental o urinaria.",
       "Prueba positiva de COVID-19 o contacto cercano con alguien enfermo.",
@@ -2753,7 +2752,8 @@
       "Sospecha o confirmación de embarazo.",
       "Un medicamento nuevo, un cambio de dosis o una visita a urgencias.",
       "Haber tomado por error algo de la lista de suspensión."
-     ]
+     ],
+     "alarma": true
     },
     {
      "t": "p",
