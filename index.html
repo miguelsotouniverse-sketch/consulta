@@ -269,6 +269,17 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .cab .datos b{font-size:10pt;display:block;margin-bottom:2px}
 #impresion h1{font-family:var(--serif);font-size:16pt;font-weight:600;
   margin:0 0 8px;text-align:center;letter-spacing:.5px}
+#impresion .preambulo{margin:10px 0 2px;text-align:justify;line-height:1.5;white-space:pre-line}
+/* Una carta de una página tiene que caber en una página: la firma suelta
+   en la hoja 2, sin nada arriba, se lee como un documento incompleto.
+   Aquí el bloque de firma va más apretado que en una nota clínica. */
+#impresion.carta .firma{margin-top:8px}
+#impresion.carta .firma .linea{margin:14px auto 4px}
+#impresion.carta .firma .rubrica{width:42mm;margin:2px auto -13px}
+#impresion.carta h2{margin-top:9px}
+#impresion.carta .ficha td{padding:2px 6px}
+#impresion.carta .preambulo{margin:8px 0 0}
+#impresion.carta .pieimp{margin-top:8px}
 #impresion .ficha{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:9.5pt}
 #impresion .ficha td{border:.5pt solid #000;padding:3px 6px;vertical-align:top}
 #impresion .ficha td.e{background:#F2F0EE;width:1%;white-space:nowrap;
@@ -828,8 +839,92 @@ var DOCUMENTOS = [
      el resto se lo lleva la paciente. Ver el bloque RECETA POSTOPERATORIA. */
   { id:'receta_post',        nombre:'Receta postoperatoria',   grupo:'firma',
     icono:'receta', dictado:false, receta:true,
-    etiquetas:['Receta postoperatoria'] }
+    etiquetas:['Receta postoperatoria'] },
+
+  /* ============================================================
+     ORDEN DE INTERNAMIENTO  y  CONSTANCIA DE ACOMPAÑANTE
+
+     Son DOS documentos y no uno, aunque la paciente los pida juntos.
+
+     La orden va dirigida a la unidad —Renasté o Zorvix— y lleva lo que esa
+     unidad necesita para recibirla: diagnóstico, procedimiento, anestesia,
+     alergias, riesgo de trombosis y a quién llamar.
+
+     La constancia va dirigida al patrón del acompañante, que es un tercero
+     sin ninguna relación con la paciente. Por eso NO lleva el diagnóstico ni
+     el procedimiento: un patrón no tiene por qué enterarse de qué cirugía se
+     hizo la madre de su empleada para justificarle el día. Esa separación no
+     es un detalle de formato, es el motivo de que sean dos documentos.
+
+     Los dos declaran sus campos por nombre (ver `camposDe`): todos existen ya
+     en el esquema, ninguno es nuevo. La constancia, en particular, no puede
+     imprimir lo que no está en su lista, aunque el expediente lo tenga.
+     ============================================================ */
+  { id:'orden_internamiento', nombre:'Orden de internamiento', grupo:'firma',
+    icono:'reloj', dictado:false,
+    etiquetas:['Orden de internamiento'],
+    /* El orden es el de lectura de quien recibe la orden: primero QUÉ se
+       va a hacer y cuándo, luego por qué, luego lo que puede complicarlo
+       —alergias, trombosis— y al final a quién llamar. */
+    campos:['proc_nombre', 'proc_establecimiento', 'proc_fecha',
+            'proc_hora_inicio', 'proc_anestesia',
+            'diagnosticos', 'preop_riesgo',
+            'app_alergicos', 'sv_peso',
+            'caprini_riesgo', 'caprini_profilaxis',
+            'urgencia_nombre', 'urgencia_parentesco', 'urgencia_telefono'],
+    preambulo: function(){
+      var sede = txt('proc_establecimiento');
+      var hora = txt('proc_hora_inicio');
+      return 'Por este medio solicito el internamiento de la paciente arriba ' +
+        'identificada en ' + (sede || 'la unidad quirúrgica') + ', para el ' +
+        'procedimiento, la fecha y la hora que se detallan. ' +
+        (hora ? 'Favor de recibirla a las ' + menosHoras_(hora, INGRESO_ANTES) +
+                ' h, ' + INGRESO_ANTES + ' horas antes del inicio programado. ' : '') +
+        'Agradeceré tener preparado lo indicado y avisarme de cualquier ' +
+        'eventualidad antes de su ingreso a quirófano.';
+    } },
+
+  { id:'constancia_acompanante', nombre:'Constancia de acompañante', grupo:'firma',
+    icono:'firma', dictado:false,
+    etiquetas:['Constancia de acompañante'],
+    /* SIN CAMPOS, a propósito. Todo lo que esta hoja dice cabe en su
+       párrafo. Un cuerpo por grupos obligaría a imprimir encabezados como
+       «PROCEDIMIENTO» en una hoja que va a manos de un patrón, y aunque
+       debajo sólo fuera la fecha, el encabezado ya dice de más. La lista
+       vacía es el candado: este documento no puede imprimir un dato
+       clínico aunque el expediente lo tenga. */
+    campos:[],
+    preambulo: function(){
+      var quien = txt('urgencia_nombre');
+      var par = txt('urgencia_parentesco');
+      var f = txt('proc_fecha') ? fechaLarga_(txt('proc_fecha')) : '';
+      var h = txt('proc_hora_inicio');
+      return 'A quien corresponda: hago constar que ' +
+        (quien || '_____________________') +
+        (par ? ', ' + par.toLowerCase() + ' de la paciente arriba identificada,' : ',') +
+        ' debe acompañarla durante un procedimiento quirúrgico programado' +
+        (f ? ' para el ' + f : '') +
+        (h ? ', con ingreso a la unidad a las ' + menosHoras_(h, INGRESO_ANTES) + ' h,' : ',') +
+        ' y durante su recuperación inmediata, por lo que necesita ausentarse ' +
+        'de sus actividades ese día.\n\n' +
+        'Esta constancia se expide a petición de la paciente y no contiene su ' +
+        'diagnóstico ni el procedimiento practicado, por estar amparados por el ' +
+        'secreto profesional. Quedo a sus órdenes en los datos del encabezado ' +
+        'para cualquier aclaración.';
+    } }
 ];
+
+/* Cuántas horas antes del inicio programado se pide el ingreso a la unidad.
+   El esquema no tiene un campo para la hora de ingreso —se calcula— y este
+   número lo puse yo, no el médico.                              ←CONFIRMAR */
+var INGRESO_ANTES = 2;
+
+function menosHoras_(hhmm, horas){
+  var m = /^(\d{1,2}):(\d{2})/.exec(String(hhmm || ''));
+  if (!m) return hhmm || '';
+  var t = (parseInt(m[1], 10) * 60 + parseInt(m[2], 10) - horas * 60 + 1440) % 1440;
+  return ('0' + Math.floor(t / 60)).slice(-2) + ':' + ('0' + (t % 60)).slice(-2);
+}
 
 var ICONOS = {
   identidad:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/><path d="M15 10h4M15 13.5h3"/>',
@@ -872,6 +967,21 @@ function esVaron(){
 
 function camposDe(tipo){
   if (!ESQUEMA) return [];
+  /* Un documento puede declarar SUS campos por nombre, en vez de salir de la
+     columna «aparece» del Diccionario. Se agregó para la orden de
+     internamiento: todos los datos que necesita ya existen en el esquema
+     —procedimiento, fecha, anestesia, alergias, acompañante—, pero ninguno
+     lleva esa etiqueta en el xlsx, y esperar a editarlo habría dejado al
+     médico sin la orden que necesitaba al día siguiente.
+
+     No captura ningún dato nuevo: escoge, de los 217 campos que ya existen,
+     cuáles salen en este documento. Cuando el Diccionario se actualice, basta
+     con borrar la lista y el documento vuelve al mecanismo normal. */
+  if (Array.isArray(tipo.campos)){
+    return tipo.campos.map(function(id){
+      return ESQUEMA.campos.filter(function(c){ return c.id === id; })[0];
+    }).filter(Boolean);
+  }
   var etiquetas = tipo.etiquetas.concat([SIEMPRE]);
   var varon = esVaron();
   return ESQUEMA.campos.filter(function(c){
@@ -3259,6 +3369,7 @@ function armaImpresion(){
   var raiz = $('impresion');
   raiz.innerHTML = '';
   raiz.classList.remove('hojaIndic'); raiz.classList.remove('hojaRx');
+  raiz.classList.remove('carta');
   if (!TIPO || !ESQUEMA) return;
 
   function el(tag, clase, texto){
@@ -3319,6 +3430,16 @@ function armaImpresion(){
   fila([['Sexo', txt('paciente_sexo')], ['Edad', txt('paciente_edad')]]);
   fila([['Fecha', txt('doc_fecha') || hoyISO()], ['Hora', txt('doc_hora')]]);
   raiz.appendChild(t);
+
+  /* Un preámbulo: la frase que convierte una tabla de datos en un documento
+     dirigido a alguien. La orden de internamiento se la manda a una unidad y
+     la constancia se la lleva el acompañante a su trabajo; las dos necesitan
+     decir a quién van y qué piden, antes de los datos. */
+  if (TIPO.preambulo){
+    raiz.classList.add('carta');
+    var pr = typeof TIPO.preambulo === 'function' ? TIPO.preambulo() : TIPO.preambulo;
+    if (pr) raiz.appendChild(el('div', 'preambulo', pr));
+  }
 
   /* ---- el cuerpo, por grupo, sin los campos vacíos ----
      Los datos cortos van en renglón corrido, no uno debajo de otro: siete
@@ -3471,6 +3592,17 @@ function armaImpresion(){
 
     // y todo lo demás que el médico haya capturado, bajo su propio grupo
     ESQUEMA.grupos.forEach(pintaGrupo);
+  } else if (Array.isArray(TIPO.campos)){
+    /* Un documento que declara sus campos declara también su orden: la
+       orden de internamiento tiene que empezar por el procedimiento y la
+       fecha, no por el contacto de urgencia. Impresa en el orden del
+       esquema salía al revés de como se lee. */
+    var vistos = {}, orden = [];
+    mios.forEach(function(c){
+      if (c && !vistos[c.grupo]){ vistos[c.grupo] = true; orden.push(c.grupo); }
+    });
+    orden.forEach(pintaGrupo);
+    ESQUEMA.grupos.forEach(pintaGrupo);   // por si algo quedó fuera
   } else {
     ESQUEMA.grupos.forEach(pintaGrupo);
   }
