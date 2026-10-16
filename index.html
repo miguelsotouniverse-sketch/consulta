@@ -1456,6 +1456,156 @@ function pintaDocumentos(){
       caja.appendChild(b);
     });
   });
+
+  pintaLlevarAZorvix(docs);
+}
+
+/* ── LLEVAR LA HISTORIA A ZORVIX ──────────────────────────────────────
+
+   La historia clínica que se levanta aquí es la misma paciente que después
+   se opera en Zorvix, y allá el expediente del establecimiento vuelve a
+   pedirla. Capturarla dos veces no sólo cuesta tiempo: las dos capturas
+   acaban diciendo cosas distintas, y entonces ninguna de las dos sirve.
+
+   Esto NO conecta los dos sistemas, a propósito. Produce un código que él
+   copia y pega allá. Así es él quien elige las dos puntas —esta paciente
+   de aquí, esta paciente de allá— y el sistema nunca puede empatar solo a
+   dos personas distintas, que es el error que de verdad hace daño.
+
+   Son datos de la paciente: el código no se manda por correo ni viaja en
+   una dirección web. Va del portapapeles de su máquina a la otra pantalla.
+
+   Del lado de Zorvix se decide qué entra y qué no: allá se enseña campo por
+   campo antes de escribir nada, no se pisa lo que ya esté escrito, y los
+   hallazgos del día de esta consulta —signos vitales, exploración,
+   diagnósticos— no se copian solos a una nota de ingreso de otro día. */
+
+function zorvixB64(texto){
+  var bytes = new TextEncoder().encode(texto), bin = '';
+  for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+function zorvixHistoriaDe(docs){
+  var hcs = (docs || []).filter(function(x){
+    return x && x.tipo === 'historia_clinica' && x.campos;
+  }).sort(function(a, b){
+    return String(b.fecha || '').localeCompare(String(a.fecha || ''));
+  });
+  return hcs[0] || null;
+}
+
+/* El nombre se arma de la historia cuando la historia lo tiene partido en
+   tres, porque así es como Zorvix lo va a cotejar. Si no, el de la agenda. */
+function zorvixNombre(hc){
+  var c = hc.campos || {};
+  var partes = [c.paciente_nombres, c.paciente_apellido_paterno,
+                c.paciente_apellido_materno]
+    .map(function(x){ return String(x || '').trim(); })
+    .filter(Boolean);
+  if (partes.length >= 2) return partes.join(' ');
+  return String(PACIENTE['Paciente'] || '').trim();
+}
+
+function zorvixCodigo(hc){
+  /* Los rótulos viajan con los datos. Zorvix no tiene este diccionario, y sin
+     ellos un campo que allá no tenga equivalente saldría en su pantalla con
+     el identificador crudo («apnp_actividad_fisica») en vez de su nombre.
+     Además, el día que se agregue un campo aquí, allá sale bien nombrado sin
+     tocar nada del otro lado. */
+  var etiquetas = {};
+  Object.keys(hc.campos || {}).forEach(function(id){
+    var c = (ESQUEMA && ESQUEMA.campos || []).filter(function(x){ return x.id === id; })[0];
+    if (c && c.etiqueta) etiquetas[id] = c.etiqueta;
+  });
+
+  var carga = {
+    v: 1,
+    de: 'consulta.miguelsotomd.com',
+    etiquetas: etiquetas,
+    folio: FOLIO || '',
+    fecha_historia: hc.fecha || '',
+    generado: new Date().toISOString(),
+    paciente: {
+      nombre: zorvixNombre(hc),
+      nacimiento: String((hc.campos || {}).paciente_fecha_nacimiento || '').slice(0, 10)
+    },
+    campos: hc.campos || {}
+  };
+  return 'ZXHC1.' + zorvixB64(JSON.stringify(carga));
+}
+
+function pintaLlevarAZorvix(docs){
+  var viejo = document.getElementById('llevarZorvix');
+  if (viejo) viejo.remove();
+
+  var hc = zorvixHistoriaDe(docs);
+  if (!hc) return;                 /* sin historia no hay nada que llevar */
+
+  var caja = document.createElement('details');
+  caja.id = 'llevarZorvix';
+  caja.className = 'previo';
+
+  var s = document.createElement('summary');
+  var fl = document.createElement('span'); fl.className = 'flecha'; fl.textContent = '▸';
+  var ti = document.createElement('span');
+  ti.textContent = 'Llevar a Zorvix su historia clínica del ' + (hc.fecha || 'sin fecha');
+  s.appendChild(fl); s.appendChild(ti);
+  caja.appendChild(s);
+
+  var cuerpo = document.createElement('div'); cuerpo.className = 'cuerpo';
+
+  var p = document.createElement('div');
+  p.className = 'v';
+  p.style.marginBottom = '10px';
+  p.textContent = 'Copie este código y péguelo en el expediente de Zorvix, en la ' +
+    'historia clínica de esta misma paciente, con el botón «Traer del consultorio». ' +
+    'Allá se le enseña qué va a entrar antes de escribir nada.';
+  cuerpo.appendChild(p);
+
+  var ta = document.createElement('textarea');
+  ta.id = 'zorvixCodigo';
+  ta.readOnly = true;
+  ta.rows = 4;
+  ta.style.width = '100%';
+  ta.style.fontFamily = 'monospace';
+  ta.style.fontSize = '11px';
+  ta.value = zorvixCodigo(hc);
+  cuerpo.appendChild(ta);
+
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 's';
+  b.style.marginTop = '10px';
+  b.textContent = 'Copiar el código';
+  var aviso = document.createElement('span');
+  aviso.className = 'v';
+  aviso.style.marginLeft = '10px';
+
+  b.onclick = function(){
+    ta.focus();
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);   /* iPad no respeta select() solo */
+    var listo = function(){
+      aviso.textContent = 'Copiado. Péguelo en Zorvix.';
+      setTimeout(function(){ aviso.textContent = ''; }, 6000);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(ta.value).then(listo, function(){
+        aviso.textContent = 'No pude copiarlo yo: está seleccionado, cópielo usted.';
+      });
+    } else {
+      /* El portapapeles moderno no existe sin https ni en Safari viejo. */
+      try { document.execCommand('copy'); listo(); }
+      catch (e){ aviso.textContent = 'Está seleccionado: cópielo usted.'; }
+    }
+  };
+  cuerpo.appendChild(b);
+  cuerpo.appendChild(aviso);
+  caja.appendChild(cuerpo);
+
+  var ancla = document.getElementById('yaHechos');
+  if (ancla && ancla.parentNode) ancla.parentNode.insertBefore(caja, ancla.nextSibling);
 }
 
 /* ---------------- paso 2: capturar ese documento ---------------- */
