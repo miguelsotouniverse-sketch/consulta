@@ -2503,7 +2503,7 @@
     },
     {
      "t": "h",
-     "x": "Lo que debes suspender"
+     "x": "Lo que debe suspender"
     },
     {
      "t": "p",
@@ -2544,7 +2544,7 @@
     },
     {
      "t": "h",
-     "x": "Medicamentos que debes informarnos"
+     "x": "Medicamentos que debe informarnos"
     },
     {
      "t": "p",
@@ -2775,7 +2775,7 @@
      ]
     }
    ],
-   "version": "e917c374"
+   "version": "2b6df7bc"
   },
   {
    "id": "laboratorios",
@@ -2826,6 +2826,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "6ec2542154d18e7a",
- "generado": "2026-10-13"
+ "version": "9f6e918c9b3d8c3c",
+ "generado": "2026-10-17"
 }
