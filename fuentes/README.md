@@ -32,6 +32,7 @@ python3 fuentes/construir_receta_combinada.py
 python3 fuentes/construir_eco2.py
 python3 fuentes/agregar_prednisona.py
 python3 fuentes/construir_receta_mastopexia.py
+python3 fuentes/corregir_usted_preop.py
 ```
 
 **El orden importa.** Los constructores copian renglones ya aprobados de las
