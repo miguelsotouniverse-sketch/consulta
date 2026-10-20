@@ -2483,7 +2483,8 @@
      "t": "ul",
      "x": [
       "Léala completa hoy y vuelva a leerla una semana antes de su cirugía.",
-      "Los medicamentos de su cirugía los compra usted, con las recetas que le entregamos antes del procedimiento. Téngalos comprados y en casa ANTES del día de la cirugía: varios se empiezan el mismo día que sale de quirófano, y ese día usted no va a estar en condiciones de ir a la farmacia. Si le falta alguna receta, pídanosla.",
+      "Los medicamentos de su cirugía los compra usted, con las recetas que le entregamos en la valoración preoperatoria. Téngalos comprados y en casa ANTES del día del procedimiento: varios se empiezan el mismo día que sale de quirófano, y ese día usted no va a estar en condiciones de ir a la farmacia.",
+      "Si llega el día de su cirugía y todavía no tiene sus recetas, pídanoslas al llegar: su acompañante puede comprar los medicamentos mientras usted está en quirófano, para que estén en casa cuando usted llegue. Avísele con tiempo para que vaya preparado.",
       "Si no se cumplen estas indicaciones, por su seguridad podemos reprogramar la cirugía.",
       "Cualquier duda: escríbanos por WhatsApp al 55 6223 4133.",
       "Si su procedimiento incluye láser de CO₂, le entregamos en esta consulta la receta del antiviral. Cómprelo con tiempo: se empieza el día ANTES del procedimiento, no el mismo día."
@@ -2775,7 +2776,7 @@
      ]
     }
    ],
-   "version": "8b61c270"
+   "version": "2784f4d1"
   },
   {
    "id": "laboratorios",
@@ -2826,6 +2827,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "3f964aba6c3aebe3",
+ "version": "b7f89db9de46285c",
  "generado": "2026-10-20"
 }
