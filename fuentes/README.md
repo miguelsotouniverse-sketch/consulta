@@ -34,6 +34,7 @@ python3 fuentes/construir_eco2.py
 python3 fuentes/agregar_prednisona.py
 python3 fuentes/construir_receta_mastopexia.py
 python3 fuentes/agregar_amlodipino_recetas.py
+python3 fuentes/corregir_usted_preop.py
 ```
 
 Ya no hay ningún `cp` en la cadena: las dos mitades arrancan de un constructor
@@ -55,8 +56,15 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `de935ebac7c3fe60` (10 hojas) y recetas
+Hoy la cadena produce: indicaciones `4615943c2f35fe21` (10 hojas) y recetas
 `6c9e765ea085c219` (7 plantillas).
+
+**Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
+suba no trae esa corrección y el texto viejo vuelve a producción sin que nadie
+lo note. Ya pasó una vez, con `corregir_usted_preop.py`: una reconstrucción que
+lo omitió devolvió al sitio dos títulos escritos de tú. El catálogo de arriba
+es la manera de darse cuenta: si lo que reconstruyó no da esa versión, le falta
+un paso o le sobra un cambio.
 
 ## Los archivos
 
@@ -108,6 +116,7 @@ bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 | `corregir_medicamentos_preop.py` | **la hoja decía que el consultorio entrega los medicamentos. Es falso**: entrega recetas, y la paciente compra |
 | `agregar_prednisona.py` | prednisona 20 mg × 14 días, que no estaba en ninguna plantilla |
 | `agregar_amlodipino_recetas.py` | el amlodipino de la víspera, que se indicaba de palabra y no estaba impreso en ninguna receta |
+| `corregir_usted_preop.py` | dos títulos de la hoja preoperatoria que se habían quedado de tú. Va al final, después de todo lo que toca esa hoja |
 
 Los correctores existen porque antes no había constructor: eran la única forma
 de dejar rastro de un cambio. Ahora que los dos constructores existen, una
