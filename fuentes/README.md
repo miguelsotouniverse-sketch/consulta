@@ -20,34 +20,43 @@ encontrar ya no está. Los catálogos se **regeneran**, no se parchan.
 ## Cómo reconstruir todo, desde cero
 
 ```bash
-python3 fuentes/construir_indicaciones.py      # las 8 hojas originales, desde su fuente
-cp fuentes/recetas_base.json recetas.json      # las recetas todavía parten del respaldo
+python3 fuentes/construir_indicaciones.py     # las 8 hojas originales
+python3 fuentes/construir_recetas.py          # las 4 plantillas originales
 
 python3 fuentes/corregir_drenajes.py
 python3 fuentes/corregir_dieta_submandibular.py
 python3 fuentes/corregir_a_donde_llamar.py
 python3 fuentes/agregar_antiviral_preop.py
+python3 fuentes/corregir_medicamentos_preop.py
 python3 fuentes/construir_hoja_combinada.py
 python3 fuentes/construir_receta_combinada.py
 python3 fuentes/construir_eco2.py
 python3 fuentes/agregar_prednisona.py
 python3 fuentes/construir_receta_mastopexia.py
-python3 fuentes/corregir_usted_preop.py
+python3 fuentes/agregar_amlodipino_recetas.py
 ```
+
+Ya no hay ningún `cp` en la cadena: las dos mitades arrancan de un constructor
+en Python, no de un respaldo. Los `_base.json` se quedan sólo como testigo de
+que el constructor reproduce lo que había.
 
 **El orden importa.** Los constructores copian renglones ya aprobados de las
 hojas y plantillas anteriores —por índice o por nombre, nunca retecleados—, así
 que si corre uno antes de tiempo copia una versión vieja. `construir_eco2.py`
 copia de la hoja combinada; `construir_receta_mastopexia.py` copia de la receta
-de Deep Plane **ya con la prednisona dentro**.
+de Deep Plane **ya con la prednisona dentro**; `agregar_amlodipino_recetas.py`
+va hasta el final porque necesita que existan las siete plantillas.
 
 Los scripts son idempotentes en el sentido útil: si el cambio ya está hecho, se
 niegan a duplicarlo y lo dicen. No son acumulativos: siempre se arranca de los
-dos `_base.json`.
+dos constructores.
 
-Al terminar, los dos archivos de la raíz deben quedar **byte por byte** iguales
-a los publicados. Si no quedan, algo cambió y hay que averiguar qué antes de
-subir nada.
+Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido**
+que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
+algo cambió y hay que averiguar qué antes de subir nada.
+
+Hoy la cadena produce: indicaciones `de935ebac7c3fe60` (10 hojas) y recetas
+`6c9e765ea085c219` (7 plantillas).
 
 ## Los archivos
 
@@ -56,29 +65,37 @@ subir nada.
 `construir_indicaciones.py` tiene el texto de las **ocho hojas originales**
 —Deep Plane, lipoescultura, mastopexia, rinoplastia, blefaroplastia, faja,
 preoperatorias y laboratorios— escrito como código, con un ayudante por tipo de
-bloque (`h`, `h2`, `p`, `ul`, `tabla`, `citas`, `nota`, `firmas`). **Ése es el
-archivo que se edita cuando hay que corregir una hoja original.**
+bloque (`h`, `h2`, `p`, `ul`, `tabla`, `citas`, `nota`, `firmas`).
+`construir_recetas.py` hace lo mismo con las **cuatro plantillas originales**
+—Deep Plane, Body360, blefaroplastia y rinoplastia—, con un ayudante `med()`
+por renglón de medicamento y un `al()` por signo de alarma. **Ésos son los dos
+archivos que se editan cuando hay que corregir algo original.**
 
-No se transcribió a mano: lo emitió `generar_constructor.py` leyendo
-`indicaciones_base.json`, y se comprobó que lo que produce tiene exactamente el
-mismo contenido y las mismas ocho versiones que el original. `generar_constructor.py`
-se corrió una vez y se guarda sólo como prueba de procedencia; no se vuelve a correr.
+Ninguno se transcribió a mano. Los emitieron `generar_constructor.py` y
+`generar_constructor_recetas.py` leyendo los respaldos, y en los dos casos se
+comprobó que lo que producen tiene exactamente el mismo contenido y las mismas
+versiones que el original. Se corrieron una vez y se guardan sólo como prueba
+de procedencia; no se vuelven a correr.
+
+Que el texto se **emita** y no se teclee no es un lujo de programador: son 51
+renglones de medicamento con sus dosis y sus condiciones, y una tarde de
+transcripción es una tarde de oportunidades de convertir un «cada 8 horas» en
+un «cada 12» sin que nadie lo note.
 
 | archivo | qué es |
 |---|---|
 | `construir_indicaciones.py` | las 8 hojas originales, editables · catálogo `e9cd69b0cedb662c` |
-| `indicaciones_base.json` | el JSON del que se emitió, como testigo. No se toca |
-| `recetas_base.json` | 4 plantillas · catálogo `d52a8784e7313b41`. Todavía sin constructor |
+| `construir_recetas.py` | las 4 plantillas originales, editables · catálogo `d52a8784e7313b41` |
+| `indicaciones_base.json` | el JSON del que se emitió el primero, como testigo. No se toca |
+| `recetas_base.json` | el JSON del que se emitió el segundo, como testigo. No se toca |
+| `generar_constructor.py` | emitió `construir_indicaciones.py`. Ya corrió |
+| `generar_constructor_recetas.py` | emitió `construir_recetas.py`. Ya corrió |
 
-Una advertencia que importa: el original tenía el orden de llaves inconsistente
-—en unos bloques de alarma `alarma` iba antes de `x` y en otros después—. El
-constructor lo normaliza. El contenido, las ocho versiones de hoja y la versión
-del catálogo son idénticos; lo único que cambia es el orden en que se escriben
-catorce bloques, cosa que el sistema no mira porque lee JSON, no bytes.
-
-Lo que falta para cerrar el círculo: un `construir_recetas.py` equivalente para
-las cuatro plantillas originales. Mientras no exista, esa mitad arranca del
-respaldo.
+Una advertencia que importa: el original de las indicaciones tenía el orden de
+llaves inconsistente —en unos bloques de alarma `alarma` iba antes de `x` y en
+otros después—. El constructor lo normaliza. El contenido y todas las versiones
+son idénticos; lo único que cambia es el orden en que se escriben catorce
+bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 
 ### Correctores — arreglan texto que ya estaba y estaba mal
 
@@ -88,13 +105,23 @@ respaldo.
 | `corregir_dieta_submandibular.py` | la dieta es de glándula submandibular, y se dice así |
 | `corregir_a_donde_llamar.py` | la paciente llama al consultorio, nunca a urgencias de otro hospital |
 | `agregar_antiviral_preop.py` | el antiviral del láser se avisa en la hoja preoperatoria, que es cuando da tiempo de comprarlo |
+| `corregir_medicamentos_preop.py` | **la hoja decía que el consultorio entrega los medicamentos. Es falso**: entrega recetas, y la paciente compra |
 | `agregar_prednisona.py` | prednisona 20 mg × 14 días, que no estaba en ninguna plantilla |
+| `agregar_amlodipino_recetas.py` | el amlodipino de la víspera, que se indicaba de palabra y no estaba impreso en ninguna receta |
 
 Los correctores existen porque antes no había constructor: eran la única forma
-de dejar rastro de un cambio. Ahora que `construir_indicaciones.py` existe, una
-corrección NUEVA a una hoja original se hace allí directamente, no con un
-corrector más. Los cinco que están aquí se quedan porque la cadena ya depende
+de dejar rastro de un cambio. Ahora que los dos constructores existen, una
+corrección NUEVA a una hoja o plantilla original se hace allí directamente, no
+con un corrector más. Los que están aquí se quedan porque la cadena ya depende
 de ellos y porque cada uno explica una decisión clínica que conviene no perder.
+
+Dos de ellos van juntos y no se pueden separar: la hoja preoperatoria dejó de
+decir «si su cirugía lleva incisión» —la paciente no tiene por qué clasificar
+su propia cirugía— y ahora dice «si en sus recetas viene amlodipino, tómelo».
+Eso vuelve a la receta la única fuente de verdad, así que
+`agregar_amlodipino_recetas.py` tiene que correr siempre que corra
+`corregir_medicamentos_preop.py`. Si el amlodipino no está impreso en la
+receta, nadie lo toma.
 
 ### Constructores — crean hojas y plantillas nuevas
 
@@ -104,6 +131,30 @@ de ellos y porque cada uno explica una decisión clínica que conviene no perder
 | `construir_receta_combinada.py` | la receta de esa misma combinación |
 | `construir_eco2.py` | hoja y receta del láser eCO₂ por separado |
 | `construir_receta_mastopexia.py` | la receta de mastopexia |
+
+### La solicitud de laboratorios, como PDF fijo
+
+`generar_laboratorios_pdf.mjs` produce `laboratorios.pdf`, que se publica en la
+raíz del sitio. Es el único documento que no depende de la paciente: los mismos
+siete estudios para todas. Se manda por WhatsApp pegando la liga
+`consulta.miguelsotomd.com/laboratorios.pdf`, sin abrir el expediente.
+
+El texto no está escrito ahí: sale de la hoja `laboratorios` de
+`indicaciones.json`, armada por el propio `index.html`, de modo que el PDF
+hereda el membrete y los estilos reales. Lo que el script hace encima es
+quitarle la ficha de la paciente —un PDF para todas no puede traer el nombre de
+una—, cambiar el cuadro de firma autógrafa por la firma visual, y quitarle el
+folio de documento, que no existe sin expediente. Al pie queda la versión de la
+hoja, que es como se sabe después qué texto exacto se mandó.
+
+```bash
+node fuentes/generar_laboratorios_pdf.mjs index.html indicaciones.json laboratorios.pdf
+```
+
+Se vuelve a correr cada vez que cambie la hoja de laboratorios. El script
+revisa lo que produjo —que quepa en una página, que estén los diez renglones de
+la hoja, que no haya quedado ningún hueco por llenar a mano, que vaya firmado—
+y truena si algo falta.
 
 ### Pruebas
 
@@ -120,6 +171,7 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_casilla_renglones.mjs` | que la casilla saque un renglón de la receta y que lo deseleccionado no resucite al recalcular |
 | `prueba_firma_visual.mjs` | que la firma visual se estampe sólo cuando se enciende, y que un documento sin firmar siga diciendo «Firma autógrafa» |
 | `prueba_internamiento.mjs` | **el candado de la constancia**: que la hoja que va a manos de un patrón no pueda imprimir el diagnóstico ni el procedimiento, con el expediente lleno |
+| `prueba_aviso_preop.mjs` | que la nota preoperatoria recuerde entregar las recetas, nombrando las dos que no admiten retraso, y que ese recordatorio no aparezca en los demás documentos ni bloquee nada |
 
 `render_hoja.mjs`, `render_receta.mjs` y `render_impresion.mjs` son auxiliares:
 imprimen un documento a PDF para verlo.
@@ -128,7 +180,8 @@ Las pruebas necesitan `campos.json` —está en la raíz del repositorio— y
 opcionalmente `constantes.json`, que **no está aquí a propósito**: vive en la
 carpeta `esquema` de Drive, la sirve el gateway, y trae cédulas y teléfonos que
 no tienen por qué estar en un repositorio público. Sin él las pruebas corren
-igual, con el membrete vacío.
+igual, con el membrete vacío. `generar_laboratorios_pdf.mjs` sí lo necesita de
+verdad: sin firma en las constantes se niega a producir el PDF.
 
 ## Dos documentos que son dos a propósito
 
@@ -139,9 +192,16 @@ antecedentes. Un patrón no tiene por qué enterarse de qué cirugía se hizo la
 madre de su empleada para justificarle el día.
 
 El candado no es la buena intención de quien edite el archivo: la constancia
-declara su lista de campos VACÍA, así que no puede imprimir un dato clínico
-aunque el expediente lo tenga. `prueba_internamiento.mjs` lo verifica con un
-expediente lleno a propósito, y truena si alguien le agrega campos.
+trae su **propia función de impresión**, así que sólo sale lo que está escrito
+ahí dentro. Un campo nuevo que alguien agregue mañana al expediente no se
+cuela, porque el cuerpo automático —el que recorre todos los campos con
+valor— ni siquiera corre para este documento.
+
+Esa fue la segunda versión del candado. La primera declaraba la lista de campos
+vacía, y resultó peor que inútil: impedía también capturar el nombre y la fecha
+que la constancia necesita, así que el documento salía sin decir a quién ampara
+ni de qué día. El candado correcto limita lo que se **imprime**, no lo que se
+puede escribir.
 
 ## Reglas que conviene no romper
 
@@ -149,14 +209,21 @@ expediente lleno a propósito, y truena si alguien le agrega campos.
    copia por índice o por nombre. Así una corrección se propaga sola.
 2. **Lo que no dijo el médico va marcado.** Cualquier número que haya puesto
    quien escribió el script y no el médico lleva `←CONFIRMAR` en el código y se
-   nombra al entregarlo. Nunca se inventa en silencio.
+   nombra al entregarlo. Nunca se inventa en silencio —ni en el texto, ni en el
+   comentario que lo explica.
 3. **Lo nuevo va marcado.** El contenido clínico escrito desde cero —signos de
    alarma, sobre todo— lleva `←NUEVO` para que se revise renglón por renglón.
 4. **El texto que imprime la paciente no lleva instrucciones para el médico.**
    Esas van en los avisos, que son de pantalla.
 5. **Un documento no imprime lo que su lector no debe ver.** Si una hoja va a
-   manos de un tercero, su lista de campos es el candado, no el cuidado de
-   quien la edita.
-6. **Versión por contenido.** La versión de cada hoja y de cada catálogo es un
+   manos de un tercero, el candado es su propia función de impresión, no el
+   cuidado de quien la edita.
+6. **A la paciente no se le pide que clasifique su caso.** No «si su cirugía
+   lleva incisión», sino «si en sus recetas viene». Lo que decide es un dato que
+   ella tiene en la mano, no un juicio clínico.
+7. **La hoja no promete lo que el consultorio no hace.** Se entregan recetas, no
+   medicamentos. Una frase amable y falsa le cuesta a la paciente su primera
+   noche sin analgésico.
+8. **Versión por contenido.** La versión de cada hoja y de cada catálogo es un
    hash de su propio contenido. Dos reconstrucciones del mismo material dan la
    misma versión; si la versión cambió, el contenido cambió.

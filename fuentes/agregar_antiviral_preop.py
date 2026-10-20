@@ -33,14 +33,25 @@ import sys
 
 RUTA = sys.argv[1] if len(sys.argv) > 1 else 'indicaciones.json'
 
-ANTES = ('Si su procedimiento incluye láser de CO₂, le entregamos en esta '
-         'consulta la receta del antiviral. Cómprelo con tiempo: se empieza el '
-         'día ANTES del procedimiento, no el mismo día.')
+# LA CONDICIÓN SE LEE EN LA RECETA, NO EN LA CABEZA DE LA PACIENTE.
+#
+# Decía «si su procedimiento incluye láser de CO₂…», y el médico lo corrigió:
+# «eso suena a que el paciente debe decidir; simplemente si va en las recetas
+# que lo tome, si no, pues no».
+#
+# Tiene razón y es más que estilo. Una paciente no sabe si lo que le van a
+# hacer «incluye láser de CO₂» ni si su cirugía «lleva incisión»; le pusimos
+# una decisión clínica disfrazada de instrucción. La regla verdadera es la
+# receta: lo que está escrito ahí se toma, lo que no, no. Eso lo puede
+# verificar cualquiera, de un vistazo y sin equivocarse.
+ANTES = ('Si en sus recetas viene un antiviral, cómprelo en cuanto se las '
+         'entreguemos: se empieza el día ANTES del procedimiento, no el mismo '
+         'día.')
 
-UN_DIA = ('Si su procedimiento incluye láser de CO₂, hoy empieza el antiviral '
-          'de su receta. Es la dosis que más importa de todo el tratamiento: '
-          'sirve para evitar que brote herpes sobre la piel tratada. Si no lo '
-          'consiguió o se le olvidó, avísenos hoy mismo.')
+UN_DIA = ('Si en sus recetas viene un antiviral, hoy empieza. Es la dosis que '
+          'más importa de todo el tratamiento: sirve para evitar que brote '
+          'herpes sobre la piel tratada con láser. Si no lo consiguió o se le '
+          'olvidó, avísenos hoy mismo.')
 
 cat = json.load(open(RUTA, encoding='utf-8'))
 h = [x for x in cat['hojas'] if x['id'] == 'preoperatorias'][0]
