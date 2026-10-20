@@ -2487,7 +2487,7 @@
       "Si llega el día de su cirugía y todavía no tiene sus recetas, pídanoslas al llegar: su acompañante puede comprar los medicamentos mientras usted está en quirófano, para que estén en casa cuando usted llegue. Avísele con tiempo para que vaya preparado.",
       "Si no se cumplen estas indicaciones, por su seguridad podemos reprogramar la cirugía.",
       "Cualquier duda: escríbanos por WhatsApp al 55 6223 4133.",
-      "Si su procedimiento incluye láser de CO₂, le entregamos en esta consulta la receta del antiviral. Cómprelo con tiempo: se empieza el día ANTES del procedimiento, no el mismo día."
+      "Si su procedimiento incluye láser de CO₂, la receta del antiviral se la entregamos en su valoración preoperatoria. Cómprelo con tiempo: se empieza el día ANTES del procedimiento, no el mismo día."
      ]
     },
     {
@@ -2776,7 +2776,7 @@
      ]
     }
    ],
-   "version": "2784f4d1"
+   "version": "b5d6d381"
   },
   {
    "id": "laboratorios",
@@ -2827,6 +2827,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "b7f89db9de46285c",
+ "version": "7ad7994f590bae0c",
  "generado": "2026-10-20"
 }
