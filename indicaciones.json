@@ -2483,7 +2483,7 @@
      "t": "ul",
      "x": [
       "Léala completa hoy y vuelva a leerla una semana antes de su cirugía.",
-      "Los medicamentos de su cirugía se los entregamos nosotros, junto con sus indicaciones para después de la cirugía: no necesita comprar nada.",
+      "Los medicamentos de su cirugía los compra usted, con las recetas que le entregamos antes del procedimiento. Téngalos comprados y en casa ANTES del día de la cirugía: varios se empiezan el mismo día que sale de quirófano, y ese día usted no va a estar en condiciones de ir a la farmacia. Si le falta alguna receta, pídanosla.",
       "Si no se cumplen estas indicaciones, por su seguridad podemos reprogramar la cirugía.",
       "Cualquier duda: escríbanos por WhatsApp al 55 6223 4133.",
       "Si su procedimiento incluye láser de CO₂, le entregamos en esta consulta la receta del antiviral. Cómprelo con tiempo: se empieza el día ANTES del procedimiento, no el mismo día."
@@ -2503,7 +2503,7 @@
     },
     {
      "t": "h",
-     "x": "Lo que debe suspender"
+     "x": "Lo que debes suspender"
     },
     {
      "t": "p",
@@ -2544,7 +2544,7 @@
     },
     {
      "t": "h",
-     "x": "Medicamentos que debe informarnos"
+     "x": "Medicamentos que debes informarnos"
     },
     {
      "t": "p",
@@ -2647,7 +2647,7 @@
       "Dos o tres almohadas extra o una almohada en cuña para dormir semisentada.",
       "Compresas frías o bolsas de chícharos congelados.",
       "Comida baja en sal ya preparada para los primeros días, agua y bebidas sin gas.",
-      "Un lugar a la mano junto a su cama para los medicamentos que le entregaremos.",
+      "Sus medicamentos ya comprados, en un lugar a la mano junto a su cama.",
       "Termómetro.",
       "Popotes y una botella de agua junto a su cama.",
       "Alguien que cuide a niños pequeños y mascotas: no podrá cargar peso."
@@ -2775,7 +2775,7 @@
      ]
     }
    ],
-   "version": "2b6df7bc"
+   "version": "ce53c6d2"
   },
   {
    "id": "laboratorios",
@@ -2826,6 +2826,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "9f6e918c9b3d8c3c",
- "generado": "2026-10-17"
+ "version": "8497f19578b631fd",
+ "generado": "2026-10-20"
 }
