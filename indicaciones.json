@@ -2487,7 +2487,7 @@
       "Si llega el día de su cirugía y todavía no tiene sus recetas, pídanoslas al llegar: su acompañante puede comprar los medicamentos mientras usted está en quirófano, para que estén en casa cuando usted llegue. Avísele con tiempo para que vaya preparado.",
       "Si no se cumplen estas indicaciones, por su seguridad podemos reprogramar la cirugía.",
       "Cualquier duda: escríbanos por WhatsApp al 55 6223 4133.",
-      "Si su procedimiento incluye láser de CO₂, la receta del antiviral se la entregamos en su valoración preoperatoria. Cómprelo con tiempo: se empieza el día ANTES del procedimiento, no el mismo día."
+      "Si en sus recetas viene un antiviral, cómprelo en cuanto se las entreguemos: se empieza el día ANTES del procedimiento, no el mismo día."
      ]
     },
     {
@@ -2677,8 +2677,8 @@
     {
      "t": "ul",
      "x": [
-      "Si le recetamos amlodipino 5 mg, cómprelo con tiempo y tome una tableta el día anterior a su cirugía, como le indicamos. Ayuda a mantener su presión estable y a reducir el sangrado y la inflamación.",
-      "Si su procedimiento incluye láser de CO₂, hoy empieza el antiviral de su receta. Es la dosis que más importa de todo el tratamiento: sirve para evitar que brote herpes sobre la piel tratada. Si no lo consiguió o se le olvidó, avísenos hoy mismo.",
+      "Si en sus recetas viene amlodipino 5 mg, tómelo hoy: una tableta. Ayuda a mantener su presión estable durante la cirugía y a reducir el sangrado y la inflamación.",
+      "Si en sus recetas viene un antiviral, hoy empieza. Es la dosis que más importa de todo el tratamiento: sirve para evitar que brote herpes sobre la piel tratada con láser. Si no lo consiguió o se le olvidó, avísenos hoy mismo.",
       "Cene ligero y bajo en sal.",
       "Báñese y lávese el cabello con su jabón y champú de siempre, o con el jabón antiséptico si se lo indicamos.",
       "No se rasure ni se depile la zona a operar: los pequeños cortes aumentan el riesgo de infección.",
@@ -2776,7 +2776,7 @@
      ]
     }
    ],
-   "version": "b5d6d381"
+   "version": "d35b6e13"
   },
   {
    "id": "laboratorios",
@@ -2827,6 +2827,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "7ad7994f590bae0c",
+ "version": "de935ebac7c3fe60",
  "generado": "2026-10-20"
 }

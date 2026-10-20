@@ -136,6 +136,19 @@
     },
     {
      "hoja": "general",
+     "nombre": "Amlodipino 5 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
+     "cantidad": "1 tableta",
+     "duracion": "Dosis única, la noche anterior",
+     "horario": {
+      "n": "Amlodipino (víspera)",
+      "h": [
+       "21:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
      "nombre": "Hipromelosa 5 mg/mL (0.5 %), solución oftálmica estéril.",
      "indicacion": "Instilar 2 gotas en cada ojo cada 2 horas mientras esté despierta, durante 14 días. No toque el gotero con el ojo ni con los dedos.",
      "si": {
@@ -425,7 +438,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "231e370b"
+   "version": "454a6dda"
   },
   {
    "id": "body360",
@@ -529,6 +542,19 @@
        "06:00",
        "14:00",
        "22:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Amlodipino 5 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
+     "cantidad": "1 tableta",
+     "duracion": "Dosis única, la noche anterior",
+     "horario": {
+      "n": "Amlodipino (víspera)",
+      "h": [
+       "21:00"
       ]
      }
     },
@@ -807,7 +833,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "43ea2195"
+   "version": "ef0d1637"
   },
   {
    "id": "mastopexia",
@@ -911,6 +937,19 @@
        "06:00",
        "14:00",
        "22:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Amlodipino 5 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
+     "cantidad": "1 tableta",
+     "duracion": "Dosis única, la noche anterior",
+     "horario": {
+      "n": "Amlodipino (víspera)",
+      "h": [
+       "21:00"
       ]
      }
     },
@@ -1182,7 +1221,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "de99e5b1"
+   "version": "82484402"
   },
   {
    "id": "blefaroplastia",
@@ -1283,6 +1322,19 @@
        "06:00",
        "14:00",
        "22:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Amlodipino 5 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
+     "cantidad": "1 tableta",
+     "duracion": "Dosis única, la noche anterior",
+     "horario": {
+      "n": "Amlodipino (víspera)",
+      "h": [
+       "21:00"
       ]
      }
     },
@@ -1543,7 +1595,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "de31aa6b"
+   "version": "9ddb7bb1"
   },
   {
    "id": "rinoplastia",
@@ -1656,6 +1708,19 @@
      "horario": {
       "n": "Ungüento en heridas",
       "t": "Mañana, tarde y noche"
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Amlodipino 5 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
+     "cantidad": "1 tableta",
+     "duracion": "Dosis única, la noche anterior",
+     "horario": {
+      "n": "Amlodipino (víspera)",
+      "h": [
+       "21:00"
+      ]
      }
     },
     {
@@ -1935,7 +2000,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "db44165e"
+   "version": "0a26f93c"
   },
   {
    "id": "facial_combinada",
@@ -2066,6 +2131,19 @@
      "horario": {
       "n": "Ungüento en heridas",
       "t": "Mañana, tarde y noche"
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Amlodipino 5 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
+     "cantidad": "1 tableta",
+     "duracion": "Dosis única, la noche anterior",
+     "horario": {
+      "n": "Amlodipino (víspera)",
+      "h": [
+       "21:00"
+      ]
      }
     },
     {
@@ -2470,7 +2548,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "992251bd"
+   "version": "2a09eba3"
   },
   {
    "id": "eco2",
@@ -2619,6 +2697,6 @@
   "22:00",
   "24:00"
  ],
- "version": "e1892d5f5ff97695",
- "generado": "2026-10-13"
+ "version": "6c9e765ea085c219",
+ "generado": "2026-10-20"
 }
