@@ -2676,7 +2676,7 @@
     {
      "t": "ul",
      "x": [
-      "Si le entregamos amlodipino 5 mg, tome una tableta el día anterior a su cirugía, como le indicamos. Ayuda a mantener su presión estable y a reducir el sangrado y la inflamación.",
+      "Si le recetamos amlodipino 5 mg, cómprelo con tiempo y tome una tableta el día anterior a su cirugía, como le indicamos. Ayuda a mantener su presión estable y a reducir el sangrado y la inflamación.",
       "Si su procedimiento incluye láser de CO₂, hoy empieza el antiviral de su receta. Es la dosis que más importa de todo el tratamiento: sirve para evitar que brote herpes sobre la piel tratada. Si no lo consiguió o se le olvidó, avísenos hoy mismo.",
       "Cene ligero y bajo en sal.",
       "Báñese y lávese el cabello con su jabón y champú de siempre, o con el jabón antiséptico si se lo indicamos.",
@@ -2775,7 +2775,7 @@
      ]
     }
    ],
-   "version": "ce53c6d2"
+   "version": "8b61c270"
   },
   {
    "id": "laboratorios",
@@ -2826,6 +2826,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "8497f19578b631fd",
+ "version": "3f964aba6c3aebe3",
  "generado": "2026-10-20"
 }
