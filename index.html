@@ -769,7 +769,13 @@ var DOCUMENTOS = [
     etiquetas:['Nota de procedimiento'] },
   { id:'nota_preoperatoria', nombre:'Nota preoperatoria',      grupo:'captura',
     icono:'reloj', dictado:true,
-    etiquetas:['Nota preoperatoria'] },
+    etiquetas:['Nota preoperatoria'],
+    aviso:'<b>Antes de cerrar esta valoración: entregue las recetas.</b> ' +
+          'Dos de ellas se toman ANTES de la cirugía y no admiten retraso — el ' +
+          '<b>amlodipino</b>, la noche anterior, y el <b>antiviral</b> del láser, ' +
+          'que empieza el día previo. Si salen el día del procedimiento, esas dos ' +
+          'ya no sirven. Las demás se pueden comprar después, pero la paciente ' +
+          'necesita tenerlas en casa al salir de quirófano.' },
   /* La receta de consultorio dejó de ser cinco campos sueltos —un solo
      medicamento por receta, que no sirve para nada— y pasó a ser la misma
      lista de renglones que ya usaba la receta postoperatoria: se escribe un
@@ -3297,6 +3303,26 @@ function visibles(g){
 function arma(){
   var cont = $('formulario');
   cont.innerHTML = '';
+
+  /* Un recordatorio fijo arriba del formulario, para los documentos que lo
+     declaran. No bloquea nada: el sistema no puede saber si las recetas se
+     entregaron, sólo puede acordárselo a quien sí lo sabe.
+
+     Lo pidió la nota preoperatoria. El médico describió el problema: las
+     recetas normalmente salen en esa valoración, «pero no siempre, muchas
+     veces no da tiempo y las terminamos dando el día del procedimiento». Para
+     casi todas da igual —se compran al salir de quirófano—, pero hay dos que
+     se toman ANTES: el amlodipino la noche anterior y el antiviral del láser
+     el día previo. Entregadas el día de la cirugía, esas dos llegan tarde y
+     ya no sirven. */
+  if (TIPO && TIPO.aviso){
+    var av = document.createElement('div');
+    av.className = 'aviso ojo';
+    av.style.marginBottom = '14px';
+    av.innerHTML = TIPO.aviso;
+    cont.appendChild(av);
+  }
+
   ESQUEMA.grupos.forEach(function(g, idx){
     var campos = visibles(g);
     if (!campos.length) return;
