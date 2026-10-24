@@ -2738,7 +2738,7 @@
    "bloques": [
     {
      "t": "nota",
-     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) No toque el vendaje, no lo afloje y no lo moje: se retira en su cita de las 24 a 48 horas. 2) Duerma boca arriba, con la cabeza elevada. No se acueste sobre las orejas. 3) Después del vendaje, la banda: día y noche la primera semana. 4) Si una sola oreja le duele cada vez más, o se ve más hinchada o tensa que la otra, llame de inmediato: no espere a su cita. 5) No se apoye nada sobre las orejas: ni audífonos de diadema, ni cubrebocas de resorte, ni lentes pesados. Lo demás de esta hoja lo puede leer con calma mañana."
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) No toque el vendaje, no lo afloje y no lo moje. Usted misma se lo retira en casa a las 24 a 48 horas, no antes, y enseguida se pone la banda. 2) Duerma boca arriba, con la cabeza elevada. No se acueste sobre las orejas. 3) Después del vendaje, la banda: día y noche la primera semana. 4) Si una sola oreja le duele cada vez más, o se ve más hinchada o tensa que la otra, llame de inmediato: no espere a su cita. 5) No se apoye nada sobre las orejas: ni audífonos de diadema, ni cubrebocas de resorte, ni lentes pesados. Lo demás de esta hoja lo puede leer con calma mañana."
     },
     {
      "t": "h",
@@ -2751,7 +2751,7 @@
     {
      "t": "ul",
      "x": [
-      "Vendaje: no lo afloje, no lo recorra, no meta nada debajo —ni el dedo, ni un cotonete, ni papel— y no lo moje. Si se le aflojó o se le cayó solo, avísenos el mismo día.",
+      "Vendaje: no lo afloje, no lo recorra, no meta nada debajo —ni el dedo, ni un cotonete, ni papel— y no lo moje. Se queda puesto 24 a 48 horas y se lo retira usted misma en casa, como se explica más adelante. Si se le aflojó o se le cayó antes, póngase la banda y avísenos el mismo día.",
       "Si siente comezón bajo el vendaje, no se rasque ni introduzca nada: es normal mientras cicatriza.",
       "Reposo relativo. Permanezca en casa. Camine dentro de casa 5 minutos cada 2 horas mientras esté despierta; esto previene coágulos en las piernas.",
       "No se agache, no cargue nada de más de 2 kg y no puje. Si tiene estreñimiento, tome el laxante indicado en su receta.",
@@ -2795,6 +2795,24 @@
     },
     {
      "t": "h2",
+     "x": "Cómo se retira el vendaje, a las 24 a 48 horas"
+    },
+    {
+     "t": "p",
+     "x": "El vendaje se lo retira usted misma en casa, pasadas las primeras 24 a 48 horas. No lo haga antes. No necesita venir al consultorio para esto."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Hágalo sentada, frente a un espejo, con las manos recién lavadas y con alguien que la acompañe.",
+      "Desenrolle la venda poco a poco, sin jalar. Si una gasa está pegada, humedézcala con agua limpia y espere a que se despegue sola: nunca la arranque en seco.",
+      "No jale nada que esté pegado a un punto, y no corte nada con tijeras cerca de la oreja.",
+      "Antes de ponerse la banda, mírese las dos orejas en el espejo. Si una se ve mucho más hinchada, tensa o morada que la otra, o le duele cada vez más, llámenos antes de colocársela.",
+      "Si todo se ve bien, colóquese la banda enseguida y ya no se quede sin ella más que para bañarse."
+     ]
+    },
+    {
+     "t": "h2",
      "x": "Banda compresiva"
     },
     {
@@ -2804,7 +2822,7 @@
     {
      "t": "ul",
      "x": [
-      "Se la colocamos nosotros en su cita de las 24 a 48 horas, al retirar el vendaje.",
+      "Empieza en cuanto se retira el vendaje, a las 24 a 48 horas.",
       "Úsela día y noche la primera semana; sólo se la retira para bañarse.",
       "Después, de la segunda a la cuarta semana, úsela únicamente para dormir.",
       "Debe quedar firme pero sin apretar: no debe doler, ni dejarle una marca profunda, ni ponerle la oreja pálida. Si eso pasa, aflójela y avísenos.",
@@ -2830,7 +2848,7 @@
     },
     {
      "t": "p",
-     "x": "El baño empieza cuando el vendaje ya no está, es decir después de su cita de las 24 a 48 horas."
+     "x": "El vendaje sale a las 24 a 48 horas; el baño de regadera y el lavado del cabello empiezan al día 3."
     },
     {
      "t": "ul",
@@ -2945,10 +2963,6 @@
      ],
      "x": [
       {
-       "cita": "24 a 48 horas",
-       "que": "Retiro del vendaje, revisión de las orejas y colocación de la banda"
-      },
-      {
        "cita": "Día 10",
        "que": "Retiro de los puntos de detrás de las orejas"
       },
@@ -2997,7 +3011,7 @@
       "Sangrado que empapa la gasa o el vendaje.",
       "Fiebre de 38 °C o más.",
       "Enrojecimiento que se extiende, calor local, salida de pus o mal olor en las incisiones.",
-      "El vendaje se aflojó, se recorrió o se cayó solo antes de su cita.",
+      "El vendaje se aflojó, se recorrió o se cayó antes de las 24 horas.",
       "La banda le aprieta, le duele o le deja la oreja pálida o con una marca profunda."
      ],
      "alarma": true
@@ -3024,7 +3038,7 @@
      ]
     }
    ],
-   "version": "a239cc34"
+   "version": "6c8d3b47"
   },
   {
    "id": "faja",
@@ -3595,6 +3609,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "44db91ce85e20d32",
+ "version": "45c7d9ac56cb06e2",
  "generado": "2026-10-24"
 }
