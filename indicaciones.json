@@ -2723,6 +2723,310 @@
    "version": "867e551d"
   },
   {
+   "id": "otoplastia",
+   "nombre": "Otoplastia",
+   "titulo": "Recomendaciones postoperatorias — Otoplastia",
+   "coincide": [
+    "otoplastia",
+    "otoplastía",
+    "cirugia de orejas",
+    "cirugía de orejas",
+    "orejas prominentes",
+    "orejas de soplillo"
+   ],
+   "entrada": "Esta hoja contiene todas las indicaciones que debe seguir en casa. Léala con calma en casa junto con su acompañante y consérvela hasta su alta definitiva. Si algo no está escrito aquí, no lo haga sin consultarlo antes.",
+   "bloques": [
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) No toque el vendaje, no lo afloje y no lo moje: se retira en su cita de las 24 a 48 horas. 2) Duerma boca arriba, con la cabeza elevada. No se acueste sobre las orejas. 3) Después del vendaje, la banda: día y noche la primera semana. 4) Si una sola oreja le duele cada vez más, o se ve más hinchada o tensa que la otra, llame de inmediato: no espere a su cita. 5) No se apoye nada sobre las orejas: ni audífonos de diadema, ni cubrebocas de resorte, ni lentes pesados. Lo demás de esta hoja lo puede leer con calma mañana."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 48 horas"
+    },
+    {
+     "t": "p",
+     "x": "Las orejas salen de quirófano con un vendaje que las mantiene en su posición nueva y evita que se acumule sangre debajo de la piel. Ese vendaje es el tratamiento de estas primeras horas: no se toca."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Vendaje: no lo afloje, no lo recorra, no meta nada debajo —ni el dedo, ni un cotonete, ni papel— y no lo moje. Si se le aflojó o se le cayó solo, avísenos el mismo día.",
+      "Si siente comezón bajo el vendaje, no se rasque ni introduzca nada: es normal mientras cicatriza.",
+      "Reposo relativo. Permanezca en casa. Camine dentro de casa 5 minutos cada 2 horas mientras esté despierta; esto previene coágulos en las piernas.",
+      "No se agache, no cargue nada de más de 2 kg y no puje. Si tiene estreñimiento, tome el laxante indicado en su receta.",
+      "Posición: duerma y descanse boca arriba, con la cabeza elevada sobre dos almohadas. No se acueste sobre las orejas ni duerma de lado durante 6 semanas.",
+      "Acompañante: salga del procedimiento acompañada por un adulto y no se quede sola la primera noche."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. Medicamentos"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Tome exclusivamente los medicamentos de su receta, en las dosis y horarios indicados, hasta terminarlos. El control del dolor viene indicado en su receta; no agregue ningún otro analgésico por su cuenta."
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Prohibidos durante 14 días después de la cirugía (aumentan el riesgo de sangrado):"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aspirina y cualquier producto que la contenga (Alka-Seltzer, Aspirina Protect, etc.).",
+      "Ibuprofeno, naproxeno, diclofenaco y cualquier otro antiinflamatorio que no esté en su receta.",
+      "Vitamina E, omega 3 / aceite de pescado, ginkgo biloba, ginseng, ajo en cápsulas, cúrcuma y tés o suplementos herbolarios."
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Tabaco, vapeador y nicotina (incluidos parches y chicles): prohibidos durante 4 semanas. La nicotina reduce la circulación de la piel y puede provocar pérdida de piel y cicatrices anormales."
+    },
+    {
+     "t": "p",
+     "x": "Alcohol: prohibido durante 14 días y mientras tome analgésicos o antibióticos."
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidados diarios"
+    },
+    {
+     "t": "h2",
+     "x": "Banda compresiva"
+    },
+    {
+     "t": "p",
+     "x": "La banda sostiene las orejas en su posición nueva mientras cicatrizan. Es la indicación más importante de todo el mes: quitársela antes de tiempo es la forma más común de que una oreja regrese hacia afuera."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Se la colocamos nosotros en su cita de las 24 a 48 horas, al retirar el vendaje.",
+      "Úsela día y noche la primera semana; sólo se la retira para bañarse.",
+      "Después, de la segunda a la cuarta semana, úsela únicamente para dormir.",
+      "Debe quedar firme pero sin apretar: no debe doler, ni dejarle una marca profunda, ni ponerle la oreja pálida. Si eso pasa, aflójela y avísenos.",
+      "Lávela a mano con agua y jabón neutro y déjela secar al aire. Si tiene dos, altérnelas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Heridas detrás de las orejas"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Limpie las incisiones 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de todos los puntos.",
+      "No aplique cremas, aceites, remedios caseros ni maquillaje sobre las incisiones hasta que su médico lo autorice en consulta.",
+      "No retire costras; se caen solas.",
+      "A partir de su cita del mes 1 inicie gel o parches de silicona sobre las cicatrices, 2 veces al día, durante 3 meses."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Baño y cabello"
+    },
+    {
+     "t": "p",
+     "x": "El baño empieza cuando el vendaje ya no está, es decir después de su cita de las 24 a 48 horas."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Puede bañarse y lavarse el cabello a partir del día 3 (72 horas), con agua tibia —nunca caliente— y champú de bebé. No frote las incisiones; deje correr el agua y seque con toques suaves con una toalla limpia.",
+      "Secadora solo con aire frío durante 4 semanas. No use plancha ni tenazas de cabello durante 4 semanas.",
+      "Tinte, decoloración, keratina o permanente: no antes de 6 semanas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Ropa y accesorios"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Use prendas que se abotonen o cierren por delante durante 14 días; no se ponga ropa que tenga que pasar por la cabeza.",
+      "No use aretes durante 6 semanas.",
+      "Puede usar lentes desde el día 1, colocándolos y retirándolos con cuidado sin presionar detrás de las orejas.",
+      "No apoye nada sobre las orejas durante 6 semanas: ni audífonos de diadema, ni audífonos que se metan al oído, ni cubrebocas con resorte sobre la oreja —use uno que se amarre detrás de la cabeza—, ni lentes pesados.",
+      "Al peinarse, no jale el cabello hacia atrás con fuerza ni use diademas o coletas apretadas."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Calendario de actividades"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar dentro de casa",
+       "Día 1",
+       "5 minutos cada 2 horas"
+      ],
+      [
+       "Bañarse y lavarse el cabello",
+       "Día 3",
+       "Con el vendaje ya retirado, con agua tibia y champú de bebé"
+      ],
+      [
+       "Manejar",
+       "Día 3",
+       "Sin analgésicos que den sueño"
+      ],
+      [
+       "Trabajo de oficina y vida social",
+       "Día 7",
+       "Con la banda puesta"
+      ],
+      [
+       "Ejercicio ligero (caminata, bicicleta fija suave)",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Alberca y mar",
+       "Semana 4",
+       ""
+      ],
+      [
+       "Secadora con aire caliente, plancha o tenazas",
+       "Semana 4",
+       "Antes, sólo aire frío"
+      ],
+      [
+       "Dormir sobre la oreja o de lado",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Deportes de contacto, con pelota, lucha o artes marciales",
+       "Semana 6",
+       "Riesgo de golpe directo en la oreja"
+      ],
+      [
+       "Usar aretes",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Tinte, decoloración, keratina o permanente",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Audífonos de diadema, cubrebocas de resorte y lentes pesados",
+       "Semana 6",
+       "Nada que se apoye sobre la oreja"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "5. Citas de seguimiento"
+    },
+    {
+     "t": "p",
+     "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con su banda puesta y con un acompañante a las citas de las primeras 2 semanas."
+    },
+    {
+     "t": "citas",
+     "cols": [
+      "Cita",
+      "Qué se hace",
+      "Fecha asignada"
+     ],
+     "x": [
+      {
+       "cita": "24 a 48 horas",
+       "que": "Retiro del vendaje, revisión de las orejas y colocación de la banda"
+      },
+      {
+       "cita": "Día 10",
+       "que": "Retiro de los puntos de detrás de las orejas"
+      },
+      {
+       "cita": "Mes 1",
+       "que": "Revisión de cicatrices, inicio de silicona y fotografías"
+      },
+      {
+       "cita": "Mes 3",
+       "que": "Revisión y fotografías"
+      },
+      {
+       "cita": "Mes 6",
+       "que": "Resultado y fotografías"
+      }
+     ]
+    },
+    {
+     "t": "h",
+     "x": "6. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación y moretones en las orejas y a su alrededor. Aumentan hasta el día 3 y después bajan de forma progresiva.",
+      "Orejas rojas, calientes o de color morado claro durante las primeras semanas.",
+      "Adormecimiento del pabellón de la oreja. Se recupera poco a poco entre 2 y 6 meses.",
+      "Más sensibilidad al frío en las orejas durante varios meses.",
+      "Comezón y pequeños piquetes mientras cicatriza.",
+      "Diferencia entre una oreja y la otra en las primeras semanas, mientras baja la inflamación. Las dos orejas nunca son idénticas, tampoco lo eran antes de la cirugía.",
+      "Una pequeña zona endurecida detrás de la oreja, donde están los puntos internos. Se suaviza en 2 a 3 meses.",
+      "El resultado se aprecia desde el mes 1; el definitivo, entre los 3 y los 6 meses."
+     ]
+    },
+    {
+     "t": "h",
+     "alarma": true,
+     "x": "7. Signos de alarma: llame de inmediato al teléfono de urgencias"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Dolor intenso en UNA sola oreja que aumenta con las horas, sobre todo si esa oreja se ve más hinchada, tensa o brillante que la otra. No espere a su cita: llame.",
+      "Piel de la oreja de color morado oscuro, negro o muy pálido.",
+      "Dolor que no cede con los medicamentos de su receta.",
+      "Sangrado que empapa la gasa o el vendaje.",
+      "Fiebre de 38 °C o más.",
+      "Enrojecimiento que se extiende, calor local, salida de pus o mal olor en las incisiones.",
+      "El vendaje se aflojó, se recorrió o se cayó solo antes de su cita.",
+      "La banda le aprieta, le duele o le deja la oreja pálida o con una marca profunda."
+     ],
+     "alarma": true
+    },
+    {
+     "t": "nota",
+     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar.",
+     "alarma": true
+    },
+    {
+     "t": "h",
+     "x": "8. Constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Acompañante responsable",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "a239cc34"
+  },
+  {
    "id": "faja",
    "nombre": "Uso de la faja",
    "titulo": "Recomendaciones de uso de faja",
@@ -3291,6 +3595,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "c4916e4dba7721c6",
+ "version": "44db91ce85e20d32",
  "generado": "2026-10-24"
 }
