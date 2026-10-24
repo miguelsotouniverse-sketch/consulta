@@ -26,10 +26,19 @@ escribirla. Para que se revise sabiendo qué es qué:
     la constancia de entrega
 
   CONFIRMADO por el médico (24-oct-2026), preguntado expresamente:
-    vendaje 24 a 48 h · banda día y noche la primera semana y sólo para
-    dormir tres semanas más · retiro de puntos al día 10 · alberca semana 4 ·
-    deporte de contacto y dormir sobre la oreja, semana 6 · hoja de adultos,
-    escrita de usted
+    vendaje 24 a 48 h, que **la paciente se retira en casa** · NO hay cita
+    temprana: la primera es la del día 10 · banda día y noche la primera
+    semana y sólo para dormir tres semanas más · retiro de puntos al día 10 ·
+    alberca semana 4 · deporte de contacto y dormir sobre la oreja, semana 6 ·
+    hoja de adultos, escrita de usted
+
+  Que no haya cita de 24 a 48 horas no es un detalle de agenda: mueve la hoja
+  entera. El gesto que en las demás cirugías hace el consultorio —quitar el
+  vendaje y colocar la compresión— aquí lo hace la paciente sola, en su baño,
+  sin nadie que mire las orejas antes que ella. Por eso el apartado «cómo se
+  retira el vendaje» termina diciéndole qué buscar en el espejo y cuándo
+  llamar ANTES de ponerse la banda: ese es el único momento en que alguien
+  puede detectar un hematoma temprano, y ese alguien es ella.
 
   ESCRITO AQUÍ y pendiente de su revisión  → marcado  ←NUEVO
     el apartado de la banda, la posición para dormir, lo que no se apoya
@@ -117,8 +126,9 @@ B = []
 # ←NUEVO — la caja de lo imprescindible. Todo lo que dice está más abajo.
 B.append({'t': 'nota', 'x':
     'SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. '
-    '1) No toque el vendaje, no lo afloje y no lo moje: se retira en su cita '
-    'de las 24 a 48 horas. '
+    '1) No toque el vendaje, no lo afloje y no lo moje. Usted misma se lo '
+    'retira en casa a las 24 a 48 horas, no antes, y enseguida se pone la '
+    'banda. '
     '2) Duerma boca arriba, con la cabeza elevada. No se acueste sobre las '
     'orejas. '
     '3) Después del vendaje, la banda: día y noche ' + BANDA_DIA_NOCHE + '. '
@@ -137,8 +147,10 @@ B.append({'t': 'p', 'x':
 B.append(ul(
     [   # ←NUEVO — el vendaje y lo que no se hace con él
         'Vendaje: no lo afloje, no lo recorra, no meta nada debajo —ni el '
-        'dedo, ni un cotonete, ni papel— y no lo moje. Si se le aflojó o se '
-        'le cayó solo, avísenos el mismo día.',
+        'dedo, ni un cotonete, ni papel— y no lo moje. Se queda puesto 24 a '
+        '48 horas y se lo retira usted misma en casa, como se explica más '
+        'adelante. Si se le aflojó o se le cayó antes, póngase la banda y '
+        'avísenos el mismo día.',
         'Si siente comezón bajo el vendaje, no se rasque ni introduzca nada: '
         'es normal mientras cicatriza.',
     ],
@@ -165,14 +177,37 @@ B.append(bl(DP, 10))                        # alcohol
 # ---------------------------------------------------- 3. cuidados diarios
 B.append({'t': 'h', 'x': '3. Cuidados diarios'})
 
+# ←NUEVO — todo este apartado. No hay cita temprana en otoplastia: el vendaje
+# se lo quita la paciente en su casa (confirmado 24-oct-2026). Eso convierte
+# un gesto que antes hacía el consultorio en una instrucción escrita, y es el
+# momento en que ella ve sus orejas por primera vez: por eso termina con qué
+# mirar antes de ponerse la banda.
+B.append({'t': 'h2', 'x': 'Cómo se retira el vendaje, a las 24 a 48 horas'})
+B.append({'t': 'p', 'x':
+    'El vendaje se lo retira usted misma en casa, pasadas las primeras 24 a '
+    '48 horas. No lo haga antes. No necesita venir al consultorio para esto.'})
+B.append({'t': 'ul', 'x': [
+    'Hágalo sentada, frente a un espejo, con las manos recién lavadas y con '
+    'alguien que la acompañe.',
+    'Desenrolle la venda poco a poco, sin jalar. Si una gasa está pegada, '
+    'humedézcala con agua limpia y espere a que se despegue sola: nunca la '
+    'arranque en seco.',
+    'No jale nada que esté pegado a un punto, y no corte nada con tijeras '
+    'cerca de la oreja.',
+    'Antes de ponerse la banda, mírese las dos orejas en el espejo. Si una se '
+    've mucho más hinchada, tensa o morada que la otra, o le duele cada vez '
+    'más, llámenos antes de colocársela.',
+    'Si todo se ve bien, colóquese la banda enseguida y ya no se quede sin '
+    'ella más que para bañarse.',
+]})
+
 B.append({'t': 'h2', 'x': 'Banda compresiva'})
 B.append({'t': 'p', 'x':
     'La banda sostiene las orejas en su posición nueva mientras cicatrizan. '
     'Es la indicación más importante de todo el mes: quitársela antes de '
     'tiempo es la forma más común de que una oreja regrese hacia afuera.'})  # ←NUEVO
 B.append({'t': 'ul', 'x': [                                                  # ←NUEVO
-    'Se la colocamos nosotros en su cita de las 24 a 48 horas, al retirar el '
-    'vendaje.',
+    'Empieza en cuanto se retira el vendaje, a las 24 a 48 horas.',
     'Úsela día y noche ' + BANDA_DIA_NOCHE + '; sólo se la retira para '
     'bañarse.',
     'Después, ' + BANDA_NOCTURNA + ', úsela únicamente para dormir.',
@@ -187,8 +222,8 @@ B.append(ul(li(DP, 16, 0, 1, 2, 3)))
 
 B.append({'t': 'h2', 'x': 'Baño y cabello'})
 B.append({'t': 'p', 'x':
-    'El baño empieza cuando el vendaje ya no está, es decir después de su '
-    'cita de las 24 a 48 horas.'})                                           # ←NUEVO
+    'El vendaje sale a las 24 a 48 horas; el baño de regadera y el lavado del '
+    'cabello empiezan al día 3.'})                                           # ←NUEVO
 B.append(ul(li(DP, 14, 0, 1, 2)))
 
 B.append({'t': 'h2', 'x': 'Ropa y accesorios'})
@@ -237,8 +272,9 @@ if 'con su faja puesta' not in _citas_p['x']:
 _citas_p['x'] = _citas_p['x'].replace('con su faja puesta', 'con su banda puesta')
 B.append(_citas_p)
 B.append({'t': 'citas', 'cols': ['Cita', 'Qué se hace', 'Fecha asignada'], 'x': [
-    {'cita': '24 a 48 horas',
-     'que': 'Retiro del vendaje, revisión de las orejas y colocación de la banda'},
+    # No hay cita temprana: el médico lo confirmó el 24-oct-2026. El vendaje
+    # se lo retira la paciente en casa, así que la primera vez que la vemos
+    # es el día del retiro de puntos.
     {'cita': 'Día ' + str(PUNTOS_DIA),
      'que': 'Retiro de los puntos de detrás de las orejas'},
     # ←CONFIRMAR — hasta qué cita se cita. Esto es el esquema del lifting
@@ -282,7 +318,7 @@ B.append(ul(
     ],
     li(DP, 31, 2, 3, 5, 6),                 # dolor que no cede · sangrado · fiebre · infección
     [   # ←NUEVO — lo propio del vendaje y la banda
-        'El vendaje se aflojó, se recorrió o se cayó solo antes de su cita.',
+        'El vendaje se aflojó, se recorrió o se cayó antes de las 24 horas.',
         'La banda le aprieta, le duele o le deja la oreja pálida o con una '
         'marca profunda.',
     ],

@@ -60,7 +60,7 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `44db91ce85e20d32` (12 hojas) y recetas
+Hoy la cadena produce: indicaciones `45c7d9ac56cb06e2` (12 hojas) y recetas
 `cf84ba3e3846028b` (9 plantillas).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
@@ -163,7 +163,8 @@ entregarla a una paciente de lifting completo le quita dos citas.
 La otoplastia es el caso distinto: no se parece a ninguna hoja anterior, así
 que buena parte hubo que escribirla. Su constructor dice arriba, en tres
 listas, qué está **copiado** de la hoja del lifting, qué **confirmó el
-médico** el 24-oct-2026 (vendaje, banda, puntos al día 10, alberca y deporte)
+médico** el 24-oct-2026 (vendaje que se retira la propia paciente en casa,
+sin cita temprana; banda; puntos al día 10; alberca y deporte)
 y qué está **escrito ahí y pendiente de revisión** —`←NUEVO` para el texto
 clínico nuevo, `←CONFIRMAR` para los cinco plazos que propuse yo—. Mientras
 esas marcas sigan en el archivo, la hoja no está revisada del todo.
