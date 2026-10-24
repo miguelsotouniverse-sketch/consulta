@@ -33,6 +33,8 @@ python3 fuentes/construir_receta_combinada.py
 python3 fuentes/construir_eco2.py
 python3 fuentes/agregar_prednisona.py
 python3 fuentes/construir_receta_mastopexia.py
+python3 fuentes/construir_hoja_deep_co2.py
+python3 fuentes/construir_receta_deep_co2.py
 python3 fuentes/agregar_amlodipino_recetas.py
 python3 fuentes/corregir_usted_preop.py
 ```
@@ -56,8 +58,8 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `4615943c2f35fe21` (10 hojas) y recetas
-`6c9e765ea085c219` (7 plantillas).
+Hoy la cadena produce: indicaciones `c4916e4dba7721c6` (11 hojas) y recetas
+`6290ef5c044143bd` (8 plantillas).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
 suba no trae esa corrección y el texto viejo vuelve a producción sin que nadie
@@ -140,6 +142,19 @@ receta, nadie lo toma.
 | `construir_receta_combinada.py` | la receta de esa misma combinación |
 | `construir_eco2.py` | hoja y receta del láser eCO₂ por separado |
 | `construir_receta_mastopexia.py` | la receta de mastopexia |
+| `construir_hoja_deep_co2.py` | hoja de Deep Plane Facelift **completo** + láser CO₂ |
+| `construir_receta_deep_co2.py` | la receta de esa misma combinación |
+
+Los dos últimos van **antes** de `agregar_amlodipino_recetas.py`, para que el
+amlodipino de la víspera les entre solo con todas las demás, y **después** de
+`agregar_prednisona.py`, porque la receta copia la prednisona del lifting en
+vez de traer la suya: ésa es justamente la razón de que existan. Imprimir
+sueltas la receta del Deep Plane y la del láser le daba a la paciente 40 mg
+diarios de prednisona durante catorce días.
+
+No confunda esta combinación con `facial_combinada`, que es Deep Plane **de
+cuello**: aquélla no lleva malla hemostática ni puntos delante de la oreja, y
+entregarla a una paciente de lifting completo le quita dos citas.
 
 ### La solicitud de laboratorios, como PDF fijo
 
