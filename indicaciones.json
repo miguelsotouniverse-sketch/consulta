@@ -1999,6 +1999,470 @@
    "version": "02ec27a5"
   },
   {
+   "id": "deep_plane_co2",
+   "nombre": "Deep Plane Facelift completo + láser CO₂",
+   "titulo": "Recomendaciones postoperatorias — Deep Plane Facelift y láser de CO₂",
+   "coincide": [],
+   "entrada": "Esta hoja contiene todas las indicaciones que debe seguir en casa. Léala con calma en casa junto con su acompañante y consérvela hasta su alta definitiva. Si algo no está escrito aquí, no lo haga sin consultarlo antes.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Procedimiento",
+       "Ritidectomía Deep Plane (lifting facial y de cuello) · Láser fraccionado de CO₂ (eCO₂) en rostro y cuello"
+      ]
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) Boca arriba, cabeza a 45°, día y noche, 14 días. 2) Frío sobre mejillas y cuello, 15 minutos cada hora, siempre con un paño limpio y seco de por medio: nunca directo sobre la piel del láser. 3) No se agache, no cargue más de 2 kg, no puje. 4) La piel tratada con láser nunca debe quedar seca: Cicaplast y vaselina encima, las veces que haga falta, con las manos limpias. 5) No se baña hasta el día 3; la cara sí se lava desde hoy. 6) Tome su presión cada 2 horas y repórtela. 7) Acompañada por un adulto día y noche las primeras 72 horas. Lo demás de esta hoja lo puede leer con calma mañana."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 72 horas: lo más importante"
+    },
+    {
+     "t": "p",
+     "x": "El riesgo principal de estos días es el hematoma (acumulación de sangre bajo la piel). Se previene manteniendo la presión arterial baja y estable."
+    },
+    {
+     "t": "p",
+     "x": "Se hicieron dos cosas el mismo día: la cirugía y el láser. Las indicaciones de cada una están más adelante, por separado; esta primera sección manda sobre las dos. Donde algo parezca distinto, siga siempre lo más estricto."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Reposo relativo. Permanezca en casa. Camine dentro de casa 5 minutos cada 2 horas mientras esté despierta; esto previene coágulos en las piernas.",
+      "No se agache, no cargue nada de más de 2 kg y no puje. Si tiene estreñimiento, tome el laxante indicado en su receta.",
+      "No grite, no ría a carcajadas y evite discusiones o situaciones de estrés.",
+      "Posición: duerma y descanse boca arriba, con la cabeza elevada a 45° (dos almohadas firmes o un reclinable). Mantenga esta posición 14 días. No duerma de lado ni boca abajo.",
+      "Cuello: manténgalo recto. Para voltear, gire los hombros junto con la cabeza. No flexione el cuello hacia el pecho.",
+      "Frío local: compresas frías o gel frío envueltos en un paño delgado, limpio y seco, 15 minutos cada hora mientras esté despierta, sobre mejillas y cuello. Nunca hielo directo sobre la piel, nunca directamente sobre la piel tratada con láser, y nunca una compresa o un paño que ya se usó. Suspenda el frío a las 72 horas.",
+      "Faja facial: úsela las 24 horas durante los primeros 7 días; solo se retira para bañarse. Del día 8 al 21 úsela únicamente para dormir.",
+      "Drenajes: si se le colocaron, no se retiran en una fecha fija. Se quitan cuando la cantidad y el aspecto del líquido lo permiten, y eso se revisa en cada cita. Mientras los traiga: no los jale, no los desconecte, no los destape y no los deje colgando —sujételos a su ropa—. Avísenos si uno se sale solo, deja de salir líquido o el líquido se vuelve rojo brillante.",
+      "Presión arterial: si usted es hipertensa, tome su medicamento para la presión exactamente a su hora, incluido el día de la cirugía.",
+      "Acompañante: debe estar acompañada por un adulto las primeras 72 horas, día y noche.",
+      "Ardor: es normal las primeras horas y cede solo. Si le arde de forma intensa y creciente, llámenos.",
+      "No se exponga al viento, al polvo, al humo ni a la cocina caliente.",
+      "Beba al menos 2 litros de agua al día: la piel tratada pierde mucha agua."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. Medicamentos"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Tome exclusivamente los medicamentos de su receta, en las dosis y horarios indicados, hasta terminarlos. El control del dolor viene indicado en su receta; no agregue ningún otro analgésico por su cuenta.",
+      "El antiviral empieza el día ANTES del procedimiento y se toma completo, aunque la piel se vea bien: sirve para evitar que brote herpes sobre la piel tratada, que es la complicación más frecuente de este tratamiento. Si se le olvidó empezarlo, avísenos antes de venir.",
+      "La crema con esteroide (Clobesol) se usa sólo los días indicados y se suspende. No la use por su cuenta más adelante."
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Prohibidos durante 14 días después de la cirugía (aumentan el riesgo de sangrado):"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aspirina y cualquier producto que la contenga (Alka-Seltzer, Aspirina Protect, etc.).",
+      "Ibuprofeno, naproxeno, diclofenaco y cualquier otro antiinflamatorio que no esté en su receta.",
+      "Vitamina E, omega 3 / aceite de pescado, ginkgo biloba, ginseng, ajo en cápsulas, cúrcuma y tés o suplementos herbolarios."
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Tabaco, vapeador y nicotina (incluidos parches y chicles): prohibidos durante 4 semanas. La nicotina reduce la circulación de la piel y puede provocar pérdida de piel y cicatrices anormales."
+    },
+    {
+     "t": "p",
+     "x": "Alcohol: prohibido durante 14 días y mientras tome analgésicos o antibióticos."
+    },
+    {
+     "t": "p",
+     "x": "Manejar: no maneje durante 7 días ni mientras tome analgésicos que den sueño."
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidados por zona"
+    },
+    {
+     "t": "h2",
+     "x": "Baño y cabello"
+    },
+    {
+     "t": "p",
+     "x": "Aquí los dos tratamientos dicen cosas distintas y conviene no confundirse: lo que espera hasta el día 3 es el baño de regadera y el lavado del cabello. La cara se lava desde el primer día, como dice el apartado de la piel tratada con láser."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Puede bañarse y lavarse el cabello a partir del día 3 (72 horas), con agua tibia —nunca caliente— y champú de bebé. No frote las incisiones; deje correr el agua y seque con toques suaves con una toalla limpia.",
+      "Secadora solo con aire frío durante 4 semanas. No use plancha ni tenazas de cabello durante 4 semanas.",
+      "Tinte, decoloración, keratina o permanente: no antes de 6 semanas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Incisiones del lifting"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Limpie las incisiones 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de todos los puntos.",
+      "No aplique cremas, aceites, remedios caseros ni maquillaje sobre las incisiones hasta que su médico lo autorice en consulta.",
+      "No retire costras; se caen solas.",
+      "A partir de su cita del mes 1 inicie gel o parches de silicona sobre las cicatrices, 2 veces al día, durante 3 meses."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Piel tratada con láser CO₂ (rostro y cuello)"
+    },
+    {
+     "t": "p",
+     "x": "La piel tratada queda en carne viva y se cierra sola en 7 a 10 días. Mientras tanto no debe secarse ni un momento: una costra seca deja mancha. Tenga las manos limpias cada vez que se toque la cara."
+    },
+    {
+     "t": "p",
+     "x": "Esto es el tratamiento: la piel cierra bien o cierra mal según cómo se cuide estos diez días."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cicaplast: aplique una capa sobre toda la zona tratada cada 12 horas.",
+      "Clobesol (clobetasol): una capa delgada cada 12 horas durante 7 días, y suspéndalo. No lo use más días de los indicados ni lo aplique en los párpados.",
+      "Vaselina: aplíquela encima las veces que haga falta para que la piel nunca se sienta tirante ni se vea seca, de día y de noche.",
+      "Después de cada lavado vuelva a aplicar Cicaplast y vaselina enseguida: la piel no debe quedar sin nada encima ni un momento.",
+      "No arranque costras ni piel que se esté desprendiendo: se cae sola.",
+      "Protector solar FPS 50+: en cuanto la piel esté completamente cerrada, todos los días durante 12 meses, reaplicando cada 3 horas si está al aire libre. Antes de que cierre, el sol se evita con sombra, gorra y no salir.",
+      "Maquillaje sobre la piel tratada: hasta el día 14 y sólo si ya cerró por completo.",
+      "Nada de ácidos, retinoides, exfoliantes, mascarillas ni limpiadores con alcohol durante 4 semanas.",
+      "Es normal que la piel se vea roja intensa las primeras 2 semanas y rosada durante 2 a 3 meses, y que pique mientras cierra."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Cómo lavarse la cara"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Agua tibia y jabón neutro, con la mano limpia y sin tallar, 2 veces al día. Nada de esponjas, cepillos ni toallitas desmaquillantes.",
+      "Seque a toques con una toalla limpia, nunca frotando y nunca con secadora.",
+      "Vuelva a aplicar Cicaplast y vaselina enseguida, con la piel todavía húmeda.",
+      "Toalla y funda de almohada limpias todos los días mientras la piel esté abierta."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Alimentación — dieta para la glándula submandibular"
+    },
+    {
+     "t": "p",
+     "x": "Durante su cirugía se trató parte de la glándula submandibular, la glándula salival que está bajo la mandíbula. Todo lo que estimula la saliva la hace trabajar y retrasa su cicatrización, así que durante 14 días la dieta es parte del tratamiento, no una recomendación."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Evite: limón, naranja, toronja, piña, mandarina y cualquier fruta o bebida ácida; vinagre, encurtidos y salsas; picante y chile; dulces ácidos, chicles y caramelos; alimentos muy salados o muy condimentados; refrescos y bebidas con gas; café.",
+      "Consuma: alimentos de sabor suave, blandos y tibios o fríos: purés, sopas no calientes, arroz, pasta, huevo, pollo o pescado desmenuzado, yogur natural, plátano, papaya, avena.",
+      "Días 1 a 7: alimentos blandos que no obliguen a masticar mucho ni a abrir mucho la boca.",
+      "Tome al menos 2 litros de agua al día, a sorbos.",
+      "Desde el día 15 puede regresar a su dieta normal."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Ropa y accesorios"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Use prendas que se abotonen o cierren por delante durante 14 días; no se ponga ropa que tenga que pasar por la cabeza.",
+      "No use aretes durante 6 semanas.",
+      "Puede usar lentes desde el día 1, colocándolos y retirándolos con cuidado sin presionar detrás de las orejas.",
+      "Maquillaje en el rostro: a partir del día 14, fuera de las incisiones y sólo si la piel tratada con láser ya cerró por completo."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "Un solo calendario para la cirugía y el láser. Cada renglón lleva el plazo más largo de los dos: es el que aplica cuando se hacen el mismo día."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar dentro de casa",
+       "Día 1",
+       "5 minutos cada 2 horas"
+      ],
+      [
+       "Salir al patio o al balcón, a la sombra",
+       "Día 1",
+       "Con gorra o sombrero de ala ancha"
+      ],
+      [
+       "Caminar fuera de casa (paseo tranquilo)",
+       "Día 4",
+       "A la sombra, con gorra o sombrero de ala ancha"
+      ],
+      [
+       "Drenaje linfático manual facial",
+       "Día 7",
+       "Con terapeuta autorizado por el consultorio — 10 sesiones, 2 a 3 por semana"
+      ],
+      [
+       "Manejar",
+       "Día 8",
+       "Sin analgésicos que den sueño"
+      ],
+      [
+       "Viajar en avión",
+       "Día 10",
+       ""
+      ],
+      [
+       "Trabajo de oficina y vida social",
+       "Día 14",
+       "Antes la cara se ve roja e hinchada; el trabajo desde casa puede retomarse en cuanto se sienta bien"
+      ],
+      [
+       "Relaciones sexuales",
+       "Día 14",
+       "Sin esfuerzo intenso"
+      ],
+      [
+       "Maquillaje en el rostro",
+       "Día 14",
+       "Fuera de las incisiones y sólo con la piel del láser cerrada por completo"
+      ],
+      [
+       "Cardio ligero (caminadora, bicicleta fija suave)",
+       "Semana 3",
+       "Sin sudar hasta que la piel haya cerrado"
+      ],
+      [
+       "Alberca y mar",
+       "Semana 4",
+       ""
+      ],
+      [
+       "Ácidos, retinoides, exfoliantes, mascarillas y limpiadores con alcohol",
+       "Semana 4",
+       ""
+      ],
+      [
+       "Secadora con aire caliente, plancha o tenazas",
+       "Semana 4",
+       "Antes, sólo aire frío"
+      ],
+      [
+       "Pesas, yoga, pilates, correr, deportes y ejercicio de impacto",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Sauna, vapor, temazcal, jacuzzi",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Tinte, decoloración, keratina o permanente",
+       "Semana 6",
+       ""
+      ],
+      [
+       "Depilación con cera o láser en la zona tratada",
+       "Semana 6",
+       "Sólo con autorización"
+      ],
+      [
+       "Exposición directa al sol",
+       "Semana 6",
+       "Siempre con sombrero de ala ancha y protector FPS 50+"
+      ],
+      [
+       "Tratamientos faciales (toxina botulínica, rellenos, peelings, láser, radiofrecuencia)",
+       "Mes 3",
+       "Sólo con autorización del Dr. Soto"
+      ],
+      [
+       "Masajes faciales fuera del drenaje indicado",
+       "Mes 3",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Protección solar: protector FPS 50+ en rostro, cuello y cicatrices todos los días durante 12 meses, reaplicando cada 3 horas si está al aire libre. Use sombrero de ala ancha al salir durante las primeras 6 semanas."
+    },
+    {
+     "t": "h",
+     "x": "5. Citas de seguimiento"
+    },
+    {
+     "t": "p",
+     "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con su faja puesta y con un acompañante a las citas de las primeras 2 semanas."
+    },
+    {
+     "t": "citas",
+     "cols": [
+      "Cita",
+      "Qué se hace",
+      "Fecha asignada"
+     ],
+     "x": [
+      {
+       "cita": "24 horas",
+       "que": "Revisión de la herida para descartar hematoma y retiro del vendaje. Si trae drenajes, se revisan: se retiran cuando el gasto y las características del líquido lo permiten, no por calendario"
+      },
+      {
+       "cita": "72 horas",
+       "que": "Retiro de la malla hemostática y primera revisión de la piel tratada con láser"
+      },
+      {
+       "cita": "Día 5",
+       "que": "Retiro de puntos del rostro (frente a la oreja)"
+      },
+      {
+       "cita": "Día 10",
+       "que": "Retiro de puntos detrás de la oreja y grapas del cuero cabelludo, y revisión del cierre de la piel tratada con láser"
+      },
+      {
+       "cita": "Mes 1",
+       "que": "Revisión de cicatrices, inicio de silicona y fotografías"
+      },
+      {
+       "cita": "Mes 3",
+       "que": "Revisión y fotografías; se decide si hay una segunda sesión de láser"
+      },
+      {
+       "cita": "Mes 6",
+       "que": "Revisión y fotografías"
+      },
+      {
+       "cita": "Mes 12",
+       "que": "Resultado final y fotografías"
+      }
+     ]
+    },
+    {
+     "t": "h",
+     "x": "6. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "h2",
+     "x": "Rostro y cuello (lifting)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación y moretones en mejillas, cuello y alrededor de los ojos. Aumentan hasta el día 3 y disminuyen de forma progresiva. El 80% desaparece en 3 semanas; el resto, en 3 a 6 meses.",
+      "Inflamación ligeramente distinta entre un lado y otro, siempre que sea blanda y sin dolor intenso.",
+      "Sensación de tirantez en rostro y cuello durante 4 a 6 semanas.",
+      "Adormecimiento de mejillas, orejas y cuello. Se recupera poco a poco entre 3 y 12 meses.",
+      "Zonas endurecidas o con pequeños bordes bajo la piel. Se suavizan en 2 a 3 meses con el drenaje linfático.",
+      "Sonrisa o movimiento de un lado del labio o la frente algo más débil en los primeros días. Suele ser temporal y recuperarse sola; avíselo al Dr. Soto en su siguiente cita.",
+      "Caída de cabello cerca de las incisiones durante 2 a 3 meses; vuelve a crecer.",
+      "Cambios de ánimo (tristeza o impaciencia) en las primeras 2 semanas, mientras baja la inflamación.",
+      "Resultado final: entre 6 y 12 meses."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Piel tratada con láser"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ardor y sensación de quemadura de sol las primeras horas.",
+      "Piel roja intensa las primeras 2 semanas y rosada durante 2 a 3 meses.",
+      "Costras finas y descamación entre el día 3 y el 10. Se caen solas.",
+      "Comezón mientras la piel cierra.",
+      "Piel tirante, áspera o con los poros marcados durante algunas semanas.",
+      "Brotes de granitos o puntos blancos pequeños al cerrar la piel.",
+      "El resultado final del colágeno se ve entre los 3 y los 6 meses."
+     ]
+    },
+    {
+     "t": "h",
+     "alarma": true,
+     "x": "7. Signos de alarma: llame de inmediato al teléfono de urgencias"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela en el grupo de WhatsApp de seguimiento).",
+      "Inflamación de un solo lado que aumenta rápidamente, se siente dura o tensa, o se acompaña de dolor intenso.",
+      "Dolor que no cede con los medicamentos de su receta.",
+      "Sangrado que empapa la gasa o el vendaje.",
+      "Piel de color morado oscuro, negro o muy pálida, sobre todo detrás de las orejas.",
+      "Fiebre de 38 °C o más.",
+      "Enrojecimiento que se extiende, calor local, salida de pus o mal olor en las incisiones.",
+      "Dificultad para respirar o para tragar.",
+      "Debilidad de un lado de la cara que aparece después del día 2 o que empeora.",
+      "Dolor, inflamación o enrojecimiento en una pantorrilla, o falta de aire repentina.",
+      "Dolor que aumenta cada día en lugar de ceder.",
+      "Ampollas pequeñas agrupadas, en racimo, con ardor o picor intenso, sobre todo alrededor de la boca: avísenos el mismo día.",
+      "Zonas que se ponen amarillas, con costra gruesa, pus o mal olor.",
+      "Una zona de piel que se pone blanca, gris u oscura."
+     ],
+     "alarma": true
+    },
+    {
+     "t": "nota",
+     "x": "Llámenos a cualquier hora, de día o de noche: su cirugía la resolvemos nosotros, que sabemos exactamente cómo quedó. No acuda a otro servicio ni se automedique sin avisarnos antes. Si no contestamos a la primera, insista y escriba también al WhatsApp del consultorio. Y si tiene dificultad para respirar o para tragar, llame y póngase en camino al mismo tiempo: le decimos en ese momento a dónde llegar.",
+     "alarma": true
+    },
+    {
+     "t": "h",
+     "x": "8. Constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Acompañante responsable",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "083eaca4"
+  },
+  {
    "id": "eco2",
    "nombre": "Láser eCO₂",
    "titulo": "Recomendaciones posteriores al láser de CO₂",
@@ -2827,6 +3291,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "4615943c2f35fe21",
- "generado": "2026-10-20"
+ "version": "c4916e4dba7721c6",
+ "generado": "2026-10-24"
 }
