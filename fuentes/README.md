@@ -35,6 +35,8 @@ python3 fuentes/agregar_prednisona.py
 python3 fuentes/construir_receta_mastopexia.py
 python3 fuentes/construir_hoja_deep_co2.py
 python3 fuentes/construir_receta_deep_co2.py
+python3 fuentes/construir_hoja_otoplastia.py
+python3 fuentes/construir_receta_otoplastia.py
 python3 fuentes/agregar_amlodipino_recetas.py
 python3 fuentes/corregir_usted_preop.py
 ```
@@ -58,8 +60,8 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `c4916e4dba7721c6` (11 hojas) y recetas
-`6290ef5c044143bd` (8 plantillas).
+Hoy la cadena produce: indicaciones `44db91ce85e20d32` (12 hojas) y recetas
+`cf84ba3e3846028b` (9 plantillas).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
 suba no trae esa corrección y el texto viejo vuelve a producción sin que nadie
@@ -144,6 +146,8 @@ receta, nadie lo toma.
 | `construir_receta_mastopexia.py` | la receta de mastopexia |
 | `construir_hoja_deep_co2.py` | hoja de Deep Plane Facelift **completo** + láser CO₂ |
 | `construir_receta_deep_co2.py` | la receta de esa misma combinación |
+| `construir_hoja_otoplastia.py` | hoja de otoplastia — la única que no sale de fusionar otras |
+| `construir_receta_otoplastia.py` | la receta de otoplastia, el esqueleto del lifting sin Bichat ni blefaro |
 
 Los dos últimos van **antes** de `agregar_amlodipino_recetas.py`, para que el
 amlodipino de la víspera les entre solo con todas las demás, y **después** de
@@ -155,6 +159,14 @@ diarios de prednisona durante catorce días.
 No confunda esta combinación con `facial_combinada`, que es Deep Plane **de
 cuello**: aquélla no lleva malla hemostática ni puntos delante de la oreja, y
 entregarla a una paciente de lifting completo le quita dos citas.
+
+La otoplastia es el caso distinto: no se parece a ninguna hoja anterior, así
+que buena parte hubo que escribirla. Su constructor dice arriba, en tres
+listas, qué está **copiado** de la hoja del lifting, qué **confirmó el
+médico** el 24-oct-2026 (vendaje, banda, puntos al día 10, alberca y deporte)
+y qué está **escrito ahí y pendiente de revisión** —`←NUEVO` para el texto
+clínico nuevo, `←CONFIRMAR` para los cinco plazos que propuse yo—. Mientras
+esas marcas sigan en el archivo, la hoja no está revisada del todo.
 
 ### La solicitud de laboratorios, como PDF fijo
 
