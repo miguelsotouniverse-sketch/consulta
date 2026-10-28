@@ -58,6 +58,18 @@ CAMBIOS = [
 
 cat = json.load(open(RUTA, encoding='utf-8'))
 
+# El número también queda como dato del catálogo, no sólo dentro del texto.
+# De ahí lo toma el cuadro de arriba de cada hoja impresa, donde antes se
+# repetía el teléfono de urgencias que ya viene en el membrete.
+#
+# Por qué aquí y no en las constantes del consultorio, que es donde viven los
+# teléfonos: las constantes se sirven desde Drive y cambiarlas obliga a
+# reemplazar un archivo de 20 KB que carga la firma del médico dentro. Este
+# número pertenece a las hojas de alta, viaja con ellas y se publica con
+# ellas. Si algún día se agrega `seg_whatsapp` a las constantes, la hoja lo
+# prefiere: el código busca primero ahí.
+cat['contacto'] = {'whatsapp_seguimiento': WHATSAPP}
+
 hechos = 0
 tocadas = []
 for h in cat['hojas']:
