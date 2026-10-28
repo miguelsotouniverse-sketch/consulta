@@ -4004,7 +4004,18 @@ function pintaHojaImpresa(raiz, el){
      salen de un quirófano —el láser de CO₂, la faja, los laboratorios— y
      decirle «fecha de cirugía» a quien vino a un láser confunde. */
   fila('Fecha del procedimiento', fechaLarga_(txt('proc_fecha')));
-  fila('Teléfono de urgencias (24 h)',
+  /* El WhatsApp de seguimiento postoperatorio, no el teléfono de urgencias.
+     No se pierde nada: el de urgencias sigue impreso arriba, en el membrete
+     del establecimiento, y este renglón era su duplicado. Lo que gana la
+     paciente es que el número al que la hoja le pide reportar su presión
+     —y al que de hecho va a escribir a las tres de la mañana— esté en el
+     cuadro de arriba y no sólo enterrado en un renglón de la lista.
+     El respaldo al número de urgencias se queda por si las constantes de
+     un consultorio todavía no traen el WhatsApp. */
+  fila('WhatsApp de seguimiento',
+       CONSTANTES['seg_whatsapp'] ||
+       (INDICACIONES && INDICACIONES.contacto &&
+        INDICACIONES.contacto.whatsapp_seguimiento) ||
        CONSTANTES['seg_telefono_urgencias'] || CONSTANTES['seg_telefono'] || '');
   raiz.appendChild(t);
 
