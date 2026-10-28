@@ -137,7 +137,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -150,7 +150,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -160,6 +160,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -308,6 +316,14 @@
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
      "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
     }
    ],
    "profilaxis": [
@@ -452,7 +468,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "4851664c"
+   "version": "ce21b7be"
   },
   {
    "id": "body360",
@@ -562,7 +578,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -575,7 +591,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -585,6 +601,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -732,6 +756,14 @@
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
      "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
     }
    ],
    "profilaxis": [
@@ -861,7 +893,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "9983ef7a"
+   "version": "d4908575"
   },
   {
    "id": "mastopexia",
@@ -971,7 +1003,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -984,7 +1016,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -994,6 +1026,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -1141,6 +1181,14 @@
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
      "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
     }
    ],
    "profilaxis": [
@@ -1263,7 +1311,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "e0f4711a"
+   "version": "1edf7a99"
   },
   {
    "id": "blefaroplastia",
@@ -1370,7 +1418,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -1383,7 +1431,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -1393,6 +1441,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -1538,6 +1594,14 @@
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
      "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
     }
    ],
    "profilaxis": [
@@ -1651,7 +1715,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "d3e62586"
+   "version": "68735fae"
   },
   {
    "id": "rinoplastia",
@@ -1769,7 +1833,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -1782,7 +1846,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -1792,6 +1856,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -1947,6 +2019,14 @@
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
      "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
     }
    ],
    "profilaxis": [
@@ -2070,7 +2150,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "e33a246a"
+   "version": "42e60d41"
   },
   {
    "id": "facial_combinada",
@@ -2206,7 +2286,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -2219,7 +2299,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -2229,6 +2309,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -2455,6 +2543,14 @@
      "indicacion": "Tomar 2 tabletas por la noche solo si no ha evacuado en 48 horas.",
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
+     "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
     }
    ],
@@ -2632,7 +2728,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "7778548f"
+   "version": "2f6a0428"
   },
   {
    "id": "deep_plane_co2",
@@ -2764,7 +2860,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -2777,7 +2873,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -2787,6 +2883,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -2995,6 +3099,14 @@
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
      "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
     }
    ],
    "profilaxis": [
@@ -3157,7 +3269,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "959148de"
+   "version": "f01ad8a3"
   },
   {
    "id": "eco2",
@@ -3389,7 +3501,7 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
      "cantidad": "10 tabletas",
      "duracion": "10 días, desde la mañana anterior",
      "horario": {
@@ -3402,7 +3514,7 @@
     {
      "hoja": "general",
      "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
      "cantidad": "20 tabletas",
      "duracion": "10 días, desde el día del alta",
      "horario": {
@@ -3412,6 +3524,14 @@
        "20:00"
       ]
      }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
     },
     {
      "hoja": "general",
@@ -3546,6 +3666,14 @@
      "cantidad": "20 tabletas",
      "duracion": "Según necesidad",
      "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
     }
    ],
    "profilaxis": [
@@ -3644,7 +3772,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "dacbba15"
+   "version": "d2fb1785"
   }
  ],
  "hojas": [
@@ -3659,6 +3787,12 @@
    "titulo": "Receta — medicamento controlado",
    "nota": "Tramadol: artículo 226 fracción III de la Ley General de Salud desde el 14 de julio de 2026. Hasta 3 surtidos, vigencia 6 meses, la farmacia lo registra en sus libros de control.",
    "paraPaciente": "Consérvela. Solo la use si la necesita."
+  },
+  {
+   "id": "psicotropico",
+   "titulo": "Receta — psicotrópico",
+   "nota": "Clonazepam: benzodiazepina del Grupo III del artículo 245 de la Ley General de Salud. Conforme al artículo 251, esta receta se surte UNA SOLA VEZ y la farmacia la retiene al surtirla. Por eso va en pliego aparte del tramadol, que sí admite tres surtidos.",
+   "paraPaciente": "Esta hoja se queda en la farmacia al surtirla."
   },
   {
    "id": "general",
@@ -3682,6 +3816,6 @@
   "22:00",
   "24:00"
  ],
- "version": "ad43508758107d84",
+ "version": "4acfcb1cccba68da",
  "generado": "2026-10-28"
 }

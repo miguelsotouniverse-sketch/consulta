@@ -59,7 +59,10 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
      ]
     },
     {
@@ -294,7 +297,8 @@
       "Sonrisa o movimiento de un lado del labio o la frente algo más débil en los primeros días. Suele ser temporal y recuperarse sola; avíselo al Dr. Soto en su siguiente cita.",
       "Caída de cabello cerca de las incisiones durante 2 a 3 meses; vuelve a crecer.",
       "Cambios de ánimo (tristeza o impaciencia) en las primeras 2 semanas, mientras baja la inflamación.",
-      "Resultado final: entre 6 y 12 meses."
+      "Resultado final: entre 6 y 12 meses.",
+      "Ansiedad, llanto fácil o la sensación de que algo malo va a pasar en los primeros días. Es frecuente después de una cirugía y se pasa. Su receta trae unas gotas para los momentos malos; úselas sólo si las necesita."
      ]
     },
     {
@@ -340,7 +344,7 @@
      ]
     }
    ],
-   "version": "f58fe9bd"
+   "version": "5e57244f"
   },
   {
    "id": "lipoescultura",
@@ -407,7 +411,22 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -644,7 +663,7 @@
      ]
     }
    ],
-   "version": "88873e93"
+   "version": "e711549c"
   },
   {
    "id": "mastopexia",
@@ -706,7 +725,22 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -966,7 +1000,7 @@
      ]
     }
    ],
-   "version": "127f2f54"
+   "version": "bb79c097"
   },
   {
    "id": "rinoplastia",
@@ -1027,7 +1061,22 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -1238,7 +1287,7 @@
      ]
     }
    ],
-   "version": "0fdbf6b4"
+   "version": "0ccbdb38"
   },
   {
    "id": "blefaroplastia",
@@ -1299,7 +1348,22 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -1503,7 +1567,7 @@
      ]
     }
    ],
-   "version": "84d0d268"
+   "version": "6d90082b"
   },
   {
    "id": "facial_combinada",
@@ -1584,7 +1648,10 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
      ]
     },
     {
@@ -2074,7 +2141,7 @@
      ]
     }
    ],
-   "version": "d74e0b99"
+   "version": "a4fe700a"
   },
   {
    "id": "deep_plane_co2",
@@ -2152,7 +2219,10 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
      ]
     },
     {
@@ -2551,7 +2621,7 @@
      ]
     }
    ],
-   "version": "5fdc8481"
+   "version": "d7f85d52"
   },
   {
    "id": "eco2",
@@ -2860,7 +2930,22 @@
       "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
       "El amlodipino empieza la mañana anterior a su cirugía.",
       "El metoprolol empieza el día de su alta.",
-      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -3098,7 +3183,8 @@
       "Comezón y pequeños piquetes mientras cicatriza.",
       "Diferencia entre una oreja y la otra en las primeras semanas, mientras baja la inflamación. Las dos orejas nunca son idénticas, tampoco lo eran antes de la cirugía.",
       "Una pequeña zona endurecida detrás de la oreja, donde están los puntos internos. Se suaviza en 2 a 3 meses.",
-      "El resultado se aprecia desde el mes 1; el definitivo, entre los 3 y los 6 meses."
+      "El resultado se aprecia desde el mes 1; el definitivo, entre los 3 y los 6 meses.",
+      "Ansiedad, llanto fácil o la sensación de que algo malo va a pasar en los primeros días. Es frecuente después de una cirugía y se pasa. Su receta trae unas gotas para los momentos malos; úselas sólo si las necesita."
      ]
     },
     {
@@ -3142,7 +3228,7 @@
      ]
     }
    ],
-   "version": "e6186dd6"
+   "version": "a5a11677"
   },
   {
    "id": "faja",
@@ -3713,6 +3799,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "671cb23a198110f7",
+ "version": "f72f9152f15cc748",
  "generado": "2026-10-28"
 }

@@ -2387,8 +2387,15 @@ function pintaPanelMedico(zona){
   });
 }
 
+/* Los pliegos en que se parte una receta. El clonazepam tiene el suyo y no
+   comparte con el tramadol a propósito: el tramadol es artículo 226 fracción
+   III —tres surtidos, retenida en la tercera— y el clonazepam es Grupo III
+   del artículo 245, al que le aplica el artículo 251 —un solo surtido y
+   retenida en el primero—. Juntos, la farmacia se quedaría con la hoja al
+   surtir el clonazepam y la paciente perdería su tramadol. */
 var HOJAS_RX = [['antibiotico','Antibiótico — la farmacia la retiene'],
                 ['controlado','Controlado — tramadol, fracción III'],
+                ['psicotropico','Psicotrópico — clonazepam, se retiene al surtir'],
                 ['general','Receta general']];
 
 function pintaRenglones(zona, recalcula, repinta){
