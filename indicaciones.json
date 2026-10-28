@@ -50,6 +50,19 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+     ]
+    },
+    {
      "t": "h",
      "x": "2. Medicamentos"
     },
@@ -327,7 +340,7 @@
      ]
     }
    ],
-   "version": "bd920283"
+   "version": "f58fe9bd"
   },
   {
    "id": "lipoescultura",
@@ -382,6 +395,19 @@
       "Respiraciones profundas: 10 cada hora, para mantener los pulmones bien expandidos.",
       "Salida de líquido teñido de sangre por las incisiones es normal y esperado las primeras 24–72 horas. Use toallas sanitarias o gasas sobre las incisiones y proteja cama y asientos.",
       "Siempre acompañada las primeras 24–48 horas; no se bañe sola la primera vez."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
      ]
     },
     {
@@ -618,7 +644,7 @@
      ]
     }
    ],
-   "version": "729c9b3a"
+   "version": "88873e93"
   },
   {
    "id": "mastopexia",
@@ -668,6 +694,19 @@
       "Mover tobillos en círculos y de arriba abajo 10 veces cada hora mientras esté acostada.",
       "Respiraciones profundas: 10 cada hora.",
       "Siempre acompañada las primeras 24–48 horas; no se bañe sola la primera vez."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
      ]
     },
     {
@@ -927,7 +966,7 @@
      ]
     }
    ],
-   "version": "b58538f5"
+   "version": "127f2f54"
   },
   {
    "id": "rinoplastia",
@@ -976,6 +1015,19 @@
       "Estornudar con la boca abierta, para que el aire no salga con fuerza por la nariz.",
       "No agacharse con la cabeza por debajo del corazón ni hacer esfuerzos (cargar, pujar).",
       "Caminar dentro de casa varias veces al día, acompañado(a) las primeras 24 horas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
      ]
     },
     {
@@ -1186,7 +1238,7 @@
      ]
     }
    ],
-   "version": "20ba2762"
+   "version": "0fdbf6b4"
   },
   {
    "id": "blefaroplastia",
@@ -1235,6 +1287,19 @@
       "Caminar dentro de casa varias veces al día.",
       "No agacharse con la cabeza por debajo del corazón ni hacer esfuerzos (cargar, pujar); aumentan la inflamación y el riesgo de sangrado.",
       "Acompañado(a) las primeras 24 horas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
      ]
     },
     {
@@ -1438,7 +1503,7 @@
      ]
     }
    ],
-   "version": "1b5ef5b3"
+   "version": "84d0d268"
   },
   {
    "id": "facial_combinada",
@@ -1507,6 +1572,19 @@
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
       "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
      ]
     },
     {
@@ -1996,7 +2074,7 @@
      ]
     }
    ],
-   "version": "02ec27a5"
+   "version": "d74e0b99"
   },
   {
    "id": "deep_plane_co2",
@@ -2062,6 +2140,19 @@
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
       "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
      ]
     },
     {
@@ -2460,7 +2551,7 @@
      ]
     }
    ],
-   "version": "083eaca4"
+   "version": "5fdc8481"
   },
   {
    "id": "eco2",
@@ -2760,6 +2851,19 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos antes de saltarse una toma: la dosis se ajusta, no se suspende por su cuenta."
+     ]
+    },
+    {
      "t": "h",
      "x": "2. Medicamentos"
     },
@@ -3038,7 +3142,7 @@
      ]
     }
    ],
-   "version": "6c8d3b47"
+   "version": "e6186dd6"
   },
   {
    "id": "faja",
@@ -3459,7 +3563,7 @@
     {
      "t": "ul",
      "x": [
-      "Si en sus recetas viene amlodipino 5 mg, tómelo hoy: una tableta. Ayuda a mantener su presión estable durante la cirugía y a reducir el sangrado y la inflamación.",
+      "Si en sus recetas viene amlodipino 5 mg, tómelo HOY POR LA MAÑANA: una tableta. No es de una sola vez —sigue después, como dice su receta—. Ayuda a mantener su presión estable durante la cirugía y a reducir el sangrado y la inflamación.",
       "Si en sus recetas viene un antiviral, hoy empieza. Es la dosis que más importa de todo el tratamiento: sirve para evitar que brote herpes sobre la piel tratada con láser. Si no lo consiguió o se le olvidó, avísenos hoy mismo.",
       "Cene ligero y bajo en sal.",
       "Báñese y lávese el cabello con su jabón y champú de siempre, o con el jabón antiséptico si se lo indicamos.",
@@ -3558,7 +3662,7 @@
      ]
     }
    ],
-   "version": "f152f6fa"
+   "version": "7ceb28c7"
   },
   {
    "id": "laboratorios",
@@ -3609,6 +3713,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "45c7d9ac56cb06e2",
- "generado": "2026-10-24"
+ "version": "671cb23a198110f7",
+ "generado": "2026-10-28"
 }

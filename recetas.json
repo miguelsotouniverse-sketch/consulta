@@ -137,13 +137,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -231,12 +245,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -438,7 +452,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "454a6dda"
+   "version": "4851664c"
   },
   {
    "id": "body360",
@@ -548,13 +562,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -641,12 +669,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -833,7 +861,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "ef0d1637"
+   "version": "9983ef7a"
   },
   {
    "id": "mastopexia",
@@ -943,13 +971,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -1036,12 +1078,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -1221,7 +1263,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "82484402"
+   "version": "e0f4711a"
   },
   {
    "id": "blefaroplastia",
@@ -1328,13 +1370,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -1419,12 +1475,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -1595,7 +1651,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "9ddb7bb1"
+   "version": "d3e62586"
   },
   {
    "id": "rinoplastia",
@@ -1713,13 +1769,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -1814,12 +1884,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -2000,7 +2070,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "0a26f93c"
+   "version": "e33a246a"
   },
   {
    "id": "facial_combinada",
@@ -2136,13 +2206,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -2309,12 +2393,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -2548,7 +2632,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "2a09eba3"
+   "version": "7778548f"
   },
   {
    "id": "deep_plane_co2",
@@ -2680,13 +2764,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -2834,12 +2932,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -3014,7 +3112,7 @@
     {
      "si": {},
      "tono": "",
-     "texto": "Plantilla combinada: la prednisona va una sola vez, la del lifting (20 mg al día, 14 días). No agregue la del láser."
+     "texto": "Plantilla combinada: el esteroide va una sola vez, el del lifting (dexametasona 4 mg al día, 10 días). No agregue el del láser."
     }
    ],
    "alarma": [
@@ -3059,7 +3157,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "59ffe444"
+   "version": "959148de"
   },
   {
    "id": "eco2",
@@ -3136,12 +3234,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -3170,7 +3268,7 @@
    ],
    "alarma": [],
    "horaNota": "",
-   "version": "1e0383af"
+   "version": "b324b444"
   },
   {
    "id": "otoplastia",
@@ -3291,13 +3389,27 @@
     {
      "hoja": "general",
      "nombre": "Amlodipino 5 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta vía oral la NOCHE ANTERIOR a la cirugía, dosis única. Ayuda a mantener su presión estable durante el procedimiento y a reducir el sangrado y la inflamación. Es la única de sus recetas que se toma antes de la cirugía: cómprela en cuanto reciba sus recetas y no la deje para el último día.",
-     "cantidad": "1 tableta",
-     "duracion": "Dosis única, la noche anterior",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
      "horario": {
-      "n": "Amlodipino (víspera)",
+      "n": "Amlodipino",
       "h": [
-       "21:00"
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
       ]
      }
     },
@@ -3371,12 +3483,12 @@
     },
     {
      "hoja": "general",
-     "nombre": "Prednisona 20 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta (20 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 14 días; al terminar los 14 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
-     "cantidad": "14 tabletas",
-     "duracion": "14 días",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
      "horario": {
-      "n": "Prednisona",
+      "n": "Dexametasona",
       "h": [
        "08:00"
       ]
@@ -3532,7 +3644,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "a96751a6"
+   "version": "dacbba15"
   }
  ],
  "hojas": [
@@ -3570,6 +3682,6 @@
   "22:00",
   "24:00"
  ],
- "version": "cf84ba3e3846028b",
- "generado": "2026-10-24"
+ "version": "ad43508758107d84",
+ "generado": "2026-10-28"
 }

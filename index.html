@@ -162,6 +162,7 @@ input[readonly]{background:var(--crema);color:var(--gris)}
 .pie .dentro{max-width:860px;margin:0 auto;padding:11px 18px;display:flex;gap:9px;
   align-items:center;flex-wrap:wrap}
 .pie .estado{flex:1;font-size:12.5px;color:var(--gris);min-width:140px}
+.selloGuarda{font-size:12.5px;color:var(--gris);white-space:nowrap}
 .opFirma{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gris);
          white-space:nowrap;cursor:pointer;user-select:none}
 .opFirma input{width:16px;height:16px;cursor:pointer}
@@ -481,6 +482,10 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
   <div class="pie oculto" id="pieExp">
     <div class="dentro">
       <div class="estado" id="estado">Cargando…</div>
+      <!-- El sello del guardado. Va aparte del renglón de la izquierda a
+           propósito: ése lo reescribe `pinta()` en cada tecla, así que no
+           puede sostener un «Guardado». Éste sólo lo escribe el guardado. -->
+      <div class="selloGuarda" id="selloGuardado"></div>
       <button class="s" id="bDictar">Dictar</button>
       <!-- La firma visual va junto a Imprimir porque se decide en el mismo
            momento: esta hoja se imprime y se firma a mano, o se manda en
@@ -1413,6 +1418,16 @@ function pintaDocumentos(){
   var y = $('yaHechos');
   y.innerHTML = '';
   if (docs.length){
+    /* Estos renglones siempre se pudieron abrir, pero no lo parecían: salían
+       sueltos entre la ficha de la paciente y el mosaico de «Capturar», sin
+       título y sin nada que dijera que se tocan. El mosaico, que sí parece
+       un botón, abre un documento NUEVO — y ahí está el camino por el que
+       una nota acaba duplicada y triplicada. El rótulo y la palabra «abrir»
+       de cada renglón existen para cortar ese camino. */
+    var tit = document.createElement('div');
+    tit.className = 'seccion';
+    tit.textContent = 'Ya hechos — tóquelos para abrirlos y seguirlos';
+    y.appendChild(tit);
     var orden = docs.slice().sort(function(a,b){
       return String(b.fecha || '').localeCompare(String(a.fecha || ''));
     });
@@ -1433,6 +1448,24 @@ function pintaDocumentos(){
         var p = document.createElement('div'); p.className = 'sello';
         p.style.background = '#FDF8EC'; p.style.color = 'var(--ambar)';
         p.textContent = 'dictado por revisar'; fila.appendChild(p);
+      }
+      var ab = document.createElement('div');
+      ab.className = 'sello';
+      ab.style.background = 'var(--negro)'; ab.style.color = 'var(--crema)';
+      ab.textContent = 'abrir';
+      fila.appendChild(ab);
+      /* Un documento sin identificador no se puede continuar: guardarlo
+         crearía otro aparte. Vale más decirlo que abrirlo y duplicarlo. */
+      if (!doc.id){
+        ab.style.background = 'var(--rojo)';
+        ab.textContent = 'sin identificador';
+        fila.onclick = function(){
+          alert('Este documento llegó sin identificador, así que no puedo ' +
+                'abrirlo para continuarlo: si lo imprimiera de nuevo se ' +
+                'crearía otro aparte. Avísele a quien lleva el sistema.');
+        };
+        y.appendChild(fila);
+        return;
       }
       fila.onclick = function(){ abreDocumento(doc.tipo, doc.id); };
       y.appendChild(fila);
@@ -1680,6 +1713,22 @@ function abreDocumento(tipoId, docId){
     prellena();
     heredaDeHistoria();
     dibujaTodo();
+    /* Se está empezando un documento NUEVO de un tipo que esta paciente ya
+       tiene. Es legítimo —una paciente lleva varias notas de evolución— pero
+       también es exactamente lo que pasa cuando alguien quería ver la que ya
+       existía y apretó el mosaico. Si al terminar se imprime, quedan dos.
+       Se dice antes, no después. */
+    var mismos = docs.filter(function(x){ return x.tipo === TIPO.id; });
+    if (mismos.length){
+      var fechas = mismos.map(function(x){ return x.fecha || 'sin fecha'; }).join(', ');
+      $('avisoPrefill').className = 'aviso ojo';
+      $('avisoPrefill').innerHTML =
+        '<b>Ésta es una ' + TIPO.nombre.toLowerCase() + ' NUEVA, en blanco.</b> ' +
+        'Esta paciente ya tiene ' + (mismos.length === 1 ? 'una' : mismos.length) +
+        ' (' + fechas + '). Si lo que quería era verla o corregirla, regrese ' +
+        'con «Volver» y tóquela en la lista de arriba, donde dice «abrir»: ' +
+        'si en vez de eso imprime ésta, quedarán dos en el expediente.';
+    }
   }
   muestraAntecedentes();
 }
@@ -3444,22 +3493,80 @@ function cuerpoExpediente(){
   };
 }
 
+/* ---------------------------------------------------------------------
+   POR QUÉ EL BOTÓN «NO GUARDABA»
+
+   Guardaba. Lo que no hacía era decirlo.
+
+   El botón llamaba al gateway y no escribía nada en la pantalla hasta que
+   el servidor contestaba —entre uno y cuatro segundos con Apps Script, más
+   si la red va mal—. En esos segundos la pantalla no cambiaba ni un pixel:
+   ni el botón, ni el renglón de estado. Y cuando por fin aparecía
+   «Guardado · hora», lo escribía en el MISMO renglón que `pinta()`
+   reescribe con el contador de campos en cada tecla, así que el aviso
+   duraba hasta la siguiente letra que se tecleara.
+
+   Imprimir, en cambio, sí avisa: dice «Guardando antes de imprimir…» y
+   después «Listo para imprimir». De ahí la conclusión razonable de que
+   guardaba al imprimir y no al guardar: lo único distinto era el aviso.
+
+   Ahora el botón se apaga mientras trabaja, dice qué está haciendo, y el
+   resultado va a un sello propio que nadie más reescribe.
+   --------------------------------------------------------------------- */
+function selloGuarda(texto, tono){
+  var e = $('selloGuardado');
+  if (!e) return;
+  e.textContent = texto || '';
+  e.style.color = tono === 'malo' ? 'var(--rojo)'
+                : tono === 'bien' ? 'var(--verde)'
+                : 'var(--gris)';
+}
+
+function botonGuardar(trabajando){
+  var b = $('bGuardar');
+  if (!b) return;
+  b.disabled = !!trabajando;
+  b.textContent = trabajando ? 'Guardando…' : 'Guardar';
+}
+
 function guarda(silencioso){
-  if (!FOLIO || !TIPO) return Promise.resolve();
+  /* Antes esto devolvía en silencio y el médico se quedaba sin saber que no
+     había pasado nada. */
+  if (!FOLIO || !TIPO){
+    if (!silencioso) selloGuarda('No hay documento abierto que guardar.', 'malo');
+    return Promise.resolve();
+  }
+  if (!silencioso) botonGuardar(true);
+  selloGuarda('Guardando…', '');
   return pide('documentoGuardar', cuerpoExpediente())
     .then(function(d){
       sucio = false;
       DOC_ID = d.doc_id || DOC_ID;
       borraBorrador();
       refrescaEnMemoria(d);
-      if (!silencioso) $('estado').textContent = 'Guardado · ' + d.guardado;
+      botonGuardar(false);
+      selloGuarda('Guardado · ' + (d.guardado || horaCorta_()), 'bien');
       return d;
     })
     .catch(function(e){
-      $('estado').textContent = 'No pude guardar: ' + e.message +
-        ' — lo capturado sigue aquí, no se perdió.';
+      botonGuardar(false);
+      selloGuarda('NO se guardó', 'malo');
+      /* Un guardado que falla no se dice en letra chica al pie: se dice
+         arriba, donde no se puede pasar por alto. */
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML =
+        '<b>No pude guardar este documento.</b> ' + e.message +
+        ' Lo que capturó sigue aquí y también quedó copiado en este navegador, ' +
+        'así que no se perdió: vuelva a intentar en un momento, y si no cede, ' +
+        'imprima o tome una foto de la pantalla antes de cerrar.';
     });
 }
+
+function horaCorta_(){
+  var d = new Date();
+  return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+}
+
 $('bGuardar').onclick = function(){ guarda(false); };
 
 /* Encender o apagar la firma del documento.
