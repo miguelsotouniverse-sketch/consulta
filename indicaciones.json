@@ -46,7 +46,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -309,7 +309,7 @@
     {
      "t": "ul",
      "x": [
-      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela en el grupo de WhatsApp de seguimiento).",
+      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela por WhatsApp al 55 7215 5958, seguimiento postoperatorio).",
       "Inflamación de un solo lado que aumenta rápidamente, se siente dura o tensa, o se acompaña de dolor intenso.",
       "Dolor que no cede con los medicamentos de su receta.",
       "Sangrado que empapa la gasa o el vendaje.",
@@ -344,7 +344,7 @@
      ]
     }
    ],
-   "version": "5e57244f"
+   "version": "93d3be76"
   },
   {
    "id": "lipoescultura",
@@ -426,7 +426,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -663,7 +663,7 @@
      ]
     }
    ],
-   "version": "e711549c"
+   "version": "e41fd4fa"
   },
   {
    "id": "mastopexia",
@@ -740,7 +740,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -1000,7 +1000,7 @@
      ]
     }
    ],
-   "version": "bb79c097"
+   "version": "f720bd57"
   },
   {
    "id": "rinoplastia",
@@ -1076,7 +1076,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -1287,7 +1287,7 @@
      ]
     }
    ],
-   "version": "0ccbdb38"
+   "version": "fff7e766"
   },
   {
    "id": "blefaroplastia",
@@ -1363,7 +1363,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -1567,7 +1567,7 @@
      ]
     }
    ],
-   "version": "6d90082b"
+   "version": "7e255f12"
   },
   {
    "id": "facial_combinada",
@@ -1635,7 +1635,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -2102,7 +2102,7 @@
     {
      "t": "ul",
      "x": [
-      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela en el grupo de WhatsApp de seguimiento).",
+      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela por WhatsApp al 55 7215 5958, seguimiento postoperatorio).",
       "Dolor que no cede con los medicamentos de su receta.",
       "Fiebre de 38 °C o más.",
       "Enrojecimiento que se extiende, calor local, salida de pus o mal olor en las incisiones.",
@@ -2141,7 +2141,7 @@
      ]
     }
    ],
-   "version": "a4fe700a"
+   "version": "d1b0c406"
   },
   {
    "id": "deep_plane_co2",
@@ -2206,7 +2206,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -2582,7 +2582,7 @@
     {
      "t": "ul",
      "x": [
-      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela en el grupo de WhatsApp de seguimiento).",
+      "Presión sistólica mayor de 130 o menor de 90 mmHg (repórtela por WhatsApp al 55 7215 5958, seguimiento postoperatorio).",
       "Inflamación de un solo lado que aumenta rápidamente, se siente dura o tensa, o se acompaña de dolor intenso.",
       "Dolor que no cede con los medicamentos de su receta.",
       "Sangrado que empapa la gasa o el vendaje.",
@@ -2621,7 +2621,7 @@
      ]
     }
    ],
-   "version": "d7f85d52"
+   "version": "5f2a7588"
   },
   {
    "id": "eco2",
@@ -2945,7 +2945,7 @@
      "x": [
       "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
       "Anote cada medición (fecha, hora y cifras).",
-      "Reporte de inmediato en el grupo de WhatsApp de seguimiento si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
      ]
     },
     {
@@ -3228,7 +3228,7 @@
      ]
     }
    ],
-   "version": "a5a11677"
+   "version": "8ba68e23"
   },
   {
    "id": "faja",
@@ -3799,6 +3799,6 @@
    "version": "eb3082bc"
   }
  ],
- "version": "f72f9152f15cc748",
+ "version": "6d12fa261cfb0644",
  "generado": "2026-10-28"
 }
