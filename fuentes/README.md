@@ -39,6 +39,8 @@ python3 fuentes/construir_hoja_otoplastia.py
 python3 fuentes/construir_receta_otoplastia.py
 python3 fuentes/agregar_amlodipino_recetas.py
 python3 fuentes/corregir_usted_preop.py
+python3 fuentes/cambiar_antihipertensivos.py
+python3 fuentes/cambiar_esteroide_dexametasona.py
 ```
 
 Ya no hay ningún `cp` en la cadena: las dos mitades arrancan de un constructor
@@ -60,8 +62,8 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `45c7d9ac56cb06e2` (12 hojas) y recetas
-`cf84ba3e3846028b` (9 plantillas).
+Hoy la cadena produce: indicaciones `671cb23a198110f7` (12 hojas) y recetas
+`ad43508758107d84` (9 plantillas).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
 suba no trae esa corrección y el texto viejo vuelve a producción sin que nadie
@@ -121,6 +123,8 @@ bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 | `agregar_prednisona.py` | prednisona 20 mg × 14 días, que no estaba en ninguna plantilla |
 | `agregar_amlodipino_recetas.py` | el amlodipino de la víspera, que se indicaba de palabra y no estaba impreso en ninguna receta |
 | `corregir_usted_preop.py` | dos títulos de la hoja preoperatoria que se habían quedado de tú. Va al final, después de todo lo que toca esa hoja |
+| `cambiar_antihipertensivos.py` | **el metoprolol no existía en el sistema** y el amlodipino estaba escrito como dosis única de la víspera. Deja los dos como antihipertensivos de base de 10 días y los nombra en las hojas de alta |
+| `cambiar_esteroide_dexametasona.py` | dexametasona 4 mg × 10 días en lugar de prednisona 20 mg × 14, en las nueve plantillas |
 
 Los correctores existen porque antes no había constructor: eran la única forma
 de dejar rastro de un cambio. Ahora que los dos constructores existen, una
@@ -209,6 +213,7 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_firma_visual.mjs` | que la firma visual se estampe sólo cuando se enciende, y que un documento sin firmar siga diciendo «Firma autógrafa» |
 | `prueba_internamiento.mjs` | **el candado de la constancia**: que la hoja que va a manos de un patrón no pueda imprimir el diagnóstico ni el procedimiento, con el expediente lleno |
 | `prueba_aviso_preop.mjs` | que la nota preoperatoria recuerde entregar las recetas, nombrando las dos que no admiten retraso, y que ese recordatorio no aparezca en los demás documentos ni bloquee nada |
+| `prueba_guardado_y_notas.mjs` | que el botón Guardar diga lo que está haciendo y que el resultado no lo borre el contador de campos; y que una nota ya hecha se abra con su contenido y su identificador en vez de duplicarse |
 
 `render_hoja.mjs`, `render_receta.mjs` y `render_impresion.mjs` son auxiliares:
 imprimen un documento a PDF para verlo.
