@@ -42,6 +42,7 @@ python3 fuentes/corregir_usted_preop.py
 python3 fuentes/cambiar_antihipertensivos.py
 python3 fuentes/cambiar_esteroide_dexametasona.py
 python3 fuentes/agregar_rescates_presion_ansiedad.py
+python3 fuentes/corregir_whatsapp_seguimiento.py
 ```
 
 Ya no hay ningún `cp` en la cadena: las dos mitades arrancan de un constructor
@@ -63,7 +64,7 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `f72f9152f15cc748` (12 hojas) y recetas
+Hoy la cadena produce: indicaciones `6d12fa261cfb0644` (12 hojas) y recetas
 `4acfcb1cccba68da` (9 plantillas, 4 pliegos).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
@@ -126,6 +127,7 @@ bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 | `corregir_usted_preop.py` | dos títulos de la hoja preoperatoria que se habían quedado de tú. Va al final, después de todo lo que toca esa hoja |
 | `cambiar_antihipertensivos.py` | **el metoprolol no existía en el sistema** y el amlodipino estaba escrito como dosis única de la víspera. Deja los dos como antihipertensivos de base de 10 días y los nombra en las hojas de alta |
 | `cambiar_esteroide_dexametasona.py` | dexametasona 4 mg × 10 días en lugar de prednisona 20 mg × 14, en las nueve plantillas |
+| `corregir_whatsapp_seguimiento.py` | el grupo de WhatsApp dejó de existir: ahora es el número 55 7215 5958 de seguimiento postoperatorio, en los once renglones donde se mencionaba |
 | `agregar_rescates_presion_ansiedad.py` | la regla para suspender los antihipertensivos, el captopril sublingual de rescate, el clonazepam **en pliego propio** y la toma de presión en casa en las ocho hojas |
 
 Los correctores existen porque antes no había constructor: eran la única forma
