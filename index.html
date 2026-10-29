@@ -737,6 +737,10 @@ var PENDIENTE_DICTADO = {}, SIN_UBICAR = [], DUDAS = [], AVISOS_ASR = [], AUDIO_
 /* SOLO_VALORACION = esconder lo que ya está lleno. Por omisión NO, para que al
    abrir una nota ya empezada se vea lo que trae y no una pantalla en blanco. */
 var sucio = false, SOLO_VALORACION = false;
+/* Se enciende cuando el documento que se abrió llegó sin sus campos. Mientras
+   esté encendida, guardar e imprimir quedan bloqueados: una hoja vacía no se
+   escribe encima de una escrita. */
+var SIN_CONTENIDO = false;
 var EXPEDIENTE = null;      // el archivo completo de la paciente
 var COMO_SE_IDENTIFICO = '';
 var TIPO = null;            // el documento que se está capturando
@@ -1438,7 +1442,9 @@ function pintaDocumentos(){
       var tx = document.createElement('div'); tx.className = 't';
       tx.textContent = (t ? t.nombre : doc.tipo);
       var fe = document.createElement('div'); fe.className = 'f';
-      fe.textContent = doc.fecha || '';
+      /* El índice del expediente trae `creado`, no `fecha`. Sin esto la
+         columna de la fecha salía vacía en todos los renglones. */
+      fe.textContent = doc.fecha || doc.creado || '';
       fila.appendChild(tx); fila.appendChild(fe);
       if (doc.firmado){
         var s = document.createElement('div'); s.className = 'sello';
@@ -1681,6 +1687,8 @@ function abreDocumento(tipoId, docId){
   var doc = DOC_ID ? docs.filter(function(x){ return x.id === DOC_ID; })[0] : null;
   var borrador = leeBorrador();
 
+  SIN_CONTENIDO = false;
+
   if (doc){
     VALORES = doc.campos || {};
     PENDIENTE_DICTADO = doc.dictado_pendiente || {};
@@ -1688,12 +1696,43 @@ function abreDocumento(tipoId, docId){
     DUDAS = doc.dictado_dudas || [];
     AVISOS_ASR = doc.dictado_avisos || [];
     AUDIO_ID = doc.audio_id || '';
-    /* Un documento firmado no se toca ni para completarlo. */
-    var completado = doc.firmado ? '' : completaGuardado();
+
+    /* ──────────────────────────────────────────────────────────────
+       EL DOCUMENTO LLEGÓ SIN SU CONTENIDO
+
+       El gateway guarda cada documento completo en su propio archivo, pero
+       en el índice del expediente —lo único que esta pantalla recibe— sólo
+       anota { id, tipo, creado }. Nunca los campos. Por eso un documento ya
+       hecho se abre en blanco: no es que no se haya guardado, es que lo
+       guardado no viaja de regreso.
+
+       Mientras eso no se arregle del lado del gateway, lo único seguro es
+       NO dejar que este documento vacío se guarde encima del bueno. Si se
+       guardara, el expediente acabaría con una nota en blanco donde había
+       una nota escrita, y eso es peor que no poder verla.
+       ────────────────────────────────────────────────────────────── */
+    SIN_CONTENIDO = !doc.campos || !Object.keys(doc.campos).length;
+
+    /* Un documento firmado no se toca ni para completarlo. Y uno que llegó
+       sin contenido tampoco: completarlo lo marcaría como sucio y el
+       guardado automático lo escribiría encima. */
+    var completado = (doc.firmado || SIN_CONTENIDO) ? '' : completaGuardado();
     dibujaTodo();
     $('avisoPrefill').innerHTML = '<b>' + TIPO.nombre + ' ya empezada.</b> Guardada el ' +
-      (doc.guardado || '') + (doc.por ? ' por ' + doc.por : '') + '.' + completado;
+      (doc.guardado || doc.creado || doc.fecha || '') +
+      (doc.por ? ' por ' + doc.por : '') + '.' + completado;
     if (completado) sucio = true;
+    if (SIN_CONTENIDO){
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML =
+        '<b>Este documento existe pero su contenido no llegó.</b> Está ' +
+        'guardado —no se perdió—, lo que pasa es que el expediente manda la ' +
+        'lista de documentos sin lo que tienen escrito. Por eso lo ve en ' +
+        'blanco. <b>Dejé bloqueado guardar e imprimir en esta pantalla</b>, ' +
+        'para que esta hoja vacía no se escriba encima de la que sí tiene ' +
+        'texto. Si lo que quería era una ' + TIPO.nombre.toLowerCase() +
+        ' nueva, regrese con «Volver» y ábrala desde el mosaico.';
+    }
     if (doc.firmado){
       $('avisoPrefill').className = 'aviso malo';
       $('avisoPrefill').innerHTML = '<b>Este documento ya está firmado.</b> No se edita: ' +
@@ -3543,6 +3582,13 @@ function guarda(silencioso){
     if (!silencioso) selloGuarda('No hay documento abierto que guardar.', 'malo');
     return Promise.resolve();
   }
+  /* El documento se abrió sin su contenido. Guardarlo escribiría una hoja en
+     blanco encima de la que sí tiene texto. No se guarda, ni a mano ni en el
+     guardado automático de cada 25 segundos. */
+  if (SIN_CONTENIDO){
+    selloGuarda('Bloqueado: este documento llegó vacío', 'malo');
+    return Promise.resolve();
+  }
   if (!silencioso) botonGuardar(true);
   selloGuarda('Guardando…', '');
   return pide('documentoGuardar', cuerpoExpediente())
@@ -4222,6 +4268,15 @@ $('bImprimir').onclick = function(){
     return;
   }
 
+  /* Imprimir guarda antes. Si el documento llegó vacío, ese guardado
+     escribiría la hoja en blanco encima de la buena, y además se imprimiría
+     un documento sin nada. Se detiene aquí, con el motivo a la vista. */
+  if (SIN_CONTENIDO){
+    $('estado').textContent = 'No imprimo: este documento llegó sin su contenido.';
+    selloGuarda('Bloqueado: este documento llegó vacío', 'malo');
+    window.scrollTo(0, 0);
+    return;
+  }
   $('estado').textContent = 'Guardando antes de imprimir…';
   guarda(true).then(function(){
     armaImpresion();
