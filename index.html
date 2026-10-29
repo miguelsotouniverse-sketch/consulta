@@ -1700,16 +1700,15 @@ function abreDocumento(tipoId, docId){
     /* ──────────────────────────────────────────────────────────────
        EL DOCUMENTO LLEGÓ SIN SU CONTENIDO
 
-       El gateway guarda cada documento completo en su propio archivo, pero
-       en el índice del expediente —lo único que esta pantalla recibe— sólo
-       anota { id, tipo, creado }. Nunca los campos. Por eso un documento ya
-       hecho se abre en blanco: no es que no se haya guardado, es que lo
-       guardado no viaja de regreso.
+       El expediente dice que este documento existe, pero viene sin campos.
+       No se sabe por qué —el gateway sí los guarda dentro del expediente—,
+       así que este candado NO explica la causa: sólo impide el daño.
 
-       Mientras eso no se arregle del lado del gateway, lo único seguro es
-       NO dejar que este documento vacío se guarde encima del bueno. Si se
-       guardara, el expediente acabaría con una nota en blanco donde había
-       una nota escrita, y eso es peor que no poder verla.
+       Lo que impide: que esta pantalla en blanco se guarde encima de un
+       documento que sí tiene texto. Si eso pasara, el expediente acabaría
+       con una nota vacía donde había una escrita, y eso es mucho peor que
+       no poder verla. Guardar e imprimir quedan bloqueados, incluido el
+       guardado automático.
        ────────────────────────────────────────────────────────────── */
     SIN_CONTENIDO = !doc.campos || !Object.keys(doc.campos).length;
 
@@ -1725,13 +1724,13 @@ function abreDocumento(tipoId, docId){
     if (SIN_CONTENIDO){
       $('avisoPrefill').className = 'aviso malo';
       $('avisoPrefill').innerHTML =
-        '<b>Este documento existe pero su contenido no llegó.</b> Está ' +
-        'guardado —no se perdió—, lo que pasa es que el expediente manda la ' +
-        'lista de documentos sin lo que tienen escrito. Por eso lo ve en ' +
-        'blanco. <b>Dejé bloqueado guardar e imprimir en esta pantalla</b>, ' +
-        'para que esta hoja vacía no se escriba encima de la que sí tiene ' +
-        'texto. Si lo que quería era una ' + TIPO.nombre.toLowerCase() +
-        ' nueva, regrese con «Volver» y ábrala desde el mosaico.';
+        '<b>Este documento existe en el expediente pero llegó sin su ' +
+        'contenido.</b> No lo abra como si estuviera vacío: puede que el ' +
+        'texto siga guardado y lo que falle sea traerlo. <b>Dejé bloqueado ' +
+        'guardar e imprimir en esta pantalla</b>, para que esta hoja en ' +
+        'blanco no se escriba encima de la que sí tiene texto. Repórtelo. Si ' +
+        'lo que quería era una ' + TIPO.nombre.toLowerCase() + ' nueva, ' +
+        'regrese con «Volver» y ábrala desde el mosaico.';
     }
     if (doc.firmado){
       $('avisoPrefill').className = 'aviso malo';
