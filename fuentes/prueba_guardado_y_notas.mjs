@@ -138,6 +138,25 @@ const r = await pag.evaluate(async ({ esquema, constantes }) => {
   out.docIdNueva = DOC_ID;
   out.avisoNueva = document.getElementById('avisoPrefill').innerText;
 
+  /* ---- un documento tal como lo manda el gateway: SIN campos ----
+     El índice del expediente sólo trae { id, tipo, creado }. Abrirlo así y
+     guardarlo escribiría una hoja en blanco encima de la buena. */
+  EXPEDIENTE.documentos.push({ id: 'DOC-SIN', tipo: 'nota_procedimiento',
+                               creado: '2026-10-29 09:00' });
+  vistaDocumentos();
+  const filaSin = [...document.querySelectorAll('#yaHechos .hecho-fila')]
+    .filter(function(f){ return /procedimiento/i.test(f.innerText); })[0];
+  out.filaMuestraFecha = !!filaSin;
+  if (filaSin) filaSin.click();
+  out.avisoVacio = document.getElementById('avisoPrefill').innerText.slice(0, 90);
+  out.claseAvisoVacio = document.getElementById('avisoPrefill').className;
+  window.__acciones = [];
+  document.getElementById('bGuardar').click();
+  document.getElementById('bImprimir').click();
+  await espera(500);
+  out.accionesConVacio = window.__acciones.slice();
+  out.selloVacio = document.getElementById('selloGuardado').textContent;
+
   /* ---- un documento sin identificador no se abre a ciegas ---- */
   EXPEDIENTE.documentos.push({ tipo: 'nota_evolucion', fecha: '2026-10-26',
                                campos: { evo_plan: 'x' } });
@@ -180,6 +199,16 @@ revisa('empezar una nota nueva habiendo otra lo advierte ANTES, y con fecha',
   /quedarán dos/.test(r.avisoNueva), r.avisoNueva.slice(0, 120));
 revisa('la nota nueva no se queda con el id de la anterior',
   r.docIdNueva === '', r.docIdNueva);
+
+revisa('la fila muestra la fecha aunque el índice sólo traiga «creado»',
+  r.filaMuestraFecha, 'la columna de la fecha salió vacía');
+revisa('un documento que llega sin contenido lo dice, y en rojo',
+  /contenido no llegó/.test(r.avisoVacio) && /malo/.test(r.claseAvisoVacio),
+  r.claseAvisoVacio + ' · ' + r.avisoVacio);
+revisa('un documento vacío NO se guarda encima del bueno',
+  r.accionesConVacio.length === 0, 'llamó a: ' + r.accionesConVacio.join(', '));
+revisa('y el sello explica por qué está bloqueado',
+  /Bloqueado/.test(r.selloVacio), r.selloVacio);
 
 revisa('un documento sin identificador se marca y no se abre a ciegas',
   r.hayFilaSinId && /sin identificador/i.test(r.alertSinId || '') === false
