@@ -44,6 +44,7 @@ python3 fuentes/cambiar_esteroide_dexametasona.py
 python3 fuentes/agregar_rescates_presion_ansiedad.py
 python3 fuentes/corregir_whatsapp_seguimiento.py
 python3 fuentes/corregir_cita_24h_deep_plane.py
+python3 fuentes/cambiar_venda_y_faja_deep_plane.py
 ```
 
 Ya no hay ningún `cp` en la cadena: las dos mitades arrancan de un constructor
@@ -65,7 +66,7 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `87135de4fa25ec81` (12 hojas) y recetas
+Hoy la cadena produce: indicaciones `5f7d968c365049c4` (12 hojas) y recetas
 `4acfcb1cccba68da` (9 plantillas, 4 pliegos).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
@@ -128,9 +129,10 @@ bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 | `corregir_usted_preop.py` | dos títulos de la hoja preoperatoria que se habían quedado de tú. Va al final, después de todo lo que toca esa hoja |
 | `cambiar_antihipertensivos.py` | **el metoprolol no existía en el sistema** y el amlodipino estaba escrito como dosis única de la víspera. Deja los dos como antihipertensivos de base de 10 días y los nombra en las hojas de alta |
 | `cambiar_esteroide_dexametasona.py` | dexametasona 4 mg × 10 días en lugar de prednisona 20 mg × 14, en las nueve plantillas |
-| `corregir_cita_24h_deep_plane.py` | la «cita de las 24 h» no existe: la paciente de Deep Plane se queda a dormir y esa revisión es el pase de visita antes del alta |
+| `corregir_cita_24h_deep_plane.py` | la «cita de las 24 h» no existe: **todo lo que lleva Deep Plane duerme en la clínica** —facelift, facelift con CO₂ y combinada facial— y esa revisión es el pase de visita antes del alta. La frase de cuál es la primera cita se lee de la tabla, no se escribe a mano: en la combinada no hay malla y es el día 5 |
 | `corregir_whatsapp_seguimiento.py` | el grupo de WhatsApp dejó de existir: ahora es el número 55 7215 5958 de seguimiento postoperatorio, en los once renglones donde se mencionaba |
 | `agregar_rescates_presion_ansiedad.py` | la regla para suspender los antihipertensivos, el captopril sublingual de rescate, el clonazepam **en pliego propio** y la toma de presión en casa en las ocho hojas |
+| `cambiar_venda_y_faja_deep_plane.py` | la compresión firme caía antes de que saliera la malla hemostática. Ahora: **venda toda la semana 1, faja 24 h la semana 2, faja nocturna la semana 3**. Arrastra el baño (completo desde el día 8), el cuidado de incisiones y el «acuda con su faja puesta». Sólo en `deep_plane` |
 
 Los correctores existen porque antes no había constructor: eran la única forma
 de dejar rastro de un cambio. Ahora que los dos constructores existen, una

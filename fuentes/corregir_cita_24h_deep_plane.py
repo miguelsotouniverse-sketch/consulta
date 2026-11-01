@@ -30,14 +30,17 @@ se descarta hematoma y que los drenajes se retiran por gasto y características
 del líquido, no por calendario. Eso se conserva, movido a un párrafo antes de
 la tabla de citas, donde queda claro que es parte del internamiento.
 
-Dónde se aplica y dónde no
---------------------------
-En `deep_plane` y `deep_plane_co2`, que son el Deep Plane facelift completo.
+Dónde se aplica
+---------------
+En las TRES hojas que llevan Deep Plane: el facelift completo, el facelift
+con láser CO₂ y la combinada facial —que es Deep Plane de cuello—. El médico
+lo cerró el 1-nov-2026: «todo lo que lleva deep plane duerme en la clínica».
 
-En `facial_combinada` NO se toca: ésa es el Deep Plane **de cuello**, otra
-cirugía —sin malla hemostática— y el médico no dijo que esa paciente también
-se quede la noche. Si también se queda, se agrega a la lista de abajo y se
-vuelve a correr.                                                 ←CONFIRMAR
+La frase de cuál es la primera cita NO se escribe a mano: se lee de la propia
+tabla después de quitar el renglón. En el facelift completo queda «a las 72
+horas», que es el retiro de la malla; en la combinada no hay malla y queda
+«al día 5». Escribirla a mano habría mandado a la paciente de la combinada a
+una cita de 72 horas que no existe — el mismo error que este script corrige.
 
 Uso:  python3 corregir_cita_24h_deep_plane.py [indicaciones.json]
 """
@@ -45,11 +48,12 @@ Uso:  python3 corregir_cita_24h_deep_plane.py [indicaciones.json]
 import json
 import hashlib
 import datetime
+import re
 import sys
 
 RUTA = sys.argv[1] if len(sys.argv) > 1 else 'indicaciones.json'
 
-HOJAS = ['deep_plane', 'deep_plane_co2']
+HOJAS = ['deep_plane', 'deep_plane_co2', 'facial_combinada']
 
 # El texto de la cita que se elimina, para no borrar otra por error.
 VIEJA = ('Revisión de la herida para descartar hematoma y retiro del vendaje. '
@@ -57,13 +61,28 @@ VIEJA = ('Revisión de la herida para descartar hematoma y retiro del vendaje. '
          'características del líquido lo permiten, no por calendario')
 
 # Lo que ocupa su lugar, antes de la tabla de citas.                 ←NUEVO
-NOCHE = ('Usted pasa la primera noche en la clínica. A la mañana siguiente, '
-         'antes de irse a casa, la revisamos: ahí se descarta hematoma y, si '
-         'trae drenajes, se revisan —se retiran cuando el gasto y las '
-         'características del líquido lo permiten, no por calendario—. Esa '
-         'revisión es parte de su internamiento, no una cita: cuando usted '
-         'lee esta hoja, ya ocurrió. Su primera cita en el consultorio es a '
-         'las 72 horas.')
+def noche(primera):
+    return ('Usted pasa la primera noche en la clínica. A la mañana '
+            'siguiente, antes de irse a casa, la revisamos: ahí se descarta '
+            'hematoma y, si trae drenajes, se revisan —se retiran cuando el '
+            'gasto y las características del líquido lo permiten, no por '
+            'calendario—. Esa revisión es parte de su internamiento, no una '
+            'cita: cuando usted lee esta hoja, ya ocurrió. Su primera cita '
+            'en el consultorio es ' + primera + '.')
+
+
+def como_se_dice(cita):
+    """«72 horas» → «a las 72 horas»; «Día 5» → «al día 5». Se arma de la
+       tabla y no a mano: en la combinada no hay malla y su primera cita no
+       es la misma que en el facelift completo."""
+    c = str(cita).strip()
+    m = re.match(r'^D[ií]a\s+(\d+)$', c, re.I)
+    if m:
+        return 'al día ' + m.group(1)
+    m = re.match(r'^(\d+)\s*horas?$', c, re.I)
+    if m:
+        return 'a las ' + m.group(1) + ' horas'
+    raise SystemExit('no sé cómo nombrar la primera cita: «' + c + '»')
 
 ANCLA_P = 'Todas son obligatorias.'
 
@@ -81,6 +100,7 @@ for hid in HOJAS:
 
     # 1) fuera la cita de las 24 horas
     quitadas = 0
+    primera = None
     for b in h['bloques']:
         if b['t'] != 'citas':
             continue
@@ -88,9 +108,8 @@ for hid in HOJAS:
         b['x'] = [c for c in b['x']
                   if not (c.get('cita') == '24 horas' and c.get('que', '').startswith(VIEJA[:40]))]
         quitadas += antes - len(b['x'])
-        if b['x'] and b['x'][0]['cita'] != '72 horas':
-            raise SystemExit('en ' + hid + ' la primera cita quedó siendo «' +
-                             b['x'][0]['cita'] + '» y esperaba «72 horas»')
+        if b['x']:
+            primera = como_se_dice(b['x'][0]['cita'])
     if quitadas != 1:
         raise SystemExit('en ' + hid + ' quité ' + str(quitadas) +
                          ' citas de 24 horas y esperaba exactamente 1')
@@ -103,7 +122,9 @@ for hid in HOJAS:
             break
     if pos is None:
         raise SystemExit('no encontré dónde poner el párrafo de la noche en ' + hid)
-    h['bloques'].insert(pos, {'t': 'p', 'x': NOCHE})
+    if not primera:
+        raise SystemExit('no pude leer cuál es la primera cita de ' + hid)
+    h['bloques'].insert(pos, {'t': 'p', 'x': noche(primera)})
 
     # 3) la regla de los drenajes no se puede haber perdido
     todo = json.dumps(h, ensure_ascii=False)
