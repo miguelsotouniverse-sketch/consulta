@@ -238,6 +238,10 @@
     },
     {
      "t": "p",
+     "x": "Usted pasa la primera noche en la clínica. A la mañana siguiente, antes de irse a casa, la revisamos: ahí se descarta hematoma y, si trae drenajes, se revisan —se retiran cuando el gasto y las características del líquido lo permiten, no por calendario—. Esa revisión es parte de su internamiento, no una cita: cuando usted lee esta hoja, ya ocurrió. Su primera cita en el consultorio es a las 72 horas."
+    },
+    {
+     "t": "p",
      "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con su faja puesta y con un acompañante a las citas de las primeras 2 semanas."
     },
     {
@@ -248,10 +252,6 @@
       "Fecha asignada"
      ],
      "x": [
-      {
-       "cita": "24 horas",
-       "que": "Revisión de la herida para descartar hematoma y retiro del vendaje. Si trae drenajes, se revisan: se retiran cuando el gasto y las características del líquido lo permiten, no por calendario"
-      },
       {
        "cita": "72 horas",
        "que": "Retiro de la malla hemostática"
@@ -344,7 +344,7 @@
      ]
     }
    ],
-   "version": "93d3be76"
+   "version": "fc2fe013"
   },
   {
    "id": "lipoescultura",
@@ -2492,6 +2492,10 @@
     },
     {
      "t": "p",
+     "x": "Usted pasa la primera noche en la clínica. A la mañana siguiente, antes de irse a casa, la revisamos: ahí se descarta hematoma y, si trae drenajes, se revisan —se retiran cuando el gasto y las características del líquido lo permiten, no por calendario—. Esa revisión es parte de su internamiento, no una cita: cuando usted lee esta hoja, ya ocurrió. Su primera cita en el consultorio es a las 72 horas."
+    },
+    {
+     "t": "p",
      "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con su faja puesta y con un acompañante a las citas de las primeras 2 semanas."
     },
     {
@@ -2502,10 +2506,6 @@
       "Fecha asignada"
      ],
      "x": [
-      {
-       "cita": "24 horas",
-       "que": "Revisión de la herida para descartar hematoma y retiro del vendaje. Si trae drenajes, se revisan: se retiran cuando el gasto y las características del líquido lo permiten, no por calendario"
-      },
       {
        "cita": "72 horas",
        "que": "Retiro de la malla hemostática y primera revisión de la piel tratada con láser"
@@ -2621,7 +2621,7 @@
      ]
     }
    ],
-   "version": "5f2a7588"
+   "version": "ea0cbb44"
   },
   {
    "id": "eco2",
@@ -3799,8 +3799,8 @@
    "version": "eb3082bc"
   }
  ],
- "version": "6d12fa261cfb0644",
- "generado": "2026-10-28",
+ "version": "87135de4fa25ec81",
+ "generado": "2026-11-01",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
  }
