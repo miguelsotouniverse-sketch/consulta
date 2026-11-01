@@ -31,7 +31,8 @@
       "Posición: duerma y descanse boca arriba, con la cabeza elevada a 45° (dos almohadas firmes o un reclinable). Mantenga esta posición 14 días. No duerma de lado ni boca abajo.",
       "Cuello: manténgalo recto. Para voltear, gire los hombros junto con la cabeza. No flexione el cuello hacia el pecho.",
       "Frío local: compresas frías o gel frío envueltos en un paño delgado, 15 minutos cada hora mientras esté despierta, sobre mejillas y cuello. Nunca aplique hielo directo sobre la piel. Suspenda el frío a las 72 horas.",
-      "Faja facial: úsela las 24 horas durante los primeros 7 días; solo se retira para bañarse. Del día 8 al 21 úsela únicamente para dormir.",
+      "Venda: se queda puesta toda la primera semana. No se la quite, no la afloje y no la moje. En sus citas se la abrimos para revisarla y hacer lo que toque, y se la volvemos a poner nosotros: eso es parte del tratamiento y no significa que algo vaya mal. Si se le afloja o se le recorre en casa, no intente acomodarla usted: avísenos.",
+      "Faja facial: empieza el día 8, al retirarse la venda. Úsela las 24 horas del día durante toda la segunda semana —sólo se la quita para bañarse—. La tercera semana úsela únicamente para dormir, y al terminar el día 21 se suspende. La compresión no se suelta cuando sale la malla: ahí es cuando más se necesita.",
       "Drenajes: si se le colocaron, no se retiran en una fecha fija. Se quitan cuando la cantidad y el aspecto del líquido lo permiten, y eso se revisa en cada cita. Mientras los traiga: no los jale, no los desconecte, no los destape y no los deje colgando —sujételos a su ropa—. Avísenos si uno se sale solo, deja de salir líquido o el líquido se vuelve rojo brillante.",
       "Presión arterial: si usted es hipertensa, tome su medicamento para la presión exactamente a su hora, incluido el día de la cirugía.",
       "Acompañante: debe estar acompañada por un adulto las primeras 72 horas, día y noche."
@@ -110,7 +111,7 @@
     {
      "t": "ul",
      "x": [
-      "Puede bañarse y lavarse el cabello a partir del día 3 (72 horas), con agua tibia —nunca caliente— y champú de bebé. No frote las incisiones; deje correr el agua y seque con toques suaves con una toalla limpia.",
+      "Mientras traiga la venda —toda la primera semana— báñese de la cintura para abajo y no se moje la cabeza. El baño completo y el lavado de cabello empiezan el día 8, al retirarse la venda, con agua tibia —nunca caliente— y champú de bebé. No frote las incisiones; deje correr el agua y seque con toques suaves con una toalla limpia.",
       "Secadora solo con aire frío durante 4 semanas. No use plancha ni tenazas de cabello durante 4 semanas.",
       "Tinte, decoloración, keratina o permanente: no antes de 6 semanas."
      ]
@@ -122,7 +123,7 @@
     {
      "t": "ul",
      "x": [
-      "Limpie las incisiones 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de todos los puntos.",
+      "Mientras traiga la venda no toque las incisiones ni meta nada debajo: las revisamos y las curamos nosotros en cada cita. A partir del día 8, al retirarse la venda, límpielas usted 2 veces al día con agua y jabón neutro, seque con gasa y aplique una capa delgada del ungüento indicado en su receta, hasta el retiro de todos los puntos.",
       "No aplique cremas, aceites, remedios caseros ni maquillaje sobre las incisiones hasta que su médico lo autorice en consulta.",
       "No retire costras; se caen solas.",
       "A partir de su cita del mes 1 inicie gel o parches de silicona sobre las cicatrices, 2 veces al día, durante 3 meses."
@@ -242,7 +243,7 @@
     },
     {
      "t": "p",
-     "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con su faja puesta y con un acompañante a las citas de las primeras 2 semanas."
+     "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con lo que traiga puesto esa semana —la venda la primera, la faja después— y con un acompañante a las citas de las primeras 2 semanas."
     },
     {
      "t": "citas",
@@ -344,7 +345,7 @@
      ]
     }
    ],
-   "version": "fc2fe013"
+   "version": "6fb16073"
   },
   {
    "id": "lipoescultura",
@@ -1971,6 +1972,10 @@
     },
     {
      "t": "p",
+     "x": "Usted pasa la primera noche en la clínica. A la mañana siguiente, antes de irse a casa, la revisamos: ahí se descarta hematoma y, si trae drenajes, se revisan —se retiran cuando el gasto y las características del líquido lo permiten, no por calendario—. Esa revisión es parte de su internamiento, no una cita: cuando usted lee esta hoja, ya ocurrió. Su primera cita en el consultorio es al día 5."
+    },
+    {
+     "t": "p",
      "x": "Todas son obligatorias. Recepción agenda y confirma cada cita con usted por WhatsApp. Acuda con su faja puesta y con un acompañante a las citas de las primeras 2 semanas."
     },
     {
@@ -1981,10 +1986,6 @@
       "Fecha asignada"
      ],
      "x": [
-      {
-       "cita": "24 horas",
-       "que": "Revisión de la herida para descartar hematoma y retiro del vendaje. Si trae drenajes, se revisan: se retiran cuando el gasto y las características del líquido lo permiten, no por calendario"
-      },
       {
        "cita": "Día 5",
        "que": "Retiro de los puntos de los párpados"
@@ -2141,7 +2142,7 @@
      ]
     }
    ],
-   "version": "d1b0c406"
+   "version": "e5d88285"
   },
   {
    "id": "deep_plane_co2",
@@ -3799,7 +3800,7 @@
    "version": "eb3082bc"
   }
  ],
- "version": "87135de4fa25ec81",
+ "version": "5f7d968c365049c4",
  "generado": "2026-11-01",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
