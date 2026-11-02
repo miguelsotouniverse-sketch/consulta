@@ -62,7 +62,14 @@ const r = await pag.evaluate(async ({ esquema, cat, constantes }) => {
     paciente_sexo:'Femenino', paciente_edad:'48',
     rx_plantilla:'deep_plane',
     rx_peni:'no', rx_sulfa:'no', rx_bichat:'no', rx_blefaro:'no',
-    rx_renal:'no', rx_sintram:''
+    rx_renal:'no', rx_sintram:'',
+    /* Desde el 1-nov-2026 la plantilla pregunta si la anestesia fue con tubo
+       o mascarilla laríngea, para decidir el spray de la garganta. Es
+       obligatoria, y sin contestarla la receta se queda sin renglones a
+       propósito: esta prueba se cayó al agregarla, y eso era justamente la
+       señal de que el candado funciona. Aquí se contesta «no» porque lo que
+       esta prueba defiende es la casilla, no el spray. */
+    rx_tubo:'no'
   };
   PENDIENTE_DICTADO = {}; FOLIO='P-PRUEBA'; DOC_ID='ffff'; CORREO='x@y.mx';
 

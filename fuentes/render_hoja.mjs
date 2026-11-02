@@ -40,6 +40,14 @@ const info = await pag.evaluate(({ esquema, cat, id, constantes }) => {
               paciente_apellido_paterno:'Hernández', paciente_apellido_materno:'Villaseñor',
               paciente_sexo:'Femenino', paciente_edad:'52',
               proc_fecha:'2026-10-10', indicaciones_hoja:id };
+  /* Una hoja con preguntas no se imprime sin contestarlas, y la respuesta
+     decide qué bloques salen. Para VER la hoja se contestan todas en «sí»:
+     así el PDF trae el texto completo, incluido lo condicionado, que es
+     justamente lo que hay que revisar antes de publicar. */
+  (HOJA.preguntas || []).forEach(function(q){
+    VALORES['ind_' + q.id] = (q.tipo === 'lista')
+      ? ((q.opciones || [['']])[0][0]) : 'si';
+  });
   PENDIENTE_DICTADO = {}; FOLIO='P-PRUEBA'; DOC_ID='ffff'; CORREO='consultorio@ejemplo.mx';
   armaImpresion();
   const i = document.getElementById('impresion');

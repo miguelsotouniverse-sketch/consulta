@@ -44,6 +44,15 @@ const info = await pag.evaluate(({ esquema, cat, id, constantes }) => {
     rx_bichat:'no', rx_blefaro:'si', rx_peni:'no', rx_sulfa:'no',
     rx_renal:'no', rx_isrs:'no', rx_sintram:'no'
   };
+  /* Igual que en la hoja: para VER la receta completa se contestan en «sí»
+     todas las preguntas que la plantilla declare, incluidas las nuevas. Si
+     una se quedara sin contestar, la receta saldría sin renglones y el PDF
+     que se revisa antes de publicar no probaría nada. */
+  (PLANTILLA.preguntas || []).forEach(function(q){
+    if (VALORES['rx_' + q.id]) return;
+    VALORES['rx_' + q.id] = (q.tipo === 'lista')
+      ? ((q.opciones || [['']])[0][0]) : 'si';
+  });
   PENDIENTE_DICTADO = {}; FOLIO='P-PRUEBA'; DOC_ID='ffff'; CORREO='consultorio@ejemplo.mx';
   VALORES['rx_renglones'] = renglonesDe(PLANTILLA, estadoReceta());
   armaImpresion();

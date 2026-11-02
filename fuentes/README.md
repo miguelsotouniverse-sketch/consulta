@@ -45,6 +45,7 @@ python3 fuentes/agregar_rescates_presion_ansiedad.py
 python3 fuentes/corregir_whatsapp_seguimiento.py
 python3 fuentes/corregir_cita_24h_deep_plane.py
 python3 fuentes/cambiar_venda_y_faja_deep_plane.py
+python3 fuentes/agregar_molestia_garganta.py
 ```
 
 Ya no hay ningún `cp` en la cadena: las dos mitades arrancan de un constructor
@@ -66,8 +67,8 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `5f7d968c365049c4` (12 hojas) y recetas
-`4acfcb1cccba68da` (9 plantillas, 4 pliegos).
+Hoy la cadena produce: indicaciones `d281c3e65b632129` (12 hojas) y recetas
+`fc2224b97acc0850` (9 plantillas, 4 pliegos).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
 suba no trae esa corrección y el texto viejo vuelve a producción sin que nadie
@@ -133,6 +134,7 @@ bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 | `corregir_whatsapp_seguimiento.py` | el grupo de WhatsApp dejó de existir: ahora es el número 55 7215 5958 de seguimiento postoperatorio, en los once renglones donde se mencionaba |
 | `agregar_rescates_presion_ansiedad.py` | la regla para suspender los antihipertensivos, el captopril sublingual de rescate, el clonazepam **en pliego propio** y la toma de presión en casa en las ocho hojas |
 | `cambiar_venda_y_faja_deep_plane.py` | la compresión firme caía antes de que saliera la malla hemostática. Ahora: **venda toda la semana 1, faja 24 h la semana 2, faja nocturna la semana 3**. Arrastra el baño (completo desde el día 8), el cuidado de incisiones y el «acuda con su faja puesta». Sólo en `deep_plane` |
+| `agregar_molestia_garganta.py` | la molestia de garganta por la intubación, que no estaba en ninguna hoja. **Introduce las PREGUNTAS en las hojas**: las nueve postoperatorias traen la pregunta `tubo` y el bloque condicionado a ella; la preoperatoria lo dice siempre, sin preguntar. Agrega el spray de bencidamina a las nueve recetas con `si: {tubo: true}`. Dos versiones del texto, porque en las tres hojas con dieta de la glándula submandibular los caramelos están prohibidos 14 días |
 
 Los correctores existen porque antes no había constructor: eran la única forma
 de dejar rastro de un cambio. Ahora que los dos constructores existen, una
@@ -222,9 +224,12 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_internamiento.mjs` | **el candado de la constancia**: que la hoja que va a manos de un patrón no pueda imprimir el diagnóstico ni el procedimiento, con el expediente lleno |
 | `prueba_aviso_preop.mjs` | que la nota preoperatoria recuerde entregar las recetas, nombrando las dos que no admiten retraso, y que ese recordatorio no aparezca en los demás documentos ni bloquee nada |
 | `prueba_guardado_y_notas.mjs` | que el botón Guardar diga lo que está haciendo y que el resultado no lo borre el contador de campos; y que una nota ya hecha se abra con su contenido y su identificador en vez de duplicarse |
+| `prueba_garganta.mjs` | **el candado de las preguntas de la hoja**: que una hoja con la pregunta sin contestar no se imprima, que contestar cambie lo que sale en el papel, que la respuesta quede impresa en el pie, y que la hoja y la receta de la misma cirugía digan la misma dosis. Además, que en las tres hojas con dieta de la glándula submandibular el texto no ofrezca caramelos que esa misma hoja prohíbe |
 
 `render_hoja.mjs`, `render_receta.mjs` y `render_impresion.mjs` son auxiliares:
-imprimen un documento a PDF para verlo.
+imprimen un documento a PDF para verlo. Los dos primeros contestan en «sí»
+todas las preguntas que la hoja o la plantilla declaren, para que el PDF que se
+revisa antes de publicar traiga también el texto condicionado.
 
 Las pruebas necesitan `campos.json` —está en la raíz del repositorio— y
 opcionalmente `constantes.json`, que **no está aquí a propósito**: vive en la
@@ -277,3 +282,18 @@ puede escribir.
 8. **Versión por contenido.** La versión de cada hoja y de cada catálogo es un
    hash de su propio contenido. Dos reconstrucciones del mismo material dan la
    misma versión; si la versión cambió, el contenido cambió.
+9. **Un bloque condicionado se pregunta, no se adivina.** Una hoja puede
+   declarar `preguntas` y cada bloque un `si`, igual que las recetas. Tres
+   reglas que vienen con eso:
+   · la pregunta es `obligatoria` y arranca en blanco, y la hoja no se imprime
+     sin contestarla —contestarla sola por omisión es peor que preguntar: una
+     paciente se queda sin un consejo que necesitaba, o le explican un síntoma
+     que no tuvo—;
+   · la pregunta va marcada `enPie`, porque la versión de la hoja ya no
+     identifica lo que se entregó: dos pacientes con la misma versión pueden
+     recibir texto distinto, y el papel que se escanea tiene que decir cuál;
+   · antes de escribir el texto condicionado hay que leer la hoja completa. El
+     bloque de garganta ofrecía caramelos en tres hojas que ya los prohíben 14
+     días por la glándula submandibular. Dos renglones que se contradicen en la
+     misma hoja no valen cero: valen menos, porque la paciente escoge el que le
+     conviene.
