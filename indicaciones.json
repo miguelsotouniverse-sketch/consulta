@@ -406,8 +406,7 @@
     "lipo escultura",
     "liposuccion",
     "body360",
-    "body 360",
-    "ribxcar"
+    "body 360"
    ],
    "entrada": "Su recuperación forma parte del resultado. Estas indicaciones son generales; si alguna difiere de lo que el Dr. Soto le indicó en persona, siga siempre la indicación personal.",
    "bloques": [
@@ -752,7 +751,339 @@
      ]
     }
    ],
-   "version": "cce37907",
+   "version": "a9d93a91",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
+  },
+  {
+   "id": "ribxcar",
+   "nombre": "RibXcar — remodelación costal",
+   "titulo": "Recomendaciones postoperatorias — RibXcar",
+   "coincide": [
+    "ribxcar",
+    "rib xcar",
+    "remodelacion costal",
+    "remodelación costal"
+   ],
+   "entrada": "Su recuperación forma parte del resultado. Estas indicaciones son generales; si alguna difiere de lo que el Dr. Soto le indicó en persona, siga siempre la indicación personal.",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Procedimiento",
+       "RibXcar® — remodelación costal guiada por ultrasonido"
+      ],
+      [
+       "Zonas tratadas",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Primeras 72 horas"
+    },
+    {
+     "t": "p",
+     "x": "Su procedimiento fue percutáneo: los cartílagos de las costillas se remodelaron a través de punciones, guiadas por ultrasonido, sin abrir la piel y sin heridas que curar. Dura alrededor de quince minutos y usted se va a casa el mismo día. Lo que más va a sentir es la caja torácica: molestia al respirar hondo, al toser, al reír y al incorporarse. Eso es lo esperado."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "RESPIRE HONDO: 10 respiraciones profundas y lentas cada hora mientras esté despierta, aunque le moleste. Es la indicación más importante de esta hoja. Cuando algo duele, uno respira corto sin darse cuenta, y respirar corto durante días deja zonas del pulmón sin abrir.",
+      "Si necesita toser o estornudar, abrace una almohada contra el pecho y sosténgala firme: duele mucho menos y le permite toser de verdad, que es lo que limpia el pulmón.",
+      "Tome sus analgésicos a sus horas los primeros días, no «sólo si duele». El dolor controlado es lo que le permite respirar hondo y caminar.",
+      "Caminar 5–10 minutos cada 1–2 horas mientras esté despierta, siempre acompañada los primeros días.",
+      "Mover tobillos en círculos y de arriba abajo 10 veces cada hora mientras esté acostada.",
+      "Levántese en dos tiempos y sin empujarse con los brazos: siéntese primero en la orilla de la cama 1 o 2 minutos y luego póngase de pie. Para incorporarse, ruede de lado y use las piernas.",
+      "Duerma boca arriba o semisentada, con almohadas que le sostengan la espalda. No duerma boca abajo ni de lado las primeras 2 semanas.",
+      "No estire los brazos por encima de la cabeza ni alcance cosas altas las primeras 2 semanas: ese movimiento tira directamente de las costillas. Todo a la altura del pecho, y pida ayuda.",
+      "Acompañada las primeras 24 horas, y no se bañe sola la primera vez."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "El corset"
+    },
+    {
+     "t": "p",
+     "x": "El corset es el tratamiento, no un accesorio: es lo que mantiene en su lugar lo que se remodeló mientras el cartílago consolida. Se lo colocamos el mismo día y lo trae puesto desde el día 1."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Periodo",
+      "Uso",
+      "Ajuste"
+     ],
+     "x": [
+      [
+       "Día 1 a semana 8",
+       "Día y noche. Sólo se lo quita para bañarse",
+       "Un broche más cada semana"
+      ],
+      [
+       "Semana 8 al mes 6",
+       "Día y noche",
+       "Ya no se aprieta más: se queda en el broche al que llegó"
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento, cambio de color en la piel o falta de aire, aflójelo y llame.",
+      "Un broche por semana, no más rápido. Apretarlo antes de tiempo no adelanta el resultado, y sí puede dolerle y hacerla respirar corto.",
+      "Pliegues: revise que el corset no forme arrugas, sobre todo en cintura, ingles y axilas; un pliegue marca la piel.",
+      "Higiene: tenga dos corsets para alternarlos y lavarlos a mano.",
+      "Use una camiseta de algodón de tirantes debajo del corset, para que las varillas y los broches no le marquen la piel.",
+      "Si se lo quitó para bañarse, vuelva a ponérselo enseguida y con la piel bien seca. No pase el día sin él."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Baño"
+    },
+    {
+     "t": "p",
+     "x": "No tiene heridas que curar: fueron punciones. No hay puntos que retirar ni curaciones que hacer en casa."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Puede bañarse en regadera a partir de las 24 horas, con el corset quitado y acompañada la primera vez.",
+      "Agua tibia, nunca caliente: el calor aumenta la inflamación y puede marear.",
+      "Regadera, no tina, alberca, jacuzzi, mar ni vapor por 4 semanas.",
+      "Secado a toques con una toalla limpia; seque muy bien la piel antes de volver a ponerse el corset.",
+      "No aplique cremas, pomadas, alcohol ni remedios caseros sobre los puntos de punción, salvo indicación.",
+      "Calor y frío local: no aplique compresas calientes, bolsas de agua ni hielo directo. La piel tratada tiene menos sensibilidad y puede quemarse sin que lo note."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Alimentación e hidratación"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Primer día: dieta blanda (caldos, gelatina, fruta, pan tostado) y avance a su dieta normal según tolere.",
+      "Proteína en cada comida (pollo, pescado, huevo, leguminosas, lácteos): favorece la cicatrización.",
+      "Evite las bebidas con gas los primeros días: distienden el abdomen y empujan las costillas desde abajo.",
+      "Estreñimiento: es frecuente por los analgésicos y la menor actividad. Coma fibra (fruta, verdura, avena) y avise si pasan más de 3 días sin evacuar.",
+      "Alcohol: ninguno por al menos 2 semanas.",
+      "Tabaco y vapeador: ninguno por al menos 4 semanas; retrasan la cicatrización y aumentan el riesgo de complicaciones."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "Lo que desplaza un cartílago recién remodelado es cargar, torcerse y estirar los brazos por encima de la cabeza. Esos tres son los plazos que más importan de esta tabla."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar",
+       "Día 0",
+       "Obligatorio, varias veces al día"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 3–5",
+       "Pararse y caminar cada hora"
+      ],
+      [
+       "Manejar",
+       "Día 5–7",
+       "Sin analgésicos que den sueño, y sólo cuando pueda girar el tronco y frenar sin molestia"
+      ],
+      [
+       "Estirar los brazos por encima de la cabeza",
+       "Semana 2",
+       "Antes de eso, todo a la altura del pecho"
+      ],
+      [
+       "Relaciones sexuales",
+       "Semana 2",
+       "Sin presión sobre el tórax"
+      ],
+      [
+       "Ejercicio ligero (caminadora, bicicleta fija)",
+       "Semana 3",
+       "Sin impacto y sin usar los brazos"
+      ],
+      [
+       "Girar el tronco, agacharse a recoger",
+       "Semana 4",
+       "Doble las rodillas en lugar de torcer la cintura"
+      ],
+      [
+       "Alberca, mar, tina, vapor",
+       "Semana 4",
+       ""
+      ],
+      [
+       "Cargar objetos pesados (más de 5 kg)",
+       "Semana 6",
+       "Incluye cargar niños"
+      ],
+      [
+       "Ejercicio completo (pesas, correr, abdomen)",
+       "Semana 8",
+       "Nada de abdomen ni de pecho antes"
+      ],
+      [
+       "Deporte de contacto",
+       "Mes 6",
+       "Hasta que el cartílago haya consolidado"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Qué es normal"
+    },
+    {
+     "t": "p",
+     "x": "El contorno final no se ve pronto. La cintura se va definiendo a lo largo de los meses, conforme el cartílago consolida en su nueva posición y usted sigue usando el corset."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Molestia en las costillas al respirar hondo, toser, reír, estornudar o incorporarse. Es lo esperado y mejora de forma clara a partir del día 5 al 7.",
+      "Sensación de opresión o de traer algo apretado alrededor del tórax. Parte es el corset y parte la inflamación.",
+      "Moretones en los flancos y por debajo de las mamas, que cambian de morado a verde y amarillo. Desaparecen en 2 a 4 semanas.",
+      "Inflamación que aumenta al final del día y baja por la mañana. Puede durar semanas, con altibajos.",
+      "Adormecimiento u hormigueo de la piel de los flancos. La sensibilidad regresa en semanas a meses.",
+      "Tronidos o chasquidos aislados al moverse o estirarse las primeras semanas.",
+      "Cansancio las primeras 1–2 semanas.",
+      "Cambios de ánimo los primeros días: impaciencia o tristeza pasajera al verse inflamada. Es frecuente y pasa."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "h",
+     "x": "Signos de alarma",
+     "alarma": true
+    },
+    {
+     "t": "p",
+     "x": "Ante cualquiera de estos síntomas llámenos al teléfono de urgencias del consultorio, a cualquier hora."
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos de inmediato, sin esperar"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Falta de aire, dolor en el pecho, tos con sangre o sensación de que el corazón late muy rápido.",
+      "Dolor que aumenta cada vez que respira, o que ya no la deja llenar el pecho de aire.",
+      "Un burbujeo o crujido al tocarse la piel del tórax o del cuello, como si hubiera burbujas o papel celofán debajo.",
+      "Desmayo, confusión o somnolencia excesiva."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos el mismo día"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Fiebre de 38 °C o más.",
+      "Dolor que empeora en lugar de mejorar y no cede con sus medicamentos.",
+      "Una zona del flanco que crece rápido, se pone tensa y muy dolorosa, o que se siente como una bolsa de líquido.",
+      "Enrojecimiento que se extiende, calor, pus o mal olor en alguno de los puntos de punción.",
+      "Dolor, hinchazón o calor en una sola pantorrilla o pierna.",
+      "El corset le aprieta de pronto mucho más que antes, o ya no puede cerrarlo en el broche en el que iba.",
+      "Náusea o vómito que no le permite tomar líquidos ni medicamentos.",
+      "Mareo persistente, palidez marcada."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Sus citas de control se coordinan con recepción."
+    },
+    {
+     "t": "p",
+     "x": "Recibí y entendí estas indicaciones."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente"
+     ]
+    }
+   ],
+   "version": "cd03fcf0",
    "preguntas": [
     {
      "id": "tubo",
@@ -4266,7 +4597,7 @@
    "version": "eb3082bc"
   }
  ],
- "version": "d281c3e65b632129",
+ "version": "989f0c119a574ff2",
  "generado": "2026-11-02",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
