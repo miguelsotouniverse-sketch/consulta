@@ -77,6 +77,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -324,6 +334,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -468,7 +489,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "ce21b7be"
+   "version": "7b6c2d21"
   },
   {
    "id": "body360",
@@ -532,6 +553,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -764,6 +795,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -893,7 +935,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "d4908575"
+   "version": "03914444"
   },
   {
    "id": "mastopexia",
@@ -957,6 +999,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -1189,6 +1241,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -1311,7 +1374,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "1edf7a99"
+   "version": "1efe9fe9"
   },
   {
    "id": "blefaroplastia",
@@ -1372,6 +1435,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -1602,6 +1675,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -1715,7 +1799,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "68735fae"
+   "version": "4c163ac5"
   },
   {
    "id": "rinoplastia",
@@ -1776,6 +1860,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -2027,6 +2121,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -2150,7 +2255,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "42e60d41"
+   "version": "0058e390"
   },
   {
    "id": "facial_combinada",
@@ -2215,6 +2320,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -2552,6 +2667,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -2728,7 +2854,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "2f6a0428"
+   "version": "f4fa1f4b"
   },
   {
    "id": "deep_plane_co2",
@@ -2800,6 +2926,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -3107,6 +3243,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -3269,7 +3416,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "f01ad8a3"
+   "version": "c5a6eed6"
   },
   {
    "id": "eco2",
@@ -3281,6 +3428,16 @@
      "id": "otras",
      "etiqueta": "Otras alergias",
      "tipo": "texto"
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -3357,6 +3514,17 @@
       ]
      },
      "fuera": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [],
@@ -3380,7 +3548,7 @@
    ],
    "alarma": [],
    "horaNota": "",
-   "version": "b324b444"
+   "version": "97319ce9"
   },
   {
    "id": "otoplastia",
@@ -3444,6 +3612,16 @@
      "etiqueta": "Omitir tramadol",
      "tipo": "casilla",
      "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
     }
    ],
    "medicamentos": [
@@ -3674,6 +3852,17 @@
      "cantidad": "1 frasco de 10 mL",
      "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
      "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
     }
    ],
    "profilaxis": [
@@ -3772,7 +3961,7 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "d2fb1785"
+   "version": "2e1f872a"
   }
  ],
  "hojas": [
@@ -3816,6 +4005,6 @@
   "22:00",
   "24:00"
  ],
- "version": "4acfcb1cccba68da",
- "generado": "2026-10-28"
+ "version": "fc2224b97acc0850",
+ "generado": "2026-11-02"
 }

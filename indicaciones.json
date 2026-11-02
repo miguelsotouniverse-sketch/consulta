@@ -303,6 +303,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia, pero use sólo lo que su dieta de la glándula submandibular ya permite: gelatina fría, yogur natural, papaya, purés tibios o fríos y agua fresca a sorbos. Nada ácido.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "En su caso NO chupe caramelos, pastillas para la garganta ni chicles, aunque sean para esto: su dieta de la glándula submandibular los prohíbe durante 14 días porque estimulan la saliva. Con el spray y lo frío de esta lista es suficiente; desde el día 15 ya los puede usar.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "x": "7. Signos de alarma: llame de inmediato al teléfono de urgencias",
      "alarma": true
@@ -345,7 +383,19 @@
      ]
     }
    ],
-   "version": "6fb16073"
+   "version": "281436b5",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "lipoescultura",
@@ -606,6 +656,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "x": "Signos de alarma",
      "alarma": true
@@ -664,7 +752,19 @@
      ]
     }
    ],
-   "version": "e41fd4fa"
+   "version": "cce37907",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "mastopexia",
@@ -942,6 +1042,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "x": "Signos de alarma",
      "alarma": true
@@ -1001,7 +1139,19 @@
      ]
     }
    ],
-   "version": "f720bd57"
+   "version": "3805a85f",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "rinoplastia",
@@ -1230,6 +1380,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "x": "Signos de alarma",
      "alarma": true
@@ -1288,7 +1476,19 @@
      ]
     }
    ],
-   "version": "fff7e766"
+   "version": "0df1a710",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "blefaroplastia",
@@ -1510,6 +1710,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "x": "Signos de alarma",
      "alarma": true
@@ -1568,7 +1806,19 @@
      ]
     }
    ],
-   "version": "7e255f12"
+   "version": "fe7dd580",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "facial_combinada",
@@ -2070,6 +2320,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia, pero use sólo lo que su dieta de la glándula submandibular ya permite: gelatina fría, yogur natural, papaya, purés tibios o fríos y agua fresca a sorbos. Nada ácido.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "En su caso NO chupe caramelos, pastillas para la garganta ni chicles, aunque sean para esto: su dieta de la glándula submandibular los prohíbe durante 14 días porque estimulan la saliva. Con el spray y lo frío de esta lista es suficiente; desde el día 15 ya los puede usar.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "x": "8. Signos de alarma"
     },
@@ -2142,7 +2430,19 @@
      ]
     }
    ],
-   "version": "e5d88285"
+   "version": "68dd9100",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "deep_plane_co2",
@@ -2576,6 +2876,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia, pero use sólo lo que su dieta de la glándula submandibular ya permite: gelatina fría, yogur natural, papaya, purés tibios o fríos y agua fresca a sorbos. Nada ácido.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "En su caso NO chupe caramelos, pastillas para la garganta ni chicles, aunque sean para esto: su dieta de la glándula submandibular los prohíbe durante 14 días porque estimulan la saliva. Con el spray y lo frío de esta lista es suficiente; desde el día 15 ya los puede usar.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "alarma": true,
      "x": "7. Signos de alarma: llame de inmediato al teléfono de urgencias"
@@ -2622,7 +2960,19 @@
      ]
     }
    ],
-   "version": "ea0cbb44"
+   "version": "5a32d756",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "eco2",
@@ -2846,6 +3196,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "x": "7. Signos de alarma: llame al teléfono de urgencias"
     },
@@ -2882,7 +3270,19 @@
      ]
     }
    ],
-   "version": "867e551d"
+   "version": "2e626ad4",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "otoplastia",
@@ -3189,6 +3589,44 @@
      ]
     },
     {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
      "t": "h",
      "alarma": true,
      "x": "7. Signos de alarma: llame de inmediato al teléfono de urgencias"
@@ -3229,7 +3667,19 @@
      ]
     }
    ],
-   "version": "8ba68e23"
+   "version": "01b610de",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ]
   },
   {
    "id": "faja",
@@ -3550,7 +4000,7 @@
     {
      "t": "ul",
      "x": [
-      "Tabaco, vapeo, IQOS, parches, chicles y bolsitas de nicotina: suspéndalos 4 semanas antes y 4 semanas después de la cirugía. El vapeo y los parches también cuentan.",
+      "Tabaco, vapeo, IQOS, parches, chicles y bolsitas de nicotina: suspéndalos 4 semanas antes y 4 semanas después de la cirugía. El vapeo y los parches también cuentan. Dejarlo también le irrita menos la garganta con el tubo de la anestesia.",
       "Alcohol: nada desde 2 semanas antes. Aumenta el sangrado y la inflamación.",
       "Si fuma y no puede dejarlo, díganoslo con honestidad: es preferible reprogramar que arriesgar el resultado."
      ]
@@ -3710,6 +4160,22 @@
     },
     {
      "t": "h",
+     "x": "Su garganta después de la anestesia"
+    },
+    {
+     "t": "p",
+     "x": "Si su cirugía se hace con anestesia general, durante el procedimiento se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Conviene que lo sepa de antemano para que no la tome por sorpresa."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Es normal sentir la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca durante los 2 o 3 días siguientes a la cirugía. Cede sola.",
+      "No lo confunda con el dolor de garganta de la lista de abajo: ése es el de ANTES de la cirugía, y ése sí hay que avisarnos, porque puede ser una infección y obligarnos a cambiar la fecha.",
+      "Si le molesta, sus indicaciones de alta le dirán exactamente qué hacer, y su receta traerá un spray para la garganta si lo necesita."
+     ]
+    },
+    {
+     "t": "h",
      "x": "Cuándo avisarnos",
      "alarma": true
     },
@@ -3749,7 +4215,7 @@
      ]
     }
    ],
-   "version": "7ceb28c7"
+   "version": "856a5212"
   },
   {
    "id": "laboratorios",
@@ -3800,8 +4266,8 @@
    "version": "eb3082bc"
   }
  ],
- "version": "5f7d968c365049c4",
- "generado": "2026-11-01",
+ "version": "d281c3e65b632129",
+ "generado": "2026-11-02",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
  }

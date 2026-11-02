@@ -1786,6 +1786,59 @@ function abreDocumento(tipoId, docId){
 var INDICACIONES = null, INDICACIONES_AL = 0;   // el catálogo y cuándo se trajo
 var HOJA = null;             // la hoja escogida para este documento
 
+/* ------------------------------------------------------------
+   UNA HOJA PUEDE TENER PREGUNTAS, COMO LA RECETA
+
+   Hasta el 1-nov-2026 una hoja de indicaciones era un texto fijo: se escogía
+   y se imprimía igual para todas. Dejó de alcanzar con la molestia de
+   garganta por la intubación: el consejo sirve si hubo tubo o mascarilla
+   laríngea y es ruido —o peor, una explicación falsa de lo que siente— si la
+   paciente fue con sedación. El médico lo planteó así: «al igual que las
+   recetas con antibiótico, todas deberíamos de preguntar antes de desplegar
+   las recomendaciones postoperatorias si fue con tubo o sin tubo».
+
+   Así que la hoja usa el MISMO mecanismo que ya tenía la receta, con la misma
+   función cumple_() para evaluar condiciones: la hoja declara `preguntas` y
+   cada bloque puede traer un `si`. Nada de esto vive en el programa: una
+   pregunta nueva, o un bloque condicionado nuevo, se agrega en
+   indicaciones.json y llega sin tocar la aplicación ni volver a desplegarla.
+
+   Dos reglas que no son cosméticas:
+
+     · Una pregunta obligatoria arranca EN BLANCO y la hoja no se imprime sin
+       contestarla. Contestarla sola por omisión es lo único peor que
+       preguntar: «no» de omisión le quita a la paciente intubada un consejo
+       que sí necesitaba, y «sí» de omisión le explica un síntoma que no tuvo.
+
+     · La respuesta se imprime en el pie. La versión de la hoja ya no alcanza
+       para saber qué se entregó —dos pacientes con la misma versión pueden
+       recibir texto distinto—, y el expediente tiene que poder decir cuál de
+       las dos se le dio.
+   ------------------------------------------------------------ */
+function estadoHoja(){
+  var s = {};
+  ((HOJA && HOJA.preguntas) || []).forEach(function(q){
+    var v = VALORES['ind_' + q.id];
+    s[q.id] = (q.tipo === 'sino' || q.tipo === 'casilla') ? (v === 'si') : (v || '');
+  });
+  return s;
+}
+
+function sinContestarHoja(){
+  if (!HOJA) return [];
+  return (HOJA.preguntas || []).filter(function(q){
+    return q.obligatoria && !VALORES['ind_' + q.id];
+  }).map(function(q){ return q.etiqueta; });
+}
+
+/* Los bloques que de verdad se imprimen. Un bloque sin `si` siempre entra;
+   es el caso de casi todos. */
+function bloquesDeHoja(){
+  if (!HOJA) return [];
+  var s = estadoHoja();
+  return (HOJA.bloques || []).filter(function(b){ return cumple_(b.si, s); });
+}
+
 /* El catálogo se guarda en memoria para no pedirlo en cada pantalla, pero NO
    para toda la sesión. Antes sí, y eso produjo un susto: se corrigió una hoja,
    se publicó, se verificó que estaba en el servidor… y quien tenía la app
@@ -1914,10 +1967,68 @@ function armaHoja(){
     c2.appendChild(ayuda);
     caja.appendChild(c2);
 
+    /* Las preguntas de la hoja, entre la hoja y el resumen: se contestan
+       antes de poder imprimir, no después de verla armada. */
+    var zonaPreg = document.createElement('div');
+    caja.appendChild(zonaPreg);
+
     var resumen = document.createElement('div');
     resumen.className = 'aviso';
     resumen.style.marginTop = '14px';
     caja.appendChild(resumen);
+
+    function pintaPreguntasHoja(){
+      zonaPreg.innerHTML = '';
+      if (!HOJA || !(HOJA.preguntas || []).length) return;
+      (HOJA.preguntas || []).forEach(function(q){
+        var c = document.createElement('div'); c.className = 'campo';
+        var l = document.createElement('label'); l.textContent = q.etiqueta;
+        c.appendChild(l);
+        var ctrl;
+        if (q.tipo === 'texto'){
+          ctrl = document.createElement('input');
+          ctrl.type = 'text';
+          ctrl.value = VALORES['ind_' + q.id] || '';
+        } else {
+          ctrl = document.createElement('select');
+          if (q.obligatoria){
+            var vac = document.createElement('option');
+            vac.value = ''; vac.textContent = '— sin contestar —';
+            ctrl.appendChild(vac);
+          }
+          var ops = q.tipo === 'lista' ? (q.opciones || []) : [['no','No'],['si','Sí']];
+          ops.forEach(function(o){
+            var op = document.createElement('option');
+            op.value = o[0]; op.textContent = o[1];
+            ctrl.appendChild(op);
+          });
+          ctrl.value = VALORES['ind_' + q.id] ||
+                       (q.obligatoria ? '' : (ops[0] && ops[0][0]) || '');
+          if (q.obligatoria && !VALORES['ind_' + q.id]){
+            ctrl.style.borderColor = 'var(--ambar)';
+          }
+        }
+        ctrl.setAttribute('data-campo', 'ind_' + q.id);
+        ctrl.addEventListener('change', function(){
+          pon('ind_' + q.id, this.value);
+          pintaPreguntasHoja();
+          pintaResumen();
+          pinta();
+        });
+        if (q.tipo === 'texto'){
+          ctrl.addEventListener('input', function(){ pon('ind_' + q.id, this.value); });
+        }
+        c.appendChild(ctrl);
+        if (q.ayuda){
+          var a = document.createElement('div');
+          a.className = 'alerta';
+          a.style.color = 'var(--gris)'; a.style.borderColor = 'transparent';
+          a.textContent = q.ayuda;
+          c.appendChild(a);
+        }
+        zonaPreg.appendChild(c);
+      });
+    }
 
     function escoge(id, primeraVez){
       HOJA = d.hojas.filter(function(h){ return h.id === id; })[0] || null;
@@ -1929,6 +2040,7 @@ function armaHoja(){
         delete VALORES['indicaciones_version'];
       }
       if (!primeraVez){ sucio = true; guardaBorrador(); }
+      pintaPreguntasHoja();
       pintaResumen();
       pinta();
     }
@@ -1941,16 +2053,35 @@ function armaHoja(){
           'indicaciones del procedimiento equivocado es peor que no entregar nada.';
         return;
       }
+      var falta = sinContestarHoja();
+      if (falta.length){
+        resumen.className = 'aviso ojo';
+        resumen.innerHTML = '<b>' + HOJA.nombre + '</b> · versión ' + HOJA.version +
+          '<br>No se imprime todavía: falta contestar <b>' + falta.join('</b>, <b>') +
+          '</b>. De esa respuesta depende qué texto sale, así que no la contesto ' +
+          'por ti ni la dejo en una por omisión.';
+        return;
+      }
       resumen.className = 'aviso';
       var citas = (HOJA.bloques || []).filter(function(b){ return b.t === 'citas'; })[0];
       var n = citas ? citas.x.length : 0;
+      /* Lo que las respuestas agregaron o quitaron, contado sobre los bloques
+         que de verdad van a salir. Si el médico contesta y no ve cambiar nada
+         en pantalla, no tiene manera de saber si la pregunta sirvió. */
+      var todos = (HOJA.bloques || []).length;
+      var salen = bloquesDeHoja().length;
+      var cond  = (HOJA.bloques || []).filter(function(b){ return b.si; }).length;
       resumen.innerHTML =
         '<b>' + HOJA.nombre + '</b> · versión ' + HOJA.version + '<br>' +
         'Sale con el nombre de la paciente, su número de expediente, la fecha de ' +
         'cirugía, el teléfono de urgencias y el cuadro de firmas de constancia ' +
         'de entrega.' +
         (n ? '<br>Las ' + n + ' citas de seguimiento salen con la <b>fecha en blanco</b>, ' +
-             'con renglón para que recepción la escriba al confirmarla.' : '');
+             'con renglón para que recepción la escriba al confirmarla.' : '') +
+        (cond ? '<br>Por lo que contestaste salen <b>' + salen + ' de ' + todos +
+                '</b> secciones: ' + (todos - salen === 0
+                  ? 'esta paciente lleva todo lo condicionado.'
+                  : (todos - salen) + ' no aplican en su caso y no se imprimen.') : '');
     }
 
     sel.addEventListener('change', function(){ escoge(this.value); });
@@ -3355,10 +3486,11 @@ function pinta(){
   }
 
   if (TIPO.hoja){
-    $('progreso').style.width = HOJA ? '100%' : '0%';
-    $('estado').textContent = HOJA
-      ? HOJA.nombre + ' · versión ' + HOJA.version + '  ·  lista para imprimir'
-      : 'Falta escoger la hoja';
+    var faltaH = HOJA ? sinContestarHoja() : [];
+    $('progreso').style.width = (HOJA && !faltaH.length) ? '100%' : '0%';
+    $('estado').textContent = !HOJA ? 'Falta escoger la hoja'
+      : faltaH.length ? 'Falta contestar «' + faltaH.join('», «') + '»'
+      : HOJA.nombre + ' · versión ' + HOJA.version + '  ·  lista para imprimir';
     return;
   }
 
@@ -4069,7 +4201,7 @@ function pintaHojaImpresa(raiz, el){
     raiz.appendChild(ent);
   }
 
-  (HOJA.bloques || []).forEach(function(b){
+  bloquesDeHoja().forEach(function(b){
     if (b.t === 'h'){
       var h = el('h2', b.alarma ? 'alarma' : null, b.x);
       raiz.appendChild(h);
@@ -4107,9 +4239,25 @@ function pintaHojaImpresa(raiz, el){
     }
   });
 
+  /* Las respuestas que cambiaron el texto, impresas en el pie. Con bloques
+     condicionados, la versión de la hoja ya no identifica lo que se entregó:
+     dos pacientes con la versión 6fb16073 pueden tener hojas distintas. El
+     expediente guarda la respuesta, pero el PAPEL que la paciente se lleva
+     —y el que se escanea— también tiene que decirlo. */
+  var sello = ((HOJA.preguntas || []).filter(function(q){ return q.enPie; })
+    .map(function(q){
+      var v = VALORES['ind_' + q.id];
+      if (!v) return '';
+      if (q.tipo === 'sino' || q.tipo === 'casilla'){
+        return (v === 'si' ? q.pieSi : q.pieNo) || (q.etiqueta + ': ' + (v === 'si' ? 'sí' : 'no'));
+      }
+      return q.etiqueta + ': ' + v;
+    }).filter(Boolean)).join(' · ');
+
   var pie = el('div', 'pieimp');
   pie.appendChild(el('div', 'f',
-    HOJA.nombre + ' · versión ' + HOJA.version + ' · ' + folioDocumento()));
+    HOJA.nombre + ' · versión ' + HOJA.version +
+    (sello ? ' · ' + sello : '') + ' · ' + folioDocumento()));
   pie.appendChild(el('div', null, 'Entregó: ' + (CONSTANTES['medico_nombre'] || CORREO || '')));
   raiz.appendChild(pie);
 }
@@ -4231,6 +4379,24 @@ $('bImprimir').onclick = function(){
       return;
     }
   }
+  /* Una hoja de indicaciones con una pregunta sin contestar tampoco se
+     imprime, por lo mismo que la receta: de esa respuesta depende qué texto
+     se le entrega a la paciente. */
+  if (TIPO && TIPO.hoja && HOJA){
+    var faltaHoja = sinContestarHoja();
+    if (faltaHoja.length){
+      $('estado').textContent = 'No se imprime: falta contestar «' +
+        faltaHoja.join('», «') + '».';
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML = '<b>No imprimí la hoja.</b> Falta contestar <b>' +
+        faltaHoja.join('</b>, <b>') + '</b>. De eso depende qué secciones salen ' +
+        'impresas, así que no lo contesto por ti: una hoja con el consejo ' +
+        'equivocado se lee igual de confiable que la correcta.';
+      window.scrollTo(0, 0);
+      return;
+    }
+  }
+
   /* Una constancia sin el nombre de quien acompaña o sin la fecha de la
      cirugía no sirve para nada: es una hoja firmada que no dice nada. No se
      imprime, y se dice cuál de los dos falta. */
