@@ -53,10 +53,11 @@ function revisa(nombre, bien, detalle){
 /* ---------- 1. El catálogo, sin navegador ---------- */
 const POSTOP = ['deep_plane','lipoescultura','ribxcar','mastopexia',
                 'rinoplastia','blefaroplastia','facial_combinada',
-                'deep_plane_co2','eco2','otoplastia'];
+                'deep_plane_co2','eco2','morpheus8','otoplastia'];
 const SUBMAND = ['deep_plane','deep_plane_co2','facial_combinada'];
 const RECETA_DE = { deep_plane:'deep_plane', lipoescultura:'body360',
-  ribxcar:'ribxcar', mastopexia:'mastopexia', rinoplastia:'rinoplastia',
+  ribxcar:'ribxcar', morpheus8:'morpheus8',
+  mastopexia:'mastopexia', rinoplastia:'rinoplastia',
   blefaroplastia:'blefaroplastia', facial_combinada:'facial_combinada',
   deep_plane_co2:'deep_plane_co2', eco2:'eco2', otoplastia:'otoplastia' };
 

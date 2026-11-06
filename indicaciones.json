@@ -3616,6 +3616,322 @@
    ]
   },
   {
+   "id": "morpheus8",
+   "nombre": "Morpheus8 facial",
+   "titulo": "Recomendaciones posteriores al Morpheus8 facial",
+   "coincide": [
+    "morpheus8",
+    "morpheus 8",
+    "morpheus",
+    "radiofrecuencia con microagujas",
+    "microneedling con rf"
+   ],
+   "preguntas": [
+    {
+     "id": "sedacion",
+     "etiqueta": "Llevó sedación o anestesia general",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "con sedación",
+     "pieNo": "con anestesia tópica",
+     "ayuda": "Si fue sólo con crema anestésica, conteste que NO: la hoja deja fuera el acompañante y el no manejar. La pregunta del tubo, más abajo, es aparte y decide la sección de la garganta."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ],
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Procedimiento",
+       "Morpheus8® facial — radiofrecuencia fraccionada con microagujas"
+      ],
+      [
+       "Zonas tratadas",
+       ""
+      ],
+      [
+       "Número de sesión",
+       ""
+      ],
+      [
+       "Siguiente sesión",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) La piel queda con una retícula de puntitos: no se la toque, no se la talle y no la cubra con maquillaje hoy. 2) Cicaplast y vaselina encima, para que no se sienta tirante. 3) Nada de sudor, calor ni sol hasta que los puntitos hayan desaparecido."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 48 horas"
+    },
+    {
+     "t": "p",
+     "x": "La radiofrecuencia entró por microagujas muy finas, así que la piel le queda con una retícula de puntitos rojos y con calor, como una quemadura de sol. Eso es lo esperado y no es una complicación. La retícula se desvanece en 2 a 4 días y la piel queda cerrada mucho antes que con un láser."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Manos limpias siempre que se toque la cara, y no se la toque sin necesidad las primeras 24 horas: los puntitos son canales abiertos hacia la dermis.",
+      "Inflamación: la cara se hincha sobre todo al despertar del primer y el segundo día. Duerma con la cabeza elevada —dos almohadas— las dos primeras noches.",
+      "Frío local: compresas frías sobre una gasa limpia y seca, 10 a 15 minutos cada hora mientras esté despierta. Nunca hielo directo sobre la piel tratada, y nunca una compresa que ya se usó.",
+      "Ardor: es normal las primeras horas y cede solo. Si le arde de forma intensa y creciente, llámenos.",
+      "No se exponga al viento, al polvo, al humo ni a la cocina caliente.",
+      "Nada de calor sobre la cara las primeras 48 horas: ni vapor, ni secadora caliente, ni agua caliente en la regadera. El calor sobre una piel que acaba de recibir radiofrecuencia la inflama más."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Porque llevó sedación",
+     "si": {
+      "sedacion": true
+     }
+    },
+    {
+     "t": "ul",
+     "si": {
+      "sedacion": true
+     },
+     "x": [
+      "Hoy no maneje, no tome decisiones importantes y no se quede sola: la sedación tarda el resto del día en salir de su cuerpo, aunque usted se sienta bien.",
+      "Que alguien la acompañe de regreso a casa y se quede con usted las primeras horas.",
+      "No tome alcohol hoy."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. Sus medicamentos"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Tome los medicamentos de su receta en los horarios indicados, hasta terminarlos.",
+      "Esta hoja NO lleva antiviral ni crema con esteroide. El Morpheus8 no abre la piel como un láser de CO₂, y agregar medicamentos que no hacen falta sólo le quita atención a los que sí."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidado de la piel"
+    },
+    {
+     "t": "p",
+     "x": "Los primeros tres días la piel está permeable: lo que se ponga encima entra más que de costumbre. Por eso estos días sólo va lo que viene en su receta."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cicaplast: aplique una capa sobre toda la zona tratada cada 12 horas.",
+      "Vaselina: aplíquela encima las veces que haga falta para que la piel nunca se sienta tirante ni se vea seca, de día y de noche.",
+      "No se ponga NADA más estos días: ni sueros, ni vitamina C, ni mascarillas, ni cremas «para después del láser» que no le hayamos dado nosotros.",
+      "No arranque costras ni piel que se esté desprendiendo: se cae sola.",
+      "Protector solar FPS 50+ de amplio espectro, todos los días desde mañana y reaplicado cada 3 horas si está al aire libre, durante las 4 semanas siguientes. Hoy, mejor sombra y gorra.",
+      "Nada de ácidos, retinoides, exfoliantes ni mascarillas durante 2 semanas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Cómo lavarse la cara"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Agua tibia y jabón neutro, con la mano limpia y sin tallar, 2 veces al día. Nada de esponjas, cepillos ni toallitas desmaquillantes.",
+      "Seque a toques con una toalla limpia, nunca frotando y nunca con secadora.",
+      "Vuelva a aplicar Cicaplast y vaselina enseguida, con la piel todavía húmeda.",
+      "Toalla y funda de almohada limpias los primeros tres días."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "Lo que manda son los puntitos: mientras se vean, la piel todavía no termina de cerrar, y el sudor, el agua de alberca y el sol son lo que puede mancharla o infectarla."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Salir de casa",
+       "El mismo día",
+       "Con gorra o sombrero y protector solar"
+      ],
+      [
+       "Trabajo de oficina / home office",
+       "Día 1",
+       "La cara se ve roja; muchas pacientes prefieren esperar al día 3"
+      ],
+      [
+       "Maquillaje sobre la piel tratada",
+       "Día 3",
+       "Con brocha limpia, y desmaquíllese sin tallar"
+      ],
+      [
+       "Ejercicio, sudor, vapor, sauna",
+       "Día 3",
+       "El sudor sobre los puntitos irrita y puede infectar"
+      ],
+      [
+       "Alberca, mar, jacuzzi",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Ácidos, retinoides, exfoliantes",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Sol directo",
+       "Semana 4",
+       "Siempre con gorra y FPS 50; el sol antes de tiempo mancha"
+      ],
+      [
+       "Depilación con cera o láser en la zona tratada",
+       "Semana 4",
+       "Sólo con autorización"
+      ],
+      [
+       "Toxina botulínica o rellenos",
+       "Semana 2",
+       "Sólo con autorización del Dr. Soto"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "5. Citas y siguiente sesión"
+    },
+    {
+     "t": "p",
+     "x": "Recepción agenda y confirma cada cita con usted por WhatsApp."
+    },
+    {
+     "t": "p",
+     "x": "El número de sesiones y el tiempo entre una y otra no son iguales para todas: dependen de su piel y de lo que vayamos viendo. En la ficha del principio de esta hoja está anotada su siguiente sesión. El resultado del colágeno no se juzga antes de los 3 meses, y por eso la revisión de fotografías se hace entonces."
+    },
+    {
+     "t": "h",
+     "x": "6. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "La retícula de puntitos rojos, que se desvanece en 2 a 4 días.",
+      "Ardor y sensación de quemadura de sol las primeras horas.",
+      "Inflamación de la cara el primer y el segundo día, más marcada al despertar. Puede verse algo «llenita»; baja sola.",
+      "Piel áspera, como lija fina, y descamación discreta entre el día 2 y el 5.",
+      "Comezón mientras la piel cierra.",
+      "Brotes de granitos o puntos blancos pequeños al cerrar la piel.",
+      "Sentir la piel más firme a las pocas semanas y seguir viendo cambios hasta el tercer mes: el colágeno nuevo tarda en formarse."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "h",
+     "x": "7. Signos de alarma: llame al teléfono de urgencias",
+     "alarma": true
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Dolor que aumenta cada día en lugar de ceder.",
+      "Una ampolla, una costra gruesa o una zona hundida en UN punto aislado, distinta del resto de la cara.",
+      "Ampollas pequeñas agrupadas, en racimo, con ardor o picor intenso, sobre todo alrededor de la boca: avísenos el mismo día.",
+      "Zonas que se ponen amarillas, con costra gruesa, pus o mal olor.",
+      "Enrojecimiento que se extiende fuera de la zona tratada, con calor.",
+      "Fiebre de 38 °C o más.",
+      "Una zona de piel que se pone blanca, gris u oscura."
+     ]
+    },
+    {
+     "t": "nota",
+     "alarma": true,
+     "x": "Llámenos a cualquier hora, de día o de noche. La piel tratada la tiene que ver quien la trató: no se automedique ni acuda a otro consultorio sin avisarnos."
+    },
+    {
+     "t": "h",
+     "x": "8. Constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "f19b093b"
+  },
+  {
    "id": "otoplastia",
    "nombre": "Otoplastia",
    "titulo": "Recomendaciones postoperatorias — Otoplastia",
@@ -4597,8 +4913,8 @@
    "version": "eb3082bc"
   }
  ],
- "version": "989f0c119a574ff2",
- "generado": "2026-11-02",
+ "version": "629d93e52e25b7fd",
+ "generado": "2026-11-06",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
  }
