@@ -83,14 +83,16 @@ import sys
 RUTA_RX = sys.argv[1] if len(sys.argv) > 1 else 'recetas.json'
 RUTA_IND = sys.argv[2] if len(sys.argv) > 2 else 'indicaciones.json'
 
-# Las diez hojas postoperatorias. La de faja y la de laboratorios no son
+# Las once hojas postoperatorias. La de faja y la de laboratorios no son
 # hojas de alta, y la preoperatoria lleva su propio texto, genérico.
 # RibXcar entró el 2-nov-2026: es percutánea y de quince minutos, así que
 # muchas de esas pacientes no van intubadas. Razón de más para que la pregunta
-# esté ahí en lugar de dar por hecho el texto.
+# esté ahí en lugar de dar por hecho el texto. Morpheus8 entró el 6-nov-2026
+# por lo mismo: el médico dijo que ahí la anestesia varía de una paciente a
+# otra, de tópica sola a sedación.
 POSTOP = ['deep_plane', 'lipoescultura', 'ribxcar', 'mastopexia',
           'rinoplastia', 'blefaroplastia', 'facial_combinada',
-          'deep_plane_co2', 'eco2', 'otoplastia']
+          'deep_plane_co2', 'eco2', 'morpheus8', 'otoplastia']
 
 # La hoja y la receta de la misma cirugía no siempre se llaman igual: la hoja
 # es «lipoescultura» y su receta es «body360». Si la hoja promete un spray que
@@ -100,6 +102,7 @@ RECETA_DE = {
     'deep_plane': 'deep_plane',
     'lipoescultura': 'body360',
     'ribxcar': 'ribxcar',
+    'morpheus8': 'morpheus8',
     'mastopexia': 'mastopexia',
     'rinoplastia': 'rinoplastia',
     'blefaroplastia': 'blefaroplastia',
