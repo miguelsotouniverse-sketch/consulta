@@ -99,6 +99,9 @@ input.buscador:focus{outline:none;border-color:var(--taupe)}
 .hecho-fila .f{font-size:12px;color:var(--gris)}
 .hecho-fila .sello{font-size:11px;padding:3px 8px;border-radius:2px;
   background:#E8F0EA;color:var(--verde)}
+.hecho-fila.lab{border-left-color:var(--taupe)}
+.hecho-fila.lab:hover{border-left-color:var(--negro)}
+.hecho-fila.lab .sello{background:var(--negro);color:var(--crema)}
 .previo{background:#fff;border:1px solid var(--linea);border-radius:4px;margin-bottom:12px}
 .previo > summary{list-style:none;cursor:pointer;padding:13px 18px;font-weight:500;
   display:flex;gap:10px;align-items:center}
@@ -467,6 +470,7 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
   <div class="wrap oculto" id="pantallaDocs">
     <div class="fichaPac" id="fichaPac"></div>
     <div id="yaHechos"></div>
+    <div id="labsPac"></div>
     <div class="seccion">Capturar</div>
     <div class="mosaico" id="mosCaptura"></div>
     <div class="seccion">Imprimir y firmar</div>
@@ -1356,6 +1360,7 @@ function abreExpediente(p){
   $('fichaPac').innerHTML = '';
   $('yaHechos').innerHTML = '<div class="vacio">Buscándola en la base de pacientes…</div>';
   $('mosCaptura').innerHTML = ''; $('mosFirmar').innerHTML = '';
+  $('labsPac').innerHTML = '';
   window.scrollTo(0,0);
 
   enriquece()
@@ -1368,12 +1373,87 @@ function abreExpediente(p){
       EXPEDIENTE = (g.existe && g.expediente) || { paciente: PACIENTE, documentos: [] };
       if (!EXPEDIENTE.documentos) EXPEDIENTE.documentos = [];
       pintaDocumentos();
+      cargaLabs(PACIENTE);
     })
     .catch(function(e){
       $('yaHechos').innerHTML = '';
       var v = document.createElement('div'); v.className = 'vacio';
       v.textContent = 'No pude abrir el expediente: ' + e.message;
       $('yaHechos').appendChild(v);
+    });
+}
+
+/* ============================================================
+   LABORATORIOS
+   Los resultados de Microtec llegan solos: el sistema de Laboratorios
+   (laboratorios.miguelsotomd.com) los amarra a la paciente por su número
+   de AltaPacientes y deja el PDF en la carpeta «Laboratorios» del Drive
+   del consultorio. Aquí sólo se listan y se abren; el PDF lo entrega el
+   gateway, así que lo ve quien tenga acceso al expediente aunque no
+   tenga permiso en ese Drive. Sin número de paciente no hay a qué
+   amarrarlos, y se dice.
+   ============================================================ */
+function cargaLabs(p){
+  var caja = $('labsPac');
+  var pid = p && p['Paciente_ID'];
+  caja.innerHTML = '';
+  if (!pid) return;
+  var tit = document.createElement('div');
+  tit.className = 'seccion';
+  tit.textContent = 'Laboratorios';
+  caja.appendChild(tit);
+  var esp = document.createElement('div'); esp.className = 'vacio';
+  esp.textContent = 'Buscando sus laboratorios…';
+  caja.appendChild(esp);
+  pide('laboratorios', { paciente_id: pid })
+    .then(function(r){
+      if (PACIENTE !== p) return;          // ya se abrió otra paciente
+      esp.remove();
+      var est = (r && r.estudios) || [];
+      if (!est.length){
+        var v = document.createElement('div'); v.className = 'vacio';
+        v.textContent = 'Sin laboratorios de Microtec para esta paciente.';
+        caja.appendChild(v);
+        return;
+      }
+      est.forEach(function(e){
+        var fila = document.createElement('div');
+        fila.className = 'hecho-fila lab';
+        var tx = document.createElement('div'); tx.className = 't';
+        tx.textContent = (e.tipo ? e.tipo.charAt(0).toUpperCase() + e.tipo.slice(1) : 'Laboratorio') +
+          (e.orden ? '  ·  orden ' + e.orden : '');
+        var fe = document.createElement('div'); fe.className = 'f';
+        fe.textContent = e.fecha || '';
+        var ab = document.createElement('div'); ab.className = 'sello';
+        ab.textContent = 'ver PDF';
+        fila.appendChild(tx); fila.appendChild(fe); fila.appendChild(ab);
+        fila.onclick = function(){ abreLab(p, e, ab); };
+        caja.appendChild(fila);
+      });
+    })
+    .catch(function(err){
+      if (PACIENTE !== p) return;
+      esp.textContent = 'No pude traer sus laboratorios: ' + err.message;
+    });
+}
+
+function abreLab(p, e, sello){
+  // la ventana se abre YA, dentro del clic, o el navegador la bloquea
+  var w = window.open('', '_blank');
+  var antes = sello.textContent;
+  sello.textContent = 'abriendo…';
+  pide('laboratorioPdf', { paciente_id: p['Paciente_ID'], archivo_id: e.id })
+    .then(function(r){
+      var bin = atob(r.base64), n = bin.length, b = new Uint8Array(n);
+      for (var i = 0; i < n; i++) b[i] = bin.charCodeAt(i);
+      var url = URL.createObjectURL(new Blob([b], { type: 'application/pdf' }));
+      if (w) w.location.href = url; else window.location.href = url;
+      sello.textContent = antes;
+    })
+    .catch(function(err){
+      if (w) w.close();
+      sello.textContent = 'no abrió: ' + err.message;
+      setTimeout(function(){ sello.textContent = antes; }, 6000);
     });
 }
 
