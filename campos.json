@@ -10,6 +10,7 @@
   "Cierre clínico",
   "Riesgo tromboembólico",
   "Procedimiento",
+  "Estudios de gabinete",
   "Producto aplicado",
   "Faja",
   "Seguimiento",
@@ -2354,6 +2355,86 @@
    "aparece": "Consentimientos, Faja, CI rellenos",
    "notas": "PENDIENTE.",
    "valoracion": false
+  },
+  {
+   "id": "gab_estudios",
+   "etiqueta": "Estudios solicitados",
+   "grupo": "Estudios de gabinete",
+   "control": "casillas",
+   "opciones": [
+    "Tomografía (TAC)",
+    "Ultrasonido",
+    "Radiografía simple",
+    "Resonancia magnética"
+   ],
+   "pista": "",
+   "sistema": "App expediente",
+   "captura": "Casilla",
+   "obligatorio": false,
+   "aparece": "Solicitud de estudios de gabinete",
+   "notas": "Se marcan aquí, no en el papel: la solicitud se manda por medio digital y una casilla impresa en blanco no se puede marcar. Lo que no esté en la lista va en «otro estudio».",
+   "valoracion": false
+  },
+  {
+   "id": "gab_region",
+   "etiqueta": "Región o zona a estudiar",
+   "grupo": "Estudios de gabinete",
+   "control": "texto",
+   "opciones": [],
+   "pista": "senos paranasales, tórax, mama izquierda, abdomen…",
+   "sistema": "App expediente",
+   "captura": "Teclado",
+   "obligatorio": false,
+   "aparece": "Solicitud de estudios de gabinete",
+   "notas": "Sin región, el centro de imagen no sabe qué tomar. Es el dato que más seguido falta en una solicitud.",
+   "valoracion": false
+  },
+  {
+   "id": "gab_contraste",
+   "etiqueta": "Contraste",
+   "grupo": "Estudios de gabinete",
+   "control": "lista",
+   "opciones": [
+    "No aplica",
+    "Sin contraste",
+    "Con contraste",
+    "Con y sin contraste"
+   ],
+   "pista": "",
+   "sistema": "App expediente",
+   "captura": "Lista",
+   "obligatorio": false,
+   "aparece": "Solicitud de estudios de gabinete",
+   "notas": "Para TAC y resonancia. El centro de imagen necesita saberlo de antemano: cambia la preparación de la paciente y el tiempo de estudio.",
+   "valoracion": false
+  },
+  {
+   "id": "gab_otros",
+   "etiqueta": "Otro estudio no listado",
+   "grupo": "Estudios de gabinete",
+   "control": "texto",
+   "opciones": [],
+   "pista": "densitometría, mastografía, espirometría…",
+   "sistema": "App expediente",
+   "captura": "Teclado",
+   "obligatorio": false,
+   "aparece": "Solicitud de estudios de gabinete",
+   "notas": "",
+   "valoracion": false
+  },
+  {
+   "id": "gab_indicacion",
+   "etiqueta": "Indicación clínica: qué se busca o qué se descarta",
+   "grupo": "Estudios de gabinete",
+   "control": "parrafo",
+   "opciones": [],
+   "pista": "descartar colección en flanco derecho…",
+   "sistema": "App expediente",
+   "captura": "Dictado",
+   "obligatorio": false,
+   "aparece": "Solicitud de estudios de gabinete",
+   "notas": "El radiólogo lee el estudio buscando algo. Sin esto, lo reporta a ciegas. El médico lo decidió el 12-nov-2026 sabiendo que es dato clínico que sale hacia un tercero.",
+   "valoracion": false
   }
  ],
  "catalogos": {
@@ -4036,6 +4117,6 @@
    "izenta": "dehiscente"
   }
  },
- "version": "d73de285564f8292",
- "generado": "2026-09-27"
+ "version": "129d2b9dbe0596ab",
+ "generado": "2026-11-12"
 }

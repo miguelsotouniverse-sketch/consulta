@@ -850,6 +850,46 @@ var DOCUMENTOS = [
     icono:'gota', dictado:false, hoja:true, hojaPorDefecto:'laboratorios',
     etiquetas:['Solicitud de laboratorios'] },
 
+  /* ============================================================
+     SOLICITUD DE ESTUDIOS DE GABINETE
+
+     La de laboratorios termina diciendo «si su médico le solicita algún
+     estudio adicional, se lo indicará por separado». Esto es ese «por
+     separado», y hasta el 12-nov-2026 no existía: el médico necesitaba pedir
+     una TAC y no había dónde.
+
+     No es una hoja como las de indicaciones, y la diferencia importa. Una
+     hoja es texto fijo que se escoge y sale igual para toda paciente. Una
+     solicitud de gabinete cambia en cada caso —qué estudio, de qué región,
+     con o sin contraste, qué se busca—, así que son campos que se capturan.
+     Por eso vive aquí, junto a la orden de internamiento y la constancia de
+     acompañante, que son los otros dos documentos dirigidos a un tercero.
+
+     LAS CASILLAS SE MARCAN EN LA APP, NO EN EL PAPEL. La hoja de
+     laboratorios se hizo a propósito «sin casillas para marcar, porque se
+     envía por medio digital»: una casilla impresa en blanco no se puede
+     marcar en un PDF que va por WhatsApp. Esa regla sigue en pie. Aquí el
+     médico marca los estudios antes de imprimir y lo que sale en el papel
+     son los estudios escogidos, escritos como texto.
+     ============================================================ */
+  { id:'estudios_gabinete',  nombre:'Solicitud de estudios de gabinete', grupo:'firma',
+    icono:'pulso', dictado:false,
+    etiquetas:['Solicitud de estudios de gabinete'],
+    campos:['gab_estudios', 'gab_region', 'gab_contraste', 'gab_otros',
+            'gab_indicacion'],
+    /* Genérica, como la de laboratorios: muchas de sus pacientes son foráneas
+       y la llevan al centro de imagen que puedan. Por eso va dirigida «a quien
+       corresponda» y no a una unidad con nombre. */
+    preambulo: function(){
+      return 'Por este medio solicito a quien corresponda la realización de ' +
+        'los estudios de gabinete que se detallan a la paciente arriba ' +
+        'identificada. Agradeceré entregarle el estudio con su interpretación ' +
+        'por escrito, e imágenes en disco o por medio digital. Los resultados ' +
+        'pueden enviarse a este consultorio' +
+        (CONSTANTES['seg_telefono'] ? ', al ' + CONSTANTES['seg_telefono'] : '') +
+        '.';
+    } },
+
   /* Las indicaciones de alta no son campos del expediente: son una hoja que se
      le entrega a la paciente y que ella se lleva a su casa. El contenido vive
      en indicaciones.json, publicado junto a esta página, y no aquí dentro:
@@ -4472,6 +4512,27 @@ $('bImprimir').onclick = function(){
         faltaHoja.join('</b>, <b>') + '</b>. De eso depende qué secciones salen ' +
         'impresas, así que no lo contesto por ti: una hoja con el consejo ' +
         'equivocado se lee igual de confiable que la correcta.';
+      window.scrollTo(0, 0);
+      return;
+    }
+  }
+
+  /* Una solicitud de gabinete sin estudio es una hoja firmada que no pide
+     nada, y sin región el centro de imagen no sabe qué tomar. Las casillas
+     no son «obligatorias» en el esquema a propósito —el aviso de la NOM-004
+     habla de notas clínicas y aquí no viene al caso—, así que el candado va
+     aquí, con su propio mensaje. */
+  if (TIPO && TIPO.id === 'estudios_gabinete'){
+    var falG = [];
+    if (!txt('gab_estudios') && !txt('gab_otros')) falG.push('qué estudio pide');
+    if (!txt('gab_region'))                        falG.push('de qué región');
+    if (falG.length){
+      $('estado').textContent = 'No se imprime: falta ' + falG.join(' y ') + '.';
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML = '<b>No imprimí la solicitud.</b> Falta ' +
+        falG.join(' y ') + '. Una solicitud sin eso llega al centro de imagen ' +
+        'como una hoja firmada que no pide nada, y la paciente regresa sin su ' +
+        'estudio.';
       window.scrollTo(0, 0);
       return;
     }
