@@ -202,8 +202,14 @@ revisa('la nota nueva no se queda con el id de la anterior',
 
 revisa('la fila muestra la fecha aunque el índice sólo traiga «creado»',
   r.filaMuestraFecha, 'la columna de la fecha salió vacía');
+/* Buscaba la frase «contenido no llegó». El aviso se reescribió al retirar
+   una explicación de la causa que resultó falsa —se afirmaba que el gateway
+   no guardaba los campos, y sí los guardaba—, y la comprobación se quedó
+   buscando una frase que ya no existe. Llevaba semanas en rojo.
+   Ahora busca lo que no debe cambiar: que avise, que no culpe a nadie de una
+   causa que no está verificada, y que salga en rojo. */
 revisa('un documento que llega sin contenido lo dice, y en rojo',
-  /contenido no llegó/.test(r.avisoVacio) && /malo/.test(r.claseAvisoVacio),
+  /sin su contenido/.test(r.avisoVacio) && /malo/.test(r.claseAvisoVacio),
   r.claseAvisoVacio + ' · ' + r.avisoVacio);
 revisa('un documento vacío NO se guarda encima del bueno',
   r.accionesConVacio.length === 0, 'llamó a: ' + r.accionesConVacio.join(', '));

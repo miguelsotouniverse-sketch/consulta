@@ -144,6 +144,7 @@ bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 | `construir_receta_ribxcar.py` | la receta de RibXcar sola: la de Body360 menos rivaroxabán, amlodipino, metoprolol, captopril y clonazepam. Le quita `ribxcar` a la plantilla de Body360 |
 | `construir_hoja_morpheus8.py` | la hoja de **Morpheus8 facial**, que no existía. Copia de la del eCO₂ lo que aplica y deja fuera lo del láser ablativo —los 12 meses de protector solar, el maquillaje al día 14, la piel «en carne viva»—. Sin antiviral ni Clobesol, por decisión del médico. Pregunta `sedacion`, porque ahí la anestesia varía de una paciente a otra |
 | `construir_receta_morpheus8.py` | la receta de Morpheus8: la del eCO₂ menos valaciclovir y Clobesol. Quedan Cicaplast, vaselina, protector solar y la dexametasona apagada por omisión |
+| `agregar_estudios_gabinete.py` | el grupo y los cinco campos de la **solicitud de estudios de gabinete** en `campos.json`. Es el «por separado» que la hoja de laboratorios ya prometía. Las casillas se marcan en la app y salen impresas como texto: la regla de no imprimir casillas en blanco, fijada para laboratorios, sigue en pie |
 | `construir_hoja_nanofat.py` | la hoja de **micro y nanofat facial**. Es la primera con dos zonas de cuidados OPUESTOS: la donadora admite frío y compresión, la injertada ninguno de los dos. Prohíbe el frío por escrito, en contra de lo que dicen las otras cinco hojas faciales, y dice que en la donadora sí se vale para que no se lea como errata |
 | `construir_receta_nanofat.py` | la receta de micro/nanofat: antibiótico y analgésicos copiados de otoplastia —con sus ramas de alergia—, Cicalfate y protector solar. Sin antihipertensivos ni dexametasona |
 | `agregar_molestia_garganta.py` | la molestia de garganta por la intubación, que no estaba en ninguna hoja. **Introduce las PREGUNTAS en las hojas**: las nueve postoperatorias traen la pregunta `tubo` y el bloque condicionado a ella; la preoperatoria lo dice siempre, sin preguntar. Agrega el spray de bencidamina a las nueve recetas con `si: {tubo: true}`. Dos versiones del texto, porque en las tres hojas con dieta de la glándula submandibular los caramelos están prohibidos 14 días |
@@ -219,6 +220,18 @@ revisa lo que produjo —que quepa en una página, que estén los diez renglones
 la hoja, que no haya quedado ningún hueco por llenar a mano, que vaya firmado—
 y truena si algo falta.
 
+### El esquema (`campos.json`)
+
+Vive en la raíz del repositorio y la aplicación lo sube sola a Drive: al
+entrar compara la huella del publicado contra la del que sirve el gateway y,
+si cambió, lo reemplaza por la acción `esquemaGuardar`, avisando en pantalla.
+Por eso un campo nuevo no necesita ningún paso manual — pero por eso mismo un
+`campos.json` corto o roto se llevaría campos del expediente, y la app se
+niega a subir uno que haya encogido.
+
+Su `version` es el hash del archivo **sin** `version` ni `generado`, que es
+justo lo que compara la app. `agregar_estudios_gabinete.py` lo recalcula así.
+
 ### Pruebas
 
 Corren con Node y Playwright. Imprimen a PDF de verdad y cuentan páginas
@@ -238,6 +251,7 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_guardado_y_notas.mjs` | que el botón Guardar diga lo que está haciendo y que el resultado no lo borre el contador de campos; y que una nota ya hecha se abra con su contenido y su identificador en vez de duplicarse |
 | `prueba_ribxcar.mjs` | que «ribxcar» sugiera la hoja y la receta de RibXcar **y sólo ésas**, y que ninguna de las dos lleve anticoagulante, antihipertensivos, curación de heridas ni retiro de puntos. Lo que defiende no es que la hoja exista: es que la palabra no vuelva a apuntar a una lipoescultura completa |
 | `prueba_morpheus8.mjs` | que la hoja de Morpheus8 no haya heredado la recuperación de un láser ablativo al copiar del eCO₂ —ni los 12 meses de protector solar, ni el maquillaje al día 14, ni la piel abierta—, que no recete antiviral ni esteroide tópico, que no invente un calendario de sesiones, y que el acompañante y el no manejar sólo salgan si hubo sedación |
+| `prueba_gabinete.mjs` | que la solicitud de estudios de gabinete exista, que los cinco campos que declara existan de verdad en el esquema —si nombra uno que no está, la app lo omite sin avisar—, que NO se imprima sin estudio o sin región, y que en el papel no salga ni una casilla vacía: lo que se marca en la app sale como texto |
 | `prueba_nanofat.mjs` | **que el renglón del hielo no vuelva a entrar**. Las otras cinco hojas faciales mandan frío cada hora; la de nanofat no puede, porque el frío mata el injerto. El riesgo no es olvidarlo hoy: es que alguien reconstruya la hoja copiando de las faciales, como se copia todo aquí, y el renglón entre sin que se note |
 | `prueba_garganta.mjs` | **el candado de las preguntas de la hoja**: que una hoja con la pregunta sin contestar no se imprima, que contestar cambie lo que sale en el papel, que la respuesta quede impresa en el pie, y que la hoja y la receta de la misma cirugía digan la misma dosis. Además, que en las tres hojas con dieta de la glándula submandibular el texto no ofrezca caramelos que esa misma hoja prohíbe |
 

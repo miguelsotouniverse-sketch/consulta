@@ -90,6 +90,7 @@ async function arma(tipoid, firmar){
       texto: i.innerText,
       encabezados: [...i.querySelectorAll('h2')].map(function(x){ return x.textContent; }),
       campos: (TIPO.campos || null),
+      tieneImprime: typeof TIPO.imprime === 'function',
       rubricas: i.querySelectorAll('img.rubrica').length
     };
   }, { esquema, constantes, valores: EXPEDIENTE, tipoid, firmar });
@@ -116,8 +117,22 @@ revisa('LA CONSTANCIA NO FILTRA NINGÚN DATO CLÍNICO',
   'se filtró: ' + filtrados.map(function(p){ return p[0]; }).join(', '));
 revisa('la constancia no imprime encabezados de grupos clínicos',
   cons.encabezados.length === 0, cons.encabezados.join(' | '));
-revisa('la constancia declara su lista de campos vacía',
-  Array.isArray(cons.campos) && cons.campos.length === 0, JSON.stringify(cons.campos));
+/* Esta comprobación exigía que la lista de campos estuviera VACÍA. Así nació
+   la constancia —para que no pudiera imprimir nada clínico— y resultó mal
+   puesto el candado: sin lista tampoco había dónde escribir el nombre del
+   acompañante ni la fecha, y salía una hoja firmada en blanco. El candado se
+   movió a `imprime`, que no deja salir nada que no esté escrito en esa
+   función. La comprobación se quedó vigilando el diseño abandonado y llevaba
+   semanas en rojo, que es como se vuelve invisible una prueba.
+   Ahora vigila lo que de verdad protege: que declare SÓLO los cuatro campos
+   sin contenido clínico, y que tenga su propio cuerpo de impresión. */
+const PERMITIDOS = ['urgencia_nombre','urgencia_parentesco','proc_fecha','proc_hora_inicio'];
+revisa('la constancia declara sólo sus cuatro campos, ninguno clínico',
+  Array.isArray(cons.campos) && cons.campos.length === PERMITIDOS.length &&
+  cons.campos.every(function(c){ return PERMITIDOS.indexOf(c) >= 0; }),
+  JSON.stringify(cons.campos));
+revisa('y escribe su propio cuerpo, para que no salga lo que no esté ahí',
+  cons.tieneImprime === true, String(cons.tieneImprime));
 revisa('la constancia sí nombra al acompañante y su parentesco',
   /Ana Sofía Robles Hernández/.test(cons.texto) && /hija/i.test(cons.texto), '');
 revisa('la constancia dice por qué no trae el diagnóstico',
