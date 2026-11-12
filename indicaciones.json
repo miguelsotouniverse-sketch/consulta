@@ -4035,7 +4035,7 @@
     {
      "t": "ul",
      "x": [
-      "Cicalfate: aplique una capa delgada sobre toda la zona tratada cada 12 horas, sin masajear — sólo apoyar y extender.",
+      "Cicaplast Baume: aplique una capa delgada sobre toda la zona tratada cada 12 horas, sin masajear — sólo apoyar y extender.",
       "No se ponga NADA más estos días: ni sueros, ni vitamina C, ni mascarillas, ni cremas «para después» que no le hayamos dado nosotros.",
       "Protector solar FPS 50+ de amplio espectro, todos los días desde mañana y reaplicado cada 3 horas si está al aire libre, durante las 4 semanas siguientes. Hoy, mejor sombra y gorra.",
       "Nada de ácidos, retinoides, exfoliantes ni mascarillas durante 2 semanas.",
@@ -4051,7 +4051,7 @@
      "x": [
       "Agua tibia y jabón neutro, con la mano limpia y sin tallar, 2 veces al día. Nada de esponjas, cepillos ni toallitas desmaquillantes.",
       "Seque a toques con una toalla limpia, nunca frotando y nunca con secadora.",
-      "Vuelva a aplicar Cicalfate enseguida, con la piel todavía húmeda y sin frotar."
+      "Vuelva a aplicar Cicaplast Baume enseguida, con la piel todavía húmeda y sin frotar."
      ]
     },
     {
@@ -4154,7 +4154,6 @@
     {
      "t": "ul",
      "x": [
-      "Cambios en la vista: ver borroso, ver doble, perder visión de un ojo, o dolor intenso del ojo. Llame de inmediato, a cualquier hora: esto no espera.",
       "Una zona de la cara que se pone blanca, moteada, morada o muy dolorosa, distinta del resto.",
       "Dolor que aumenta cada día en lugar de ceder.",
       "Fiebre de 38 °C o más.",
@@ -4189,7 +4188,7 @@
      ]
     }
    ],
-   "version": "3c085151"
+   "version": "e49a209e"
   },
   {
    "id": "otoplastia",
@@ -5173,7 +5172,7 @@
    "version": "eb3082bc"
   }
  ],
- "version": "24b9e9e5bc1987ff",
+ "version": "a3391bbda4c0e9a7",
  "generado": "2026-11-12",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"

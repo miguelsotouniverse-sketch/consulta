@@ -4135,9 +4135,9 @@
     {
      "hoja": "general",
      "nombre": "Paracetamol 500 mg, tabletas.",
-     "indicacion": "Tomar 2 tabletas (1 g) vía oral cada 8 horas durante 14 días. No tome otros productos que contengan paracetamol.",
-     "cantidad": "84 tabletas",
-     "duracion": "14 días",
+     "indicacion": "Tomar 2 tabletas (1 g) vía oral cada 8 horas durante 7 días. No tome otros productos que contengan paracetamol.",
+     "cantidad": "42 tabletas",
+     "duracion": "7 días",
      "horario": {
       "n": "Paracetamol",
       "h": [
@@ -4150,13 +4150,13 @@
     {
      "hoja": "general",
      "nombre": "Celecoxib 200 mg, cápsulas.",
-     "indicacion": "Tomar 1 cápsula vía oral cada 12 horas, con alimentos, durante 14 días.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 12 horas, con alimentos, durante 7 días.",
      "si": {
       "sulfa": false,
       "c24": false
      },
-     "cantidad": "28 cápsulas",
-     "duracion": "14 días",
+     "cantidad": "14 cápsulas",
+     "duracion": "7 días",
      "horario": {
       "n": "Celecoxib",
       "h": [
@@ -4168,13 +4168,13 @@
     {
      "hoja": "general",
      "nombre": "Celecoxib 200 mg, cápsulas.",
-     "indicacion": "Tomar 1 cápsula vía oral cada 24 horas, con alimentos, durante 14 días.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 24 horas, con alimentos, durante 7 días.",
      "si": {
       "sulfa": false,
       "c24": true
      },
-     "cantidad": "14 cápsulas",
-     "duracion": "14 días",
+     "cantidad": "7 cápsulas",
+     "duracion": "7 días",
      "horario": {
       "n": "Celecoxib",
       "h": [
@@ -4203,9 +4203,9 @@
     {
      "hoja": "general",
      "nombre": "Pantoprazol 40 mg, tabletas.",
-     "indicacion": "Tomar 1 tableta en ayunas, 30 minutos antes del desayuno, cada 24 horas durante {diasPPI} días.",
-     "cantidad": "{diasPPI} tabletas",
-     "duracion": "{diasPPI} días",
+     "indicacion": "Tomar 1 tableta en ayunas, 30 minutos antes del desayuno, cada 24 horas durante 7 días.",
+     "cantidad": "7 tabletas",
+     "duracion": "7 días",
      "horario": {
       "n": "Pantoprazol",
       "h": [
@@ -4215,10 +4215,17 @@
     },
     {
      "hoja": "general",
-     "nombre": "Cicalfate crema reparadora, tubo de 100 mL.",
-     "indicacion": "Aplique una capa delgada sobre la zona tratada de la cara cada 12 horas, sin masajear: sólo apoyar y extender. La grasa recién injertada no admite presión.",
+     "nombre": "Cicaplast Baume B5, bálsamo reparador, tubo de 100 mL.",
+     "indicacion": "Aplique una capa delgada sobre la zona tratada de la cara cada 12 horas, y después de cada lavado, sin masajear: sólo apoyar y extender. La grasa recién injertada no admite presión. Manos limpias cada vez.",
      "cantidad": "1 tubo de 100 mL",
-     "duracion": "Hasta terminar el tubo"
+     "duracion": "Mientras lo indique el Dr. Soto",
+     "horario": {
+      "n": "Cicaplast",
+      "h": [
+       "08:00",
+       "20:00"
+      ]
+     }
     },
     {
      "hoja": "general",
@@ -4310,14 +4317,10 @@
      "texto": "Paciente menor de 18 años: revise todas las dosis."
     }
    ],
-   "alarma": [
-    {
-     "t": "Cambios en la vista —ver borroso o doble, perder visión de un ojo— o dolor intenso del ojo: de inmediato, a cualquier hora."
-    }
-   ],
+   "alarma": [],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
    "profilaxisNota": "Repetir si la cirugía pasa de 4 h (cefazolina) o de 6 h (clindamicina).",
-   "version": "773728db"
+   "version": "04bcdb31"
   },
   {
    "id": "otoplastia",
@@ -4774,6 +4777,6 @@
   "22:00",
   "24:00"
  ],
- "version": "f4c76b17a8b86140",
+ "version": "b62d1aee35a6797c",
  "generado": "2026-11-12"
 }

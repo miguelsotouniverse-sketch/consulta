@@ -90,10 +90,25 @@ revisa('la receta lleva antibiótico, con sus dos ramas de alergia',
 revisa('la receta lleva analgésico, con la rama de sulfas',
   /Paracetamol/.test(meds) && /Celecoxib/.test(meds) && /Ketorolaco/.test(meds) &&
   (P.nanofat.preguntas || []).some(q => q.id === 'sulfa'), '');
-revisa('la receta lleva Cicalfate y protector solar',
-  /Cicalfate/.test(meds) && /Protector solar/.test(meds), '');
-revisa('y NO Cicaplast, que es el de las hojas de láser',
-  !/Cicaplast/.test(meds) && !/Cicaplast/.test(hoja), '');
+revisa('la receta lleva Cicaplast Baume y protector solar',
+  /Cicaplast/.test(meds) && /Protector solar/.test(meds), '');
+revisa('y NO Cicalfate, que fue un lapsus corregido el 12-nov-2026',
+  !/Cicalfate/.test(meds) && !/Cicalfate/.test(hoja), '');
+/* El médico acortó los analgésicos a 7 días. El protector gástrico tiene que
+   ir con ellos: si alguien devuelve el token {diasPPI}, la receta diría
+   antiinflamatorio 7 días y protector 14, en la misma hoja. */
+const an = P.nanofat.medicamentos;
+revisa('los analgésicos duran 7 días, no 14',
+  an.filter(m => /Paracetamol|Celecoxib/.test(m.nombre)).every(m => m.duracion === '7 días'),
+  an.filter(m => /Paracetamol|Celecoxib/.test(m.nombre)).map(m => m.duracion).join(', '));
+revisa('y el protector gástrico se recortó con ellos',
+  an.filter(m => /Pantoprazol/.test(m.nombre)).every(m => m.duracion === '7 días'), '');
+revisa('no quedó ningún {diasPPI} sin sustituir',
+  JSON.stringify(an).indexOf('diasPPI') < 0, '');
+revisa('las cantidades concuerdan con los 7 días',
+  an.some(m => /Paracetamol/.test(m.nombre) && m.cantidad === '42 tabletas'), '');
+revisa('el ketorolaco conserva su tope de 5 días',
+  an.filter(m => /Ketorolaco/.test(m.nombre)).every(m => m.duracion === '5 días'), '');
 
 /* ======== lo que no le toca ======== */
 ['Amlodipino','Metoprolol','Captopril','Rivaroxab','Dexametasona','Clonazepam']
@@ -107,12 +122,15 @@ revisa('la hoja manda dormir boca arriba', /boca arriba/.test(hoja), '');
 revisa('la hoja explica la reabsorción y el plazo del resultado',
   /reabsorbe/.test(hoja) && /3 y los 6 meses/.test(hoja), '');
 revisa('la hoja pide peso estable', /peso estable/.test(hoja), '');
-revisa('la hoja advierte de cambios en la vista, y van primero',
-  /Cambios en la vista/.test(hoja) &&
-  H.nanofat.bloques.filter(b => b.t === 'ul')
-    .some(b => /^Cambios en la vista/.test(b.x[0])), '');
-revisa('la receta también lleva el aviso de la vista',
-  (P.nanofat.alarma || []).some(a => /Cambios en la vista/.test(a.t)), '');
+/* El renglón de cambios en la vista lo había puesto yo por la oclusión
+   vascular del injerto facial; el médico lo quitó el 12-nov-2026 porque
+   «alerta de más». Que no regrese solo al reconstruir. */
+revisa('la hoja NO lleva el renglón de cambios en la vista',
+  !/Cambios en la vista/.test(hoja) && !/perder visión/.test(hoja), '');
+revisa('la receta tampoco',
+  !(P.nanofat.alarma || []).some(a => /Cambios en la vista/.test(a.t)), '');
+revisa('pero sí queda el signo en la piel, que cubre lo mismo y se ve al espejo',
+  /se pone blanca, moteada, morada/.test(hoja), '');
 revisa('la receta deja escrito en pantalla qué no trae y por qué',
   (P.nanofat.avisos || []).some(a => /no lleva antihipertensivos/.test(a.texto)), '');
 
