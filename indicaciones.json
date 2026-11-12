@@ -3932,6 +3932,266 @@
    "version": "f19b093b"
   },
   {
+   "id": "nanofat",
+   "nombre": "Micro y nanofat facial",
+   "titulo": "Recomendaciones posteriores al micro y nanofat facial",
+   "coincide": [
+    "nanofat",
+    "microfat",
+    "micro/nanofat",
+    "nanograsa",
+    "lipoinjerto facial",
+    "injerto de grasa facial"
+   ],
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Campo",
+      "Dato"
+     ],
+     "x": [
+      [
+       "Procedimiento",
+       "Micro y nanofat — injerto de grasa propia, con micropunciones"
+      ],
+      [
+       "Zona injertada",
+       ""
+      ],
+      [
+       "Zona donadora",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. Su cara y la zona de donde tomamos la grasa se cuidan DISTINTO, casi al revés. 1) Sobre la cara injertada: NADA de hielo, nada de presión y nada de masaje. 2) Sobre la zona donadora: frío sí, y el apósito compresivo puesto. 3) Duerma boca arriba."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 48 horas"
+    },
+    {
+     "t": "p",
+     "x": "La grasa que le pusimos todavía no tiene vasos propios: durante los primeros días se alimenta del tejido que la rodea, y sólo después le crecen vasos que la mantienen viva. Todo lo que apriete, enfríe o mueva esa zona juega en contra de que prenda. Por eso las indicaciones de abajo no son de comodidad: son el tratamiento."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "NO se ponga hielo ni compresas frías sobre la zona injertada, aunque en otros procedimientos se lo hayamos indicado. El frío cierra los vasos que tienen que alimentar la grasa nueva.",
+      "No se presione, no se masajee y no se frote la cara. Nada de masaje facial, drenaje linfático en la cara, aparatos ni rodillos, hasta que la revisemos.",
+      "Duerma boca arriba y con la cabeza elevada —dos almohadas— las primeras 2 semanas. No duerma de lado ni boca abajo: el peso de su propia cara sobre la almohada es presión.",
+      "Nada que apriete sobre la zona injertada: ni cubrebocas ajustado, ni anteojos que se apoyen donde se injertó, ni antifaz para dormir. Si usa anteojos, díganos dónde se apoyan y le decimos qué hacer.",
+      "Manos limpias siempre que se toque la cara, y no se la toque sin necesidad las primeras 24 horas: las micropunciones son canales abiertos hacia la dermis.",
+      "Inflamación: la cara se hincha sobre todo al despertar del primer y el segundo día. Duerma con la cabeza elevada —dos almohadas— las dos primeras noches.",
+      "No se exponga al viento, al polvo, al humo ni a la cocina caliente.",
+      "Nada de calor sobre la cara las primeras 48 horas: ni vapor, ni secadora caliente, ni agua caliente en la regadera. El calor sobre una cara recién injertada aumenta la inflamación y el sangrado."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Hoy, porque llevó sedación"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Hoy no maneje, no tome decisiones importantes y no se quede sola: la sedación tarda el resto del día en salir de su cuerpo, aunque usted se sienta bien.",
+      "Que alguien la acompañe de regreso a casa y se quede con usted las primeras horas.",
+      "No tome alcohol hoy."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. La zona de donde tomamos la grasa"
+    },
+    {
+     "t": "p",
+     "x": "De esa zona se aspiró grasa por unas punciones muy pequeñas. Trae un apósito compresivo que se queda puesto los días que le indicamos. Aquí sí puede ponerse frío: es la cara injertada la que no lo admite."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Salida de líquido teñido de sangre por las incisiones es normal y esperado las primeras 24–72 horas. Use toallas sanitarias o gasas sobre las incisiones y proteja cama y asientos.",
+      "Incisiones: manténgalas limpias y secas. No aplique cremas, pomadas, alcohol ni remedios caseros salvo indicación.",
+      "Mantenga el apósito compresivo los días que le indicamos. Si se despega o se moja, cámbielo por uno limpio y avísenos.",
+      "Moretones extensos, que cambian de morado a verde y amarillo y bajan hacia zonas inferiores. Desaparecen en 2–4 semanas.",
+      "Adormecimiento u hormigueo de la piel tratada. La sensibilidad regresa en semanas a meses."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidado de la piel de la cara"
+    },
+    {
+     "t": "p",
+     "x": "El nanofat entra por micropunciones, así que la piel queda permeable unos días: lo que se ponga encima entra más que de costumbre. Estos días sólo va lo que viene en su receta."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cicalfate: aplique una capa delgada sobre toda la zona tratada cada 12 horas, sin masajear — sólo apoyar y extender.",
+      "No se ponga NADA más estos días: ni sueros, ni vitamina C, ni mascarillas, ni cremas «para después» que no le hayamos dado nosotros.",
+      "Protector solar FPS 50+ de amplio espectro, todos los días desde mañana y reaplicado cada 3 horas si está al aire libre, durante las 4 semanas siguientes. Hoy, mejor sombra y gorra.",
+      "Nada de ácidos, retinoides, exfoliantes ni mascarillas durante 2 semanas.",
+      "Toalla y funda de almohada limpias los primeros tres días."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Cómo lavarse la cara"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Agua tibia y jabón neutro, con la mano limpia y sin tallar, 2 veces al día. Nada de esponjas, cepillos ni toallitas desmaquillantes.",
+      "Seque a toques con una toalla limpia, nunca frotando y nunca con secadora.",
+      "Vuelva a aplicar Cicalfate enseguida, con la piel todavía húmeda y sin frotar."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "Lo que manda es que la grasa prenda. El sudor, el calor y cualquier cosa que presione la cara son lo que hay que posponer."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Actividad",
+      "A partir de",
+      "Nota"
+     ],
+     "x": [
+      [
+       "Caminar",
+       "El mismo día",
+       "Suave, varias veces al día"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 2",
+       "La cara se ve hinchada y con moretones"
+      ],
+      [
+       "Maquillaje sobre la cara",
+       "Día 5",
+       "Con brocha limpia y sin presionar; desmaquíllese sin tallar"
+      ],
+      [
+       "Ejercicio, sudor, vapor, sauna",
+       "Semana 2",
+       "El calor y el sudor juegan en contra de la grasa nueva"
+      ],
+      [
+       "Dormir de lado",
+       "Semana 2",
+       "Antes, siempre boca arriba"
+      ],
+      [
+       "Masaje facial, drenaje linfático en la cara, aparatos",
+       "Mes 2",
+       "Sólo con autorización del Dr. Soto"
+      ],
+      [
+       "Alberca, mar, jacuzzi",
+       "Semana 3",
+       ""
+      ],
+      [
+       "Ácidos, retinoides, exfoliantes",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Sol directo",
+       "Semana 4",
+       "Siempre con gorra y FPS 50"
+      ],
+      [
+       "Toxina botulínica o rellenos",
+       "Mes 3",
+       "Sólo con autorización del Dr. Soto"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Peso: la grasa injertada se comporta como la grasa del resto de su cuerpo. Si baja de peso en los meses siguientes, parte del resultado se va con eso. Procure mantener su peso estable los primeros 6 meses."
+    },
+    {
+     "t": "h",
+     "x": "5. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "p",
+     "x": "Al principio se va a ver MÁS llena de lo que va a quedar. Eso es a propósito y es inflamación, no el resultado. Conforme baja, parte de la grasa injertada se reabsorbe —le pasa a todo injerto de grasa— y la que se queda ya es definitiva. El volumen final se juzga entre los 3 y los 6 meses, no antes."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación de la cara que es mayor al segundo y tercer día y más marcada al despertar.",
+      "Moretones en la cara y en la zona donadora, que cambian de morado a verde y amarillo. Desaparecen en 2 a 3 semanas.",
+      "Bolitas o irregularidades pequeñas al tacto en las primeras semanas, que se van suavizando. No se las masajee para deshacerlas: avísenos y las revisamos.",
+      "Puntitos rojos o costritas muy finas donde entraron las micropunciones, que se caen solas en pocos días.",
+      "Comezón mientras la piel cierra.",
+      "Cansancio las primeras 1–2 semanas.",
+      "Cambios de ánimo los primeros días: impaciencia o tristeza pasajera al verse inflamada. Es frecuente y pasa."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "6. Signos de alarma: llame al teléfono de urgencias",
+     "alarma": true
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Cambios en la vista: ver borroso, ver doble, perder visión de un ojo, o dolor intenso del ojo. Llame de inmediato, a cualquier hora: esto no espera.",
+      "Una zona de la cara que se pone blanca, moteada, morada o muy dolorosa, distinta del resto.",
+      "Dolor que aumenta cada día en lugar de ceder.",
+      "Fiebre de 38 °C o más.",
+      "Zonas que se ponen amarillas, con costra gruesa, pus o mal olor.",
+      "Enrojecimiento que se extiende fuera de la zona tratada, con calor.",
+      "Enrojecimiento que se extiende, calor, pus o mal olor en una incisión.",
+      "Inflamación de un solo lado de la cara que crece rápido y se siente dura."
+     ]
+    },
+    {
+     "t": "nota",
+     "alarma": true,
+     "x": "Llámenos a cualquier hora, de día o de noche. La cara injertada la tiene que ver quien la trató: no se automedique ni acuda a otro consultorio sin avisarnos."
+    },
+    {
+     "t": "h",
+     "x": "7. Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recepción agenda y confirma cada cita con usted por WhatsApp."
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "3c085151"
+  },
+  {
    "id": "otoplastia",
    "nombre": "Otoplastia",
    "titulo": "Recomendaciones postoperatorias — Otoplastia",
@@ -4913,8 +5173,8 @@
    "version": "eb3082bc"
   }
  ],
- "version": "629d93e52e25b7fd",
- "generado": "2026-11-06",
+ "version": "24b9e9e5bc1987ff",
+ "generado": "2026-11-12",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
  }
