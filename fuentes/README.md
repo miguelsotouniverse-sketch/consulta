@@ -49,6 +49,8 @@ python3 fuentes/construir_hoja_ribxcar.py
 python3 fuentes/construir_receta_ribxcar.py
 python3 fuentes/construir_hoja_morpheus8.py
 python3 fuentes/construir_receta_morpheus8.py
+python3 fuentes/construir_hoja_nanofat.py
+python3 fuentes/construir_receta_nanofat.py
 python3 fuentes/agregar_molestia_garganta.py
 ```
 
@@ -71,8 +73,8 @@ Al terminar, los dos archivos de la raíz deben quedar con el **mismo contenido*
 que los publicados —mismo catálogo, mismas versiones de hoja—. Si no quedan,
 algo cambió y hay que averiguar qué antes de subir nada.
 
-Hoy la cadena produce: indicaciones `629d93e52e25b7fd` (14 hojas) y recetas
-`9a5d61c5e5deae77` (11 plantillas, 4 pliegos).
+Hoy la cadena produce: indicaciones `a3391bbda4c0e9a7` (15 hojas) y recetas
+`b62d1aee35a6797c` (12 plantillas, 4 pliegos).
 
 **Corra la cadena completa, siempre.** Si se salta un paso, el catálogo que
 suba no trae esa corrección y el texto viejo vuelve a producción sin que nadie
@@ -142,6 +144,8 @@ bloques, cosa que el sistema no mira porque lee JSON, no bytes.
 | `construir_receta_ribxcar.py` | la receta de RibXcar sola: la de Body360 menos rivaroxabán, amlodipino, metoprolol, captopril y clonazepam. Le quita `ribxcar` a la plantilla de Body360 |
 | `construir_hoja_morpheus8.py` | la hoja de **Morpheus8 facial**, que no existía. Copia de la del eCO₂ lo que aplica y deja fuera lo del láser ablativo —los 12 meses de protector solar, el maquillaje al día 14, la piel «en carne viva»—. Sin antiviral ni Clobesol, por decisión del médico. Pregunta `sedacion`, porque ahí la anestesia varía de una paciente a otra |
 | `construir_receta_morpheus8.py` | la receta de Morpheus8: la del eCO₂ menos valaciclovir y Clobesol. Quedan Cicaplast, vaselina, protector solar y la dexametasona apagada por omisión |
+| `construir_hoja_nanofat.py` | la hoja de **micro y nanofat facial**. Es la primera con dos zonas de cuidados OPUESTOS: la donadora admite frío y compresión, la injertada ninguno de los dos. Prohíbe el frío por escrito, en contra de lo que dicen las otras cinco hojas faciales, y dice que en la donadora sí se vale para que no se lea como errata |
+| `construir_receta_nanofat.py` | la receta de micro/nanofat: antibiótico y analgésicos copiados de otoplastia —con sus ramas de alergia—, Cicalfate y protector solar. Sin antihipertensivos ni dexametasona |
 | `agregar_molestia_garganta.py` | la molestia de garganta por la intubación, que no estaba en ninguna hoja. **Introduce las PREGUNTAS en las hojas**: las nueve postoperatorias traen la pregunta `tubo` y el bloque condicionado a ella; la preoperatoria lo dice siempre, sin preguntar. Agrega el spray de bencidamina a las nueve recetas con `si: {tubo: true}`. Dos versiones del texto, porque en las tres hojas con dieta de la glándula submandibular los caramelos están prohibidos 14 días |
 
 Los correctores existen porque antes no había constructor: eran la única forma
@@ -234,6 +238,7 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_guardado_y_notas.mjs` | que el botón Guardar diga lo que está haciendo y que el resultado no lo borre el contador de campos; y que una nota ya hecha se abra con su contenido y su identificador en vez de duplicarse |
 | `prueba_ribxcar.mjs` | que «ribxcar» sugiera la hoja y la receta de RibXcar **y sólo ésas**, y que ninguna de las dos lleve anticoagulante, antihipertensivos, curación de heridas ni retiro de puntos. Lo que defiende no es que la hoja exista: es que la palabra no vuelva a apuntar a una lipoescultura completa |
 | `prueba_morpheus8.mjs` | que la hoja de Morpheus8 no haya heredado la recuperación de un láser ablativo al copiar del eCO₂ —ni los 12 meses de protector solar, ni el maquillaje al día 14, ni la piel abierta—, que no recete antiviral ni esteroide tópico, que no invente un calendario de sesiones, y que el acompañante y el no manejar sólo salgan si hubo sedación |
+| `prueba_nanofat.mjs` | **que el renglón del hielo no vuelva a entrar**. Las otras cinco hojas faciales mandan frío cada hora; la de nanofat no puede, porque el frío mata el injerto. El riesgo no es olvidarlo hoy: es que alguien reconstruya la hoja copiando de las faciales, como se copia todo aquí, y el renglón entre sin que se note |
 | `prueba_garganta.mjs` | **el candado de las preguntas de la hoja**: que una hoja con la pregunta sin contestar no se imprima, que contestar cambie lo que sale en el papel, que la respuesta quede impresa en el pie, y que la hoja y la receta de la misma cirugía digan la misma dosis. Además, que en las tres hojas con dieta de la glándula submandibular el texto no ofrezca caramelos que esa misma hoja prohíbe |
 
 `render_hoja.mjs`, `render_receta.mjs` y `render_impresion.mjs` son auxiliares:
