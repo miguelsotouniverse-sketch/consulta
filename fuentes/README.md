@@ -253,6 +253,7 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_morpheus8.mjs` | que la hoja de Morpheus8 no haya heredado la recuperación de un láser ablativo al copiar del eCO₂ —ni los 12 meses de protector solar, ni el maquillaje al día 14, ni la piel abierta—, que no recete antiviral ni esteroide tópico, que no invente un calendario de sesiones, y que el acompañante y el no manejar sólo salgan si hubo sedación |
 | `prueba_gabinete.mjs` | que la solicitud de estudios de gabinete exista, que los cinco campos que declara existan de verdad en el esquema —si nombra uno que no está, la app lo omite sin avisar—, que NO se imprima sin estudio o sin región, y que en el papel no salga ni una casilla vacía: lo que se marca en la app sale como texto |
 | `prueba_nanofat.mjs` | **que el renglón del hielo no vuelva a entrar**. Las otras cinco hojas faciales mandan frío cada hora; la de nanofat no puede, porque el frío mata el injerto. El riesgo no es olvidarlo hoy: es que alguien reconstruya la hoja copiando de las faciales, como se copia todo aquí, y el renglón entre sin que se note |
+| `prueba_anular.mjs` | **que anular no borre**. Que el documento anulado se quede en el expediente, baje a su propia sección en vez de desaparecer, no se pueda editar —ni a mano, ni con el guardado automático, ni completándolo con datos de la base—, no se pueda anular sin motivo, y que la hoja impresa lleve el sello. Y que un guardado fallido retire la marca en vez de dejar la pantalla diciendo «anulado» de algo que en el expediente sigue vivo |
 | `prueba_garganta.mjs` | **el candado de las preguntas de la hoja**: que una hoja con la pregunta sin contestar no se imprima, que contestar cambie lo que sale en el papel, que la respuesta quede impresa en el pie, y que la hoja y la receta de la misma cirugía digan la misma dosis. Además, que en las tres hojas con dieta de la glándula submandibular el texto no ofrezca caramelos que esa misma hoja prohíbe |
 
 `render_hoja.mjs`, `render_receta.mjs` y `render_impresion.mjs` son auxiliares:
@@ -326,3 +327,18 @@ puede escribir.
      días por la glándula submandibular. Dos renglones que se contradicen en la
      misma hoja no valen cero: valen menos, porque la paciente escoge el que le
      conviene.
+10. **El expediente no tiene borrar; tiene anular.** Un documento equivocado no
+    se quita: se marca `doc_estado_firma = 'Anulado'`, con motivo, quién y
+    cuándo en la llave `__anulado` del mismo objeto de campos. La NOM-004 pide
+    conservarlo cinco años (5.4) y sin enmendaduras (5.11): las dos cosas se
+    cumplen dejándolo donde está y diciendo que ya no cuenta. De ahí cuelga
+    todo lo demás —que baje a su propia sección en la lista en vez de
+    desaparecer, que no cuente como «ya existe» en el mosaico, que no se pueda
+    editar, y que la hoja impresa lleve el sello—, porque un anulado que se
+    puede editar revive por la puerta de atrás y un anulado impreso sin sello
+    se archiva como si contara.
+
+    Ni el campo ni la opción se inventaron: `doc_estado_firma` ya estaba en el
+    diccionario con «Anulado» entre sus opciones, nada más no se usaba. Por eso
+    esto no tocó el gateway ni la hoja `Base Datos`. Replicado de Zorvix el
+    15-nov-2026, a pedido del médico.
