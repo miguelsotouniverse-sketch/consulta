@@ -4963,7 +4963,16 @@ $('bImprimir').onclick = function(){
   guarda(true).then(function(){
     armaImpresion();
     $('estado').textContent = 'Listo para imprimir.';
-    setTimeout(function(){ window.print(); }, 120);
+    setTimeout(function(){
+      window.print();
+      /* Registro de impresión: aquí no hay firma electrónica y la hoja firmada
+         a mano es el expediente. Cada impresión queda anotada en el servidor y
+         Augusta (tablero de dirección) la usa para saber qué notas ya están en
+         papel. Si falla, no se le dice nada a quien imprime: no es su problema. */
+      if (DOC_ID) pide('impresion', { doc_id: DOC_ID }).catch(function(e){
+        console.warn('[impresión] no quedó registrada', e);
+      });
+    }, 120);
   });
 };
 
