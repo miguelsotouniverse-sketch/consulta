@@ -908,6 +908,7 @@ var DOCUMENTOS = [
      mecanismo, y por eso no se duplicó nada. */
   { id:'receta',             nombre:'Receta',                  grupo:'captura',
     icono:'pastilla', dictado:false, receta:true, libre:true,
+    firmaDigital:true,
     etiquetas:['Receta'] },
 
   { id:'ci_quirurgico',      nombre:'CI quirúrgico',           grupo:'firma',
@@ -982,7 +983,7 @@ var DOCUMENTOS = [
      son los estudios escogidos, escritos como texto.
      ============================================================ */
   { id:'estudios_gabinete',  nombre:'Solicitud de estudios de gabinete', grupo:'firma',
-    icono:'pulso', dictado:false,
+    icono:'pulso', dictado:false, firmaDigital:true,
     etiquetas:['Solicitud de estudios de gabinete'],
     campos:['gab_estudios', 'gab_region', 'gab_contraste', 'gab_otros',
             'gab_indicacion'],
@@ -1013,7 +1014,7 @@ var DOCUMENTOS = [
      queda en la farmacia, el tramadol tiene su propio régimen de surtido y
      el resto se lo lleva la paciente. Ver el bloque RECETA POSTOPERATORIA. */
   { id:'receta_post',        nombre:'Receta postoperatoria',   grupo:'firma',
-    icono:'receta', dictado:false, receta:true,
+    icono:'receta', dictado:false, receta:true, firmaDigital:true,
     etiquetas:['Receta postoperatoria'] },
 
   /* ============================================================
@@ -1036,7 +1037,7 @@ var DOCUMENTOS = [
      imprimir lo que no está en su lista, aunque el expediente lo tenga.
      ============================================================ */
   { id:'orden_internamiento', nombre:'Orden de internamiento', grupo:'firma',
-    icono:'reloj', dictado:false,
+    icono:'reloj', dictado:false, firmaDigital:true,
     etiquetas:['Orden de internamiento'],
     /* El orden es el de lectura de quien recibe la orden: primero QUÉ se
        va a hacer y cuándo, luego por qué, luego lo que puede complicarlo
@@ -1060,7 +1061,7 @@ var DOCUMENTOS = [
     } },
 
   { id:'constancia_acompanante', nombre:'Constancia de acompañante', grupo:'firma',
-    icono:'firma', dictado:false,
+    icono:'firma', dictado:false, firmaDigital:true,
     etiquetas:['Constancia de acompañante'],
     /* Los campos que SÍ se capturan aquí. Sin ellos el documento no se
        puede llenar: la primera versión salió con la lista vacía —para que no
@@ -2001,7 +2002,15 @@ function abreDocumento(tipoId, docId){
        sin contenido tampoco: completarlo lo marcaría como sucio y el
        guardado automático lo escribiría encima. Un anulado, por lo mismo:
        completarlo con datos de la base sería editarlo. */
-    var completado = (doc.firmado || SIN_CONTENIDO || esAnulado(doc))
+    /* «Firmado» sólo congela donde la firma digital existe —las recetas y la
+       solicitud de gabinete—, porque ahí sí significa que el documento ya
+       salió con la rúbrica estampada. En el expediente del consultorio las
+       notas se firman a mano sobre papel: si una trae ese valor guardado es
+       de cuando la casilla salía en todos los documentos, y no tiene por qué
+       dejarla congelada. Si hay que corregirla, se corrige, se reimprime y se
+       vuelve a firmar, que es como funciona el papel. */
+    var firmaCuenta = !!doc.firmado && !!(TIPO && TIPO.firmaDigital);
+    var completado = (firmaCuenta || SIN_CONTENIDO || esAnulado(doc))
       ? '' : completaGuardado();
     dibujaTodo();
     $('avisoPrefill').innerHTML = '<b>' + TIPO.nombre + ' ya empezada.</b> Guardada el ' +
@@ -2019,10 +2028,11 @@ function abreDocumento(tipoId, docId){
         'lo que quería era una ' + TIPO.nombre.toLowerCase() + ' nueva, ' +
         'regrese con «Volver» y ábrala desde el mosaico.';
     }
-    if (doc.firmado){
+    if (firmaCuenta){
       $('avisoPrefill').className = 'aviso malo';
-      $('avisoPrefill').innerHTML = '<b>Este documento ya está firmado.</b> No se edita: ' +
-        'si hay que corregir o agregar algo, se hace en una nota nueva.';
+      $('avisoPrefill').innerHTML = '<b>Este documento ya salió firmado</b> por medio ' +
+        'electrónico. No se edita: si hay que corregir o agregar algo, se hace en ' +
+        'uno nuevo, porque la paciente ya tiene el anterior.';
     }
     /* El aviso del anulado va al final a propósito: es el que manda. Si un
        documento está anulado, lo que diga de «ya empezada» o de «firmado» ya
@@ -3369,9 +3379,41 @@ function alarmaReceta(el, s){
    documento clínico.
 
    Arranca siempre apagada. Se enciende documento por documento.
+
+   DÓNDE NO EXISTE, y por qué (decisión del médico, 15-nov-2026)
+   -------------------------------------------------------------
+   «La firma digital únicamente sirve para mandar un documento digital a un
+   paciente, digamos una receta. Pero no sirve para mi expediente clínico del
+   consultorio. Los del consultorio siempre se deben firmar en papel a mano.»
+
+   Así que la casilla ya NO sale en todos los documentos. Sale en los CINCO
+   que salen del consultorio en digital y llevan bloque de firma: las dos
+   recetas; la solicitud de estudios de gabinete, que va dirigida a quien
+   corresponda y muchas pacientes foráneas reciben por mensaje; y la orden de
+   internamiento y la constancia de acompañante, que desde que se
+   construyeron se mandan por correo ya firmadas —de hecho su propia prueba
+   lo exige, y fue ella la que avisó cuando este candado las dejó fuera—.
+
+   Queda fuera todo el expediente: hoja frontal, historia clínica y las tres
+   notas; y los cuatro consentimientos, el aviso de privacidad y el convenio,
+   que además los firma la paciente, en papel.
+
+   Las hojas de indicaciones no aparecen en ninguna de las dos listas porque
+   no imprimen bloque de firma: terminan en «Entregó: …», no en una rúbrica.
+
+   El candado vive aquí, en `firmado_()`, y no en la casilla: así cierra de un
+   solo lugar los tres caminos —la rúbrica impresa, el texto del pie y la
+   casilla de pantalla—. Un documento del expediente no puede salir firmado ni
+   aunque traiga el valor guardado de antes, de cuando la casilla salía en
+   todos lados.
    ============================================================ */
+function permiteFirmaDigital_(){
+  return !!(TIPO && TIPO.firmaDigital);
+}
+
 function firmado_(){
-  return VALORES['doc_estado_firma'] === 'Firmado' && !!CONSTANTES['medico_firma'];
+  return permiteFirmaDigital_() &&
+         VALORES['doc_estado_firma'] === 'Firmado' && !!CONSTANTES['medico_firma'];
 }
 
 function rubrica_(el){
@@ -3763,7 +3805,7 @@ function pon(id, valor){
 function pintaFirma_(){
   var etq = $('etqFirmar'), chk = $('chkFirmar');
   if (!etq || !chk) return;
-  var cabe = !!CONSTANTES['medico_firma'] && !!TIPO;
+  var cabe = !!CONSTANTES['medico_firma'] && !!TIPO && permiteFirmaDigital_();
   etq.classList.toggle('oculto', !cabe);
   if (!cabe) return;
   chk.checked = (VALORES['doc_estado_firma'] === 'Firmado');
@@ -4963,16 +5005,7 @@ $('bImprimir').onclick = function(){
   guarda(true).then(function(){
     armaImpresion();
     $('estado').textContent = 'Listo para imprimir.';
-    setTimeout(function(){
-      window.print();
-      /* Registro de impresión: aquí no hay firma electrónica y la hoja firmada
-         a mano es el expediente. Cada impresión queda anotada en el servidor y
-         Augusta (tablero de dirección) la usa para saber qué notas ya están en
-         papel. Si falla, no se le dice nada a quien imprime: no es su problema. */
-      if (DOC_ID) pide('impresion', { doc_id: DOC_ID }).catch(function(e){
-        console.warn('[impresión] no quedó registrada', e);
-      });
-    }, 120);
+    setTimeout(function(){ window.print(); }, 120);
   });
 };
 
