@@ -102,6 +102,23 @@ input.buscador:focus{outline:none;border-color:var(--taupe)}
 .hecho-fila.lab{border-left-color:var(--taupe)}
 .hecho-fila.lab:hover{border-left-color:var(--negro)}
 .hecho-fila.lab .sello{background:var(--negro);color:var(--crema)}
+/* Un documento anulado NO se esconde de la lista: así es como se pierden los
+   expedientes. Baja a su propia sección, en gris y tachado, para que la lista
+   de arriba sea la del expediente vivo y la de abajo siga estando ahí para
+   quien la busque. Se puede abrir y leer; lo que no se puede es editarla. */
+.hecho-fila.anulada{border-left-color:var(--gris);opacity:.62;flex-wrap:wrap}
+/* El motivo va en su propio renglón, completo. Metido en la fila le robaba el
+   ancho al nombre del documento y en un teléfono los partía a los dos. */
+.hecho-fila .motivoAnu{flex:0 0 100%;order:9;font-size:12px;color:var(--gris);
+  font-style:italic;line-height:1.45;margin-top:1px}
+.hecho-fila.anulada:hover{border-color:var(--gris);border-left-color:var(--gris)}
+.hecho-fila.anulada .t{text-decoration:line-through}
+.hecho-fila.anulada .sello{background:#F6E9E8;color:var(--rojo)}
+.cabezaAnulados{font-family:var(--serif);font-size:16px;color:var(--gris);
+  margin:24px 0 3px;padding-top:13px;border-top:1px solid var(--linea)}
+.notaAnulados{font-size:12px;color:var(--gris);margin-bottom:10px;line-height:1.5}
+.pistaAnu{font-size:12px;color:var(--gris);margin-top:7px;line-height:1.5}
+.campoAnu{display:block;font-size:12.5px;color:var(--gris);margin-bottom:5px}
 .previo{background:#fff;border:1px solid var(--linea);border-radius:4px;margin-bottom:12px}
 .previo > summary{list-style:none;cursor:pointer;padding:13px 18px;font-weight:500;
   display:flex;gap:10px;align-items:center}
@@ -273,6 +290,13 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .cab .datos b{font-size:10pt;display:block;margin-bottom:2px}
 #impresion h1{font-family:var(--serif);font-size:16pt;font-weight:600;
   margin:0 0 8px;text-align:center;letter-spacing:.5px}
+/* El sello de anulado. Va arriba de todo, con marco, porque una hoja anulada
+   impresa sin sello se ve exactamente igual que una vigente y acaba en el
+   expediente de papel como si contara. */
+#impresion .anulado{border:2.5pt solid #000;padding:6px 10px;margin:0 0 10px;
+  text-align:center;font-size:8.5pt;line-height:1.4}
+#impresion .anulado b{display:block;font-size:14pt;font-weight:700;
+  letter-spacing:3px;margin-bottom:3px}
 #impresion .preambulo{margin:10px 0 2px;text-align:justify;line-height:1.5;white-space:pre-line}
 /* El bloque de datos de la constancia: etiqueta angosta y el valor con
    todo el renglón, para que un nombre completo quepa sin partirse. */
@@ -490,6 +514,11 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
            propósito: ése lo reescribe `pinta()` en cada tecla, así que no
            puede sostener un «Guardado». Éste sólo lo escribe el guardado. -->
       <div class="selloGuarda" id="selloGuardado"></div>
+      <!-- Anular va del lado contrario a Guardar e Imprimir, a propósito: es lo
+           único de esta barra que no se deshace, y no tiene por qué estar en el
+           camino de la mano que va a imprimir. Aparece sólo cuando el documento
+           ya existe: lo que no se ha guardado no hay que anularlo, se abandona. -->
+      <button class="s oculto" id="bAnular">Anular</button>
       <button class="s" id="bDictar">Dictar</button>
       <!-- La firma visual va junto a Imprimir porque se decide en el mismo
            momento: esta hoja se imprime y se firma a mano, o se manda en
@@ -516,6 +545,34 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
       <div class="info" id="capaInfo"></div>
       <button class="s oculto" id="capaSec"></button>
       <button class="p" id="capaPri">Empezar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== anular un documento =====================
+     Cuadro propio y no confirm(): el confirm() del navegador congela la
+     pestaña, se ve como una alerta del sistema operativo en medio de una
+     pantalla clínica, y sobre todo no deja escribir nada — y aquí lo que
+     importa es el motivo. El botón de anular no se enciende hasta que hay
+     motivo escrito de verdad: más vale que el freno se vea antes de apretar
+     que como un error después. -->
+<div class="capa oculto" id="capaAnular">
+  <div class="tarjeta" style="max-width:560px">
+    <div class="cab">
+      <h2>Anular este documento</h2>
+      <button class="x" id="anuCerrar" title="Cerrar">×</button>
+    </div>
+    <div class="cuerpoc">
+      <div class="aviso malo" id="anuTexto"></div>
+      <label class="campoAnu" for="anuMotivo">Por qué se anula</label>
+      <textarea id="anuMotivo" rows="3"
+        placeholder="Se capturó en la paciente equivocada…"></textarea>
+      <div class="pistaAnu" id="anuPista"></div>
+    </div>
+    <div class="piec">
+      <div class="info" id="anuInfo"></div>
+      <button class="s" id="anuNo">Cancelar</button>
+      <button class="p" id="anuSi">Anular</button>
     </div>
   </div>
 </div>
@@ -745,6 +802,58 @@ var sucio = false, SOLO_VALORACION = false;
    esté encendida, guardar e imprimir quedan bloqueados: una hoja vacía no se
    escribe encima de una escrita. */
 var SIN_CONTENIDO = false;
+
+/* ══════════ ANULAR ══════════
+
+   El expediente clínico no tiene borrar. Se conserva cinco años desde el
+   último acto médico (NOM-004-SSA3-2012, numeral 5.4) y no admite
+   enmendaduras ni tachaduras (5.11). Lo que sí tiene es dejar de contar, con
+   constancia de quién lo retiró y por qué.
+
+   DÓNDE SE GUARDA, y por qué no hubo que inventar nada:
+
+   En `doc_estado_firma`, que YA existía en el esquema del diccionario con las
+   opciones Borrador / Impreso / Firmado / Escaneado / **Anulado**. La opción
+   ya estaba; nada más no se usaba. No se agregó un campo nuevo, no se tocó la
+   hoja Base Datos y no se tocó el gateway.
+
+   El motivo, quién y cuándo viajan en `__anulado`, dentro del mismo objeto de
+   campos del documento. Que una llave así se guarde y regrese no es un
+   supuesto: `rx_renglones` —un arreglo de objetos que tampoco está en el
+   diccionario— ya va y viene por esa misma vía en producción, y
+   `expedienteLeer` devuelve los campos completos de cada documento, que es de
+   donde esta pantalla los lee al abrirlos.
+
+   QUÉ NO HACE: no borra el archivo, no lo esconde de la lista y no retira la
+   hoja de papel. Si el documento ya se imprimió, hay que ir por ella; el
+   cuadro de anular lo dice con esas palabras. */
+var ESTADO_ANULADO = 'Anulado';
+/* Lo mismo que pide Zorvix. Un motivo de tres letras no explica nada, y el
+   motivo es lo único que va a quedar explicando el hueco. */
+var MIN_MOTIVO_ANULAR = 10;
+/* Se enciende mientras se está guardando la anulación. Sirve para una cosa
+   sola: dejar pasar ESE guardado por el candado que bloquea guardar en un
+   documento anulado. Sin esto, anular se bloquearía a sí mismo. */
+var ANULANDO = false;
+
+/* La anulación se LEE de los campos del documento, no de una bandera que
+   tenga que mandar el gateway. Por eso esto funciona sin cambiarle una línea
+   allá: el dato que decide ya viaja con el documento. */
+function anulacionDe(doc){
+  var c = (doc && doc.campos) || {};
+  if (c['doc_estado_firma'] !== ESTADO_ANULADO) return null;
+  var a = c['__anulado'];
+  return (a && typeof a === 'object') ? a : {};
+}
+function esAnulado(doc){ return !!anulacionDe(doc); }
+
+/* Lo mismo, para el documento que está abierto en pantalla. */
+function anulacionAbierta(){
+  if (!VALORES || VALORES['doc_estado_firma'] !== ESTADO_ANULADO) return null;
+  var a = VALORES['__anulado'];
+  return (a && typeof a === 'object') ? a : {};
+}
+
 var EXPEDIENTE = null;      // el archivo completo de la paciente
 var COMO_SE_IDENTIFICO = '';
 var TIPO = null;            // el documento que se está capturando
@@ -1505,6 +1614,9 @@ function vistaDocumentos(){
   $('titulo').textContent = PACIENTE['Paciente'] || 'Expediente';
   $('progreso').style.width = '0';
   TIPO = null; DOC_ID = '';
+  /* Sin documento abierto no hay nada que anular. pinta() no llega hasta el
+     candado cuando TIPO es null, así que se apaga aquí. */
+  $('bAnular').classList.add('oculto');
   pintaDocumentos();
   window.scrollTo(0,0);
 }
@@ -1515,6 +1627,13 @@ function icono(nombre){
 
 function pintaDocumentos(){
   var docs = (EXPEDIENTE && EXPEDIENTE.documentos) || [];
+  /* Los anulados se separan aquí, una sola vez, y de esta separación cuelga
+     todo lo demás: el conteo de la ficha, la lista, el mosaico y lo que cada
+     recuadro dice. Un documento anulado no cuenta como hecho en ninguna de
+     las cuatro partes —si contara, el mosaico diría «ya existe · abrir» y
+     abriría justamente el que se acaba de retirar del expediente. */
+  var vivos    = docs.filter(function(d){ return !esAnulado(d); });
+  var anulados = docs.filter(function(d){ return  esAnulado(d); });
 
   var f = $('fichaPac');
   f.innerHTML = '';
@@ -1524,7 +1643,9 @@ function pintaDocumentos(){
   d.textContent = [
     PACIENTE['Edad'] ? PACIENTE['Edad'] + ' años' : '',
     PACIENTE['Procedimiento(s) de interés'] || '',
-    docs.length ? docs.length + (docs.length === 1 ? ' documento' : ' documentos') : 'expediente nuevo'
+    vivos.length ? vivos.length + (vivos.length === 1 ? ' documento' : ' documentos')
+                 : 'expediente nuevo',
+    anulados.length ? anulados.length + ' anulado' + (anulados.length === 1 ? '' : 's') : ''
   ].filter(Boolean).join('  ·  ');
   var id = document.createElement('div'); id.className = 'det';
   id.style.marginTop = '6px';
@@ -1541,7 +1662,71 @@ function pintaDocumentos(){
   // lo que ya existe, para continuarlo en vez de duplicarlo
   var y = $('yaHechos');
   y.innerHTML = '';
-  if (docs.length){
+
+  /* Un renglón de la lista. Se arma igual para los vivos y para los anulados:
+     el mismo renglón, con la marca puesta, para que el anulado se vea que es
+     el mismo documento y no otra cosa. */
+  function renglon_(doc, anulada){
+    var t = docPorId(doc.tipo);
+    var fila = document.createElement('div');
+    fila.className = 'hecho-fila' + (anulada ? ' anulada' : '');
+    var tx = document.createElement('div'); tx.className = 't';
+    tx.textContent = (t ? t.nombre : doc.tipo);
+    var fe = document.createElement('div'); fe.className = 'f';
+    /* El índice del expediente trae `creado`, no `fecha`. Sin esto la
+       columna de la fecha salía vacía en todos los renglones. */
+    fe.textContent = doc.fecha || doc.creado || '';
+    fila.appendChild(tx); fila.appendChild(fe);
+    if (anulada){
+      var an = document.createElement('div'); an.className = 'sello';
+      an.textContent = 'anulado'; fila.appendChild(an);
+      var anu = anulacionDe(doc) || {};
+      if (anu.motivo){
+        /* El motivo va en el renglón, no escondido: es lo único que explica
+           por qué falta ese documento del expediente vivo. */
+        var mt = document.createElement('div'); mt.className = 'motivoAnu';
+        mt.textContent = 'Anulado' + (anu.cuando ? ' el ' + anu.cuando : '') +
+          (anu.por ? ' por ' + anu.por : '') + ' · ' + anu.motivo;
+        fila.appendChild(mt);
+      }
+    } else {
+      if (doc.firmado){
+        var s = document.createElement('div'); s.className = 'sello';
+        s.textContent = 'firmado'; fila.appendChild(s);
+      }
+      if (doc.dictado && !doc.revisado_dictado){
+        var p = document.createElement('div'); p.className = 'sello';
+        p.style.background = '#FDF8EC'; p.style.color = 'var(--ambar)';
+        p.textContent = 'dictado por revisar'; fila.appendChild(p);
+      }
+    }
+    var ab = document.createElement('div');
+    ab.className = 'sello';
+    ab.style.background = anulada ? 'var(--gris)' : 'var(--negro)';
+    ab.style.color = 'var(--crema)';
+    ab.textContent = anulada ? 'leer' : 'abrir';
+    fila.appendChild(ab);
+    /* Un documento sin identificador no se puede continuar: guardarlo
+       crearía otro aparte. Vale más decirlo que abrirlo y duplicarlo. */
+    if (!doc.id){
+      ab.style.background = 'var(--rojo)';
+      ab.textContent = 'sin identificador';
+      fila.onclick = function(){
+        alert('Este documento llegó sin identificador, así que no puedo ' +
+              'abrirlo para continuarlo: si lo imprimiera de nuevo se ' +
+              'crearía otro aparte. Avísele a quien lleva el sistema.');
+      };
+      return fila;
+    }
+    fila.onclick = function(){ abreDocumento(doc.tipo, doc.id); };
+    return fila;
+  }
+
+  function porFecha_(a, b){
+    return String(b.fecha || b.creado || '').localeCompare(String(a.fecha || a.creado || ''));
+  }
+
+  if (vivos.length){
     /* Estos renglones siempre se pudieron abrir, pero no lo parecían: salían
        sueltos entre la ficha de la paciente y el mosaico de «Capturar», sin
        título y sin nada que dijera que se tocan. El mosaico, que sí parece
@@ -1552,49 +1737,27 @@ function pintaDocumentos(){
     tit.className = 'seccion';
     tit.textContent = 'Ya hechos — tóquelos para abrirlos y seguirlos';
     y.appendChild(tit);
-    var orden = docs.slice().sort(function(a,b){
-      return String(b.fecha || '').localeCompare(String(a.fecha || ''));
+    vivos.slice().sort(porFecha_).forEach(function(doc){
+      y.appendChild(renglon_(doc, false));
     });
-    orden.forEach(function(doc){
-      var t = docPorId(doc.tipo);
-      var fila = document.createElement('div');
-      fila.className = 'hecho-fila';
-      var tx = document.createElement('div'); tx.className = 't';
-      tx.textContent = (t ? t.nombre : doc.tipo);
-      var fe = document.createElement('div'); fe.className = 'f';
-      /* El índice del expediente trae `creado`, no `fecha`. Sin esto la
-         columna de la fecha salía vacía en todos los renglones. */
-      fe.textContent = doc.fecha || doc.creado || '';
-      fila.appendChild(tx); fila.appendChild(fe);
-      if (doc.firmado){
-        var s = document.createElement('div'); s.className = 'sello';
-        s.textContent = 'firmado'; fila.appendChild(s);
-      }
-      if (doc.dictado && !doc.revisado_dictado){
-        var p = document.createElement('div'); p.className = 'sello';
-        p.style.background = '#FDF8EC'; p.style.color = 'var(--ambar)';
-        p.textContent = 'dictado por revisar'; fila.appendChild(p);
-      }
-      var ab = document.createElement('div');
-      ab.className = 'sello';
-      ab.style.background = 'var(--negro)'; ab.style.color = 'var(--crema)';
-      ab.textContent = 'abrir';
-      fila.appendChild(ab);
-      /* Un documento sin identificador no se puede continuar: guardarlo
-         crearía otro aparte. Vale más decirlo que abrirlo y duplicarlo. */
-      if (!doc.id){
-        ab.style.background = 'var(--rojo)';
-        ab.textContent = 'sin identificador';
-        fila.onclick = function(){
-          alert('Este documento llegó sin identificador, así que no puedo ' +
-                'abrirlo para continuarlo: si lo imprimiera de nuevo se ' +
-                'crearía otro aparte. Avísele a quien lleva el sistema.');
-        };
-        y.appendChild(fila);
-        return;
-      }
-      fila.onclick = function(){ abreDocumento(doc.tipo, doc.id); };
-      y.appendChild(fila);
+  }
+
+  /* Los anulados, abajo y contados. No se esconden porque un expediente del
+     que desaparecen documentos no se puede auditar: lo que la NOM-004 pide es
+     que no haya enmendaduras, no que no haya rastro. */
+  if (anulados.length){
+    var ta = document.createElement('div');
+    ta.className = 'cabezaAnulados';
+    ta.textContent = 'Anulados (' + anulados.length + ')';
+    y.appendChild(ta);
+    var na = document.createElement('div');
+    na.className = 'notaAnulados';
+    na.textContent = 'No cuentan como parte del expediente. Se pueden abrir y ' +
+      'leer, pero no editar. Si alguno ya se había impreso, hay que retirar esa ' +
+      'hoja del expediente de papel.';
+    y.appendChild(na);
+    anulados.slice().sort(porFecha_).forEach(function(doc){
+      y.appendChild(renglon_(doc, true));
     });
   }
 
@@ -1602,7 +1765,9 @@ function pintaDocumentos(){
     var caja = $(g === 'captura' ? 'mosCaptura' : 'mosFirmar');
     caja.innerHTML = '';
     DOCUMENTOS.filter(function(t){ return t.grupo === g; }).forEach(function(t){
-      var existente = docs.filter(function(x){ return x.tipo === t.id; })[0];
+      /* `vivos`, no `docs`: si la única historia clínica de la paciente está
+         anulada, este recuadro tiene que abrir una NUEVA, no la retirada. */
+      var existente = vivos.filter(function(x){ return x.tipo === t.id; })[0];
       var b = document.createElement('button');
       b.className = 'ficha' + (existente ? ' hecho' : '');
       b.type = 'button';
@@ -1834,8 +1999,10 @@ function abreDocumento(tipoId, docId){
 
     /* Un documento firmado no se toca ni para completarlo. Y uno que llegó
        sin contenido tampoco: completarlo lo marcaría como sucio y el
-       guardado automático lo escribiría encima. */
-    var completado = (doc.firmado || SIN_CONTENIDO) ? '' : completaGuardado();
+       guardado automático lo escribiría encima. Un anulado, por lo mismo:
+       completarlo con datos de la base sería editarlo. */
+    var completado = (doc.firmado || SIN_CONTENIDO || esAnulado(doc))
+      ? '' : completaGuardado();
     dibujaTodo();
     $('avisoPrefill').innerHTML = '<b>' + TIPO.nombre + ' ya empezada.</b> Guardada el ' +
       (doc.guardado || doc.creado || doc.fecha || '') +
@@ -1856,6 +2023,23 @@ function abreDocumento(tipoId, docId){
       $('avisoPrefill').className = 'aviso malo';
       $('avisoPrefill').innerHTML = '<b>Este documento ya está firmado.</b> No se edita: ' +
         'si hay que corregir o agregar algo, se hace en una nota nueva.';
+    }
+    /* El aviso del anulado va al final a propósito: es el que manda. Si un
+       documento está anulado, lo que diga de «ya empezada» o de «firmado» ya
+       no le sirve a nadie. */
+    var anuAbre = anulacionDe(doc);
+    if (anuAbre){
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML = '<b>Este documento está ANULADO.</b> Sigue en el ' +
+        'expediente y se puede leer, pero ya no cuenta y no se puede editar ni ' +
+        'volver a anular.' +
+        (anuAbre.motivo ? ' Motivo: <b>' + textoPlano(anuAbre.motivo) + '</b>.' : '') +
+        (anuAbre.cuando ? ' Anulado el ' + textoPlano(anuAbre.cuando) : '') +
+        (anuAbre.por ? ' por ' + textoPlano(anuAbre.por) : '') +
+        (anuAbre.cuando || anuAbre.por ? '.' : '') +
+        (anuAbre.estaba === 'Firmado'
+          ? ' <b>Salía firmado</b>: si ya se imprimió, hay que retirar esa hoja del ' +
+            'expediente de papel.' : '');
     }
     if (doc.dictado && !doc.revisado_dictado){
       ofreceDictadoListo(doc.dictado, doc.transcripcion || '');
@@ -3586,9 +3770,37 @@ function pintaFirma_(){
   etq.classList.toggle('on', chk.checked);
 }
 
+/* El candado del documento anulado.
+
+   Vive aquí, colgado de pinta(), que corre en cada tecla y en cada repintado:
+   así no queda ningún camino por el que la pantalla se quede desbloqueada.
+
+   Sólo apaga; nunca enciende. Encender es trabajo de botonGuardar() y de
+   pintaFirma_(), y si esta función también encendiera se pelearían: el sello
+   de «Guardando…» volvería a dejar el botón vivo a media llamada. */
+function pintaCandadoAnulado_(){
+  var bA = $('bAnular');
+  var anu = anulacionAbierta();
+  if (bA){
+    /* El botón aparece sólo cuando el documento ya existe en el expediente:
+       lo que todavía no se ha guardado no se anula, se abandona con «Atrás». */
+    bA.classList.toggle('oculto', !TIPO || !DOC_ID);
+    bA.disabled = !!anu;
+    bA.title = anu
+      ? 'Ya está anulado.'
+      : 'Retira este documento del expediente, dejando constancia de quién y por qué.';
+  }
+  if (!anu) return;
+  ['bGuardar','bDictar'].forEach(function(id){
+    var e = $(id); if (e) e.disabled = true;
+  });
+  var ch = $('chkFirmar'); if (ch) ch.disabled = true;
+}
+
 function pinta(){
   if (!ESQUEMA || !TIPO) return;
   pintaFirma_();
+  pintaCandadoAnulado_();
 
   /* Una hoja de indicaciones no se "llena": se escoge y se imprime. Contar
      campos ahí no dice nada; lo que el médico necesita ver es qué hoja está
@@ -3840,6 +4052,14 @@ function guarda(silencioso){
     selloGuarda('Bloqueado: este documento llegó vacío', 'malo');
     return Promise.resolve();
   }
+  /* Un documento anulado no se edita. Si se pudiera guardar encima, se
+     revivirría por la puerta de atrás: el archivo diría una cosa y la hoja
+     anulada del expediente de papel otra. El único guardado que pasa por aquí
+     es el de la anulación misma, que es el que enciende ANULANDO. */
+  if (!ANULANDO && anulacionAbierta()){
+    if (!silencioso) selloGuarda('Anulado: este documento ya no se edita', 'malo');
+    return Promise.resolve();
+  }
   if (!silencioso) botonGuardar(true);
   selloGuarda('Guardando…', '');
   return pide('documentoGuardar', cuerpoExpediente())
@@ -3872,6 +4092,138 @@ function horaCorta_(){
 }
 
 $('bGuardar').onclick = function(){ guarda(false); };
+
+/* ══════════ ANULAR — el flujo ══════════ */
+
+function abreAnular(){
+  if (!TIPO) return;
+  /* Nada que anular: el documento todavía no existe en el expediente. */
+  if (!DOC_ID){
+    selloGuarda('Primero hay que guardarlo', 'malo');
+    $('avisoPrefill').className = 'aviso ojo';
+    $('avisoPrefill').innerHTML = '<b>Todavía no hay nada que anular.</b> Este ' +
+      'documento no se ha guardado, así que no está en el expediente: para ' +
+      'dejarlo ir basta con salir con «Atrás».';
+    window.scrollTo(0,0);
+    return;
+  }
+  /* Anular guarda. Si el documento llegó sin su contenido, ese guardado
+     escribiría esta pantalla en blanco encima de la que sí tiene texto —el
+     mismo daño que ya bloquea guardar e imprimir—. */
+  if (SIN_CONTENIDO){
+    selloGuarda('Bloqueado: este documento llegó vacío', 'malo');
+    $('avisoPrefill').className = 'aviso malo';
+    $('avisoPrefill').innerHTML = '<b>No puedo anularlo desde esta pantalla.</b> ' +
+      'Este documento llegó sin su contenido, y anular lo guarda: escribiría esta ' +
+      'pantalla en blanco encima de la que sí tiene texto. Repórtelo antes de ' +
+      'tocarlo.';
+    window.scrollTo(0,0);
+    return;
+  }
+  if (anulacionAbierta()) return;
+
+  var firmado = VALORES['doc_estado_firma'] === 'Firmado';
+  $('anuTexto').innerHTML =
+    '<b>El documento no se borra.</b> Se queda en el expediente, marcado como ' +
+    'anulado: deja de contar, no se puede editar, y si se vuelve a imprimir la ' +
+    'hoja sale con el sello de anulada.' +
+    (firmado
+      ? '<br><br><b>Ojo: este documento salía firmado.</b> Si ya se imprimió y está ' +
+        'en el expediente de papel, anularlo aquí no retira esa hoja: hay que ir ' +
+        'por ella.'
+      : '') +
+    (sucio
+      ? '<br><br>Hay cambios en pantalla que no se han guardado. Al anular se ' +
+        'guardan junto con la anulación.'
+      : '');
+  $('anuPista').textContent = 'Diga por qué. Mínimo ' + MIN_MOTIVO_ANULAR +
+    ' caracteres: es lo único que va a quedar explicando este hueco en el ' +
+    'expediente, hoy y en cinco años.';
+  $('anuMotivo').value = '';
+  revisaMotivo_();
+  $('capaAnular').classList.remove('oculto');
+  $('anuMotivo').focus();
+}
+
+/* El botón no se enciende hasta que hay motivo escrito de verdad. Más vale
+   que el freno se vea antes de apretar que como un reclamo después. */
+function revisaMotivo_(){
+  var n = String($('anuMotivo').value || '').trim().length;
+  $('anuSi').disabled = n < MIN_MOTIVO_ANULAR;
+  $('anuInfo').textContent = n >= MIN_MOTIVO_ANULAR
+    ? '' : 'Faltan ' + (MIN_MOTIVO_ANULAR - n) + ' caracteres.';
+}
+
+function cierraAnular(){ $('capaAnular').classList.add('oculto'); }
+
+$('bAnular').onclick = abreAnular;
+$('anuNo').onclick = cierraAnular;
+$('anuCerrar').onclick = cierraAnular;
+$('anuMotivo').oninput = revisaMotivo_;
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && !$('capaAnular').classList.contains('oculto')) cierraAnular();
+});
+
+$('anuSi').onclick = function(){
+  var motivo = String($('anuMotivo').value || '').trim();
+  if (ANULANDO || motivo.length < MIN_MOTIVO_ANULAR) return;
+
+  /* Lo que había antes se conserva: hace falta para poder decir, al abrirlo o
+     al imprimirlo, que esta hoja ya salía firmada y que hay que ir a buscarla
+     al expediente de papel. */
+  var antes = VALORES['doc_estado_firma'] || '';
+
+  ANULANDO = true;
+  $('anuSi').disabled = true;
+  $('anuInfo').textContent = 'Anulando…';
+
+  VALORES['doc_estado_firma'] = ESTADO_ANULADO;
+  VALORES['__anulado'] = {
+    motivo: motivo,
+    por: CORREO || '',
+    cuando: hoyISO() + ' ' + horaCorta_(),
+    estaba: antes
+  };
+  sucio = true;
+
+  guarda(false).then(function(d){
+    ANULANDO = false;
+    /* `guarda` devuelve la respuesta del gateway si guardó, y nada si falló
+       (su propio .catch ya escribió el aviso rojo de arriba). Si falló, la
+       marca se RETIRA de la pantalla: dejarla puesta haría ver como anulado
+       algo que en el expediente sigue vivo, que es la peor de las dos
+       mentiras posibles. */
+    if (!d){
+      VALORES['doc_estado_firma'] = antes;
+      delete VALORES['__anulado'];
+      ['bGuardar','bDictar'].forEach(function(id){
+        var e = $(id); if (e) e.disabled = false;
+      });
+      var ch = $('chkFirmar'); if (ch) ch.disabled = false;
+      $('anuInfo').textContent = 'No se anuló. Arriba dice por qué.';
+      $('anuSi').disabled = false;
+      return;
+    }
+    sucio = false;
+    cierraAnular();
+    /* Se refresca la copia en memoria del expediente para que al volver con
+       «Atrás» el documento ya aparezca en la sección de anulados sin tener
+       que ir otra vez al servidor. */
+    refrescaEnMemoria(d);
+    dibujaTodo();
+    $('avisoPrefill').className = 'aviso malo';
+    $('avisoPrefill').innerHTML = '<b>Documento ANULADO.</b> Sigue en el expediente ' +
+      'y se puede leer, pero ya no cuenta y no se puede editar. Motivo: <b>' +
+      textoPlano(motivo) + '</b>. Anulado el ' +
+      textoPlano(VALORES['__anulado'].cuando) +
+      (CORREO ? ' por ' + textoPlano(CORREO) : '') + '.' +
+      (antes === 'Firmado'
+        ? ' <b>Salía firmado</b>: si ya se imprimió, retire esa hoja del expediente ' +
+          'de papel.' : '');
+    selloGuarda('Anulado', 'malo');
+    window.scrollTo(0,0);
+  });
+};
 
 /* Encender o apagar la firma del documento.
 
@@ -3990,6 +4342,30 @@ function armaImpresion(){
     if (clase) e.className = clase;
     if (texto !== undefined && texto !== null) e.textContent = texto;
     return e;
+  }
+
+  /* ---- el sello de anulado ----
+     Un documento anulado se puede reimprimir —a veces hay que poder mostrar
+     por qué se anuló, y a veces alguien va a imprimir sin fijarse—. Lo que no
+     puede es salir en papel igualito a uno vigente: una hoja anulada sin
+     sello acaba archivada en el expediente de papel como si contara, y
+     entonces el expediente dice dos cosas distintas.
+
+     Va antes del membrete, arriba de todo, y vale para las tres clases de
+     impresión —documento, hoja de indicaciones y receta—, porque las tres
+     cuelgan de esta misma raíz. */
+  var anuImp = anulacionAbierta();
+  if (anuImp){
+    var ba = el('div','anulado');
+    ba.appendChild(el('b', null, 'DOCUMENTO ANULADO'));
+    ba.appendChild(el('div', null,
+      'No forma parte del expediente vigente. No tiene valor clínico ni legal.'));
+    ba.appendChild(el('div', null,
+      ['Anulado' + (anuImp.cuando ? ' el ' + anuImp.cuando : ''),
+       anuImp.por ? 'por ' + anuImp.por : '',
+       anuImp.motivo ? 'motivo: ' + anuImp.motivo : ''
+      ].filter(Boolean).join(' · ')));
+    raiz.appendChild(ba);
   }
 
   /* ---- encabezado del establecimiento ---- */
@@ -4628,7 +5004,11 @@ function borraBorrador(){
 window.addEventListener('beforeunload', function(e){
   if (sucio){ guardaBorrador(); e.preventDefault(); e.returnValue = ''; }
 });
-setInterval(function(){ if (sucio && CRED) guarda(true); }, 25000);
+/* El guardado automático tampoco toca un documento anulado: el candado de
+   guarda() ya lo frena, y aquí se evita además el viaje al gateway. */
+setInterval(function(){
+  if (sucio && CRED && !anulacionAbierta()) guarda(true);
+}, 25000);
 
 /* ==========================================================================
    MOTOR DE ESTRUCTURACIÓN — Dr. Miguel Ángel Soto Miranda
