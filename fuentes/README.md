@@ -342,3 +342,20 @@ puede escribir.
     diccionario con «Anulado» entre sus opciones, nada más no se usaba. Por eso
     esto no tocó el gateway ni la hoja `Base Datos`. Replicado de Zorvix el
     15-nov-2026, a pedido del médico.
+11. **La firma digital no entra al expediente.** Palabras del médico, 15-nov-2026:
+    «la firma digital únicamente sirve para mandar un documento digital a un
+    paciente, digamos una receta. Pero no sirve para mi expediente clínico del
+    consultorio. Los del consultorio siempre se deben firmar en papel a mano.»
+
+    Por eso la casilla de «Firmar» sólo existe en los documentos que declaran
+    `firmaDigital: true`, que son los cinco que salen del consultorio en
+    digital: las dos recetas, la solicitud de gabinete, la orden de
+    internamiento y la constancia de acompañante. Un documento del expediente
+    —hoja frontal, historia clínica, las tres notas, los consentimientos, el
+    aviso de privacidad y el convenio— nunca estampa la rúbrica y su pie
+    siempre dice «Firma autógrafa», que es la verdad.
+
+    El candado vive en `firmado_()`, no en la casilla: cierra de un solo lugar
+    la rúbrica impresa, el texto del pie y la casilla de pantalla, y por eso
+    tampoco estampa un documento que traiga guardado «Firmado» de cuando la
+    casilla salía en todos lados.

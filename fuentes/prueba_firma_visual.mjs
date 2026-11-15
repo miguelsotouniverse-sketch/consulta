@@ -14,7 +14,13 @@
        esquema — no en una columna nueva;
      · si no hay firma cargada en las constantes, no pasa nada y todo sigue
        siendo manual;
-     · vale igual para las recetas y para el resto de los documentos.
+     · y DÓNDE NO EXISTE. El 15-nov-2026 el médico lo acotó: «la firma digital
+       únicamente sirve para mandar un documento digital a un paciente, digamos
+       una receta. Pero no sirve para mi expediente clínico del consultorio.
+       Los del consultorio siempre se deben firmar en papel a mano.» Así que
+       una nota clínica NO se puede estampar —ni aunque traiga guardado el
+       valor «Firmado» de antes, de cuando la casilla salía en todos lados— y
+       la casilla no se le ofrece siquiera.
 
    Uso: node prueba_firma_visual.mjs [index.html] [recetas.json]
    ============================================================ */
@@ -109,15 +115,42 @@ const r = await pag.evaluate(async ({ esquema, cat, constantes }) => {
   out.sinConstanteRubricas = c.rubricas;
   out.sinConstanteDiceAutografa = /Firma autógrafa/.test(c.texto);
 
-  /* --- 5. un documento que no es receta --- */
+  /* --- 5. una nota clínica: NO se estampa, pase lo que pase --- */
   base(constantes);
   TIPO = DOCUMENTOS.filter(function(d){ return d.id === 'nota_evolucion'; })[0];
   PLANTILLA = null;
-  VALORES['doc_estado_firma'] = 'Firmado';
+  VALORES['doc_estado_firma'] = 'Firmado';   /* valor guardado de antes */
   arma(); vuelca();
   const d = imprime();
   out.notaRubricas = d.rubricas;
   out.notaDiceAutografa = /Firma autógrafa/.test(d.texto);
+  pinta();
+  out.notaCasillaOculta = $('etqFirmar').classList.contains('oculto');
+
+  /* --- 6. una solicitud de gabinete y una receta: ahí sí --- */
+  base(constantes);
+  TIPO = DOCUMENTOS.filter(function(d){ return d.id === 'estudios_gabinete'; })[0];
+  PLANTILLA = null;
+  VALORES['doc_estado_firma'] = 'Firmado';
+  arma(); vuelca();
+  out.gabineteRubricas = imprime().rubricas;
+  pinta();
+  out.gabineteCasillaVisible = !$('etqFirmar').classList.contains('oculto');
+
+  base(constantes);   /* receta_post */
+  pinta();
+  out.recetaCasillaVisible = !$('etqFirmar').classList.contains('oculto');
+
+  /* --- 7. el reparto completo, documento por documento --- */
+  out.conFirma = DOCUMENTOS.filter(function(x){ return x.firmaDigital; })
+    .map(function(x){ return x.id; });
+  out.expedienteSinFirma = ['hoja_frontal','historia_clinica','nota_evolucion',
+    'nota_procedimiento','nota_preoperatoria','ci_quirurgico','ci_rellenos',
+    'ci_toxina','ci_imagen','aviso_privacidad','convenio']
+    .filter(function(id){
+      const t = DOCUMENTOS.filter(function(x){ return x.id === id; })[0];
+      return t && t.firmaDigital;
+    });
 
   return out;
 }, { esquema, cat, constantes });
@@ -142,10 +175,31 @@ revisa('sin firma en las constantes no se estampa nada',
   r.sinConstanteRubricas === 0, r.sinConstanteRubricas + ' rúbricas');
 revisa('sin firma en las constantes el pie vuelve a «Firma autógrafa»',
   r.sinConstanteDiceAutografa, 'el pie quedó mal');
-revisa('también funciona fuera de las recetas', r.notaRubricas === 1,
-  r.notaRubricas + ' rúbricas en la nota de evolución');
-revisa('en la nota firmada tampoco dice «Firma autógrafa»', !r.notaDiceAutografa,
-  'seguía diciendo autógrafa');
+/* El expediente del consultorio se firma a mano, sobre papel. Estas tres son
+   las que impiden que una nota clínica salga con la rúbrica estampada. */
+revisa('una NOTA CLÍNICA no se estampa, ni con «Firmado» guardado de antes',
+  r.notaRubricas === 0, r.notaRubricas + ' rúbricas en la nota de evolución');
+revisa('y su pie sigue diciendo «Firma autógrafa», que es la verdad',
+  r.notaDiceAutografa, 'el pie afirmaba firma electrónica en una nota de papel');
+revisa('y a la nota clínica ni siquiera se le ofrece la casilla',
+  r.notaCasillaOculta, 'la casilla salía en un documento del expediente');
+
+revisa('la solicitud de gabinete sí se puede mandar firmada',
+  r.gabineteRubricas === 1, r.gabineteRubricas + ' rúbricas');
+revisa('y ahí la casilla sí aparece', r.gabineteCasillaVisible, '');
+revisa('en la receta también', r.recetaCasillaVisible, '');
+revisa('ningún documento del expediente permite firma digital',
+  r.expedienteSinFirma.length === 0, r.expedienteSinFirma.join(', '));
+/* Cinco, y cada uno sale del consultorio en digital: las dos recetas, la
+   solicitud de gabinete, y la orden y la constancia, que se mandan por
+   correo. Si algún día son seis, que sea a propósito y no por descuido. */
+revisa('la lista de los que sí es corta y explícita',
+  r.conFirma.length === 5 &&
+  r.conFirma.indexOf('receta') >= 0 && r.conFirma.indexOf('receta_post') >= 0 &&
+  r.conFirma.indexOf('estudios_gabinete') >= 0 &&
+  r.conFirma.indexOf('orden_internamiento') >= 0 &&
+  r.conFirma.indexOf('constancia_acompanante') >= 0,
+  r.conFirma.join(', '));
 
 await nav.close();
 console.log(fallas ? `\n${fallas} caso(s) mal`
