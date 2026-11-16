@@ -69,6 +69,12 @@ input.buscador:focus{outline:none;border-color:var(--taupe)}
 .cita .sello{font-size:11px;padding:3px 8px;border-radius:2px;background:var(--crema);color:var(--gris)}
 .cita .sello.ok{background:#E8F0EA;color:var(--verde)}
 .cita .sello.no{background:#F6E9E8;color:var(--rojo)}
+/* De cuál de las cuatro agendas salió la cita. Con una sola agenda no hacía
+   falta decirlo; con cuatro, saber si la paciente viene a consulta, a cabina
+   o a quirófano cambia qué documento se le va a hacer. */
+.cita .fuente{font-size:11px;padding:3px 8px;border-radius:2px;
+  background:#fff;border:1px solid var(--linea);color:var(--taupe);
+  letter-spacing:.04em;white-space:nowrap}
 .cita.cancelada{opacity:.5}
 .vacio{background:#fff;border:1px dashed var(--linea);border-radius:4px;
   padding:26px 18px;text-align:center;color:var(--gris);font-size:13.5px}
@@ -1349,13 +1355,39 @@ function cargaAgenda(){
   var f = $('fechaAgenda').value || hoyISO();
   $('listaAgenda').innerHTML = '<div class="vacio">Leyendo la agenda…</div>';
   pide('agenda', { fecha: f })
-    .then(function(d){ pintaAgenda(d.consultas || []); })
+    .then(function(d){
+      pintaAgenda(d.consultas || []);
+      /* Si el gateway no pudo abrir alguna de las cuatro agendas, se dice.
+         Una agenda que falta en silencio es peor que una que falta: el día
+         se ve completo y no lo está. */
+      avisaAgendasQueFaltan_(d.sin_alcance || []);
+    })
     .catch(function(e){
       $('listaAgenda').innerHTML = '';
       var v = document.createElement('div'); v.className = 'vacio';
       v.textContent = 'No pude leer la agenda: ' + e.message;
       $('listaAgenda').appendChild(v);
     });
+}
+
+/* El aviso de las agendas que no se pudieron leer. Va ARRIBA de la lista y
+   no se desvanece: si falta la cabina, el día que se ve en pantalla no es el
+   día que hay, y eso tiene que saberse antes de empezar a trabajar. */
+function avisaAgendasQueFaltan_(faltan){
+  var viejo = $('agendasFaltan');
+  if (viejo) viejo.parentNode.removeChild(viejo);
+  if (!faltan || !faltan.length) return;
+  var a = document.createElement('div');
+  a.id = 'agendasFaltan';
+  a.className = 'aviso malo';
+  a.style.marginBottom = '12px';
+  a.innerHTML = '<b>Falta' + (faltan.length === 1 ? '' : 'n') + ' ' +
+    faltan.length + ' agenda' + (faltan.length === 1 ? '' : 's') + ' de este día: ' +
+    faltan.join(', ') + '.</b> La cuenta que corre el expediente no las tiene ' +
+    'compartidas, así que lo que ve abajo está incompleto. Compártalas con esa ' +
+    'cuenta y vuelva a cargar.';
+  var lista = $('listaAgenda');
+  lista.parentNode.insertBefore(a, lista);
 }
 
 function pintaAgenda(cs){
@@ -1383,7 +1415,17 @@ function pintaAgenda(cs){
     s.className = 'sello' + (c.cancelada ? ' no' : (c.primera_vez ? ' ok' : ''));
     s.textContent = c.cancelada ? 'cancelada' : (c.primera_vez ? 'primera vez' : 'subsecuente');
 
-    d.appendChild(h); d.appendChild(m); d.appendChild(s);
+    d.appendChild(h); d.appendChild(m);
+    /* Desde el 15-nov-2026 el día trae las cuatro agendas —consulta, cirugía
+       y las dos cabinas—, así que cada renglón dice de cuál salió. Los
+       expedientes viejos no traen `agenda`: entonces no se pinta nada, en
+       vez de inventar una procedencia. */
+    if (c.agenda){
+      var fu = document.createElement('div');
+      fu.className = 'fuente'; fu.textContent = c.agenda;
+      d.appendChild(fu);
+    }
+    d.appendChild(s);
     d.onclick = function(){ abreExpediente(deCita(c)); };
     cont.appendChild(d);
   });
