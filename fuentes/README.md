@@ -52,6 +52,9 @@ python3 fuentes/construir_receta_morpheus8.py
 python3 fuentes/construir_hoja_nanofat.py
 python3 fuentes/construir_receta_nanofat.py
 python3 fuentes/agregar_molestia_garganta.py
+python3 fuentes/preguntar_plano_mastopexia.py
+python3 fuentes/construir_receta_cuerpo_combinada.py
+python3 fuentes/construir_hoja_cuerpo_combinada.py
 ```
 
 Ya no hay ningún `cp` en la cadena: las dos mitades arrancan de un constructor
@@ -253,6 +256,7 @@ angosta que la ventana y el texto se acomoda distinto.
 | `prueba_morpheus8.mjs` | que la hoja de Morpheus8 no haya heredado la recuperación de un láser ablativo al copiar del eCO₂ —ni los 12 meses de protector solar, ni el maquillaje al día 14, ni la piel abierta—, que no recete antiviral ni esteroide tópico, que no invente un calendario de sesiones, y que el acompañante y el no manejar sólo salgan si hubo sedación |
 | `prueba_gabinete.mjs` | que la solicitud de estudios de gabinete exista, que los cinco campos que declara existan de verdad en el esquema —si nombra uno que no está, la app lo omite sin avisar—, que NO se imprima sin estudio o sin región, y que en el papel no salga ni una casilla vacía: lo que se marca en la app sale como texto |
 | `prueba_nanofat.mjs` | **que el renglón del hielo no vuelva a entrar**. Las otras cinco hojas faciales mandan frío cada hora; la de nanofat no puede, porque el frío mata el injerto. El riesgo no es olvidarlo hoy: es que alguien reconstruya la hoja copiando de las faciales, como se copia todo aquí, y el renglón entre sin que se note |
+| `prueba_cuerpo_combinada.mjs` | **que el relajante muscular no entre solo y que el anticoagulante no se pierda** en la combinada de cuerpo. El médico fijó el 24-nov-2026 que el plano del implante se pregunta, no se supone; y abdominoplastia más lipo es su escenario trombótico más alto, así que si alguien reconstruye esta plantilla copiando de la mastopexia, el rivaroxabán desaparece sin que nadie lo note. Defiende además que la hoja no hable de drenajes —esta combinación no los lleva— y que no vuelva el choque entre las dos hojas de origen, que mandaban apoyarse en los brazos y en las piernas a la vez |
 | `prueba_anular.mjs` | **que anular no borre**. Que el documento anulado se quede en el expediente, baje a su propia sección en vez de desaparecer, no se pueda editar —ni a mano, ni con el guardado automático, ni completándolo con datos de la base—, no se pueda anular sin motivo, y que la hoja impresa lleve el sello. Y que un guardado fallido retire la marca en vez de dejar la pantalla diciendo «anulado» de algo que en el expediente sigue vivo |
 | `prueba_garganta.mjs` | **el candado de las preguntas de la hoja**: que una hoja con la pregunta sin contestar no se imprima, que contestar cambie lo que sale en el papel, que la respuesta quede impresa en el pie, y que la hoja y la receta de la misma cirugía digan la misma dosis. Además, que en las tres hojas con dieta de la glándula submandibular el texto no ofrezca caramelos que esa misma hoja prohíbe |
 
