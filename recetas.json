@@ -1382,6 +1382,16 @@
      "pieSi": "anestesia general con vía aérea instrumentada",
      "pieNo": "sin vía aérea instrumentada",
      "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    },
+    {
+     "id": "retro",
+     "etiqueta": "El implante quedó en plano retromuscular",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "implante retromuscular",
+     "pieNo": "implante subglandular o subfascial",
+     "ayuda": "Decide si la receta lleva el relajante muscular. El espasmo del pectoral es de las pacientes con el implante por detrás del músculo; en plano subglandular ese renglón no aplica. Si no hubo implante, conteste que no."
     }
    ],
    "medicamentos": [
@@ -1539,6 +1549,9 @@
       "h": [
        "22:00"
       ]
+     },
+     "si": {
+      "retro": true
      }
     },
     {
@@ -1644,13 +1657,9 @@
    "profilaxisNota": "Repetir si la cirugía pasa de 4 h (cefazolina) o de 6 h (clindamicina).",
    "avisos": [
     {
-     "si": {},
-     "tono": "",
-     "texto": "El relajante muscular entra encendido porque esta plantilla supone plano retromuscular. Si el implante quedó subglandular, o no hubo implante, quítele la marca al renglón de ciclobenzaprina."
-    },
-    {
      "si": {
-      "isrs": true
+      "isrs": true,
+      "retro": true
      },
      "tono": "malo",
      "texto": "Ciclobenzaprina + ISRS/IRSN: riesgo de síndrome serotoninérgico, y se suma al que ya trae el tramadol. Si deja los dos, explíquele los síntomas a la paciente; si no, quite uno."
@@ -1747,7 +1756,492 @@
     }
    ],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
-   "version": "1efe9fe9"
+   "version": "70fb33d0"
+  },
+  {
+   "id": "cuerpo_combinada",
+   "nombre": "Combinada de cuerpo — abdominoplastia + lipoescultura + mastopexia con implantes",
+   "coincide": [],
+   "procedimiento": "Abdominoplastia + lipoescultura + mastopexia con implantes",
+   "preguntas": [
+    {
+     "id": "peni",
+     "etiqueta": "Alergia a penicilina",
+     "tipo": "lista",
+     "obligatoria": true,
+     "opciones": [
+      [
+       "no",
+       "No alérgica"
+      ],
+      [
+       "leve",
+       "Leve — rash sin datos de gravedad"
+      ],
+      [
+       "grave",
+       "Grave — anafilaxia, angioedema, broncoespasmo o Stevens-Johnson"
+      ]
+     ]
+    },
+    {
+     "id": "sulfa",
+     "etiqueta": "Alergia a sulfonamidas",
+     "tipo": "sino",
+     "obligatoria": true,
+     "ayuda": "Si es sí, el celecoxib queda contraindicado."
+    },
+    {
+     "id": "otras",
+     "etiqueta": "Otras alergias",
+     "tipo": "texto"
+    },
+    {
+     "id": "renal",
+     "etiqueta": "Función renal disminuida",
+     "tipo": "sino",
+     "obligatoria": true,
+     "ayuda": "Cambia el celecoxib de cada 12 a cada 24 horas."
+    },
+    {
+     "id": "isrs",
+     "etiqueta": "Toma ISRS / IRSN",
+     "tipo": "casilla"
+    },
+    {
+     "id": "sintram",
+     "etiqueta": "Omitir tramadol",
+     "tipo": "casilla",
+     "ayuda": "Por omisión SÍ se imprime, para que la paciente la tenga en casa si la necesita y no tenga que regresar por ella."
+    },
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    },
+    {
+     "id": "retro",
+     "etiqueta": "El implante quedó en plano retromuscular",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "implante retromuscular",
+     "pieNo": "implante subglandular o subfascial",
+     "ayuda": "Decide si la receta lleva el relajante muscular. El espasmo del pectoral es de las pacientes con el implante por detrás del músculo; en plano subglandular ese renglón no aplica. Si no hubo implante, conteste que no."
+    }
+   ],
+   "medicamentos": [
+    {
+     "hoja": "antibiotico",
+     "nombre": "Amoxicilina / ácido clavulánico 875/125 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas, con alimentos, durante 5 días.",
+     "si": {
+      "peni": [
+       "no"
+      ]
+     },
+     "cantidad": "10 tabletas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Amoxicilina / clavulanato",
+      "h": [
+       "09:00",
+       "21:00"
+      ]
+     }
+    },
+    {
+     "hoja": "antibiotico",
+     "nombre": "Clindamicina 300 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 8 horas, con un vaso completo de agua, durante 5 días. Si presenta diarrea frecuente o con moco, avise.",
+     "si": {
+      "peni": [
+       "leve",
+       "grave"
+      ]
+     },
+     "cantidad": "15 cápsulas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Clindamicina",
+      "h": [
+       "06:00",
+       "14:00",
+       "22:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Amlodipino 5 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días. La primera tableta se toma la MAÑANA ANTERIOR a la cirugía y de ahí en adelante una cada día, a la misma hora. Sirve para mantener su presión estable, que es lo que evita que se acumule sangre bajo la piel. No la suspenda porque se sienta bien ni porque su presión salga normal: es justamente lo que la mantiene normal. Si la cifra de arriba baja de 90, lo primero que se suspende es el metoprolol, no éste; si en la siguiente toma sigue por debajo de 90, entonces suspenda también el amlodipino y avísenos.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días, desde la mañana anterior",
+     "horario": {
+      "n": "Amlodipino",
+      "h": [
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Metoprolol (tartrato) 50 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas durante 10 días, empezando el DÍA DE SU ALTA. Es el segundo medicamento para la presión y trabaja junto con el amlodipino. Tómelo a sus horas los 10 días completos, aunque se sienta bien. Si la cifra de arriba baja de 90, suspenda ESTE primero y siga con el amlodipino; avísenos el mismo día.",
+     "cantidad": "20 tabletas",
+     "duracion": "10 días, desde el día del alta",
+     "horario": {
+      "n": "Metoprolol",
+      "h": [
+       "08:00",
+       "20:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Captopril 25 mg, tabletas.",
+     "indicacion": "SÓLO si al medirse la presión la cifra de arriba (la sistólica) está por encima de 130 a pesar del amlodipino y del metoprolol: coloque 1 tableta DEBAJO DE LA LENGUA y déjela deshacerse, no la trague ni la mastique. Vuelva a medirse a los 30 minutos. Si sigue por encima de 130, puede tomar una segunda tableta igual. Si después de esa segunda tableta sigue alta, llámenos: no tome una tercera.",
+     "cantidad": "10 tabletas",
+     "duracion": "Sólo en caso necesario, máximo 2 tabletas seguidas",
+     "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Rivaroxabán 10 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 24 horas durante 10 días, a la misma hora. No la suspenda por su cuenta ni tome aspirina ni antiinflamatorios que no estén en esta receta.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
+     "horario": {
+      "n": "Rivaroxabán",
+      "h": [
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Paracetamol 500 mg, tabletas.",
+     "indicacion": "Tomar 2 tabletas (1 g) vía oral cada 8 horas durante 14 días. No tome otros productos que contengan paracetamol.",
+     "cantidad": "84 tabletas",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Paracetamol",
+      "h": [
+       "08:00",
+       "16:00",
+       "24:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Celecoxib 200 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 12 horas, con alimentos, durante 14 días.",
+     "si": {
+      "sulfa": false,
+      "c24": false
+     },
+     "cantidad": "28 cápsulas",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Celecoxib",
+      "h": [
+       "12:00",
+       "20:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Celecoxib 200 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 24 horas, con alimentos, durante 14 días.",
+     "si": {
+      "sulfa": false,
+      "c24": true
+     },
+     "cantidad": "14 cápsulas",
+     "duracion": "14 días",
+     "horario": {
+      "n": "Celecoxib",
+      "h": [
+       "14:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Ketorolaco 10 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 8 horas, con alimentos, alternando con el paracetamol, durante 5 días. No tomar más de 5 días.",
+     "si": {
+      "sulfa": true
+     },
+     "cantidad": "15 tabletas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Ketorolaco",
+      "h": [
+       "12:00",
+       "20:00",
+       "04:00*"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Ciclobenzaprina 10 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral por la noche, al acostarse, durante 7 días. Es para el espasmo del músculo pectoral, que es lo que aprieta y arde cuando el implante quedó por detrás del músculo. Da sueño: tómela sólo de noche y no maneje después de tomarla.",
+     "cantidad": "7 tabletas",
+     "duracion": "7 días",
+     "horario": {
+      "n": "Ciclobenzaprina (noche)",
+      "h": [
+       "22:00"
+      ]
+     },
+     "si": {
+      "retro": true
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Dexametasona 4 mg, tabletas (Decorex®).",
+     "indicacion": "Tomar 1 tableta (4 mg) vía oral cada 24 horas, por la mañana y con alimento, durante 10 días; al terminar los 10 días se suspende. Sirve para bajar la inflamación de los tejidos operados. No la alargue ni la suspenda antes por su cuenta, y si tiene diabetes avísenos: el esteroide sube el azúcar mientras lo toma.",
+     "cantidad": "10 tabletas",
+     "duracion": "10 días",
+     "horario": {
+      "n": "Dexametasona",
+      "h": [
+       "08:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Pantoprazol 40 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta en ayunas, 30 minutos antes del desayuno, cada 24 horas durante {diasPPI} días.",
+     "cantidad": "{diasPPI} tabletas",
+     "duracion": "{diasPPI} días",
+     "horario": {
+      "n": "Pantoprazol",
+      "h": [
+       "07:00"
+      ]
+     }
+    },
+    {
+     "hoja": "controlado",
+     "nombre": "Tramadol 50 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula cada 8 horas solo si hay dolor intenso que no cede con lo anterior. Máximo 3 al día. No maneje ni tome alcohol mientras lo use.",
+     "si": {
+      "sintram": false
+     },
+     "cantidad": "9 cápsulas",
+     "duracion": "3 días",
+     "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Ondansetrón 8 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta cada 8 horas solo si hay náusea o vómito.",
+     "cantidad": "10 tabletas",
+     "duracion": "Según necesidad",
+     "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Polietilenglicol 3350, sobres de 17 g.",
+     "indicacion": "Disolver 1 sobre en un vaso de agua (240 mL) cada 24 horas durante 7 días, o mientras tome tramadol. Suspender si las evacuaciones son blandas.",
+     "cantidad": "7 sobres",
+     "duracion": "7 días",
+     "horario": {
+      "n": "Polietilenglicol",
+      "h": [
+       "09:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Senósidos A-B 8.6 mg, tabletas.",
+     "indicacion": "Tomar 2 tabletas por la noche solo si no ha evacuado en 48 horas.",
+     "cantidad": "20 tabletas",
+     "duracion": "Según necesidad",
+     "rescate": true
+    },
+    {
+     "hoja": "psicotropico",
+     "nombre": "Clonazepam 2.5 mg/mL, solución en gotas, frasco de 10 mL.",
+     "indicacion": "SÓLO si tiene una crisis de ansiedad: 5 gotas (0.5 mg) debajo de la lengua. Puede repetirlo una vez más en el día si vuelve a pasar, sin exceder 2 tomas en 24 horas. Da sueño: no maneje ni se levante sola después de tomarlo, y si ese día tomó tramadol espere al menos 4 horas entre uno y otro. Sentir ansiedad los primeros días después de una cirugía es frecuente y pasa; esto es para los momentos malos, no para tomarlo de horario.",
+     "cantidad": "1 frasco de 10 mL",
+     "duracion": "Sólo en caso necesario, máximo 2 tomas al día",
+     "rescate": true
+    },
+    {
+     "hoja": "general",
+     "nombre": "Bencidamina 0.15 %, solución bucofaríngea, frasco CON ATOMIZADOR de 40 ml (Vantal® spray).",
+     "indicacion": "4 atomizaciones dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia por el tubo de la anestesia. No se traga; si queda la boca adormecida un momento, es esperado.",
+     "cantidad": "1 frasco con atomizador de 40 ml",
+     "duracion": "Mientras tenga molestia, habitualmente 3 a 5 días",
+     "rescate": true,
+     "si": {
+      "tubo": true
+     }
+    }
+   ],
+   "profilaxis": [
+    {
+     "si": {
+      "peni": [
+       "grave"
+      ]
+     },
+     "texto": "Clindamicina 900 mg IV"
+    },
+    {
+     "si": {},
+     "texto": "Cefazolina 2 g IV"
+    }
+   ],
+   "profilaxisNota": "Repetir si la cirugía pasa de 4 h (cefazolina, ampicilina/sulbactam) o de 6 h (clindamicina).",
+   "avisos": [
+    {
+     "si": {},
+     "tono": "ojo",
+     "texto": "Esta receta lleva rivaroxabán junto con un AINE durante 14 días. La ficha técnica autorizada pide usarlos juntos sólo si el beneficio supera el riesgo de sangrado."
+    },
+    {
+     "si": {
+      "isrs": true,
+      "retro": true
+     },
+     "tono": "malo",
+     "texto": "Ciclobenzaprina + ISRS/IRSN: riesgo de síndrome serotoninérgico, y se suma al que ya trae el tramadol. Si deja los dos, explíquele los síntomas a la paciente; si no, quite uno."
+    },
+    {
+     "si": {
+      "sulfa": true
+     },
+     "tono": "malo",
+     "texto": "Alergia a sulfas: la receta cambia celecoxib por ketorolaco, y el ketorolaco está contraindicado en hemostasia incompleta y diátesis hemorrágica. Con rivaroxabán encima, reconsidere el AINE."
+    },
+    {
+     "si": {
+      "renal": true
+     },
+     "tono": "malo",
+     "texto": "El rivaroxabán se elimina por vía renal. Verifique la depuración antes de recetarlo: por debajo de 30 mL/min su uso es desaconsejado y por debajo de 15 no debe usarse."
+    },
+    {
+     "si": {
+      "c24": true
+     },
+     "tono": "",
+     "texto": "Celecoxib cada 24 horas por edad ≥ 65 años o función renal disminuida."
+    },
+    {
+     "si": {
+      "sulfa": true
+     },
+     "tono": "ojo",
+     "texto": "Alergia a sulfas: celecoxib contraindicado. Se usa ketorolaco, con tope de 5 días sumando lo intravenoso y lo oral."
+    },
+    {
+     "si": {
+      "renal": true
+     },
+     "tono": "malo",
+     "texto": "Si la TFG es menor de 30 mL/min, quite el AINE de la receta y deje paracetamol con tramadol de rescate."
+    },
+    {
+     "si": {
+      "isrs": true,
+      "sintram": false
+     },
+     "tono": "malo",
+     "texto": "Tramadol + ISRS/IRSN: riesgo de síndrome serotoninérgico y de convulsiones. Considere omitirlo."
+    },
+    {
+     "si": {
+      "sintram": true
+     },
+     "tono": "",
+     "texto": "Tramadol omitido. El dolor intenso se maneja por consulta."
+    },
+    {
+     "si": {
+      "peni": [
+       "leve"
+      ]
+     },
+     "tono": "",
+     "texto": "Alergia leve a penicilina: cefazolina IV aceptable (reactividad cruzada menor al 2 %). Por vía oral, clindamicina, porque la amoxicilina sí está contraindicada."
+    },
+    {
+     "si": {
+      "peni": [
+       "grave"
+      ]
+     },
+     "tono": "ojo",
+     "texto": "Alergia grave a penicilina: ningún betalactámico."
+    },
+    {
+     "si": {
+      "menor": true
+     },
+     "tono": "ojo",
+     "texto": "Paciente menor de 18 años: revise todas las dosis."
+    }
+   ],
+   "alarma": [
+    {
+     "t": "Falta de aire, dolor en el pecho, tos con sangre o sensación de que el corazón late muy rápido."
+    },
+    {
+     "t": "Dolor, hinchazón o calor en una sola pantorrilla o pierna."
+    },
+    {
+     "t": "Sangrado que no para, sangre en la orina o en las evacuaciones, moretones que aparecen solos o encías que sangran: está tomando un anticoagulante."
+    },
+    {
+     "t": "Sangrado rojo brillante que empapa gasas o toallas en menos de 1 hora."
+    },
+    {
+     "t": "Una zona que crece rápido, se pone tensa y muy dolorosa, o que se siente como bolsa de líquido."
+    },
+    {
+     "t": "Fiebre de 38 °C o más."
+    },
+    {
+     "t": "Enrojecimiento que se extiende, calor, pus o mal olor en una incisión."
+    },
+    {
+     "t": "Piel que se torna oscura, morada intensa o negra, o ampollas."
+    },
+    {
+     "t": "Mareo persistente, palidez marcada u orina muy escasa."
+    },
+    {
+     "t": "Un seno que crece rápido, se pone duro y duele cada vez más, sobre todo si es sólo uno de los dos."
+    },
+    {
+     "t": "Piel del pezón o de la areola que se pone morada oscura, negra, o blanca y fría."
+    },
+    {
+     "t": "Una herida que se abre o cuyos bordes se separan, en especial donde se juntan las cicatrices por debajo de la areola."
+    },
+    {
+     "t": "Piel del abdomen, sobre todo alrededor del ombligo, que se pone morada oscura, gris o negra."
+    }
+   ],
+   "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
+   "version": "92178589"
   },
   {
    "id": "blefaroplastia",
@@ -4777,6 +5271,6 @@
   "22:00",
   "24:00"
  ],
- "version": "b62d1aee35a6797c",
- "generado": "2026-11-12"
+ "version": "5ba87c4735de6d7c",
+ "generado": "2026-11-24"
 }

@@ -1485,6 +1485,459 @@
    ]
   },
   {
+   "id": "cuerpo_combinada",
+   "nombre": "Combinada de cuerpo — abdominoplastia + lipoescultura + mastopexia con implantes",
+   "titulo": "Recomendaciones postoperatorias — Abdominoplastia, lipoescultura y mastopexia con implantes",
+   "coincide": [],
+   "entrada": "Su recuperación forma parte del resultado. Estas indicaciones son generales; si alguna difiere de lo que el Dr. Soto le indicó en persona, siga siempre la indicación personal.",
+   "preguntas": [
+    {
+     "id": "tubo",
+     "etiqueta": "La anestesia fue con tubo o mascarilla laríngea",
+     "tipo": "sino",
+     "obligatoria": true,
+     "enPie": true,
+     "pieSi": "anestesia general con vía aérea instrumentada",
+     "pieNo": "sin vía aérea instrumentada",
+     "ayuda": "Decide si se imprime la sección de molestia de garganta y si la receta lleva el spray. Con sedación sin tubo ni mascarilla, esa molestia no aplica y el texto sobraría."
+    }
+   ],
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Procedimiento",
+       "Abdominoplastia + Lipoescultura Body360® + Mastopexia con implantes"
+      ],
+      [
+       "Zonas tratadas",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Primeras 72 horas"
+    },
+    {
+     "t": "p",
+     "x": "Descanse boca arriba, con la espalda elevada y las rodillas dobladas, y camine varias veces al día desde el mismo día de la cirugía. Caminar es la medida más importante para prevenir coágulos en las piernas; la postura es lo que protege su abdomen."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Posición para dormir y descansar: boca arriba, con la espalda elevada 30–45° (dos o tres almohadas o un respaldo) y una o dos almohadas bajo las rodillas, para que el abdomen quede sin tensión. No duerma de lado ni boca abajo.",
+      "Caminar 5–10 minutos cada 1–2 horas mientras esté despierta, siempre acompañada los primeros días.",
+      "Para levantarse: pida que la ayuden y suba primero el respaldo de la cama. No se impulse con los brazos —jalan el pecho— ni haga fuerza con el abdomen para incorporarse. Ya sentada en la orilla, espere 1–2 minutos antes de ponerse de pie: es común sentir mareo.",
+      "Brazos pegados al cuerpo: no los levante por arriba de los hombros ni empuje o jale con ellos. Puede comer, peinarse con cuidado y usar el celular.",
+      "Al toser, estornudar o reírse, abrace una almohada contra el abdomen: sostiene la herida y duele mucho menos.",
+      "Mover tobillos en círculos y de arriba abajo 10 veces cada hora mientras esté acostada.",
+      "Respiraciones profundas: 10 cada hora, para mantener los pulmones bien expandidos.",
+      "Salida de líquido teñido de sangre por las incisiones es normal y esperado las primeras 24–72 horas. Use toallas sanitarias o gasas y proteja cama y asientos.",
+      "Siempre acompañada las primeras 24–48 horas; no se bañe sola la primera vez."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Sus dos medicamentos para la presión"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Su receta incluye DOS medicamentos para la presión: amlodipino y metoprolol. No son opcionales y no se toman «si la siente alta»: se toman a sus horas los 10 días completos, aunque su presión salga normal. Mantenerla baja y estable es lo que evita que se acumule sangre bajo la piel.",
+      "El amlodipino empieza la mañana anterior a su cirugía.",
+      "El metoprolol empieza el día de su alta.",
+      "Mídase la presión como dice el apartado de aquí abajo y anote cada cifra. Los dos medicamentos se manejan con esos números, no con cómo se siente.",
+      "SI LA CIFRA DE ARRIBA BAJA DE 90: suspenda primero el metoprolol y siga con el amlodipino. Si en la siguiente toma sigue por debajo de 90, suspenda también el amlodipino. En los dos casos avísenos el mismo día.",
+      "SI LA CIFRA DE ARRIBA SE MANTIENE ARRIBA DE 130 a pesar de los dos: coloque una tableta de captopril 25 mg debajo de la lengua —viene en su receta, para eso es— y vuelva a medirse a los 30 minutos. Puede repetirla una sola vez. Si después de la segunda sigue alta, llámenos.",
+      "Si tiene mareo al ponerse de pie, levántese despacio y en dos tiempos. Si se marea estando acostada, se siente muy débil o nota el corazón muy lento, llámenos."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Toma de presión arterial en casa (días 1 a 10)"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mida su presión con un baumanómetro digital cada 2 horas mientras esté despierta, sentada y después de 5 minutos de reposo.",
+      "Anote cada medición (fecha, hora y cifras).",
+      "Reporte de inmediato por WhatsApp al 55 7215 5958 —seguimiento postoperatorio— si la presión sistólica (el número de arriba) es mayor de 130 o menor de 90 mmHg."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Su abdomen: cómo moverse la primera semana"
+    },
+    {
+     "t": "p",
+     "x": "En la abdominoplastia se tensa la piel del abdomen. Enderezarse por completo los primeros días tira de esa piel justo donde está la herida, y es lo que hace que una cicatriz se abra o se ensanche. Por eso la primera semana se camina un poco encorvada, a propósito."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Camine ligeramente inclinada hacia adelante, con las rodillas un poco dobladas, durante los primeros 7 días. No se estire ni se enderece de golpe, ni siquiera para alcanzar algo de un estante.",
+      "Duerma y descanse con las piernas elevadas y las rodillas dobladas toda esa primera semana.",
+      "A partir del día 8 enderécese poco a poco, un poco más cada día, sin forzar. Si siente que tira, todavía no es tiempo.",
+      "No cargue nada, no empuje puertas pesadas y no haga ningún esfuerzo que le apriete el abdomen.",
+      "Tenga a la mano lo que vaya a necesitar, a la altura de la cintura: agacharse y estirarse son los dos movimientos que hay que evitar.",
+      "El ombligo puede verse amoratado, con costras y con algún punto. Manténgalo limpio y seco y no le ponga nada: se acomoda solo."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Prenda de compresión"
+    },
+    {
+     "t": "p",
+     "x": "La faja se usa día y noche durante 6 semanas y después 12 horas al día otras 6 semanas: 3 meses en total."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Periodo",
+      "Uso",
+      "Indicación"
+     ],
+     "x": [
+      [
+       "Semanas 1–6",
+       "Faja etapa 1, día y noche",
+       "Retirar solo para bañarse"
+      ],
+      [
+       "Semanas 7–12",
+       "Faja etapa 1, 12 horas al día",
+       "Usted elige el horario: de día o de noche"
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento, cambio de color en la piel o falta de aire, aflójela y llame.",
+      "Pliegues: revise que la faja no forme arrugas, sobre todo en cintura, ingles y axilas; un pliegue marca la piel.",
+      "Higiene: tenga dos fajas para alternarlas y lavarlas a mano."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Brasier postquirúrgico"
+    },
+    {
+     "t": "p",
+     "x": "El brasier postquirúrgico se usa día y noche durante 6 semanas; solo se retira para bañarse."
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Periodo",
+      "Uso",
+      "Indicación"
+     ],
+     "x": [
+      [
+       "Semanas 1–6",
+       "Brasier postquirúrgico, día y noche",
+       "Retirar solo para bañarse"
+      ],
+      [
+       "Semanas 7–12",
+       "Brasier deportivo sin varilla",
+       "Día y noche, o como se le indique"
+      ],
+      [
+       "A partir de la semana 12",
+       "Brasier con varilla",
+       "Solo con autorización"
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento o cambio de color en la piel, aflójelo y llámenos.",
+      "Pliegues: revise que no se formen arrugas ni que el borde apriete sobre las cicatrices.",
+      "Higiene: tenga dos brasieres para alternarlos y lavarlos a mano."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Baño, heridas y cicatrices"
+    },
+    {
+     "t": "p",
+     "x": "Puede bañarse a partir de las 48 horas, con agua tibia y acompañada la primera vez."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Regadera, no tina, alberca, jacuzzi, mar ni vapor por 4 semanas.",
+      "Agua tibia, nunca caliente: el calor aumenta la inflamación y puede marear. Dé la espalda al chorro para que el agua no golpee directo sobre las mamas ni sobre la herida del abdomen.",
+      "Jabón neutro; deje correr el agua sobre las heridas sin tallarlas.",
+      "Secado a toques con toalla limpia; seque muy bien todas las heridas antes de volver a ponerse la faja y el brasier. Una herida húmeda bajo la faja se macera.",
+      "Cintas adhesivas (si las tiene): no las retire; se caen solas o se retiran por el equipo médico.",
+      "Heridas: manténgalas limpias y secas. No aplique cremas, pomadas, alcohol ni remedios caseros salvo indicación.",
+      "Cicatrices: una vez cerradas por completo, protéjalas del sol con ropa y protector FPS 50 durante 12 meses. Es normal que se vean rojizas y firmes los primeros meses.",
+      "Calor y frío local: no aplique compresas calientes, bolsas de agua ni hielo directo. La piel tratada y la del pezón tienen menos sensibilidad y pueden quemarse sin que lo note."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Alimentación e hidratación"
+    },
+    {
+     "t": "p",
+     "x": "Beba de 2 a 3 litros de líquidos al día. Después de una cirugía de contorno corporal el cuerpo pierde líquido por las incisiones, y la deshidratación causa mareo y desmayos justo cuando usted necesita levantarse a caminar."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Primer día: dieta blanda (caldos, gelatina, fruta, pan tostado) y avance a su dieta normal según tolere.",
+      "Líquidos: agua natural, suero oral y agua de coco. Evite refrescos y bebidas muy azucaradas.",
+      "Proteína en cada comida (pollo, pescado, huevo, leguminosas, lácteos): favorece la cicatrización.",
+      "Sal: reduzca embutidos, enlatados, comida rápida y botanas; la sal aumenta la inflamación.",
+      "Estreñimiento: es frecuente por los analgésicos y la menor actividad. Coma fibra (fruta, verdura, avena) y avise si pasan más de 3 días sin evacuar.",
+      "Orina: debe ser clara y abundante. Orina escasa u oscura indica que necesita más líquidos.",
+      "Alcohol: ninguno por al menos 2 semanas.",
+      "Tabaco y vapeador: ninguno por al menos 4 semanas. En la mastopexia el tabaco reduce la circulación del pezón y la areola y aumenta el riesgo de que las heridas se abran."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "Son tres cirugías en un mismo tiempo quirúrgico, así que los plazos son más largos que los de cualquiera de ellas por separado. La mayoría de las pacientes vuelve a trabajo de escritorio en 10–14 días y al ejercicio completo hacia la semana 8."
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Caminar",
+       "Día 0",
+       "Obligatorio, varias veces al día; semiflexionada la primera semana"
+      ],
+      [
+       "Enderezarse por completo",
+       "Día 8",
+       "Poco a poco, sin forzar"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 10–14",
+       "Pararse y caminar cada hora; sin cargar ni levantar los brazos"
+      ],
+      [
+       "Manejar",
+       "Día 10–14",
+       "Sin analgésicos que den sueño, y cuando pueda girar el volante y frenar de golpe sin dolor"
+      ],
+      [
+       "Levantar los brazos por arriba de los hombros",
+       "Semana 3",
+       "De forma progresiva"
+      ],
+      [
+       "Viaje en avión corto (< 3 h)",
+       "Semana 3",
+       "Con faja y brasier, medias de compresión y caminando en el vuelo; avísenos antes"
+      ],
+      [
+       "Viaje largo (> 3 h)",
+       "Semana 4",
+       "Solo con autorización"
+      ],
+      [
+       "Cargar objetos pesados (> 5 kg)",
+       "Semana 6",
+       "Incluye cargar niños, bolsas del súper y maletas"
+      ],
+      [
+       "Ejercicio ligero (caminadora, bicicleta fija)",
+       "Semana 4",
+       "Intensidad baja, sin impacto ni rebote"
+      ],
+      [
+       "Ejercicio de piernas",
+       "Semana 5",
+       "Sin usar brazos, pecho ni abdomen"
+      ],
+      [
+       "Ejercicio completo (pesas, correr, saltar)",
+       "Semana 8",
+       "Con brasier deportivo firme"
+      ],
+      [
+       "Abdominales",
+       "Semana 12",
+       "Es lo último que se reanuda; pregúntenos antes"
+      ],
+      [
+       "Dormir de lado",
+       "Semana 4–6",
+       ""
+      ],
+      [
+       "Dormir boca abajo",
+       "Semana 8",
+       ""
+      ],
+      [
+       "Relaciones sexuales",
+       "Semana 3",
+       "Sin presión sobre el abdomen ni manipulación de las mamas"
+      ],
+      [
+       "Alberca, mar, tina, vapor",
+       "Semana 4",
+       "Con todas las heridas completamente cerradas"
+      ],
+      [
+       "Sol directo / bronceado",
+       "Semana 6–8",
+       "Cicatrices cubiertas o con FPS 50 por 12 meses"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Qué es normal"
+    },
+    {
+     "t": "p",
+     "x": "El resultado no se ve en las primeras semanas. La inflamación baja de forma progresiva, las mamas descienden y se redondean, y el contorno final se aprecia entre los 3 y los 6 meses."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Moretones extensos, que cambian de morado a verde y amarillo y bajan hacia zonas inferiores. Desaparecen en 2–4 semanas.",
+      "Inflamación que aumenta al final del día y baja por la mañana. Puede durar semanas, con altibajos.",
+      "Adormecimiento u hormigueo de la piel tratada. La sensibilidad regresa en semanas a meses.",
+      "Zonas duras o con bordes bajo la piel en las semanas 3–8. Se suavizan con el tiempo.",
+      "Cansancio las primeras 1–2 semanas.",
+      "Cambios de ánimo los primeros días: impaciencia o tristeza pasajera al verse inflamada. Es frecuente y pasa.",
+      "Aumento de peso en la báscula la primera semana, por líquidos. No refleja el resultado.",
+      "Dolor: sensación de haber hecho mucho ejercicio, ardor y sensibilidad al tacto. Mejora de forma clara a partir del día 3–5.",
+      "Mamas altas y apretadas las primeras semanas. Descienden y se redondean de forma progresiva.",
+      "Asimetría leve entre un lado y otro mientras baja la inflamación; cada mama se desinflama a su ritmo.",
+      "Sensibilidad del pezón y la areola aumentada, disminuida o con hormigueo. Suele recuperarse en semanas a meses.",
+      "Punzadas o «toques eléctricos» breves: son parte de la recuperación de los nervios.",
+      "Cicatrices rojizas y firmes los primeros 3–6 meses; se aclaran y suavizan durante el primer año.",
+      "Sensación de tirantez en el abdomen al intentar enderezarse. Cede conforme la piel se adapta, durante las primeras semanas.",
+      "Adormecimiento de la piel del abdomen, sobre todo entre el ombligo y la cicatriz. Es casi constante después de una abdominoplastia y puede durar muchos meses.",
+      "El ombligo amoratado y con costras las primeras semanas."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Molestia de garganta",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "p",
+     "x": "Durante la anestesia se coloca un tubo o una mascarilla en la vía aérea para que usted respire. Es normal que los 2 o 3 días siguientes sienta la garganta irritada, con ardor, molestia al pasar saliva o la voz ronca. Cede sola y no tiene nada que ver con su cirugía ni con su resultado.",
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Aplique 4 atomizaciones del spray para la garganta que viene en su receta (bencidamina, Vantal®), dirigidas al fondo de la garganta, 4 veces al día, mientras tenga molestia.",
+      "Lo frío alivia: nieve, paletas de hielo, gelatina fría o agua fresca. Los primeros días prefiera sabores no ácidos —vainilla, coco, fresa, mango—: el limón y los cítricos arden en una garganta irritada.",
+      "Puede tomar una cucharada de miel sola o en té tibio, nunca caliente.",
+      "Puede chupar caramelos o pastillas para la garganta.",
+      "Tome agua a pequeños sorbos con frecuencia: una garganta seca duele más.",
+      "Use un humidificador en su habitación por las noches, sobre todo si está respirando por la boca.",
+      "Hable poco las primeras 24 a 48 horas. No grite, y tampoco susurre: susurrar fuerza las cuerdas vocales más que hablar en voz baja.",
+      "Las bebidas muy calientes y la comida picante irritan más una garganta lastimada: evítelas mientras le moleste. El alcohol y el tabaco ya están suspendidos por su cirugía, con los plazos que vienen en esta hoja."
+     ],
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "nota",
+     "x": "Avísenos por el WhatsApp de seguimiento (55 7215 5958) si la ronquera dura más de 3 días o si el dolor de garganta empeora en lugar de mejorar. Si siente dificultad para respirar o un ruido agudo al respirar, llame de inmediato al teléfono de urgencias: eso no espera.",
+     "alarma": true,
+     "si": {
+      "tubo": true
+     }
+    },
+    {
+     "t": "h",
+     "x": "Signos de alarma",
+     "alarma": true
+    },
+    {
+     "t": "p",
+     "x": "Ante cualquiera de estos síntomas llámenos al teléfono de urgencias del consultorio, a cualquier hora."
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos de inmediato, sin esperar"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Falta de aire, dolor en el pecho, tos con sangre o sensación de que el corazón late muy rápido.",
+      "Desmayo, confusión o somnolencia excesiva.",
+      "Una mama que crece rápido, se pone tensa, dura y muy dolorosa, mucho más que la otra.",
+      "Pezón o areola que se torna morada oscura, gris o negra, o que se siente fría.",
+      "Piel del abdomen, sobre todo alrededor del ombligo, que se pone morada oscura, gris o negra."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Llámenos el mismo día"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Dolor, hinchazón o calor en una sola pantorrilla o pierna.",
+      "Fiebre de 38 °C o más.",
+      "Sangrado rojo brillante que empapa gasas o toallas en menos de 1 hora.",
+      "Una zona que crece rápido, se pone tensa y muy dolorosa, o que se siente como bolsa de líquido.",
+      "Enrojecimiento que se extiende, calor, pus o mal olor en una incisión.",
+      "Piel que se torna oscura, morada intensa o negra, o ampollas.",
+      "Dolor que empeora en lugar de mejorar y no cede con sus medicamentos.",
+      "Mareo persistente, palidez marcada u orina muy escasa.",
+      "Náusea o vómito que no le permite tomar líquidos ni medicamentos.",
+      "Una herida que se abre, deja ver tejido o cuyos bordes se separan.",
+      "Salida de líquido abundante por cualquier herida."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Sus citas de control se coordinan con recepción."
+    },
+    {
+     "t": "p",
+     "x": "Recibí y entendí estas indicaciones."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente"
+     ]
+    }
+   ],
+   "version": "fff25ac4"
+  },
+  {
    "id": "rinoplastia",
    "nombre": "Rinoplastia",
    "titulo": "Recomendaciones postoperatorias — Rinoplastia",
@@ -5172,8 +5625,8 @@
    "version": "eb3082bc"
   }
  ],
- "version": "a3391bbda4c0e9a7",
- "generado": "2026-11-12",
+ "version": "484c973533af8459",
+ "generado": "2026-11-24",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
  }
