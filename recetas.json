@@ -4817,6 +4817,160 @@
    "version": "04bcdb31"
   },
   {
+   "id": "endolift",
+   "nombre": "Endolifting (facial o corporal)",
+   "coincide": [],
+   "procedimiento": "Endolifting",
+   "preguntas": [
+    {
+     "id": "peni",
+     "etiqueta": "Alergia a penicilina",
+     "tipo": "lista",
+     "obligatoria": true,
+     "opciones": [
+      [
+       "no",
+       "No alérgica"
+      ],
+      [
+       "leve",
+       "Leve — rash sin datos de gravedad"
+      ],
+      [
+       "grave",
+       "Grave — anafilaxia, angioedema, broncoespasmo o Stevens-Johnson"
+      ]
+     ]
+    },
+    {
+     "id": "otras",
+     "etiqueta": "Otras alergias",
+     "tipo": "texto"
+    }
+   ],
+   "medicamentos": [
+    {
+     "hoja": "antibiotico",
+     "nombre": "Amoxicilina / ácido clavulánico 875/125 mg, tabletas.",
+     "indicacion": "Tomar 1 tableta vía oral cada 12 horas, con alimentos, durante 5 días.",
+     "si": {
+      "peni": [
+       "no"
+      ]
+     },
+     "cantidad": "10 tabletas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Amoxicilina / clavulanato",
+      "h": [
+       "09:00",
+       "21:00"
+      ]
+     }
+    },
+    {
+     "hoja": "antibiotico",
+     "nombre": "Clindamicina 300 mg, cápsulas.",
+     "indicacion": "Tomar 1 cápsula vía oral cada 8 horas, con un vaso completo de agua, durante 5 días. Si presenta diarrea frecuente o con moco, avise.",
+     "si": {
+      "peni": [
+       "leve",
+       "grave"
+      ]
+     },
+     "cantidad": "15 cápsulas",
+     "duracion": "5 días",
+     "horario": {
+      "n": "Clindamicina",
+      "h": [
+       "06:00",
+       "14:00",
+       "22:00"
+      ]
+     }
+    },
+    {
+     "hoja": "general",
+     "nombre": "Paracetamol 500 mg, tabletas.",
+     "indicacion": "Tomar 2 tabletas (1 g) vía oral cada 8 horas durante 7 días. No tome otros productos que contengan paracetamol.",
+     "cantidad": "42 tabletas",
+     "duracion": "7 días",
+     "horario": {
+      "n": "Paracetamol",
+      "h": [
+       "08:00",
+       "16:00",
+       "24:00"
+      ]
+     }
+    }
+   ],
+   "profilaxis": [
+    {
+     "si": {
+      "peni": [
+       "grave"
+      ]
+     },
+     "texto": "Clindamicina 900 mg IV"
+    },
+    {
+     "si": {},
+     "texto": "Cefazolina 2 g IV"
+    }
+   ],
+   "profilaxisNota": "Repetir si la cirugía pasa de 4 h (cefazolina) o de 6 h (clindamicina).",
+   "avisos": [
+    {
+     "si": {
+      "peni": [
+       "leve"
+      ]
+     },
+     "tono": "",
+     "texto": "Alergia leve a penicilina: cefazolina IV aceptable (reactividad cruzada menor al 2 %). Por vía oral, clindamicina, porque la amoxicilina sí está contraindicada."
+    },
+    {
+     "si": {
+      "peni": [
+       "grave"
+      ]
+     },
+     "tono": "ojo",
+     "texto": "Alergia grave a penicilina: ningún betalactámico."
+    },
+    {
+     "si": {
+      "menor": true
+     },
+     "tono": "ojo",
+     "texto": "Paciente menor de 18 años: revise todas las dosis."
+    }
+   ],
+   "alarma": [
+    {
+     "t": "Dolor que aumenta cada día en lugar de ceder, o que no cede con el paracetamol."
+    },
+    {
+     "t": "Fiebre de 38 °C o más."
+    },
+    {
+     "t": "Enrojecimiento que se extiende alrededor de un punto de entrada, con calor, pus o mal olor."
+    },
+    {
+     "t": "Una costra oscura, una ampolla o una quemadura en un punto de entrada."
+    },
+    {
+     "t": "Una zona que se endurece, crece y duele cada vez más, distinta del resto."
+    },
+    {
+     "t": "Asimetría al sonreír, al levantar la ceja o al cerrar el ojo."
+    }
+   ],
+   "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
+   "version": "68d913d2"
+  },
+  {
    "id": "otoplastia",
    "nombre": "Otoplastia",
    "coincide": [
@@ -5271,6 +5425,6 @@
   "22:00",
   "24:00"
  ],
- "version": "5ba87c4735de6d7c",
- "generado": "2026-11-24"
+ "version": "6fe9781693d12216",
+ "generado": "2026-11-26"
 }

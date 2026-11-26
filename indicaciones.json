@@ -5026,6 +5026,471 @@
    "version": "e49a209e"
   },
   {
+   "id": "endolift_facial",
+   "nombre": "Endolifting facial",
+   "titulo": "Recomendaciones posteriores — Endolifting facial (cara y cuello)",
+   "coincide": [],
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Procedimiento",
+       "Endolifting facial — cara y cuello"
+      ],
+      [
+       "Zonas tratadas",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) Hoy no maneje y no se quede sola: llevó sedación. 2) Use la banda compresiva en casa durante las 2 semanas siguientes. 3) Termine el antibiótico completo, aunque se sienta bien."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 48 horas"
+    },
+    {
+     "t": "p",
+     "x": "En el endolifting se pasa una fibra óptica muy delgada por debajo de la piel, a través de punciones del tamaño de un piquete de aguja. El calor controlado de esa fibra contrae el tejido y estimula colágeno durante los meses siguientes. No hay cortes ni puntos de sutura, así que lo que va a sentir estos días es inflamación y sensibilidad, no dolor de herida."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación y moretones: aumentan durante las primeras 48 a 72 horas y después empiezan a bajar. Es la parte más aparatosa y la más corta.",
+      "Duerma boca arriba y con la cabecera elevada, con dos o tres almohadas, los primeros 3 días: baja la inflamación de la cara más rápido que cualquier otra cosa que haga.",
+      "Camine desde el mismo día, suave y varias veces al día.",
+      "Tome el paracetamol de su receta a sus horas los primeros días, no «sólo si duele».",
+      "Empiece el antibiótico hoy y termínelo completo, aunque ya no le moleste nada.",
+      "Los puntos de entrada son micropunciones: no llevan puntos de sutura. Manténgalos limpios y secos. Pueden formar una costrita pequeña que se cae sola; no se la quite."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Hoy, porque llevó sedación"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Hoy no maneje, no tome decisiones importantes y no se quede sola: la sedación tarda el resto del día en salir de su cuerpo, aunque usted se sienta bien.",
+      "Que alguien la acompañe de regreso a casa y se quede con usted las primeras horas.",
+      "No tome alcohol hoy."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. La banda compresiva"
+    },
+    {
+     "t": "p",
+     "x": "La banda sostiene el tejido mientras se desinflama y ayuda a que la piel se adapte a su nueva posición. Se usa durante 2 semanas, ÚNICAMENTE MIENTRAS ESTÁ EN CASA: no tiene que salir a la calle con ella."
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Semanas 1–2",
+       "Siempre que esté en casa, incluida la noche",
+       "Fuera de casa no es necesaria"
+      ],
+      [
+       "A partir de la semana 3",
+       "Ya no se usa",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento o cambio de color en la piel, aflójela y llámenos.",
+      "Pliegues: revise que no forme arrugas; un pliegue marca la piel.",
+      "Higiene: tenga dos, para alternarlas y lavarlas a mano.",
+      "Si se la quitó para bañarse, vuelva a ponérsela enseguida y con la piel bien seca."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidado de la piel y de los puntos de entrada"
+    },
+    {
+     "t": "p",
+     "x": "La piel queda permeable unos días por las micropunciones: lo que se ponga encima entra más que de costumbre. Estos días sólo va lo que le indicamos nosotros."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mantenga la cara y el cuello limpios y secos. No aplique cremas, aceites, pomadas ni remedios caseros sobre los puntos de entrada.",
+      "Nada de ácidos, retinoides, exfoliantes ni mascarillas durante 2 semanas.",
+      "No se talle ni se frote la zona, ni siquiera al secarse.",
+      "Protector solar FPS 50+ todos los días sobre la zona tratada, hasta que le digamos lo contrario."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Cómo lavarse la cara"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Agua tibia y jabón neutro, con la mano limpia y sin tallar, 2 veces al día. Nada de esponjas, cepillos ni toallitas desmaquillantes.",
+      "Seque a toques con una toalla limpia, nunca frotando y nunca con secadora.",
+      "Toalla y funda de almohada limpias los primeros tres días."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "La inflamación es lo que marca el ritmo de las primeras dos semanas. El resultado, en cambio, no se juega en esos días: se va construyendo durante meses."
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Caminar",
+       "El mismo día",
+       "Suave, varias veces al día"
+      ],
+      [
+       "Manejar",
+       "Mañana",
+       "Hoy no, por la sedación"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 2",
+       "Todavía con inflamación y moretones"
+      ],
+      [
+       "Maquillaje",
+       "Día 3",
+       "Con brocha limpia y sin presionar; desmaquíllese sin tallar"
+      ],
+      [
+       "Ejercicio, sudor, vapor, sauna",
+       "Semana 2",
+       "El calor aumenta la inflamación"
+      ],
+      [
+       "Alberca, mar, jacuzzi",
+       "Semana 3",
+       "Con los puntos de entrada completamente cerrados"
+      ],
+      [
+       "Ácidos, retinoides, exfoliantes",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Sol directo",
+       "Semana 4",
+       "Siempre con protector solar FPS 50"
+      ],
+      [
+       "Masaje o aparatos sobre la zona tratada",
+       "Mes 2",
+       "Sólo con autorización del Dr. Soto"
+      ],
+      [
+       "Toxina botulínica o rellenos",
+       "Mes 2",
+       "Sólo con autorización del Dr. Soto"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "5. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "p",
+     "x": "El resultado del endolifting es progresivo: lo que se ve en las primeras semanas es la inflamación bajando, no el resultado. La contracción y el colágeno nuevo siguen trabajando entre los 3 y los 6 meses, y es entonces cuando se aprecia lo que hicimos."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación que aumenta los primeros 2 o 3 días y después baja poco a poco, con altibajos y más marcada al final del día.",
+      "Moretones alrededor de los puntos de entrada, que cambian de morado a verde y amarillo. Desaparecen en 2 a 3 semanas.",
+      "Adormecimiento, hormigueo o sensación de piel acartonada en la zona tratada. La sensibilidad regresa en semanas a meses.",
+      "Zonas duras o pequeños nódulos bajo la piel durante las primeras semanas. Se ablandan solos conforme madura el colágeno.",
+      "Sensación de tirantez, sobre todo al mover la cara y el cuello.",
+      "Costritas pequeñas en los puntos de entrada, que se caen solas.",
+      "Asimetría entre un lado y otro mientras baja la inflamación: cada lado se desinflama a su ritmo."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "6. Signos de alarma: llame al teléfono de urgencias"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Dolor que aumenta cada día en lugar de ceder, o que no cede con el paracetamol.",
+      "Fiebre de 38 °C o más.",
+      "Enrojecimiento que se extiende alrededor de un punto de entrada, con calor, pus o mal olor.",
+      "Una costra oscura, una ampolla o una quemadura en un punto de entrada.",
+      "Una zona que se endurece, crece y duele cada vez más, distinta del resto.",
+      "Piel que se pone blanca, moteada o morada oscura y no recupera su color.",
+      "Asimetría al sonreír, al levantar la ceja o al cerrar el ojo, o un párpado que se queda caído. Avísenos aunque sea leve y aunque crea que es la inflamación."
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "Llámenos a cualquier hora, de día o de noche. La zona tratada la tiene que ver quien la trató: no se automedique ni acuda a otro consultorio sin avisarnos."
+    },
+    {
+     "t": "h",
+     "x": "7. Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recepción agenda y confirma cada cita con usted por WhatsApp."
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "f450ceb0"
+  },
+  {
+   "id": "endolift_corporal",
+   "nombre": "Endolifting corporal",
+   "titulo": "Recomendaciones posteriores — Endolifting corporal",
+   "coincide": [],
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del procedimiento"
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Procedimiento",
+       "Endolifting corporal — un área"
+      ],
+      [
+       "Zonas tratadas",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI HOY SÓLO PUEDE LEER UNA COSA, LEA ESTO. 1) Hoy no maneje y no se quede sola: llevó sedación. 2) Use la faja día y noche durante las 2 semanas siguientes. 3) Termine el antibiótico completo, aunque se sienta bien."
+    },
+    {
+     "t": "h",
+     "x": "1. Primeras 48 horas"
+    },
+    {
+     "t": "p",
+     "x": "En el endolifting se pasa una fibra óptica muy delgada por debajo de la piel, a través de punciones del tamaño de un piquete de aguja. El calor controlado de esa fibra contrae el tejido y estimula colágeno durante los meses siguientes. No hay cortes ni puntos de sutura, así que lo que va a sentir estos días es inflamación y sensibilidad, no dolor de herida."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación y moretones: aumentan durante las primeras 48 a 72 horas y después empiezan a bajar. Es la parte más aparatosa y la más corta.",
+      "Duerma como le resulte cómodo, sin apoyarse directamente sobre la zona tratada los primeros 3 días.",
+      "Camine desde el mismo día, suave y varias veces al día.",
+      "Tome el paracetamol de su receta a sus horas los primeros días, no «sólo si duele».",
+      "Empiece el antibiótico hoy y termínelo completo, aunque ya no le moleste nada.",
+      "Los puntos de entrada son micropunciones: no llevan puntos de sutura. Manténgalos limpios y secos. Pueden formar una costrita pequeña que se cae sola; no se la quite."
+     ]
+    },
+    {
+     "t": "h2",
+     "x": "Hoy, porque llevó sedación"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Hoy no maneje, no tome decisiones importantes y no se quede sola: la sedación tarda el resto del día en salir de su cuerpo, aunque usted se sienta bien.",
+      "Que alguien la acompañe de regreso a casa y se quede con usted las primeras horas.",
+      "No tome alcohol hoy."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "2. La faja"
+    },
+    {
+     "t": "p",
+     "x": "La faja sostiene el tejido mientras se desinflama y ayuda a que la piel se adapte. Se usa DÍA Y NOCHE durante 2 semanas completas, y sólo se retira para bañarse."
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Semanas 1–2",
+       "Día y noche",
+       "Retirar solo para bañarse"
+      ],
+      [
+       "A partir de la semana 3",
+       "Ya no se usa",
+       ""
+      ]
+     ]
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Ajuste: firme, nunca doloroso. Si siente hormigueo, adormecimiento o cambio de color en la piel, aflójela y llámenos.",
+      "Pliegues: revise que no forme arrugas; un pliegue marca la piel.",
+      "Higiene: tenga dos, para alternarlas y lavarlas a mano.",
+      "Si se la quitó para bañarse, vuelva a ponérsela enseguida y con la piel bien seca."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "3. Cuidado de la piel y de los puntos de entrada"
+    },
+    {
+     "t": "p",
+     "x": "La piel queda permeable unos días por las micropunciones: lo que se ponga encima entra más que de costumbre. Estos días sólo va lo que le indicamos nosotros."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Mantenga la zona tratada limpia y seca. No aplique cremas, aceites, pomadas ni remedios caseros sobre los puntos de entrada.",
+      "Nada de ácidos, retinoides, exfoliantes ni mascarillas durante 2 semanas.",
+      "No se talle ni se frote la zona, ni siquiera al secarse.",
+      "Si la zona tratada va a quedar expuesta al sol, protector solar FPS 50+ todos los días."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "4. Calendario de actividades"
+    },
+    {
+     "t": "p",
+     "x": "La inflamación es lo que marca el ritmo de las primeras dos semanas. El resultado, en cambio, no se juega en esos días: se va construyendo durante meses."
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Caminar",
+       "El mismo día",
+       "Suave, varias veces al día"
+      ],
+      [
+       "Manejar",
+       "Mañana",
+       "Hoy no, por la sedación"
+      ],
+      [
+       "Trabajo de escritorio / home office",
+       "Día 2",
+       "Todavía con inflamación y moretones"
+      ],
+      [
+       "Ejercicio, sudor, vapor, sauna",
+       "Semana 2",
+       "El calor aumenta la inflamación"
+      ],
+      [
+       "Alberca, mar, jacuzzi",
+       "Semana 3",
+       "Con los puntos de entrada completamente cerrados"
+      ],
+      [
+       "Ácidos, retinoides, exfoliantes",
+       "Semana 2",
+       ""
+      ],
+      [
+       "Sol directo",
+       "Semana 4",
+       "Siempre con protector solar FPS 50"
+      ],
+      [
+       "Masaje o aparatos sobre la zona tratada",
+       "Mes 2",
+       "Sólo con autorización del Dr. Soto"
+      ]
+     ]
+    },
+    {
+     "t": "h",
+     "x": "5. Lo que es normal y no debe preocuparle"
+    },
+    {
+     "t": "p",
+     "x": "El resultado del endolifting es progresivo: lo que se ve en las primeras semanas es la inflamación bajando, no el resultado. La contracción y el colágeno nuevo siguen trabajando entre los 3 y los 6 meses, y es entonces cuando se aprecia lo que hicimos."
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Inflamación que aumenta los primeros 2 o 3 días y después baja poco a poco, con altibajos y más marcada al final del día.",
+      "Moretones alrededor de los puntos de entrada, que cambian de morado a verde y amarillo. Desaparecen en 2 a 3 semanas.",
+      "Adormecimiento, hormigueo o sensación de piel acartonada en la zona tratada. La sensibilidad regresa en semanas a meses.",
+      "Zonas duras o pequeños nódulos bajo la piel durante las primeras semanas. Se ablandan solos conforme madura el colágeno.",
+      "Sensación de tirantez, sobre todo al mover la zona tratada.",
+      "Costritas pequeñas en los puntos de entrada, que se caen solas.",
+      "Asimetría entre un lado y otro mientras baja la inflamación: cada lado se desinflama a su ritmo."
+     ]
+    },
+    {
+     "t": "h",
+     "x": "6. Signos de alarma: llame al teléfono de urgencias"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Dolor que aumenta cada día en lugar de ceder, o que no cede con el paracetamol.",
+      "Fiebre de 38 °C o más.",
+      "Enrojecimiento que se extiende alrededor de un punto de entrada, con calor, pus o mal olor.",
+      "Una costra oscura, una ampolla o una quemadura en un punto de entrada.",
+      "Una zona que se endurece, crece y duele cada vez más, distinta del resto.",
+      "Piel que se pone blanca, moteada o morada oscura y no recupera su color."
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "Llámenos a cualquier hora, de día o de noche. La zona tratada la tiene que ver quien la trató: no se automedique ni acuda a otro consultorio sin avisarnos."
+    },
+    {
+     "t": "h",
+     "x": "7. Citas y constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recepción agenda y confirma cada cita con usted por WhatsApp."
+    },
+    {
+     "t": "p",
+     "x": "Recibí esta hoja de indicaciones y mi receta."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Médico que entrega"
+     ]
+    }
+   ],
+   "version": "2cd0eeb9"
+  },
+  {
    "id": "otoplastia",
    "nombre": "Otoplastia",
    "titulo": "Recomendaciones postoperatorias — Otoplastia",
@@ -6007,7 +6472,7 @@
    "version": "eb3082bc"
   }
  ],
- "version": "ae14a3cf25e52403",
+ "version": "657a510c91762521",
  "generado": "2026-11-26",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
