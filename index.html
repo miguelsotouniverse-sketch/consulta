@@ -949,6 +949,16 @@ var DOCUMENTOS = [
     icono:'faja', dictado:false, hoja:true, hojaPorDefecto:'faja',
     etiquetas:['Indicaciones de faja','Faja'] },
 
+  /* VITALIA es el único documento de este expediente que no sale de una
+     cirugía ni de un tratamiento: sale de la entrega de un paquete de
+     suplementos. Tiene documento propio por la misma razón que la hoja
+     preoperatoria: buscar las indicaciones de un frasco de magnesio dentro de
+     «Indicaciones de alta» es justo la confusión que ya costó una impresión
+     en blanco. Y por eso su hoja cambia el encabezado a «Fecha de entrega». */
+  { id:'vitalia',            nombre:'VITALIA — suplementos',   grupo:'firma',
+    icono:'pastilla', dictado:false, hoja:true, hojaPorDefecto:'vitalia',
+    etiquetas:['VITALIA'] },
+
   /* Ésta se entrega ANTES, en la consulta de valoración, no al alta. Por eso es
      su propio documento y no una hoja más dentro de «Indicaciones de alta»:
      buscar una hoja preoperatoria dentro de un documento que se llama «de alta»
@@ -4760,7 +4770,12 @@ function pintaHojaImpresa(raiz, el){
   /* «Procedimiento» y no «cirugía»: la misma ficha la usan las hojas que no
      salen de un quirófano —el láser de CO₂, la faja, los laboratorios— y
      decirle «fecha de cirugía» a quien vino a un láser confunde. */
-  fila('Fecha del procedimiento', fechaLarga_(txt('proc_fecha')));
+  /* Una hoja puede cambiarle el nombre a ese renglón. Lo pidió VITALIA, que
+     es un paquete de suplementos y no sale de ningún procedimiento: ahí el
+     renglón dice «Fecha de entrega». Sin esto, la hoja de un frasco de
+     magnesio encabezaba con «Fecha del procedimiento». */
+  fila(HOJA.etiquetaFecha || 'Fecha del procedimiento',
+       fechaLarga_(txt('proc_fecha')));
   /* El WhatsApp de seguimiento postoperatorio, no el teléfono de urgencias.
      No se pierde nada: el de urgencias sigue impreso arriba, en el membrete
      del establecimiento, y este renglón era su duplicado. Lo que gana la

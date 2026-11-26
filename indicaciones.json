@@ -6470,9 +6470,199 @@
     }
    ],
    "version": "eb3082bc"
+  },
+  {
+   "id": "vitalia",
+   "nombre": "VITALIA — indicaciones de consumo",
+   "titulo": "VITALIA — Indicaciones de consumo",
+   "coincide": [],
+   "etiquetaFecha": "Fecha de entrega",
+   "bloques": [
+    {
+     "t": "h2",
+     "x": "Datos del paquete"
+    },
+    {
+     "t": "tabla",
+     "x": [
+      [
+       "Paquete",
+       "VITALIA — seis suplementos alimenticios"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Su paquete VITALIA contiene seis suplementos alimenticios. Tómelos todos los días, repartidos en tres momentos: desayuno, comida y cena."
+    },
+    {
+     "t": "h",
+     "x": "Qué contiene su paquete"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Producto",
+      "Contenido del frasco",
+      "Qué aporta cada dosis diaria",
+      "Le alcanza para"
+     ],
+     "x": [
+      [
+       "RESVE-250",
+       "60 cápsulas",
+       "500 mg de resveratrol, con extracto de semilla de uva, ácido alfa lipoico y espirulina",
+       "30 días"
+      ],
+      [
+       "VITA-C300",
+       "300 tabletas",
+       "300 mg de vitamina C, con semilla de uva y escaramujo",
+       "300 días"
+      ],
+      [
+       "Colágeno Hidrolizado Puro",
+       "1 kg en polvo",
+       "10 g de colágeno hidrolizado",
+       "100 días"
+      ],
+      [
+       "HMB",
+       "120 cápsulas",
+       "1,000 mg de HMB",
+       "60 días"
+      ],
+      [
+       "HC-PLUS",
+       "80 cápsulas",
+       "100 mg de ácido hialurónico y 90 mg de colágeno hidrolizado",
+       "80 días"
+      ],
+      [
+       "MAG-100",
+       "120 cápsulas",
+       "Glicinato de magnesio con L-teanina",
+       "30 a 40 días"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Los frascos no se terminan al mismo tiempo. Reponga cada producto cuando se le acabe, sin esperar a los demás."
+    },
+    {
+     "t": "h",
+     "x": "Su horario diario"
+    },
+    {
+     "t": "tabla",
+     "cols": [
+      "Momento",
+      "Qué tomar",
+      "Cantidad"
+     ],
+     "x": [
+      [
+       "Con el desayuno",
+       "RESVE-250",
+       "2 cápsulas"
+      ],
+      [
+       "Con el desayuno",
+       "VITA-C300",
+       "1 tableta"
+      ],
+      [
+       "Con el desayuno",
+       "Colágeno Hidrolizado Puro",
+       "10 g disueltos en agua, café, jugo o licuado"
+      ],
+      [
+       "Con la comida",
+       "HMB",
+       "2 cápsulas"
+      ],
+      [
+       "Con la comida",
+       "HC-PLUS",
+       "1 cápsula"
+      ],
+      [
+       "Con la cena",
+       "MAG-100",
+       "Mujeres: 3 cápsulas · Hombres: 4 cápsulas"
+      ]
+     ]
+    },
+    {
+     "t": "p",
+     "x": "Tómelos siempre con alimentos y con un vaso de agua. Si un día olvida una toma, continúe al día siguiente con la cantidad de siempre. No duplique la dosis."
+    },
+    {
+     "t": "h",
+     "x": "Cómo tomar cada producto"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "RESVE-250: 2 cápsulas juntas con el desayuno. Al acompañarlas con alimentos el estómago lo tolera mejor.",
+      "VITA-C300: 1 tableta al día con el desayuno. No exceda 1 tableta diaria.",
+      "Colágeno Hidrolizado Puro: 1 porción de 10 g al día. Se disuelve en agua o en cualquier bebida, fría o caliente; puede agregarlo a su café de la mañana. No tiene sabor.",
+      "HMB: 2 cápsulas juntas con la comida. Los días que haga ejercicio puede tomarlas después de entrenar, en lugar de con la comida.",
+      "HC-PLUS: 1 cápsula al día con la comida.",
+      "MAG-100: con la cena, entre 30 y 60 minutos antes de dormir. Mujeres, 3 cápsulas; hombres, 4. Si nota heces blandas, baje a 2 cápsulas por unos días."
+     ]
+    },
+    {
+     "t": "p",
+     "x": "No exceda la porción indicada de ningún producto. Conserve los frascos bien cerrados, en un lugar fresco y seco, sin luz directa del sol."
+    },
+    {
+     "t": "h",
+     "x": "Precauciones"
+    },
+    {
+     "t": "p",
+     "x": "Antes de empezar, consulte a su médico en cualquiera de estos casos:"
+    },
+    {
+     "t": "ul",
+     "x": [
+      "Está embarazada o en periodo de lactancia.",
+      "Toma medicamentos para la coagulación de la sangre, incluida la aspirina diaria.",
+      "Toma medicamentos para controlar la glucosa o la presión arterial.",
+      "Su médico le ha indicado cuidar la función de sus riñones.",
+      "Es alérgico a alguno de los componentes."
+     ]
+    },
+    {
+     "t": "nota",
+     "x": "SI TIENE PROGRAMADA UNA CIRUGÍA, suspenda todo el paquete 14 días antes y avise a su médico que lo estaba tomando. Reanude cuando su médico se lo indique."
+    },
+    {
+     "t": "p",
+     "x": "Si nota alguna molestia que relacione con estos productos, suspenda su consumo y comuníquese con nosotros."
+    },
+    {
+     "t": "h",
+     "x": "Constancia de entrega"
+    },
+    {
+     "t": "p",
+     "x": "Recibí este paquete y estas indicaciones de consumo."
+    },
+    {
+     "t": "firmas",
+     "x": [
+      "Paciente",
+      "Quien entrega"
+     ]
+    }
+   ],
+   "version": "b628e0d7"
   }
  ],
- "version": "657a510c91762521",
+ "version": "2f680f0cf3aa26a7",
  "generado": "2026-11-26",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
