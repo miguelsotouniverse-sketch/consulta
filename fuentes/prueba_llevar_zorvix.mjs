@@ -76,7 +76,8 @@ const r = await pag.evaluate(({ esquema, constantes }) => {
     try { pintaDocumentos(); } catch(e){ error = String(e); }
     const caja = document.getElementById('llevarZorvix');
     return { error: error, hay: !!caja,
-             texto: caja ? caja.innerText : '',
+             abierto: caja ? caja.open : null,
+             texto: caja ? (caja.innerText + ' ' + caja.textContent) : '',
              codigo: (document.getElementById('zorvixCodigo') || {}).value || '' };
   }
 
@@ -85,7 +86,10 @@ const r = await pag.evaluate(({ esquema, constantes }) => {
   out.vacia     = pinta([sinContenido]);
   out.anulada   = pinta([anulada]);
   out.mezcla    = pinta([anulada, historia]);
-  out.sinNada   = pinta([{ id:'d9', tipo:'nota_evolucion', fecha:'2026-11-26', campos:{} }]);
+  out.sinNada   = pinta([{ id:'d9', tipo:'nota_evolucion', fecha:'2026-11-26', campos:{} },
+                          { id:'d8', tipo:'nota_evolucion', fecha:'2026-11-25', campos:{} },
+                          { id:'d7', tipo:'receta', fecha:'2026-11-25', campos:{} }]);
+  out.vacio     = pinta([]);
 
   /* el código se desarma igual que lo va a desarmar Zorvix */
   const c = out.normal.codigo;
@@ -136,8 +140,15 @@ revisa('y explica que llegó sin contenido, no que no exista',
 revisa('y no ofrece un código vacío para pegar',
   r.vacia.codigo === '', r.vacia.codigo.slice(0, 20));
 
-/* ---- 3. una historia anulada no se lleva ---- */
-revisa('UNA HISTORIA ANULADA NO SE OFRECE PARA LLEVAR', !r.anulada.hay,
+/* ---- 3. una historia anulada no se lleva, pero sí se explica ----
+   El renglón aparece —si no, otra vez «desapareció el botón»— y dice que la
+   historia está anulada, sin ofrecer código: lo que se retiró del expediente
+   de aquí no puede entrar al de allá. */
+revisa('con la historia anulada, el renglón aparece y dice que lo está',
+  r.anulada.hay && /está anulada/.test(r.anulada.texto),
+  r.anulada.texto.slice(0, 90));
+revisa('UNA HISTORIA ANULADA NO OFRECE CÓDIGO PARA PEGAR EN ZORVIX',
+  r.anulada.codigo === '',
   'se llevaría al quirófano un documento retirado del expediente');
 
 /* ---- 4. con una anulada y una buena, se escoge la buena ---- */
@@ -147,8 +158,32 @@ revisa('y el código que se ofrece no lleva la marca de anulación',
 revisa('el código de la viva no arrastra el sello de anulado',
   r.carga ? r.carga.traeAnulado === false : false, 'viaja __anulado');
 
-/* ---- 5. sin historia no hay renglón ---- */
-revisa('sin historia clínica no se ofrece nada', !r.sinNada.hay, '');
+/* ---- 5. sin historia clínica: el renglón SIGUE ahí, diciendo por qué ----
+   Esto es lo que el médico vio dos veces el 27-nov-2026: la pantalla sin nada
+   en ese lugar. Mientras el renglón no se pinte, «no hay historia» y «se borró
+   la función» se ven exactamente igual. */
+revisa('SIN HISTORIA CLÍNICA, EL RENGLÓN SIGUE APARECIENDO', r.sinNada.hay,
+  'desaparecer se lee como función borrada');
+revisa('y dice que todavía no hay ninguna',
+  /todavía no hay ninguna/.test(r.sinNada.texto), r.sinNada.texto.slice(0, 90));
+revisa('y nombra los documentos que sí hay, que es lo que explica el caso',
+  /Nota de evoluci/i.test(r.sinNada.texto) && /\(2\)/.test(r.sinNada.texto),
+  r.sinNada.texto.slice(0, 200));
+revisa('y no ofrece código', r.sinNada.codigo === '', '');
+revisa('viene abierto, para no tener que tocarlo para enterarse',
+  /todavía no hay ninguna/.test(r.sinNada.texto) &&
+  r.sinNada.abierto === true, 'cerrado');
+
+/* ---- 6. expediente completamente vacío ---- */
+revisa('en un expediente vacío también aparece y dice que está vacío',
+  r.vacio.hay && /está vacío/.test(r.vacio.texto), r.vacio.texto.slice(0, 90));
+
+/* ---- 7. los cuatro casos: el renglón nunca falta ---- */
+revisa('EL RENGLÓN APARECE EN LOS CUATRO CASOS, SIN EXCEPCIÓN',
+  r.normal.hay && r.vacia.hay && r.anulada.hay && r.sinNada.hay && r.vacio.hay,
+  [['normal',r.normal.hay],['sin contenido',r.vacia.hay],['anulada',r.anulada.hay],
+   ['sin historia',r.sinNada.hay],['vacío',r.vacio.hay]]
+    .filter(x=>!x[1]).map(x=>x[0]).join(', '));
 
 await nav.close();
 console.log(fallas ? `\n${fallas} caso(s) mal`
