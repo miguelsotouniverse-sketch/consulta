@@ -1935,8 +1935,19 @@ function pintaLlevarAZorvix(docs){
   var viejo = document.getElementById('llevarZorvix');
   if (viejo) viejo.remove();
 
+  /* ESTE RENGLÓN SE PINTA SIEMPRE, con paciente abierta, pase lo que pase.
+
+     Antes se pintaba sólo cuando había historia clínica con contenido, y en
+     cualquier otro caso no se pintaba nada: ni el renglón, ni un aviso. Una
+     función que no deja rastro en la pantalla se lee como una función que se
+     borró —el 27-nov-2026 el médico preguntó dos veces por qué se la habían
+     quitado, y nadie la había quitado—. Así que ahora el renglón aparece
+     siempre y dice cuál de los cuatro casos es. Nunca más en silencio. */
+
+  var todas = (docs || []).filter(function(x){
+    return x && x.tipo === 'historia_clinica';
+  });
   var hc = zorvixHistoriaDe(docs);
-  if (!hc) return;                 /* sin historia no hay nada que llevar */
 
   var caja = document.createElement('details');
   caja.id = 'llevarZorvix';
@@ -1945,35 +1956,86 @@ function pintaLlevarAZorvix(docs){
   var s = document.createElement('summary');
   var fl = document.createElement('span'); fl.className = 'flecha'; fl.textContent = '▸';
   var ti = document.createElement('span');
-  ti.textContent = 'Llevar a Zorvix su historia clínica del ' + (hc.fecha || 'sin fecha');
+  ti.textContent = 'Llevar a Zorvix su historia clínica';
   s.appendChild(fl); s.appendChild(ti);
   caja.appendChild(s);
 
   var cuerpo = document.createElement('div'); cuerpo.className = 'cuerpo';
 
-  /* LA HISTORIA ESTÁ, PERO LLEGÓ SIN SU CONTENIDO.
-     Es el mismo desperfecto que hace que una nota guardada se abra en blanco.
-     No se sabe la causa todavía, así que aquí NO se inventa ninguna: se dice
-     qué se ve y qué hacer. Lo que importa es que el renglón ya no desaparezca
-     en silencio, porque desaparecer se lee como «esta función ya no existe». */
-  if (!hc.campos || !Object.keys(hc.campos).length){
-    ti.textContent = 'No puedo llevar a Zorvix su historia clínica del ' +
-      (hc.fecha || hc.creado || 'sin fecha');
-    var sc = document.createElement('div');
-    sc.className = 'v';
-    sc.style.color = 'var(--rojo)';
-    sc.textContent = 'La historia clínica sí está en el expediente, pero llegó ' +
-      'sin su contenido, así que el código saldría vacío y en Zorvix no entraría ' +
-      'ningún dato. Ábrala aquí arriba: si se ve en blanco, es el mismo desperfecto ' +
-      'de las notas que abren vacías. Avísele a quien lleva el sistema con el ' +
-      'número de expediente de esta paciente; mientras tanto, la historia se ' +
-      'captura allá a mano.';
-    cuerpo.appendChild(sc);
+  function cuelga_(){
     caja.appendChild(cuerpo);
-    var ancla0 = document.getElementById('yaHechos');
-    if (ancla0 && ancla0.parentNode) ancla0.parentNode.insertBefore(caja, ancla0.nextSibling);
+    var ancla = document.getElementById('yaHechos');
+    if (ancla && ancla.parentNode) ancla.parentNode.insertBefore(caja, ancla.nextSibling);
+  }
+
+  /* Un caso que no se puede llevar: el renglón se queda, abierto, con el
+     motivo escrito. Abierto a propósito: si estuviera cerrado habría que
+     saber que hay que tocarlo para enterarse de por qué no se puede. */
+  function noSePuede_(titulo, texto){
+    ti.textContent = titulo;
+    caja.open = true;
+    var d = document.createElement('div');
+    d.className = 'v';
+    d.style.color = 'var(--rojo)';
+    d.textContent = texto;
+    cuerpo.appendChild(d);
+    cuelga_();
+  }
+
+  /* 1. NO HAY HISTORIA CLÍNICA EN ESTE EXPEDIENTE.
+     El código se arma de la historia clínica y de nada más, así que sin ella
+     no hay nada que llevar. Se dice qué documentos sí hay, porque es lo que
+     explica el caso: una paciente con cuatro notas y sin historia. */
+  if (!todas.length){
+    var cuenta = {};
+    (docs || []).forEach(function(d){
+      var t = docPorId(d.tipo);
+      var n = (t && t.nombre) || d.tipo || 'documento sin tipo';
+      cuenta[n] = (cuenta[n] || 0) + 1;
+    });
+    var lista = Object.keys(cuenta).map(function(n){
+      return cuenta[n] > 1 ? n + ' (' + cuenta[n] + ')' : n;
+    }).join(', ');
+    noSePuede_('Llevar a Zorvix su historia clínica — todavía no hay ninguna',
+      'El código se arma de la historia clínica, y en este expediente no hay ' +
+      'ninguna capturada' +
+      (lista ? '. Lo que sí hay: ' + lista + '.' : '; está vacío.') +
+      ' Capture aquí la historia clínica y el código aparece solo. Si usted ya ' +
+      'la había capturado, quedó en otro expediente —con otro número de ' +
+      'paciente— y hay que buscarla ahí.');
     return;
   }
+
+  /* 2. LA ÚNICA HISTORIA ESTÁ ANULADA. No se lleva al centro quirúrgico un
+     documento que se retiró del expediente de aquí. */
+  if (!hc){
+    noSePuede_('No puedo llevar a Zorvix su historia clínica — está anulada',
+      'La ' + (todas.length > 1 ? 'única historia clínica que no está anulada' :
+      'historia clínica de esta paciente') + ' está anulada, y un documento ' +
+      'retirado de este expediente no puede entrar al de Zorvix. Levante una ' +
+      'historia clínica nueva y el código aparece solo.');
+    return;
+  }
+
+  /* 3. LA HISTORIA ESTÁ, PERO LLEGÓ SIN SU CONTENIDO.
+     Es el mismo desperfecto que hace que una nota guardada se abra en blanco.
+     No se sabe la causa todavía, así que aquí NO se inventa ninguna: se dice
+     qué se ve y qué hacer. */
+  if (!hc.campos || !Object.keys(hc.campos).length){
+    noSePuede_('No puedo llevar a Zorvix su historia clínica del ' +
+      (hc.fecha || hc.creado || 'sin fecha'),
+      'La historia clínica sí está en el expediente, pero llegó sin su ' +
+      'contenido, así que el código saldría vacío y en Zorvix no entraría ' +
+      'ningún dato. Ábrala aquí arriba: si se ve en blanco, es el mismo ' +
+      'desperfecto de las notas que abren vacías. Avísele a quien lleva el ' +
+      'sistema con el número de expediente de esta paciente; mientras tanto, ' +
+      'la historia se captura allá a mano.');
+    return;
+  }
+
+  /* 4. SE PUEDE LLEVAR. */
+  ti.textContent = 'Llevar a Zorvix su historia clínica del ' +
+    (hc.fecha || hc.creado || 'sin fecha');
 
   var p = document.createElement('div');
   p.className = 'v';
@@ -2022,10 +2084,7 @@ function pintaLlevarAZorvix(docs){
   };
   cuerpo.appendChild(b);
   cuerpo.appendChild(aviso);
-  caja.appendChild(cuerpo);
-
-  var ancla = document.getElementById('yaHechos');
-  if (ancla && ancla.parentNode) ancla.parentNode.insertBefore(caja, ancla.nextSibling);
+  cuelga_();
 }
 
 /* ---------------- paso 2: capturar ese documento ---------------- */
