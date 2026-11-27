@@ -1869,11 +1869,24 @@ function zorvixB64(texto){
   return btoa(bin);
 }
 
+/* Se escoge la historia clínica VIVA más reciente.
+
+   Dos reglas que antes no estaban:
+
+   · UNA HISTORIA ANULADA NO SE LLEVA. Una historia que se retiró del
+     expediente —porque se capturó en la paciente equivocada, por ejemplo— no
+     tiene nada que hacer en el expediente del centro quirúrgico. Antes se
+     llevaba igual: el código se armaba de ella.
+   · AQUÍ YA NO SE EXIGE QUE TRAIGA CONTENIDO. Antes, una historia que llegaba
+     sin sus campos hacía desaparecer el renglón completo, sin decir nada: la
+     pantalla se veía como si esta paciente nunca hubiera tenido historia.
+     Ahora se devuelve igual y quien pinta lo explica. */
 function zorvixHistoriaDe(docs){
   var hcs = (docs || []).filter(function(x){
-    return x && x.tipo === 'historia_clinica' && x.campos;
+    return x && x.tipo === 'historia_clinica' && !esAnulado(x);
   }).sort(function(a, b){
-    return String(b.fecha || '').localeCompare(String(a.fecha || ''));
+    return String(b.fecha || b.creado || '')
+      .localeCompare(String(a.fecha || a.creado || ''));
   });
   return hcs[0] || null;
 }
@@ -1937,6 +1950,30 @@ function pintaLlevarAZorvix(docs){
   caja.appendChild(s);
 
   var cuerpo = document.createElement('div'); cuerpo.className = 'cuerpo';
+
+  /* LA HISTORIA ESTÁ, PERO LLEGÓ SIN SU CONTENIDO.
+     Es el mismo desperfecto que hace que una nota guardada se abra en blanco.
+     No se sabe la causa todavía, así que aquí NO se inventa ninguna: se dice
+     qué se ve y qué hacer. Lo que importa es que el renglón ya no desaparezca
+     en silencio, porque desaparecer se lee como «esta función ya no existe». */
+  if (!hc.campos || !Object.keys(hc.campos).length){
+    ti.textContent = 'No puedo llevar a Zorvix su historia clínica del ' +
+      (hc.fecha || hc.creado || 'sin fecha');
+    var sc = document.createElement('div');
+    sc.className = 'v';
+    sc.style.color = 'var(--rojo)';
+    sc.textContent = 'La historia clínica sí está en el expediente, pero llegó ' +
+      'sin su contenido, así que el código saldría vacío y en Zorvix no entraría ' +
+      'ningún dato. Ábrala aquí arriba: si se ve en blanco, es el mismo desperfecto ' +
+      'de las notas que abren vacías. Avísele a quien lleva el sistema con el ' +
+      'número de expediente de esta paciente; mientras tanto, la historia se ' +
+      'captura allá a mano.';
+    cuerpo.appendChild(sc);
+    caja.appendChild(cuerpo);
+    var ancla0 = document.getElementById('yaHechos');
+    if (ancla0 && ancla0.parentNode) ancla0.parentNode.insertBefore(caja, ancla0.nextSibling);
+    return;
+  }
 
   var p = document.createElement('div');
   p.className = 'v';
