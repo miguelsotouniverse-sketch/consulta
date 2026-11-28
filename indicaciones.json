@@ -4580,7 +4580,7 @@
       "Vaselina: aplíquela encima las veces que haga falta para que la piel nunca se sienta tirante ni se vea seca, de día y de noche.",
       "No se ponga NADA más estos días: ni sueros, ni vitamina C, ni mascarillas, ni cremas «para después del láser» que no le hayamos dado nosotros.",
       "No arranque costras ni piel que se esté desprendiendo: se cae sola.",
-      "Protector solar FPS 50+ de amplio espectro, todos los días desde mañana y reaplicado cada 3 horas si está al aire libre, durante las 4 semanas siguientes. Hoy, mejor sombra y gorra.",
+      "Protector solar FPS 50+ de amplio espectro: todos los días desde mañana, reaplicado cada 3 horas si está al aire libre. Las primeras 4 semanas sin falta —es cuando la piel inflamada se mancha— y de ahí en adelante, todos los días como hábito. Su frasco es resurtible por 12 meses. Hoy, mejor sombra y gorra.",
       "Nada de ácidos, retinoides, exfoliantes ni mascarillas durante 2 semanas."
      ]
     },
@@ -4764,7 +4764,7 @@
      ]
     }
    ],
-   "version": "f19b093b"
+   "version": "e3d0a109"
   },
   {
    "id": "nanofat",
@@ -4872,7 +4872,7 @@
      "x": [
       "Cicaplast Baume: aplique una capa delgada sobre toda la zona tratada cada 12 horas, sin masajear — sólo apoyar y extender.",
       "No se ponga NADA más estos días: ni sueros, ni vitamina C, ni mascarillas, ni cremas «para después» que no le hayamos dado nosotros.",
-      "Protector solar FPS 50+ de amplio espectro, todos los días desde mañana y reaplicado cada 3 horas si está al aire libre, durante las 4 semanas siguientes. Hoy, mejor sombra y gorra.",
+      "Protector solar FPS 50+ de amplio espectro: todos los días desde mañana, reaplicado cada 3 horas si está al aire libre. Las primeras 4 semanas sin falta —es cuando la piel inflamada se mancha— y de ahí en adelante, todos los días como hábito. Su frasco es resurtible por 12 meses. Hoy, mejor sombra y gorra.",
       "Nada de ácidos, retinoides, exfoliantes ni mascarillas durante 2 semanas.",
       "Toalla y funda de almohada limpias los primeros tres días."
      ]
@@ -5023,7 +5023,7 @@
      ]
     }
    ],
-   "version": "e49a209e"
+   "version": "c6ce43fc"
   },
   {
    "id": "endolift_facial",
@@ -6662,8 +6662,8 @@
    "version": "b628e0d7"
   }
  ],
- "version": "2f680f0cf3aa26a7",
- "generado": "2026-11-26",
+ "version": "171862cdcc3377cd",
+ "generado": "2026-11-28",
  "contacto": {
   "whatsapp_seguimiento": "55 7215 5958"
  }

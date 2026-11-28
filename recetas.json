@@ -4474,7 +4474,7 @@
     {
      "hoja": "general",
      "nombre": "Protector solar FPS 50+ de amplio espectro, para piel sensible.",
-     "indicacion": "Aplicar en rostro y cuello todos los días EN CUANTO la piel esté completamente cerrada, reaplicando cada 3 horas si está al aire libre, durante 12 meses. Antes de que cierre, el sol se evita con sombra y gorra, no con protector.",
+     "indicacion": "Aplicar en rostro y cuello todos los días a partir del día siguiente al tratamiento, reaplicando cada 3 horas si está al aire libre. Las primeras 4 semanas sin falta; después, todos los días. El mismo día del tratamiento, sombra y gorra en vez de protector.",
      "cantidad": "1 envase, resurtible",
      "duracion": "12 meses"
     },
@@ -4519,7 +4519,7 @@
    ],
    "alarma": [],
    "horaNota": "",
-   "version": "ec455db1"
+   "version": "565d9d1e"
   },
   {
    "id": "nanofat",
@@ -4724,7 +4724,7 @@
     {
      "hoja": "general",
      "nombre": "Protector solar FPS 50+ de amplio espectro, para piel sensible.",
-     "indicacion": "Aplicar en rostro y cuello todos los días EN CUANTO la piel esté completamente cerrada, reaplicando cada 3 horas si está al aire libre, durante 12 meses. Antes de que cierre, el sol se evita con sombra y gorra, no con protector.",
+     "indicacion": "Aplicar en rostro y cuello todos los días a partir del día siguiente al tratamiento, reaplicando cada 3 horas si está al aire libre. Las primeras 4 semanas sin falta; después, todos los días. El mismo día del tratamiento, sombra y gorra en vez de protector.",
      "cantidad": "1 envase, resurtible",
      "duracion": "12 meses"
     }
@@ -4814,7 +4814,7 @@
    "alarma": [],
    "horaNota": "Si la paciente está dormida, no la despierten: que tome esa dosis al despertar y continúe el horario.",
    "profilaxisNota": "Repetir si la cirugía pasa de 4 h (cefazolina) o de 6 h (clindamicina).",
-   "version": "04bcdb31"
+   "version": "ffd23891"
   },
   {
    "id": "endolift",
@@ -5425,6 +5425,6 @@
   "22:00",
   "24:00"
  ],
- "version": "6fe9781693d12216",
- "generado": "2026-11-26"
+ "version": "efcbdcd708743465",
+ "generado": "2026-11-28"
 }
