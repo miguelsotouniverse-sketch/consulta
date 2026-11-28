@@ -20,7 +20,8 @@
   "Convenio",
   "Médico",
   "Establecimiento",
-  "Control documental"
+  "Control documental",
+  "Nota médica"
  ],
  "campos": [
   {
@@ -2435,6 +2436,34 @@
    "aparece": "Solicitud de estudios de gabinete",
    "notas": "El radiólogo lee el estudio buscando algo. Sin esto, lo reporta a ciegas. El médico lo decidió el 12-nov-2026 sabiendo que es dato clínico que sale hacia un tercero.",
    "valoracion": false
+  },
+  {
+   "id": "nota_asunto",
+   "etiqueta": "Asunto de la nota",
+   "grupo": "Nota médica",
+   "control": "texto",
+   "opciones": [],
+   "pista": "Resumen clínico, Constancia médica, Carta a la aseguradora…",
+   "sistema": "App expediente",
+   "captura": "Teclado",
+   "obligatorio": false,
+   "aparece": "Nota médica",
+   "notas": "Se imprime como título del documento y es lo que distingue una nota de otra en la lista del expediente.",
+   "valoracion": false
+  },
+  {
+   "id": "nota_texto",
+   "etiqueta": "Texto de la nota",
+   "grupo": "Nota médica",
+   "control": "parrafo",
+   "opciones": [],
+   "pista": "",
+   "sistema": "App expediente",
+   "captura": "Dictado",
+   "obligatorio": false,
+   "aparece": "Nota médica",
+   "notas": "Texto libre. Los renglones en blanco se respetan al imprimir: lo que se escribe en párrafos sale en párrafos.",
+   "valoracion": false
   }
  ],
  "catalogos": {
@@ -4117,6 +4146,6 @@
    "izenta": "dehiscente"
   }
  },
- "version": "129d2b9dbe0596ab",
- "generado": "2026-11-12"
+ "version": "6e6708360f71d673",
+ "generado": "2026-11-28"
 }

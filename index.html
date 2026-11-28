@@ -331,6 +331,10 @@ pre.tx{white-space:pre-wrap;font-family:var(--sans);font-size:13px;color:var(--g
 #impresion .dato{margin-bottom:3.5px;page-break-inside:avoid;break-inside:avoid}
 #impresion .dato .e{font-size:7.5pt;letter-spacing:.4px;text-transform:uppercase;color:#555}
 #impresion .dato .v{white-space:pre-wrap}
+/* El cuerpo de la nota médica de texto libre: párrafos de verdad, justificados
+   y con aire entre uno y otro, porque esa hoja se lee como carta y no como
+   ficha de datos. */
+#impresion .parrafoLibre{margin:0 0 9px;text-align:justify;line-height:1.55}
 #impresion .sueltos{display:flex;flex-wrap:wrap;gap:3px 18px;margin-bottom:7px}
 #impresion .sueltos .par{white-space:nowrap}
 #impresion .sueltos .e{font-size:7.5pt;letter-spacing:.4px;text-transform:uppercase;
@@ -916,6 +920,60 @@ var DOCUMENTOS = [
     icono:'pastilla', dictado:false, receta:true, libre:true,
     firmaDigital:true,
     etiquetas:['Receta'] },
+
+  /* ── NOTA MÉDICA DE TEXTO LIBRE ───────────────────────────────────────
+     El 28-nov-2026 una paciente pidió una nota para tramitar su licencia en
+     el ISSSTE. Se propuso un documento «Resumen clínico» con campos propios
+     y el médico contestó: «¿por qué no uno únicamente a datos del
+     establecimiento y a texto libre?».
+
+     Es lo correcto. Los papeles que salen hacia un tercero —el ISSSTE, una
+     aseguradora, otro médico, un patrón— piden cada uno algo distinto, y un
+     formulario por destinatario es una carrera que no se gana. Lo que no
+     cambia es lo que hace válido el papel: membrete, identificación de la
+     paciente, fecha, cédula y firma autógrafa. Todo eso lo pone la
+     aplicación sola, igual que en los demás documentos.
+
+     Lleva `imprime` propio por dos razones. La primera es que el cuerpo
+     automático respeta los renglones del texto pero no los párrafos: una
+     nota dictada en cuatro párrafos salía como un solo bloque corrido. La
+     segunda es la misma que la constancia de acompañante: con `imprime`, lo
+     que no está escrito en esa función no sale, así que ningún campo que se
+     agregue después al esquema se cuela en un papel que va a una
+     institución. */
+  { id:'nota_libre',         nombre:'Nota médica',             grupo:'captura',
+    icono:'expediente', dictado:true,
+    etiquetas:['Nota médica'],
+    campos:['nota_asunto', 'nota_texto'],
+    aviso:'<b>Para una incapacidad del IMSS o del ISSSTE:</b> la licencia la ' +
+          'expide el médico de la institución, no el consultorio. Lo que sirve ' +
+          'es el <b>resumen clínico</b>, que la paciente lleva a su clínica para ' +
+          'que ahí se lo convaliden. La NOM-004 le pide como mínimo: ' +
+          '<b>padecimiento actual, diagnósticos, tratamiento, evolución, ' +
+          'pronóstico y estudios de laboratorio y gabinete</b>. Si usted ' +
+          'recomienda reposo, escriba los días y entre qué fechas: es el dato ' +
+          'que el médico de la institución necesita para resolver.',
+    /* El título impreso es el asunto. Un expediente con nueve renglones que
+       dicen «Nota médica» obliga a abrirlos uno por uno. */
+    tituloImpreso:function(){
+      var a = (VALORES['nota_asunto'] || '').trim();
+      return a || 'Nota médica';
+    },
+    imprime:function(raiz, el){
+      var cuerpo = String(VALORES['nota_texto'] || '').replace(/\r/g, '');
+      /* Un renglón en blanco separa párrafos; dentro de un párrafo, los
+         renglones sueltos se respetan tal cual —una lista dictada renglón
+         por renglón tiene que salir renglón por renglón—. */
+      cuerpo.split(/\n{2,}/).forEach(function(p){
+        if (!p.trim()) return;
+        var d = el('div', 'parrafoLibre');
+        p.split('\n').forEach(function(linea, i){
+          if (i) d.appendChild(document.createElement('br'));
+          d.appendChild(document.createTextNode(linea));
+        });
+        raiz.appendChild(d);
+      });
+    } },
 
   { id:'ci_quirurgico',      nombre:'CI quirúrgico',           grupo:'firma',
     icono:'firma', dictado:true,
@@ -4592,7 +4650,12 @@ function armaImpresion(){
     return;
   }
 
-  raiz.appendChild(el('h1', null, TIPO.nombre.toUpperCase()));
+  /* El título es el nombre del documento, salvo que el documento lo decida.
+     Lo pidió la nota médica de texto libre, donde el título es el asunto que
+     escribió el médico: «RESUMEN CLÍNICO», «CONSTANCIA MÉDICA». */
+  raiz.appendChild(el('h1', null,
+    String((TIPO.tituloImpreso ? TIPO.tituloImpreso() : TIPO.nombre) || '')
+      .toUpperCase()));
 
   /* ---- ficha de identificación ---- */
   var t = el('table','ficha');
@@ -5104,6 +5167,27 @@ $('bImprimir').onclick = function(){
         falG.join(' y ') + '. Una solicitud sin eso llega al centro de imagen ' +
         'como una hoja firmada que no pide nada, y la paciente regresa sin su ' +
         'estudio.';
+      window.scrollTo(0, 0);
+      return;
+    }
+  }
+
+  /* Una nota médica en blanco es una hoja membretada y firmada que no dice
+     nada — el papel más peligroso que puede salir de un consultorio, porque
+     el membrete y la firma son auténticos y el contenido lo pone quien la
+     tenga en la mano. Sin texto no se imprime. El asunto también se exige:
+     sin él, el título impreso sería «NOTA MÉDICA» y en el expediente el
+     renglón no se distinguiría de los demás. */
+  if (TIPO && TIPO.id === 'nota_libre'){
+    var falN = [];
+    if (!txt('nota_asunto')) falN.push('el asunto');
+    if (!txt('nota_texto'))  falN.push('el texto');
+    if (falN.length){
+      $('estado').textContent = 'No se imprime: falta ' + falN.join(' y ') + '.';
+      $('avisoPrefill').className = 'aviso malo';
+      $('avisoPrefill').innerHTML = '<b>No imprimí la nota.</b> Falta ' +
+        falN.join(' y ') + '. Una hoja con su membrete y su firma, y sin texto, ' +
+        'es una hoja en blanco firmada: eso no sale de aquí.';
       window.scrollTo(0, 0);
       return;
     }
