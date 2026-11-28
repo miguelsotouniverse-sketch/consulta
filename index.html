@@ -943,6 +943,13 @@ var DOCUMENTOS = [
      institución. */
   { id:'nota_libre',         nombre:'Nota médica',             grupo:'captura',
     icono:'expediente', dictado:true,
+    /* El 28-nov-2026 pidió la firma estampada en la primera que salió: una
+       constancia que la paciente necesitaba para un trámite y que se manda
+       por correo. Encaja con la regla —firma digital sólo en lo que sale del
+       consultorio en digital— y no toca el expediente clínico, que se sigue
+       firmando a mano sobre papel. La casilla se ofrece; si no se marca, el
+       pie sigue diciendo «Firma autógrafa». */
+    firmaDigital:true,
     etiquetas:['Nota médica'],
     campos:['nota_asunto', 'nota_texto'],
     aviso:'<b>Para una incapacidad del IMSS o del ISSSTE:</b> la licencia la ' +
