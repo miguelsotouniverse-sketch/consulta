@@ -190,15 +190,18 @@ revisa('y ahí la casilla sí aparece', r.gabineteCasillaVisible, '');
 revisa('en la receta también', r.recetaCasillaVisible, '');
 revisa('ningún documento del expediente permite firma digital',
   r.expedienteSinFirma.length === 0, r.expedienteSinFirma.join(', '));
-/* Cinco, y cada uno sale del consultorio en digital: las dos recetas, la
-   solicitud de gabinete, y la orden y la constancia, que se mandan por
-   correo. Si algún día son seis, que sea a propósito y no por descuido. */
+/* Seis, y cada uno sale del consultorio en digital: las dos recetas, la
+   solicitud de gabinete, la orden y la constancia que se mandan por correo,
+   y —desde el 28-nov-2026, a petición expresa del médico— la nota médica de
+   texto libre, que nació de una constancia para un trámite y se manda igual.
+   Si algún día son siete, que sea a propósito y no por descuido. */
 revisa('la lista de los que sí es corta y explícita',
-  r.conFirma.length === 5 &&
+  r.conFirma.length === 6 &&
   r.conFirma.indexOf('receta') >= 0 && r.conFirma.indexOf('receta_post') >= 0 &&
   r.conFirma.indexOf('estudios_gabinete') >= 0 &&
   r.conFirma.indexOf('orden_internamiento') >= 0 &&
-  r.conFirma.indexOf('constancia_acompanante') >= 0,
+  r.conFirma.indexOf('constancia_acompanante') >= 0 &&
+  r.conFirma.indexOf('nota_libre') >= 0,
   r.conFirma.join(', '));
 
 await nav.close();

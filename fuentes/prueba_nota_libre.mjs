@@ -111,6 +111,14 @@ const r = await pag.evaluate(async ({ esquema, constantes, CUERPO }) => {
   /* ningún otro campo del esquema se coló */
   out.datos = raiz.querySelectorAll('.dato').length;
 
+  /* la misma nota, ahora firmada */
+  out.firmaDigital = T.firmaDigital === true;
+  VALORES['doc_estado_firma'] = 'Firmado';
+  armaImpresion();
+  out.rubricas = raiz.querySelectorAll('img.rubrica').length;
+  out.papelFirmado = raiz.innerText;
+  delete VALORES['doc_estado_firma'];
+
   /* sin asunto, el título cae en algo legible */
   VALORES['nota_asunto'] = '';
   out.tituloSinAsunto = T.tituloImpreso();
@@ -147,8 +155,16 @@ if (r.existe){
     /abdominoplastia/.test(r.papel) && /21 días/.test(r.papel), '');
   revisa('NINGÚN OTRO CAMPO DEL ESQUEMA SE COLÓ EN EL PAPEL', r.datos === 0,
     r.datos + ' campos automáticos impresos');
-  revisa('la hoja se firma a mano, como todas las de este expediente',
+  /* Sin marcar la casilla, el pie dice la verdad: se firma a mano. La firma
+     estampada es una decisión por documento, nunca el estado de salida. */
+  revisa('sin marcar la casilla, el pie dice «Firma autógrafa»',
     /[Ff]irma aut[óo]grafa/.test(r.papel), '');
+  revisa('pero SÍ admite firma digital, porque se manda por correo',
+    r.firmaDigital === true, 'la constancia tendría que imprimirse para firmarla');
+  revisa('y con la casilla marcada, la firma se estampa y el pie lo dice',
+    r.rubricas === 1 && !/[Ff]irma aut[óo]grafa/.test(r.papelFirmado) &&
+    /medio electr[óo]nico/.test(r.papelFirmado),
+    r.rubricas + ' rúbricas');
 }
 
 /* ---- el candado: no se imprime en blanco ---- */
